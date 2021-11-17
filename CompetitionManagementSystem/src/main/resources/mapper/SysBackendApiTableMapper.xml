@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.SysBackendApiTableMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.SysBackendApiTable">
+    <!--@mbg.generated-->
+    <!--@Table sys_backend_api_table-->
+    <id column="backend_api_id" jdbcType="VARCHAR" property="backendApiId" />
+    <result column="backend_api_name" jdbcType="VARCHAR" property="backendApiName" />
+    <result column="backend_api_url" jdbcType="VARCHAR" property="backendApiUrl" />
+    <result column="backend_api_method" jdbcType="VARCHAR" property="backendApiMethod" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="backend_api_sort" jdbcType="INTEGER" property="backendApiSort" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    backend_api_id, backend_api_name, backend_api_url, backend_api_method, pid, backend_api_sort, 
+    description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_backend_api_table
+    where backend_api_id = #{backendApiId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from sys_backend_api_table
+    where backend_api_id = #{backendApiId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.SysBackendApiTable">
+    <!--@mbg.generated-->
+    insert into sys_backend_api_table (backend_api_id, backend_api_name, backend_api_url, 
+      backend_api_method, pid, backend_api_sort, 
+      description)
+    values (#{backendApiId,jdbcType=VARCHAR}, #{backendApiName,jdbcType=VARCHAR}, #{backendApiUrl,jdbcType=VARCHAR}, 
+      #{backendApiMethod,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{backendApiSort,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysBackendApiTable">
+    <!--@mbg.generated-->
+    insert into sys_backend_api_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="backendApiId != null">
+        backend_api_id,
+      </if>
+      <if test="backendApiName != null">
+        backend_api_name,
+      </if>
+      <if test="backendApiUrl != null">
+        backend_api_url,
+      </if>
+      <if test="backendApiMethod != null">
+        backend_api_method,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="backendApiSort != null">
+        backend_api_sort,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="backendApiId != null">
+        #{backendApiId,jdbcType=VARCHAR},
+      </if>
+      <if test="backendApiName != null">
+        #{backendApiName,jdbcType=VARCHAR},
+      </if>
+      <if test="backendApiUrl != null">
+        #{backendApiUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="backendApiMethod != null">
+        #{backendApiMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="backendApiSort != null">
+        #{backendApiSort,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysBackendApiTable">
+    <!--@mbg.generated-->
+    update sys_backend_api_table
+    <set>
+      <if test="backendApiName != null">
+        backend_api_name = #{backendApiName,jdbcType=VARCHAR},
+      </if>
+      <if test="backendApiUrl != null">
+        backend_api_url = #{backendApiUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="backendApiMethod != null">
+        backend_api_method = #{backendApiMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="backendApiSort != null">
+        backend_api_sort = #{backendApiSort,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where backend_api_id = #{backendApiId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.SysBackendApiTable">
+    <!--@mbg.generated-->
+    update sys_backend_api_table
+    set backend_api_name = #{backendApiName,jdbcType=VARCHAR},
+      backend_api_url = #{backendApiUrl,jdbcType=VARCHAR},
+      backend_api_method = #{backendApiMethod,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=VARCHAR},
+      backend_api_sort = #{backendApiSort,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
+    where backend_api_id = #{backendApiId,jdbcType=VARCHAR}
+  </update>
+</mapper>

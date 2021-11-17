@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.SysFrontendMenuTableMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+    <!--@mbg.generated-->
+    <!--@Table sys_frontend_menu_table-->
+    <id column="frontend_menu_id" jdbcType="VARCHAR" property="frontendMenuId" />
+    <result column="frontend_menu_name" jdbcType="VARCHAR" property="frontendMenuName" />
+    <result column="frontend_menu_url" jdbcType="VARCHAR" property="frontendMenuUrl" />
+    <result column="pid" jdbcType="VARCHAR" property="pid" />
+    <result column="frontend_menu_sort" jdbcType="INTEGER" property="frontendMenuSort" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    frontend_menu_id, frontend_menu_name, frontend_menu_url, pid, frontend_menu_sort, 
+    description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_frontend_menu_table
+    where frontend_menu_id = #{frontendMenuId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from sys_frontend_menu_table
+    where frontend_menu_id = #{frontendMenuId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+    <!--@mbg.generated-->
+    insert into sys_frontend_menu_table (frontend_menu_id, frontend_menu_name, 
+      frontend_menu_url, pid, frontend_menu_sort, 
+      description)
+    values (#{frontendMenuId,jdbcType=VARCHAR}, #{frontendMenuName,jdbcType=VARCHAR}, 
+      #{frontendMenuUrl,jdbcType=VARCHAR}, #{pid,jdbcType=VARCHAR}, #{frontendMenuSort,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+    <!--@mbg.generated-->
+    insert into sys_frontend_menu_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="frontendMenuId != null">
+        frontend_menu_id,
+      </if>
+      <if test="frontendMenuName != null">
+        frontend_menu_name,
+      </if>
+      <if test="frontendMenuUrl != null">
+        frontend_menu_url,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="frontendMenuSort != null">
+        frontend_menu_sort,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="frontendMenuId != null">
+        #{frontendMenuId,jdbcType=VARCHAR},
+      </if>
+      <if test="frontendMenuName != null">
+        #{frontendMenuName,jdbcType=VARCHAR},
+      </if>
+      <if test="frontendMenuUrl != null">
+        #{frontendMenuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="frontendMenuSort != null">
+        #{frontendMenuSort,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+    <!--@mbg.generated-->
+    update sys_frontend_menu_table
+    <set>
+      <if test="frontendMenuName != null">
+        frontend_menu_name = #{frontendMenuName,jdbcType=VARCHAR},
+      </if>
+      <if test="frontendMenuUrl != null">
+        frontend_menu_url = #{frontendMenuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="frontendMenuSort != null">
+        frontend_menu_sort = #{frontendMenuSort,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where frontend_menu_id = #{frontendMenuId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+    <!--@mbg.generated-->
+    update sys_frontend_menu_table
+    set frontend_menu_name = #{frontendMenuName,jdbcType=VARCHAR},
+      frontend_menu_url = #{frontendMenuUrl,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=VARCHAR},
+      frontend_menu_sort = #{frontendMenuSort,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
+    where frontend_menu_id = #{frontendMenuId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.SysRoleBackendApiTableMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable">
+    <!--@mbg.generated-->
+    <!--@Table sys_role_backend_api_table-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="backend_api_id" jdbcType="VARCHAR" property="backendApiId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, role_id, backend_api_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role_backend_api_table
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from sys_role_backend_api_table
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from sys_role_backend_api_table
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_role_backend_api_table (role_id, backend_api_id)
+    values (#{roleId,jdbcType=VARCHAR}, #{backendApiId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_role_backend_api_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="backendApiId != null">
+        backend_api_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="backendApiId != null">
+        #{backendApiId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable">
+    <!--@mbg.generated-->
+    update sys_role_backend_api_table
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="backendApiId != null">
+        backend_api_id = #{backendApiId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable">
+    <!--@mbg.generated-->
+    update sys_role_backend_api_table
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      backend_api_id = #{backendApiId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

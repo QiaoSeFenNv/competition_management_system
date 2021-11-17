@@ -1,0 +1,52 @@
+package com.qiaose.competitionmanagementsystem.service.serviceImpl;
+
+
+import com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable;
+import com.qiaose.competitionmanagementsystem.mapper.SysRoleBackendApiTableMapper;
+import com.qiaose.competitionmanagementsystem.service.SysRoleBackendApiTableService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+@Service
+public class SysRoleBackendApiTableServiceImpl implements SysRoleBackendApiTableService {
+
+    @Resource
+    private SysRoleBackendApiTableMapper sysRoleBackendApiTableMapper;
+
+    @Override
+    public int deleteByPrimaryKey(Integer id) {
+        return sysRoleBackendApiTableMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int insert(SysRoleBackendApiTable record) {
+        return sysRoleBackendApiTableMapper.insert(record);
+    }
+
+    @Override
+    public int insertSelective(SysRoleBackendApiTable record) {
+        return sysRoleBackendApiTableMapper.insertSelective(record);
+    }
+
+    @Override
+    public SysRoleBackendApiTable selectByPrimaryKey(Integer id) {
+        return sysRoleBackendApiTableMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(SysRoleBackendApiTable record) {
+        return sysRoleBackendApiTableMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public int updateByPrimaryKey(SysRoleBackendApiTable record) {
+        return sysRoleBackendApiTableMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public SysRoleBackendApiTable selectByRoleId(String roleId) {
+        return sysRoleBackendApiTableMapper.selectByRoleId(roleId);
+    }
+
+}
