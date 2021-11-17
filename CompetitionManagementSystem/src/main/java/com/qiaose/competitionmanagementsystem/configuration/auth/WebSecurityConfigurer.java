@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -78,6 +79,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         //放行注册API请求，其它任何请求都必须经过身份验证.
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/user/register/{id}").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
                 //ROLE_ADMIN可以操作任何事情
                 //.antMatchers("/**").hasRole("ADMIN")
                 //同等上一行代码
@@ -109,6 +111,16 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
         //第8步：退出
         http.logout().addLogoutHandler(myLogoutHandler).logoutSuccessHandler(myLogoutSuccessHandler);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+
+        web.ignoring().antMatchers("/v2/**",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/swagger-ui.html",
+                "/webjars/**");
     }
 
     /**
