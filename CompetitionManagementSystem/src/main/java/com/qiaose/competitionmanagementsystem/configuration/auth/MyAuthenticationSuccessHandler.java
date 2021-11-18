@@ -76,18 +76,18 @@ public class MyAuthenticationSuccessHandler extends JSONAuthentication implement
         }
 
 
-        //通用户表获得角色号
-        User user = userService.selectByAccountName(userDetails.getUsername());
-        String roleId = user.getRoleId();
-        //通过中间表来获取前端菜单id
-        SysRoleFrontendMenuTable sysRoleFrontendMenuTable = sysRoleFrontendMenuTableService.selectByRoleId(roleId);
-        //加载前端菜单
-        List<SysFrontendMenuTable> menus = sysFrontendMenuTableService.selectByPrimaryKey(sysRoleFrontendMenuTable.getFrontendMenuId());
-        //
+//        //通用户表获得角色号
+//        User user = userService.selectByAccountName(userDetails.getUsername());
+//        String roleId = user.getRoleId();
+//        //通过中间表来获取前端菜单id
+//        SysRoleFrontendMenuTable sysRoleFrontendMenuTable = sysRoleFrontendMenuTableService.selectByRoleId(roleId);
+//        //加载前端菜单
+//        List<SysFrontendMenuTable> menus = sysFrontendMenuTableService.selectByPrimaryKey(sysRoleFrontendMenuTable.getFrontendMenuId());
+//        //
         Map<String,Object> map = new HashMap<>();
         map.put("username",userDetails.getUsername());
         map.put("auth",userDetails.getAuthorities());
-        map.put("menus",menus);
+//        map.put("menus",menus);
         map.put("token",token);
         //装入token
         R<Map<String,Object>> data = R.ok(map);

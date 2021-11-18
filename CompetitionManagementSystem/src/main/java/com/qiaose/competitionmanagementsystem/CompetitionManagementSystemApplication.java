@@ -8,7 +8,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 @MapperScan("com.qiaose.competitionmanagementsystem.mapper")
-public class CompetitionManagementSystemApplication {
+public class CompetitionManagementSystemApplication extends SpringBootServletInitializer {
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(CompetitionManagementSystemApplication.class);
+    }
 
 
     public static void main(String[] args) {

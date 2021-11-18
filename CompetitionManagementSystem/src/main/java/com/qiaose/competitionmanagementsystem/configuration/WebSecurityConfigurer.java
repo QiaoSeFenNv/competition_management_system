@@ -29,6 +29,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Qualifier("authUserDetailsServiceImpl")
     private UserDetailsService userDetailsService;
 
+
+    //每次进行访问都会进行一次过滤
     @Autowired
     private MyOncePerRequestFilter myOncePerRequestFilter;
     @Autowired
