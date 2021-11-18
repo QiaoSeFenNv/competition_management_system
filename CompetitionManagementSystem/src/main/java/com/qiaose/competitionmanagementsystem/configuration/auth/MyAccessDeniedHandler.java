@@ -23,6 +23,6 @@ public class MyAccessDeniedHandler extends JSONAuthentication implements AccessD
         //装入token
         R<String> data = R.failed("权限不足:"+accessDeniedException.getMessage());
         //输出
-        this.WriteJSON(request, response, data,null);
+        this.WriteJSON(request, response, data);
     }
 }

@@ -22,6 +22,6 @@ public class MyAuthenticationEntryPoint extends JSONAuthentication  implements A
 
         R<String> data = R.failed("访问此资源需要完全身份验证（"+authException.getMessage()+"）！");
         //输出
-        this.WriteJSON(request, response, data,null);
+        this.WriteJSON(request, response, data);
     }
 }
