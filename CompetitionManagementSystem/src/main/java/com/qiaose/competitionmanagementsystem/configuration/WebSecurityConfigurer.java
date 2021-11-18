@@ -1,10 +1,10 @@
-package com.qiaose.competitionmanagementsystem.configuration.auth;
+package com.qiaose.competitionmanagementsystem.configuration;
 
 
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 import com.qiaose.competitionmanagementsystem.components.DynamicPermission;
 
-
+import com.qiaose.competitionmanagementsystem.configuration.auth.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -81,19 +81,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers(HttpMethod.POST,"/user/register").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/hello").permitAll()
-                //ROLE_ADMIN可以操作任何事情
-                //.antMatchers("/**").hasRole("ADMIN")
-                //同等上一行代码
-                //.antMatchers("/**").hasAuthority("ROLE_ADMIN")
-                /*
-                 由于使用动态资源配置，以上代码在数据库中配置如下：
-                 在sys_backend_api_table中添加一条记录
-                 backend_api_id=1，
-                 backend_api_name = 所有API，
-                 backend_api_url=/**,
-                 backend_api_method=GET,POST,PUT,DELETE
-                 */
-
                 //动态加载资源
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
 
@@ -138,6 +125,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
 
         filter.setAuthenticationManager(authenticationManagerBean());
+
         return filter;
     }
 }

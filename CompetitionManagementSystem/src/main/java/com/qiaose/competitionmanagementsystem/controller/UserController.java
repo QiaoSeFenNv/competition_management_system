@@ -46,7 +46,7 @@ public class UserController {
     @ApiOperation(value="注册功能", notes="用户注册功能")
     public R register(@RequestBody(required = false) User user) {
         try {
-            System.out.println("registerVo = " + user);
+            System.out.println("register = " + user);
             return  R.ok(userService.register(user));
         }catch (Exception e){
             return R.failed(e.getMessage());

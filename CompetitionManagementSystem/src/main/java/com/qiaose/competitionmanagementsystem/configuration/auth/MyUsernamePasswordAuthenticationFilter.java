@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 /**
+ * 登录走的是这个地方
  * 重写UsernamePasswordAuthenticationFilter过滤器
  */
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -25,12 +26,16 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
     @Autowired
     UserService userService;
 
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-        //APPLICATION_JSON改过
+
         if (request.getContentType().equals(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 || request.getContentType().equals(MediaType.APPLICATION_JSON_VALUE)) {
+
+            System.out.println(request.getContentType());
+
 
             ObjectMapper mapper = new ObjectMapper();
             UsernamePasswordAuthenticationToken authRequest = null;

@@ -62,7 +62,7 @@ public class MyAuthenticationSuccessHandler extends JSONAuthentication implement
 //        String token = TokenCache.getTokenFromCache(userDetails.getUsername());
 
         String token = stringRedisTemplate.opsForValue().get(userDetails.getUsername());
-
+        System.out.println(token);
 
         if(token ==null) {
             System.out.println("初次登录，token还没有，生成新token。。。。。。");
