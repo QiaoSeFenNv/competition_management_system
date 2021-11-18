@@ -23,6 +23,6 @@ public class MyLogoutSuccessHandler extends JSONAuthentication implements Logout
 //        String username = user.getUsername();
         System.out.println("退出成功。。。。。。");
         R<String> data = R.ok("退出成功");
-        super.WriteJSON(request,response,data);
+        super.WriteJSON(request,response,data,null);
     }
 }

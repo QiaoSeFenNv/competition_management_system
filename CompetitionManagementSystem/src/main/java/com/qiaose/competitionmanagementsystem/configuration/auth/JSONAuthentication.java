@@ -30,7 +30,7 @@ public abstract class JSONAuthentication {
      */
     protected void WriteJSON(HttpServletRequest request,
                          HttpServletResponse response,
-                         Object data) throws IOException, ServletException {
+                         Object data,String token) throws IOException, ServletException {
         //这里很重要，否则页面获取不到正常的JSON数据集
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Origin", "*");

@@ -88,11 +88,10 @@ public class MyAuthenticationSuccessHandler extends JSONAuthentication implement
         map.put("username",userDetails.getUsername());
         map.put("auth",userDetails.getAuthorities());
 //        map.put("menus",menus);
-        map.put("token",token);
         //装入token
         R<Map<String,Object>> data = R.ok(map);
         //输出
-        this.WriteJSON(request, response, data);
+        this.WriteJSON(request, response, data,token);
 
     }
 }

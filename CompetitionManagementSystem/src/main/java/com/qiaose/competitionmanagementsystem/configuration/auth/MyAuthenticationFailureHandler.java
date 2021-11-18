@@ -23,6 +23,6 @@ public class MyAuthenticationFailureHandler extends JSONAuthentication implement
 
         R<String> data = R.failed("登录失败:"+e.getMessage());
         //输出
-        this.WriteJSON(request, response, data);
+        this.WriteJSON(request, response, data,null);
     }
 }
