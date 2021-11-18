@@ -14,10 +14,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
+import java.io.File;
+import java.util.*;
 
 @RestController
 @Api(value = "用户接口")
@@ -47,12 +48,14 @@ public class UserController {
 
 
     @GetMapping("/getUserInfo")
-    public UserDto getUser(HttpServletRequest request){
+    @ApiOperation(value="查询用户信息", notes="由前端请求头中获取token,在利用token获得用户信息")
+    public R getUser(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         System.out.println(token);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userService.selectByAccountName(username);
         UserDto userDto = userService.PoToDto(user);
+        userDto.setToken(token);
         SysRoleUserTable sysRoleUserTable = sysRoleUserTableService.selectByRoleId(user.getRoleId());
         List<SysRoleTable> sysRoleTables = sysRoleTableService.selectByPrimaryKey(sysRoleUserTable.getRoleId());
         HashMap<String,String> role = new HashMap<>();
@@ -60,9 +63,39 @@ public class UserController {
             role.put("roleName",sysRoleTable.getRoleName());
             role.put("value",sysRoleTable.getRoleId());
         }
-        userDto.setRoles(role);
-        return userDto;
+        List list = new ArrayList(Collections.singleton(role));
+        userDto.setRoles(list);
+        return R.ok(userDto);
     }
+
+
+    @PostMapping(value = "/upload")
+    @ResponseBody
+    public String uploadFile(MultipartFile file, HttpServletRequest request) {
+        try{
+            //创建文件在服务器端的存放路径
+            String dir=request.getServletContext().getRealPath("/upload");
+            File fileDir = new File(dir);
+            if(!fileDir.exists())
+                fileDir.mkdirs();
+            //生成文件在服务器端存放的名字
+            String fileSuffix=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            String fileName= UUID.randomUUID().toString()+fileSuffix;
+            File files = new File(fileDir+"/"+fileName);
+            //上传
+            file.transferTo(files);
+
+        }catch(Exception e) {
+            e.printStackTrace();
+            return "上传失败";
+        }
+
+        return "上传成功";
+    }
+
+
+
+
 
 
 
