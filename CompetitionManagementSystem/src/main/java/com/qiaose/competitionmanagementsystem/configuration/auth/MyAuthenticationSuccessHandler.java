@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,14 +63,16 @@ public class MyAuthenticationSuccessHandler extends JSONAuthentication implement
 
         String token = stringRedisTemplate.opsForValue().get(userDetails.getUsername());
 
+
         if(token ==null) {
             System.out.println("初次登录，token还没有，生成新token。。。。。。");
             //如果token为空，则去创建一个新的token
-            jwtTokenUtil = new JwtTokenUtil();
+//            jwtTokenUtil = new JwtTokenUtil();
             token = jwtTokenUtil.generateToken(userDetails);
             //把新的token存储到缓存中
 //            TokenCache.setToken(userDetails.getUsername(),token);
             stringRedisTemplate.opsForValue().set(userDetails.getUsername(),token);
+            stringRedisTemplate.expire(userDetails.getUsername(), Duration.ofDays(7));
         }
 
 

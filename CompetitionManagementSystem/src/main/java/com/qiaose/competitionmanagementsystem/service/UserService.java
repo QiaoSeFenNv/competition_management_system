@@ -21,7 +21,7 @@ public interface UserService{
 
     int updateByPrimaryKey(User record);
 
-    boolean checkLogin(String username, String password);
+    boolean checkLogin(String username, String password) throws Exception;
 
     List<User> list();
 

@@ -40,7 +40,7 @@
     select
     <include refid="Base_Column_List" />
     from `user`
-    where accountName = #{name,jdbcType=INTEGER}
+    where account_name = #{name,jdbcType=INTEGER}
   </select>
 
 
