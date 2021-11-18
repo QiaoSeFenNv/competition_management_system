@@ -64,4 +64,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectByAll();
     }
 
+    @Override
+    public Object register(User user) {
+        return null;
+    }
+
 }
