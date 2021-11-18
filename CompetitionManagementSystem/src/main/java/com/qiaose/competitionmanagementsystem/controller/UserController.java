@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,12 +49,13 @@ public class UserController {
 
 
     @GetMapping("/getUserInfo")
-    public UserDto getUser(HttpServletRequest request){
+    public R getUser(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         System.out.println(token);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userService.selectByAccountName(username);
         UserDto userDto = userService.PoToDto(user);
+        userDto.setToken(token);
         SysRoleUserTable sysRoleUserTable = sysRoleUserTableService.selectByRoleId(user.getRoleId());
         List<SysRoleTable> sysRoleTables = sysRoleTableService.selectByPrimaryKey(sysRoleUserTable.getRoleId());
         HashMap<String,String> role = new HashMap<>();
@@ -60,8 +63,9 @@ public class UserController {
             role.put("roleName",sysRoleTable.getRoleName());
             role.put("value",sysRoleTable.getRoleId());
         }
-        userDto.setRoles(role);
-        return userDto;
+        List list = new ArrayList(Collections.singleton(role));
+        userDto.setRoles(list);
+        return R.ok(userDto);
     }
 
 
