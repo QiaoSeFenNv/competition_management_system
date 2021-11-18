@@ -21,16 +21,27 @@ import java.io.IOException;
 
 /**
  * 拦截器
+ *
  */
 @Component
 public class MyOncePerRequestFilter extends OncePerRequestFilter {
 
+    /**
+     * 登录信息接口
+     */
     @Autowired
     private UserDetailsService userDetailsService;
 
+
+    /**
+     * jwtToken工具
+     */
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    /**
+     * 认证头信息
+     */
     private String header = "Authorization";
 
     @Override
@@ -42,7 +53,7 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
         System.out.println("request getMethod = " + request.getMethod());
 
         if (!StringUtils.isEmpty(headerToken)) {
-            //postMan测试时，自动假如的前缀，要去掉。
+            //postMan测试时，自动加入的前缀，要去掉。
             String token = headerToken.replace("Bearer", "").trim();
             System.out.println("token = " + token);
 

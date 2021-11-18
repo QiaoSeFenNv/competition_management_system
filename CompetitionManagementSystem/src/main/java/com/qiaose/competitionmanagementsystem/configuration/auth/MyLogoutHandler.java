@@ -25,7 +25,7 @@ public class MyLogoutHandler extends JSONAuthentication implements LogoutHandler
         System.out.println("logout request getMethod = " + request.getMethod());
         //
         if (!StringUtils.isEmpty(headerToken)) {
-            //postMan测试时，自动假如的前缀，要去掉。
+            //postMan测试时，自动加入的前缀，要去掉。
             String token = headerToken.replace("Bearer", "").trim();
             System.out.println("authentication = " + authentication);
             SecurityContextHolder.clearContext();

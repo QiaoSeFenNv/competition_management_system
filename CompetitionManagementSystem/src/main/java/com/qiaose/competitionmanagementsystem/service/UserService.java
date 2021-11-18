@@ -2,6 +2,8 @@ package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.User;
 
+import java.util.List;
+
 public interface UserService{
 
 
@@ -20,4 +22,6 @@ public interface UserService{
     int updateByPrimaryKey(User record);
 
     boolean checkLogin(String username, String password);
+
+    List<User> list();
 }

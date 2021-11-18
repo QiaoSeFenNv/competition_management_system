@@ -7,6 +7,7 @@ import com.qiaose.competitionmanagementsystem.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -56,6 +57,11 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<User> list() {
+        return userMapper.selectByAll();
     }
 
 }

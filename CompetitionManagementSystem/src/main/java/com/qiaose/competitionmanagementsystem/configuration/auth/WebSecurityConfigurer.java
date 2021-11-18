@@ -80,6 +80,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/user/register/{id}").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers(HttpMethod.GET,"/").permitAll()
+                .antMatchers(HttpMethod.GET,"/user/search").permitAll()
+                .antMatchers(HttpMethod.POST,"/login").permitAll()
                 //ROLE_ADMIN可以操作任何事情
                 //.antMatchers("/**").hasRole("ADMIN")
                 //同等上一行代码

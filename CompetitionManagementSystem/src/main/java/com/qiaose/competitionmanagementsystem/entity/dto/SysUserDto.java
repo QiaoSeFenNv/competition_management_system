@@ -10,8 +10,9 @@ import lombok.ToString;
 @ToString
 public class SysUserDto {
     String id;
-    String name;
-    String passw;
+    String accountName;
+    String password;
     String des;
+    String Id;
 
 }

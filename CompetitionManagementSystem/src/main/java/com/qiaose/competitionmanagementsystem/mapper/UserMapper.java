@@ -2,6 +2,8 @@ package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.User;
 
+import java.util.List;
+
 public interface UserMapper {
 
     int deleteByPrimaryKey(Integer id);
@@ -42,4 +44,6 @@ public interface UserMapper {
      * @return
      */
     int updateByPrimaryKey(User record);
+
+    List<User> selectByAll();
 }
