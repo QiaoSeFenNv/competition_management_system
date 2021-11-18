@@ -19,6 +19,17 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
+
+    @GetMapping("/hello")
+    @ApiOperation(value="查询所有用户", notes="显示所有用户数据,封装未R.ok类型")
+    public R hello() {
+
+        return  R.ok("hello");
+    }
+
+
+
     @GetMapping("/search")
     @ApiOperation(value="查询所有用户", notes="显示所有用户数据,封装未R.ok类型")
     public R getList() {
