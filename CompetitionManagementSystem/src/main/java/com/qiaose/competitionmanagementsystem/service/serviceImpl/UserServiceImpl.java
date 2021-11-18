@@ -3,9 +3,11 @@ package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 import com.qiaose.competitionmanagementsystem.entity.User;
+import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
 import com.qiaose.competitionmanagementsystem.mapper.UserMapper;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     BCryptPasswordEncoderUtil bCryptPasswordEncoderUtil;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
 
 
     @Resource
@@ -79,8 +84,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object register(User user) {
-        return null;
+    public UserDto PoToDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setUserId(String.valueOf(user.getId()));
+        userDto.setUserName(user.getAccountName());
+        userDto.setAvatar(user.getAvatarurl());
+        userDto.setDesc("manager");
+        return userDto;
     }
 
 }

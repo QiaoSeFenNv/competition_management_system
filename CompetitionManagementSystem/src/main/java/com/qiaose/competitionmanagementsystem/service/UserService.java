@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.User;
+import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
 
 import java.util.List;
 
@@ -25,5 +26,7 @@ public interface UserService{
 
     List<User> list();
 
-    Object register(User user);
+
+    public UserDto PoToDto(User user);
+
 }
