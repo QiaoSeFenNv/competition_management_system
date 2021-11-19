@@ -7,6 +7,7 @@ import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import com.qiaose.competitionmanagementsystem.service.CompetitionAttachService;
+import com.qiaose.competitionmanagementsystem.utils.FileTypeUtil;
 import com.qiaose.competitionmanagementsystem.utils.TaleUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,10 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,17 +39,14 @@ public class AttachController {
     @Autowired
     UserService userService;
 
-    /**
-     * 上传文件接口
-     *
-     * @param request
-     * @return
-     */
+
     @PostMapping(value = "/upload")
     @ResponseBody
+    @ApiOperation(value = "上传附件", notes = "限制文件")
     @Transactional(rollbackFor = Exception.class)
     public R upload(HttpServletRequest request, @RequestParam("file") MultipartFile[] multipartFiles) throws IOException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String suffix = null;
         User user = null;
         if (principal instanceof UserDetails) {
             AuthUser authUser = (AuthUser) principal;
@@ -61,34 +56,46 @@ public class AttachController {
             return R.failed("用户信息错误");
         }
         Integer uid = user.getId();
-        List<String> errorFiles = new ArrayList<>();
-        try {
-            for (MultipartFile multipartFile : multipartFiles) {
-                String fname = multipartFile.getOriginalFilename();
-                if (multipartFile.getSize() <= WebConst.MAX_FILE_SIZE) {
-                    String fkey = TaleUtils.getFileKey(fname);
-                    String ftype = TaleUtils.isImage(multipartFile.getInputStream()) ? "image" : "file";
-                    CompetitionAttach competitionAttach = new CompetitionAttach();
-                    competitionAttach.setFkey(fkey);
-                    competitionAttach.setFname(fname);
-                    competitionAttach.setFkey(ftype);
-                    competitionAttach.setUserId(uid);
-                    File file = new File(CLASSPATH + fkey);
-                    try {
-                        FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    competitionAttachService.insertSelective(competitionAttach);
-                } else {
-                    errorFiles.add(fname);
-                }
+        for (MultipartFile multipartFile : multipartFiles) {
+            String fname = multipartFile.getOriginalFilename();
+            //判断文件类是是否为图片 fname为上传文件名
+            int index = fname.lastIndexOf(".");
+
+            if (index == -1 || (suffix = fname.substring(index + 1)).isEmpty()) {
+                return R.failed("文件后缀不能为空");
             }
-        } catch (Exception e) {
-            return R.failed("上传失败");
+            if (FileTypeUtil.imageType(suffix.toLowerCase()) || FileTypeUtil.fileType(suffix.toLowerCase())){
+                //附件得类型无论是图片还是文件都为file
+                String ftype = "file";
+                //获得文件路径
+                String fkey = TaleUtils.getFileKey(fname);
+                //将数据存放到competitionAttach对象中
+                CompetitionAttach competitionAttach = new CompetitionAttach();
+                competitionAttach.setFkey(fkey);
+                competitionAttach.setFname(fname);
+                competitionAttach.setFtype(ftype);
+                competitionAttach.setUserId(uid);
+                competitionAttach.setCreated((int) (System.currentTimeMillis() / 1000));
+                //在指定路径存放文件
+                File file = new File(CLASSPATH + fkey);
+                try {
+                    FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                competitionAttachService.insertSelective(competitionAttach);
+                System.out.println("成功上传且写入数据");
+                return R.ok("上传成功");
+            }
+
         }
-        return R.ok("上传成功");
+
+        return R.failed("非法的文件，不允许的文件类型："+suffix);
+
     }
+
+
+
 
     @PostMapping(value = "/images")
     @ResponseBody
@@ -118,7 +125,7 @@ public class AttachController {
             if (!allowSuffix.contains(suffix.toLowerCase())) {
                 return R.failed("非法的文件，不允许的文件类型：" + suffix);
             }
-            String fkey = TaleUtils.getFileKey(fname);
+            String fkey = TaleUtils.getImagesKey(fname);
             String ftype = "image-ava";
             CompetitionAttach competitionAttach = new CompetitionAttach();
             competitionAttach.setFkey(fkey);

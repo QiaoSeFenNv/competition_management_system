@@ -32,7 +32,7 @@ public class TaleUtils {
     }
 
 
-    public static String getFileKey(String name) {
+    public static String getImagesKey(String name) {
         String prefix = "/images";
         if (!new File(AttachController.CLASSPATH + prefix).exists()) {
             new File(AttachController.CLASSPATH + prefix).mkdirs();
@@ -54,21 +54,24 @@ public class TaleUtils {
     }
 
 
-    /**
-     * 判断文件是否是图片类型
-     *
-     * @param imageFile
-     * @return
-     */
-    public static boolean isImage(InputStream imageFile) {
-        try {
-            Image img = ImageIO.read(imageFile);
-            if (img == null || img.getWidth(null) <= 0 || img.getHeight(null) <= 0) {
-                return false;
+    public static String getFileKey(String name) {
+        String prefix = "/files";
+        if (!new File(AttachController.CLASSPATH + prefix).exists()) {
+            new File(AttachController.CLASSPATH + prefix).mkdirs();
+        }
+
+        name = StringUtils.trimToNull(name);
+        if (name == null) {
+            return prefix + "/" + UUID.randomUUID() + "." + null;
+        } else {
+            name = name.replace('\\', '/');
+            name = name.substring(name.lastIndexOf("/") + 1);
+            int index = name.lastIndexOf(".");
+            String ext = null;
+            if (index >= 0) {
+                ext = StringUtils.trimToNull(name.substring(index + 1));
             }
-            return true;
-        } catch (Exception e) {
-            return false;
+            return prefix + "/" + UUID.randomUUID() + "." + (ext == null ? null : (ext));
         }
     }
 
