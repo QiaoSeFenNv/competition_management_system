@@ -10,9 +10,12 @@ import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
 import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
+import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,30 +72,8 @@ public class UserController {
     }
 
 
-    @PostMapping(value = "/upload")
-    @ResponseBody
-    public R uploadFile(MultipartFile file, HttpServletRequest request) {
-        try{
-            //创建文件在服务器端的存放路径
-            String dir=request.getServletContext().getRealPath("/upload");
-            System.out.println(dir);
-            File fileDir = new File(dir);
-            if(!fileDir.exists())
-                fileDir.mkdirs();
-            //生成文件在服务器端存放的名字
-            String fileSuffix=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            String fileName= UUID.randomUUID().toString()+fileSuffix;
-            File files = new File(fileDir+"/"+fileName);
-            //上传
-            file.transferTo(files);
 
-        }catch(Exception e) {
-            e.printStackTrace();
-            return  R.failed("上传失败");
-        }
 
-        return R.ok("上传成功");
-    }
 
 
 }

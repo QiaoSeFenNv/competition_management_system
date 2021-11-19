@@ -1,10 +1,13 @@
-package com.qiaose.competitionmanagementsystem.service;
+package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.mapper.CompetitionAttachMapper;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionAttach;
-import com.qiaose.competitionmanagementsystem.service.serviceImpl.CompetitionAttachService;
+import com.qiaose.competitionmanagementsystem.service.CompetitionAttachService;
+
+import java.util.List;
+
 @Service
 public class CompetitionAttachServiceImpl implements CompetitionAttachService{
 
@@ -27,7 +30,7 @@ public class CompetitionAttachServiceImpl implements CompetitionAttachService{
     }
 
     @Override
-    public CompetitionAttach selectByPrimaryKey(Integer id) {
+    public List<CompetitionAttach> selectByPrimaryKey(Integer id) {
         return competitionAttachMapper.selectByPrimaryKey(id);
     }
 
@@ -39,6 +42,16 @@ public class CompetitionAttachServiceImpl implements CompetitionAttachService{
     @Override
     public int updateByPrimaryKey(CompetitionAttach record) {
         return competitionAttachMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int deleteByIdTime(Integer userId, Integer created,String ftype) {
+        return competitionAttachMapper.deleteByIdTime( userId, created,ftype);
+    }
+
+    @Override
+    public List<CompetitionAttach> selectByPrimaryUserid(Integer id) {
+        return competitionAttachMapper.selectByPrimaryUserid(id);
     }
 
 }

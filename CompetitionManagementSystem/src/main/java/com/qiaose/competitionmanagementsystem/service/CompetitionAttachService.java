@@ -1,6 +1,9 @@
-package com.qiaose.competitionmanagementsystem.service.serviceImpl;
+package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionAttach;
+
+import java.util.List;
+
 public interface CompetitionAttachService{
 
 
@@ -10,10 +13,13 @@ public interface CompetitionAttachService{
 
     int insertSelective(CompetitionAttach record);
 
-    CompetitionAttach selectByPrimaryKey(Integer id);
+    List<CompetitionAttach> selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(CompetitionAttach record);
 
     int updateByPrimaryKey(CompetitionAttach record);
 
+    int deleteByIdTime(Integer id, Integer created,String ftype);
+
+    List<CompetitionAttach> selectByPrimaryUserid(Integer id);
 }
