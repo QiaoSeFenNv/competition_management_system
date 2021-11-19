@@ -71,10 +71,11 @@ public class UserController {
 
     @PostMapping(value = "/upload")
     @ResponseBody
-    public String uploadFile(MultipartFile file, HttpServletRequest request) {
+    public R uploadFile(MultipartFile file, HttpServletRequest request) {
         try{
             //创建文件在服务器端的存放路径
             String dir=request.getServletContext().getRealPath("/upload");
+            System.out.println(dir);
             File fileDir = new File(dir);
             if(!fileDir.exists())
                 fileDir.mkdirs();
@@ -87,17 +88,11 @@ public class UserController {
 
         }catch(Exception e) {
             e.printStackTrace();
-            return "上传失败";
+            return  R.failed("上传失败");
         }
 
-        return "上传成功";
+        return R.ok("上传成功");
     }
-
-
-
-
-
-
 
 
 }
