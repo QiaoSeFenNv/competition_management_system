@@ -1,8 +1,10 @@
 package com.qiaose.competitionmanagementsystem.components;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class BCryptPasswordEncoderUtil extends BCryptPasswordEncoder {
 

@@ -6,5 +6,6 @@ public class MyaccessDeniedException extends AccessDeniedException {
 
     public MyaccessDeniedException(String msg) {
         super(msg);
+
     }
 }
