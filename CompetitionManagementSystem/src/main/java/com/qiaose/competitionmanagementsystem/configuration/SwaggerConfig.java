@@ -39,9 +39,8 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Spring Boot中使用Swagger2构建RESTful APIs")
-                .description("更多请关注http://www.baidu.com")
-                .termsOfServiceUrl("http://www.baidu.com")
-                .contact("sunf")
+                .description("竞赛管理系统api")
+                .termsOfServiceUrl("https://gitee.com/qiaosefennv/competition_ms.git")
                 .version("1.0")
                 .build();
     }

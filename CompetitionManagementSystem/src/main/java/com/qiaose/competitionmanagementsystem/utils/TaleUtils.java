@@ -31,31 +31,26 @@ public class TaleUtils {
         return file.getAbsolutePath() + "\\CompetitionManagementSystem\\src\\main\\resources\\static"+"/";
     }
 
-
+    /**
+     * 判断文件类型是否为图片
+     * @param name
+     * @return
+     */
     public static String getImagesKey(String name) {
         String prefix = "/images";
-        if (!new File(AttachController.CLASSPATH + prefix).exists()) {
-            new File(AttachController.CLASSPATH + prefix).mkdirs();
-        }
-
-        name = StringUtils.trimToNull(name);
-        if (name == null) {
-            return prefix + "/" + UUID.randomUUID() + "." + null;
-        } else {
-            name = name.replace('\\', '/');
-            name = name.substring(name.lastIndexOf("/") + 1);
-            int index = name.lastIndexOf(".");
-            String ext = null;
-            if (index >= 0) {
-                ext = StringUtils.trimToNull(name.substring(index + 1));
-            }
-            return prefix + "/" + UUID.randomUUID() + "." + (ext == null ? null : (ext));
-        }
+        return getString(name, prefix);
     }
-
-
+    /**
+     * 判断文件类型是否为文件
+     * @param name
+     * @return
+     */
     public static String getFileKey(String name) {
         String prefix = "/files";
+        return getString(name, prefix);
+    }
+
+    private static String getString(String name, String prefix) {
         if (!new File(AttachController.CLASSPATH + prefix).exists()) {
             new File(AttachController.CLASSPATH + prefix).mkdirs();
         }
@@ -74,6 +69,8 @@ public class TaleUtils {
             return prefix + "/" + UUID.randomUUID() + "." + (ext == null ? null : (ext));
         }
     }
+
+
 
 }
 
