@@ -31,7 +31,7 @@ public class SysBackendApiTableServiceImpl implements SysBackendApiTableService 
     }
 
     @Override
-    public List<SysBackendApiTable> selectByPrimaryKey(String backendApiId) {
+    public SysBackendApiTable selectByPrimaryKey(String backendApiId) {
         return sysBackendApiTableMapper.selectByPrimaryKey(backendApiId);
     }
 

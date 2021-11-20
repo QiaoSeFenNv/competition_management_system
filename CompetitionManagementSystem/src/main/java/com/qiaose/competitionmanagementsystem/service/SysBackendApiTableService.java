@@ -15,7 +15,7 @@ public interface SysBackendApiTableService{
 
     int insertSelective(SysBackendApiTable record);
 
-    List<SysBackendApiTable> selectByPrimaryKey(String backendApiId);
+    SysBackendApiTable selectByPrimaryKey(String backendApiId);
 
     int updateByPrimaryKeySelective(SysBackendApiTable record);
 

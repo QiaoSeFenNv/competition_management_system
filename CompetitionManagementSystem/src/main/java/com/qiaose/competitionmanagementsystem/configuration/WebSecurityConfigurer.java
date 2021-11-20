@@ -83,6 +83,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 //测试放行
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers(HttpMethod.POST,"/user/register").permitAll()
+                .antMatchers(HttpMethod.GET,"/login").permitAll()
+                .antMatchers("/images/**").permitAll()
                 //动态加载资源
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
 
@@ -111,7 +113,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**",
                 "/swagger-ui.html",
                 "/webjars/**")
-                .antMatchers("/static/images");
+                .mvcMatchers("/static/**")
+                ;
     }
 
     /**

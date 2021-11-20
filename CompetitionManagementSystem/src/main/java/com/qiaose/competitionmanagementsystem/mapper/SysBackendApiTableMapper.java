@@ -13,7 +13,7 @@ public interface SysBackendApiTableMapper {
 
     int insertSelective(SysBackendApiTable record);
 
-    List<SysBackendApiTable> selectByPrimaryKey(String backendApiId);
+    SysBackendApiTable selectByPrimaryKey(String backendApiId);
 
     int updateByPrimaryKeySelective(SysBackendApiTable record);
 

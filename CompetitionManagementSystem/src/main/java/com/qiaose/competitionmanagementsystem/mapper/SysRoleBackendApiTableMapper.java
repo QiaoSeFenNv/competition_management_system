@@ -2,6 +2,8 @@ package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable;
 
+import java.util.List;
+
 public interface SysRoleBackendApiTableMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -11,7 +13,7 @@ public interface SysRoleBackendApiTableMapper {
 
     SysRoleBackendApiTable selectByPrimaryKey(Integer id);
 
-    SysRoleBackendApiTable selectByRoleId(String roleId);
+    List<SysRoleBackendApiTable> selectByRoleId(String roleId);
 
     int updateByPrimaryKeySelective(SysRoleBackendApiTable record);
 

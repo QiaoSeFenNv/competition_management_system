@@ -2,6 +2,8 @@ package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable;
 
+import java.util.List;
+
 public interface SysRoleBackendApiTableService{
 
 
@@ -17,5 +19,5 @@ public interface SysRoleBackendApiTableService{
 
     int updateByPrimaryKey(SysRoleBackendApiTable record);
 
-    SysRoleBackendApiTable selectByRoleId(String roleId);
+    List<SysRoleBackendApiTable> selectByRoleId(String roleId);
 }

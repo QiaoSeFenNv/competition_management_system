@@ -4,6 +4,7 @@ package com.qiaose.competitionmanagementsystem.configuration.auth;
 
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,6 +40,8 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+
+
     /**
      * 认证头信息
      */
@@ -49,6 +52,7 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
         String headerToken = request.getHeader(header);
+
         System.out.println("headerToken = " + headerToken);
         System.out.println("request getMethod = " + request.getMethod());
 

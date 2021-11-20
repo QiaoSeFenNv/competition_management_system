@@ -7,6 +7,7 @@ import com.qiaose.competitionmanagementsystem.service.SysRoleBackendApiTableServ
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class SysRoleBackendApiTableServiceImpl implements SysRoleBackendApiTableService {
@@ -45,7 +46,7 @@ public class SysRoleBackendApiTableServiceImpl implements SysRoleBackendApiTable
     }
 
     @Override
-    public SysRoleBackendApiTable selectByRoleId(String roleId) {
+    public List<SysRoleBackendApiTable> selectByRoleId(String roleId) {
         return sysRoleBackendApiTableMapper.selectByRoleId(roleId);
     }
 
