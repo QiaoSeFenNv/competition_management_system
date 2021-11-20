@@ -1,12 +1,18 @@
 package com.qiaose.competitionmanagementsystem;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
+import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
+import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 class CompetitionManagementSystemApplicationTests {
@@ -17,6 +23,27 @@ class CompetitionManagementSystemApplicationTests {
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    SysFrontendMenuTableService sysFrontendMenuTableService;
+
+
+    @Test
+    public void getCurMenu(){
+//        SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.selectByPrimaryKey(1L);
+//        List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.selectByParentId(sysFrontendMenuTable.getId());
+//        sysFrontendMenuTable.setChildrenList();
+//        SysFrontendDto sysFrontendDto = sysFrontendMenuTableService.F_PoToDto(sysFrontendMenuTable);
+
+//        //最外层变为数组
+//        List<SysFrontendDto> result = new ArrayList<>();
+//        result.add(sysFrontendDto);
+//
+//        System.out.println(R.ok(result));
+
+    }
+
+
 
     @Test
     void BCry(){

@@ -26,7 +26,6 @@ public interface UserService{
 
     List<User> list();
 
-
-    public UserDto PoToDto(User user);
+    UserDto PoToDto(User user);
 
 }

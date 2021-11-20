@@ -2,10 +2,6 @@ package com.qiaose.competitionmanagementsystem.configuration.auth;
 
 import com.baomidou.mybatisplus.extension.api.R;
 
-import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
-import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
-import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
-import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
@@ -24,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
