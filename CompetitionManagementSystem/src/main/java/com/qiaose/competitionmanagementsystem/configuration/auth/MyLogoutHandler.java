@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 退出Handler
+ * 退出Handler  前端会发起logout请求，携带请求头
  */
 @Component
 public class MyLogoutHandler extends JSONAuthentication implements LogoutHandler {
@@ -21,13 +21,10 @@ public class MyLogoutHandler extends JSONAuthentication implements LogoutHandler
                        Authentication authentication) {
 
         String headerToken = request.getHeader(header);
-        System.out.println("logout header Token = " + headerToken);
-        System.out.println("logout request getMethod = " + request.getMethod());
-        //
         if (!StringUtils.isEmpty(headerToken)) {
             //postMan测试时，自动加入的前缀，要去掉。
             String token = headerToken.replace("Bearer", "").trim();
-            System.out.println("authentication = " + authentication);
+            //清楚全局缓存
             SecurityContextHolder.clearContext();
         }
     }

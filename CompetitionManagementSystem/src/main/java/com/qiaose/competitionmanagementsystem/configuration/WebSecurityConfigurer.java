@@ -111,7 +111,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**",
                 "/swagger-ui.html",
                 "/webjars/**")
-                .antMatchers("/static/images");
+                .antMatchers("/static/images")
+                .antMatchers("/static/files");
     }
 
     /**
@@ -128,7 +129,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
 
         filter.setAuthenticationManager(authenticationManagerBean());
-
         return filter;
     }
 }

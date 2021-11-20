@@ -12,6 +12,7 @@ import com.qiaose.competitionmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -45,7 +46,7 @@ public class DynamicPermission {
 
         Object principal = authentication.getPrincipal();
         System.out.println("DynamicPermission principal = " + principal);
-
+//判断那些用户又那些权限
 //        if(principal instanceof UserDetails) {
 //
 //            UserDetails userDetails = (UserDetails) principal;

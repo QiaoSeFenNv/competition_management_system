@@ -9,6 +9,7 @@ import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.Authentication;
@@ -29,6 +30,7 @@ import java.util.Map;
 /**
  * 登录成功操作
  */
+@Slf4j
 @Component
 public class MyAuthenticationSuccessHandler extends JSONAuthentication implements AuthenticationSuccessHandler {
 
@@ -52,30 +54,17 @@ public class MyAuthenticationSuccessHandler extends JSONAuthentication implement
         //取得账号信息
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        //
-        System.out.println("userDetails = " + userDetails);
-        //取token
-        //好的解决方案，登录成功后token存储到数据库中
         //只要token还在过期内，不需要每次重新生成
-        //先去缓存中找
-
-//        String token = TokenCache.getTokenFromCache(userDetails.getUsername());
-
+        //去redis中根据用户名找token
         String token = stringRedisTemplate.opsForValue().get(userDetails.getUsername());
-        System.out.println(token);
-
+        log.info("用户信息：账号名称：{},token：{},",userDetails.getUsername(),token);
         if(token ==null) {
-            System.out.println("初次登录，token还没有，生成新token。。。。。。");
             //如果token为空，则去创建一个新的token
-//            jwtTokenUtil = new JwtTokenUtil();
             token = jwtTokenUtil.generateToken(userDetails);
-            //把新的token存储到缓存中
-//            TokenCache.setToken(userDetails.getUsername(),token);
+            //将新的token存到redis中，并且设置token过期时间
             stringRedisTemplate.opsForValue().set(userDetails.getUsername(),token);
             stringRedisTemplate.expire(userDetails.getUsername(), Duration.ofDays(7));
         }
-
-
 //        //通用户表获得角色号
 //        User user = userService.selectByAccountName(userDetails.getUsername());
 //        String roleId = user.getRoleId();

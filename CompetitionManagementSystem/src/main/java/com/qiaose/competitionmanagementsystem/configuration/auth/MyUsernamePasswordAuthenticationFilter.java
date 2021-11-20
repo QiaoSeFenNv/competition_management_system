@@ -31,13 +31,8 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
 
-
-
         if (request.getContentType().equals(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 || request.getContentType().equals(MediaType.APPLICATION_JSON_VALUE)) {
-
-            System.out.println(request.getContentType());
-
 
             ObjectMapper mapper = new ObjectMapper();
             UsernamePasswordAuthenticationToken authRequest = null;
@@ -55,9 +50,6 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
                     //获得账号、密码
                     String username = authenticationBean.get(SPRING_SECURITY_FORM_USERNAME_KEY);
                     String password = authenticationBean.get(SPRING_SECURITY_FORM_PASSWORD_KEY);
-                    //可以验证账号、密码
-                    //System.out.println("username = " + username);
-                    //System.out.println("password = " + password);
 
                     //检测账号、密码是否存在
                     if (userService.checkLogin(username, password)) {

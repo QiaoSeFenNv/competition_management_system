@@ -3,7 +3,9 @@ package com.qiaose.competitionmanagementsystem.configuration.auth;
 
 
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +22,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 拦截器
+ * 拦截器 前端发起login请求携带请求头
  *
  */
+@Slf4j
 @Component
 public class MyOncePerRequestFilter extends OncePerRequestFilter {
 
@@ -39,6 +42,9 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     /**
      * 认证头信息
      */
@@ -49,14 +55,11 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
         String headerToken = request.getHeader(header);
-        System.out.println("headerToken = " + headerToken);
-        System.out.println("request getMethod = " + request.getMethod());
-
+        log.info("headerToken：{},request getMethod：{}",headerToken,request.getMethod());
         if (!StringUtils.isEmpty(headerToken)) {
             //postMan测试时，自动加入的前缀，要去掉。
             String token = headerToken.replace("Bearer", "").trim();
-            System.out.println("token = " + token);
-
+            System.out.println("MyOncePerRequestFilter : token = " + token);
             //判断令牌是否过期，默认是一周
             //比较好的解决方案是：
             //登录成功获得token后，将token存储到数据库（redis）
@@ -70,6 +73,7 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
             } catch (Exception e) {
                 new Throwable("令牌已过期，请重新登录。"+e.getMessage());
             }
+
             if (!check){
                 //通过令牌获取用户名称
                 String username = jwtTokenUtil.getUsernameFromToken(token);

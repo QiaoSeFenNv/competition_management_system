@@ -13,6 +13,7 @@ import com.qiaose.competitionmanagementsystem.service.UserService;
 import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,10 +24,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.*;
 
+
+@Slf4j
 @RestController
 @Api(value = "用户接口")
 @RequestMapping("user")
 public class UserController {
+
 
     @Autowired
     UserService userService;
@@ -70,6 +74,8 @@ public class UserController {
         userDto.setRoles(list);
         return R.ok(userDto);
     }
+
+
 
 
 
