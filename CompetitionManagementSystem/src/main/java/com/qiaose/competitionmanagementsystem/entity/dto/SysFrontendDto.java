@@ -13,17 +13,23 @@ import java.util.List;
 @Data
 public class SysFrontendDto{
 
-    // path
+
     private String path;
-    // Label
-    private String name;
-    // component
-    private String component;
-    // meta describe icon
-    private List<String> meta;
-    // redirect
-    private String redirect;
-    //二级
-    private List<SysFrontendDto> children;
+
+    private String describe;
+
+    private String label;
+
+    private String state;
+
+    private Integer sortValue;
+
+    private String icon;
+
+    private Long parentId;
+
+    private Boolean readOnly;
+    //isGeneral
+    private Boolean keepAlive;
 
 }

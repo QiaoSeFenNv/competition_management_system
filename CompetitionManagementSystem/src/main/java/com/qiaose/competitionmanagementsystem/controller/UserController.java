@@ -80,18 +80,22 @@ public class UserController {
 
     /**
      * 添加用户、用户自行注册。
-     * @param userVo
+     * @param user
      * @return
      */
-//    @PostMapping("/register")
-//    public R register(@RequestBody(required = false) User user) {
-//        try {
-//            System.out.println("registerVo = " + userVo);
-//            return  R.ok(userService.register(userVo));
-//        }catch (Exception e){
-//            return R.failed(e.getMessage());
-//        }
-//    }
+    @PostMapping("/register")
+    @ApiOperation(value="用户注册信息", notes="由前端发送用户信息,后端保存用户信息")
+    public R register(User user) {
+        try {
+            System.out.println("register = " + user);
+            if (userService.register(user)) {
+                return  R.ok("成功注册");
+            }
+        }catch (Exception e){
+            return R.failed(e.getMessage());
+        }
+        return R.failed("注册失败");
+    }
 
 
 

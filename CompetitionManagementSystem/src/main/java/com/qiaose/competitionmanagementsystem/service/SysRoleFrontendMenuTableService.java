@@ -20,4 +20,5 @@ public interface SysRoleFrontendMenuTableService{
     int updateByPrimaryKey(SysRoleFrontendMenuTable record);
 
     List<SysRoleFrontendMenuTable> selectByRoleId(Long roleId);
+
 }

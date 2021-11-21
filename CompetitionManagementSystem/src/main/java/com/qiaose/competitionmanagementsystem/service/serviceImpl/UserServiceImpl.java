@@ -6,6 +6,7 @@ import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
 import com.qiaose.competitionmanagementsystem.mapper.UserMapper;
 import com.qiaose.competitionmanagementsystem.service.UserService;
+import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     StringRedisTemplate stringRedisTemplate;
+
+
 
 
     @Resource
@@ -83,6 +86,25 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectByAll();
     }
 
+
+    @Override
+    public Boolean register(User user)throws Exception {
+        if (user != null) {
+            User SqlUser = userMapper.selectByAccountName(user.getAccountName());
+            if (SqlUser != null) {
+                throw new Exception("这个用户已经存在，不能重复。");
+            }
+            user.setPassword(bCryptPasswordEncoderUtil.encode(user.getPassword()));
+
+            user.setCreateTime(DateKit.getNowTime());
+            int i = userMapper.insertSelective(user);
+            return i==1 ? true : false ;
+        }else{
+            throw new Exception("用户信息为空");
+        }
+
+    }
+
     @Override
     public UserDto PoToDto(User user) {
         UserDto userDto = new UserDto();
@@ -92,5 +114,7 @@ public class UserServiceImpl implements UserService {
         userDto.setDesc("manager");
         return userDto;
     }
+
+
 
 }

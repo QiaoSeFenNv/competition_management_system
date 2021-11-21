@@ -62,7 +62,7 @@
   <select id="selectByAll" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select
-    <include refid="MY_Column_List" />
+    <include refid="Base_Column_List" />
     from sys_frontend_menu_table
   </select>
 

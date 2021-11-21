@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFilter;
-import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;

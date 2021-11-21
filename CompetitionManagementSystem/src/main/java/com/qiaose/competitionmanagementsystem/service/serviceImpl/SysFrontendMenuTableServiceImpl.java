@@ -54,14 +54,7 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         return sysFrontendMenuTableMapper.selectByParentId(id);
     }
 
-    @Override
-    public SysFrontendDto F_PoToDto(SysFrontendMenuTable sysFrontendMenuTable) {
-        SysFrontendDto sysFrontendDto = new SysFrontendDto();
-        if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getPath())){
-            sysFrontendDto.setPath(sysFrontendMenuTable.getPath());
-        }
-        return sysFrontendDto;
-    }
+
 
     @Override
     public SysFrontendMenuTable selectByPrimaryKeyTwo(long id) {
@@ -118,29 +111,26 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
 
 
     @Override
-    public  SysFrontendDto PoToDto(SysFrontendMenuTable sysFrontendMenuTable){
-        SysFrontendDto sysFrontendDto = new SysFrontendDto();
-        if (!StringUtil.isNullOrEmpty( sysFrontendMenuTable.getPath())) {
-            sysFrontendDto.setPath(sysFrontendMenuTable.getPath());
-        }
-        if (!StringUtil.isNullOrEmpty( sysFrontendMenuTable.getLabel())) {
-            sysFrontendDto.setName(sysFrontendMenuTable.getLabel());
-        }
-        if (!StringUtil.isNullOrEmpty( sysFrontendMenuTable.getComponent())) {
-            sysFrontendDto.setComponent(sysFrontendMenuTable.getComponent());
-        }
+    public  SysFrontendMenuTable F_DtoToF_Po(SysFrontendDto sysFrontendDto){
+        SysFrontendMenuTable sysFrontendMenuTable = new SysFrontendMenuTable();
 
-        if (!StringUtil.isNullOrEmpty( sysFrontendMenuTable.getDescribe())) {
-            sysFrontendDto.setMeta(Collections.singletonList(sysFrontendMenuTable.getDescribe()));
-        }
-        if (!StringUtil.isNullOrEmpty( sysFrontendMenuTable.getIcon())) {
-            sysFrontendDto.setMeta(Collections.singletonList(sysFrontendMenuTable.getIcon()));
-        }
-        if (!StringUtil.isNullOrEmpty( sysFrontendMenuTable.getRedirect())) {
-            sysFrontendDto.setRedirect(sysFrontendMenuTable.getRedirect());
-        }
-        return sysFrontendDto;
+        //转换  可以设置默认值
+        sysFrontendMenuTable.setLabel(sysFrontendDto.getLabel());
+        sysFrontendMenuTable.setPath(sysFrontendDto.getPath());
+        sysFrontendMenuTable.setState(Boolean.valueOf(sysFrontendDto.getState()));
+        sysFrontendMenuTable.setSortValue(sysFrontendDto.getSortValue());
+        sysFrontendMenuTable.setParentId(Long.valueOf(sysFrontendDto.getParentId()));
+        sysFrontendMenuTable.setReadonly(sysFrontendDto.getReadOnly());
+        sysFrontendMenuTable.setIsGeneral(sysFrontendDto.getKeepAlive());
+        sysFrontendMenuTable.setIcon(sysFrontendDto.getIcon());
+        sysFrontendMenuTable.setDescribe(sysFrontendDto.getDescribe());
+
+        return sysFrontendMenuTable;
     }
 
+    @Override
+    public List<SysFrontendMenuTable> selectByAll() {
+        return sysFrontendMenuTableMapper.selectByAll();
+    }
 
 }

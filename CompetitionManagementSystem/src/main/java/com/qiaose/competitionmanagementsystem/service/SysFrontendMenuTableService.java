@@ -22,7 +22,6 @@ public interface SysFrontendMenuTableService{
 
     List<SysFrontendMenuTable> selectByParentId(Long id);
 
-    SysFrontendDto F_PoToDto(SysFrontendMenuTable sysFrontendMenuTable);
 
     SysFrontendMenuTable selectByPrimaryKeyTwo(long id);
 
@@ -30,5 +29,8 @@ public interface SysFrontendMenuTableService{
 
     List<SysFrontendMenuTable> listWithTree(Long id);
 
-    SysFrontendDto PoToDto(SysFrontendMenuTable sysFrontendMenuTable);
+    SysFrontendMenuTable F_DtoToF_Po(SysFrontendDto sysFrontendDto);
+
+    List<SysFrontendMenuTable> selectByAll();
+
 }

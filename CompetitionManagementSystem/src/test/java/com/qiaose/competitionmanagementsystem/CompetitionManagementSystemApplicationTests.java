@@ -4,7 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
+import com.qiaose.competitionmanagementsystem.controller.UserController;
 import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.entity.User;
+
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
@@ -29,6 +32,9 @@ class CompetitionManagementSystemApplicationTests {
     @Autowired
     SysFrontendMenuTableService sysFrontendMenuTableService;
 
+    @Autowired
+    UserController controller;
+
 
     @Test
     public void Json(){
@@ -40,6 +46,15 @@ class CompetitionManagementSystemApplicationTests {
         System.out.println(s);
     }
 
+
+    @Test
+    public void Register(){
+        User user = new User();
+        user.setPassword("123456");
+        user.setAccountName("lisi");
+        R register = controller.register(user);
+        System.out.println(register);
+    }
 
 
     @Test
@@ -62,6 +77,24 @@ class CompetitionManagementSystemApplicationTests {
     }
 
 
+
+
+    @Test
+    public void PoDtoTest(){
+
+        SysFrontendDto sysFrontendDto = new SysFrontendDto();
+        sysFrontendDto.setDescribe("123465");
+        sysFrontendDto.setPath("/**");
+        sysFrontendDto.setLabel("nini");
+        sysFrontendDto.setIcon("dfds");
+        sysFrontendDto.setKeepAlive(false);
+        sysFrontendDto.setSortValue(100);
+        sysFrontendDto.setState("dsfs");
+        sysFrontendDto.setParentId(100L);
+        sysFrontendDto.setReadOnly(true);
+        SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.F_DtoToF_Po(sysFrontendDto);
+        System.out.println(sysFrontendMenuTable);
+    }
 
     @Test
     void contextLoads() {

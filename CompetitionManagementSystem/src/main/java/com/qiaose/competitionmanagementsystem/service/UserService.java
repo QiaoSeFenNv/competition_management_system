@@ -28,4 +28,5 @@ public interface UserService{
 
     UserDto PoToDto(User user);
 
+    Boolean register(User user) throws Exception;
 }
