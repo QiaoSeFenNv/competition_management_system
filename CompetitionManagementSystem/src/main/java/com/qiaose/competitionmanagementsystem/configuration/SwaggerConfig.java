@@ -38,9 +38,9 @@ public class SwaggerConfig {
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Spring Boot中使用Swagger2构建RESTful APIs")
+                .title("Spring Boot 整合 Vue 开发竞赛管理系统")
                 .description("竞赛管理系统api")
-                .termsOfServiceUrl("https://gitee.com/qiaosefennv/competition_ms.git")
+                .termsOfServiceUrl("https://gitee.com/qiaosefennv/")
                 .version("1.0")
                 .build();
     }

@@ -28,7 +28,7 @@ import java.util.*;
 @Slf4j
 @RestController
 @Api(value = "用户接口")
-@RequestMapping("user")
+@RequestMapping("/user")
 public class UserController {
 
 
@@ -76,6 +76,22 @@ public class UserController {
     }
 
 
+
+
+    /**
+     * 添加用户、用户自行注册。
+     * @param userVo
+     * @return
+     */
+//    @PostMapping("/register")
+//    public R register(@RequestBody(required = false) User user) {
+//        try {
+//            System.out.println("registerVo = " + userVo);
+//            return  R.ok(userService.register(userVo));
+//        }catch (Exception e){
+//            return R.failed(e.getMessage());
+//        }
+//    }
 
 
 

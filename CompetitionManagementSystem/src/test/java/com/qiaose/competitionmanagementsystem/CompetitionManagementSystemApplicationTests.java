@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
@@ -7,6 +8,7 @@ import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
+import com.qiaose.competitionmanagementsystem.utils.TaleUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,18 +31,13 @@ class CompetitionManagementSystemApplicationTests {
 
 
     @Test
-    public void getCurMenu(){
-//        SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.selectByPrimaryKey(1L);
-//        List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.selectByParentId(sysFrontendMenuTable.getId());
-//        sysFrontendMenuTable.setChildrenList();
-//        SysFrontendDto sysFrontendDto = sysFrontendMenuTableService.F_PoToDto(sysFrontendMenuTable);
-
-//        //最外层变为数组
-//        List<SysFrontendDto> result = new ArrayList<>();
-//        result.add(sysFrontendDto);
-//
-//        System.out.println(R.ok(result));
-
+    public void Json(){
+        SysFrontendMenuTable sysFrontendMenuTable = new SysFrontendMenuTable();
+        sysFrontendMenuTable.setId(1L);
+        sysFrontendMenuTable.setDescribe("10");
+        sysFrontendMenuTable.setLabel("ss");
+        String s = TaleUtils.filterFieldsJson(sysFrontendMenuTable, SysFrontendMenuTable.class, "path", "id");
+        System.out.println(s);
     }
 
 

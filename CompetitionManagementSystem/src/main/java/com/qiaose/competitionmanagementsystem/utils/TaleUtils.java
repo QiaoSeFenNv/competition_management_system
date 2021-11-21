@@ -1,5 +1,7 @@
 package com.qiaose.competitionmanagementsystem.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.qiaose.competitionmanagementsystem.controller.AttachController;
 import org.apache.commons.lang3.StringUtils;
 
@@ -69,6 +71,14 @@ public class TaleUtils {
             return prefix + "/" + UUID.randomUUID() + "." + (ext == null ? null : (ext));
         }
     }
+
+
+    public static String filterFieldsJson(Object src, Class<?> clazz, String... args)
+    {
+        SimplePropertyPreFilter filter = new SimplePropertyPreFilter(clazz, args);
+        return JSON.toJSONString(src, filter);
+    }
+
 
 
 

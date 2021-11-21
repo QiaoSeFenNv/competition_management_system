@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.SysFrontendMenuTableMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+    <!--@mbg.generated-->
+    <!--@Table sys_frontend_menu_table-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="label" jdbcType="VARCHAR" property="label" />
+    <result column="describe_" jdbcType="VARCHAR" property="describe" />
+    <result column="is_general" jdbcType="BIT" property="isGeneral" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="redirect" jdbcType="VARCHAR" property="redirect" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+    <result column="state" jdbcType="BIT" property="state" />
+    <result column="sort_value" jdbcType="INTEGER" property="sortValue" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="group_" jdbcType="VARCHAR" property="group" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="readonly_" jdbcType="BIT" property="readonly" />
+    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updated_by" jdbcType="BIGINT" property="updatedBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `label`, describe_, is_general, `path`, redirect, component, `state`, sort_value, 
+    icon, group_, parent_id, readonly_, created_by, create_time, updated_by, update_time
+  </sql>
+
+  <sql id="MY_Column_List">
+    <!--@mbg.generated-->
+    id, `label`, describe_, `path`, redirect, component,
+    icon, parent_id
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_frontend_menu_table
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByPrimaryKeyTwo" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="MY_Column_List" />
+    from sys_frontend_menu_table
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByParentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from sys_frontend_menu_table
+    where parent_id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <select id="selectByAll" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="MY_Column_List" />
+    from sys_frontend_menu_table
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from sys_frontend_menu_table
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+    <!--@mbg.generated-->
+    insert into sys_frontend_menu_table (id, `label`, describe_, 
+      is_general, `path`, redirect, 
+      component, `state`, sort_value, 
+      icon, group_, parent_id, 
+      readonly_, created_by, create_time, 
+      updated_by, update_time)
+    values (#{id,jdbcType=BIGINT}, #{label,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
+      #{isGeneral,jdbcType=BIT}, #{path,jdbcType=VARCHAR}, #{redirect,jdbcType=VARCHAR}, 
+      #{component,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, #{sortValue,jdbcType=INTEGER}, 
+      #{icon,jdbcType=VARCHAR}, #{group,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
+      #{readonly,jdbcType=BIT}, #{createdBy,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+    <!--@mbg.generated-->
+    insert into sys_frontend_menu_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="label != null">
+        `label`,
+      </if>
+      <if test="describe != null">
+        describe_,
+      </if>
+      <if test="isGeneral != null">
+        is_general,
+      </if>
+      <if test="path != null">
+        `path`,
+      </if>
+      <if test="redirect != null">
+        redirect,
+      </if>
+      <if test="component != null">
+        component,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="sortValue != null">
+        sort_value,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="group != null">
+        group_,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="readonly != null">
+        readonly_,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updatedBy != null">
+        updated_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="isGeneral != null">
+        #{isGeneral,jdbcType=BIT},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="redirect != null">
+        #{redirect,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null">
+        #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=BIT},
+      </if>
+      <if test="sortValue != null">
+        #{sortValue,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="group != null">
+        #{group,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="readonly != null">
+        #{readonly,jdbcType=BIT},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+    <!--@mbg.generated-->
+    update sys_frontend_menu_table
+    <set>
+      <if test="label != null">
+        `label` = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        describe_ = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="isGeneral != null">
+        is_general = #{isGeneral,jdbcType=BIT},
+      </if>
+      <if test="path != null">
+        `path` = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="redirect != null">
+        redirect = #{redirect,jdbcType=VARCHAR},
+      </if>
+      <if test="component != null">
+        component = #{component,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=BIT},
+      </if>
+      <if test="sortValue != null">
+        sort_value = #{sortValue,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="group != null">
+        group_ = #{group,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="readonly != null">
+        readonly_ = #{readonly,jdbcType=BIT},
+      </if>
+      <if test="createdBy != null">
+        created_by = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        updated_by = #{updatedBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+    <!--@mbg.generated-->
+    update sys_frontend_menu_table
+    set `label` = #{label,jdbcType=VARCHAR},
+      describe_ = #{describe,jdbcType=VARCHAR},
+      is_general = #{isGeneral,jdbcType=BIT},
+      `path` = #{path,jdbcType=VARCHAR},
+      redirect = #{redirect,jdbcType=VARCHAR},
+      component = #{component,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=BIT},
+      sort_value = #{sortValue,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      group_ = #{group,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      readonly_ = #{readonly,jdbcType=BIT},
+      created_by = #{createdBy,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

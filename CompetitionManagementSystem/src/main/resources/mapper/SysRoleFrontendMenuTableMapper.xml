@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.SysRoleFrontendMenuTableMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable">
+    <!--@mbg.generated-->
+    <!--@Table sys_role_frontend_menu_table-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="authority_id" jdbcType="BIGINT" property="authorityId" />
+    <result column="authority_type" jdbcType="VARCHAR" property="authorityType" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, authority_id, authority_type, role_id, create_time, created_by
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role_frontend_menu_table
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByRoleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from sys_role_frontend_menu_table
+    where role_id = #{roleId,jdbcType=BIGINT}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from sys_role_frontend_menu_table
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable">
+    <!--@mbg.generated-->
+    insert into sys_role_frontend_menu_table (id, authority_id, authority_type, 
+      role_id, create_time, created_by
+      )
+    values (#{id,jdbcType=BIGINT}, #{authorityId,jdbcType=BIGINT}, #{authorityType,jdbcType=VARCHAR}, 
+      #{roleId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable">
+    <!--@mbg.generated-->
+    insert into sys_role_frontend_menu_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="authorityId != null">
+        authority_id,
+      </if>
+      <if test="authorityType != null">
+        authority_type,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="authorityId != null">
+        #{authorityId,jdbcType=BIGINT},
+      </if>
+      <if test="authorityType != null">
+        #{authorityType,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable">
+    <!--@mbg.generated-->
+    update sys_role_frontend_menu_table
+    <set>
+      <if test="authorityId != null">
+        authority_id = #{authorityId,jdbcType=BIGINT},
+      </if>
+      <if test="authorityType != null">
+        authority_type = #{authorityType,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        created_by = #{createdBy,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable">
+    <!--@mbg.generated-->
+    update sys_role_frontend_menu_table
+    set authority_id = #{authorityId,jdbcType=BIGINT},
+      authority_type = #{authorityType,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
