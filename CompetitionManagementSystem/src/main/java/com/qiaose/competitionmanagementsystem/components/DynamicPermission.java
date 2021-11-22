@@ -58,10 +58,10 @@ public class DynamicPermission {
             //通用户表获得角色号
             User user = userService.selectByAccountName(username);
             String roleId = user.getRoleId();
-
+            System.out.println(roleId);
             //通过中间表来查询api号
             List<SysRoleBackendApiTable> sysRoleBackendApiTable = sysRoleBackendApiTableService.selectByRoleId(roleId);
-
+            System.out.println(sysRoleBackendApiTable);
             for (SysRoleBackendApiTable roleBackendApiTable : sysRoleBackendApiTable) {
                 System.out.println(roleBackendApiTable.getBackendApiId());
             }

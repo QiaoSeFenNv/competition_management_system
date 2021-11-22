@@ -55,7 +55,7 @@ public class UserController {
 
 
     @GetMapping("/getUserInfo")
-    @ApiOperation(value="查询用户信息", notes="由前端请求头中获取token,在利用token获得用户信息")
+    @ApiOperation(value="查询自己的用户信息", notes="由前端请求头中获取token,在利用token获得用户信息")
     public R getUser(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         System.out.println(token);

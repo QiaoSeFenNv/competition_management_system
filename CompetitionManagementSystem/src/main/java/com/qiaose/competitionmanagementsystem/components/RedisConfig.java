@@ -18,6 +18,10 @@ public class RedisConfig {
      * @param redisConnectionFactory
      * @return
      */
+
+
+
+
     @Bean
     public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
         //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值（默认使用JDK的序列化方式）

@@ -83,10 +83,10 @@ public class FrontendMenuController {
         //数据插入菜单表
         SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.F_DtoToF_Po(sysFrontendDto);
         Long id = IDUtils.CreateId();
-        System.out.println(id);
         sysFrontendMenuTable.setId(id);
         sysFrontendMenuTable.setCreatedBy(Long.valueOf(roleId));
         sysFrontendMenuTable.setCreateTime(DateKit.getNow());
+
         sysFrontendMenuTable.setComponent(sysFrontendDto.getComponent());
         //判断path是否重复
         if (!Duplicate_Path(sysFrontendMenuTable)) {
@@ -103,7 +103,6 @@ public class FrontendMenuController {
         sysRoleFrontendMenuTable.setId(IDUtils.CreateId());
         sysRoleFrontendMenuTable.setAuthorityType("MENU");
         sysRoleFrontendMenuTable.setCreateTime(DateKit.getNow());
-        sysRoleFrontendMenuTable.setAuthorityId(Long.valueOf(roleId));
         //完成插入角色菜单表
         int i1 = sysRoleFrontendMenuTableService.insertSelective(sysRoleFrontendMenuTable);
         if ( i !=1 || i1 !=1){
@@ -128,9 +127,6 @@ public class FrontendMenuController {
         frontendMenuTable.setUpdateTime(DateKit.getNowTime());
         frontendMenuTable.setUpdatedBy(1L);
 
-        if (!Duplicate_Path(frontendMenuTable)) {
-            return R.failed("Path重复，更新失败");
-        }
 
         //path是唯一的不能重复
         int i = sysFrontendMenuTableService.updateByPrimaryKeySelective(frontendMenuTable);
@@ -154,6 +150,7 @@ public class FrontendMenuController {
 
         //path是唯一的不能重复
         int i = sysFrontendMenuTableService.deleteByPrimaryKey(sysFrontendDto.getId());
+
         //完成插入角色菜单表
         if ( i !=1 ){
             return R.failed("删除失败");
@@ -192,6 +189,8 @@ public class FrontendMenuController {
         }
         return true;
     }
+
+
 
 }
 

@@ -51,14 +51,15 @@ public class MyAuthenticationSuccessHandler extends JSONAuthentication implement
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //只要token还在过期内，不需要每次重新生成
         //去redis中根据用户名找token
-        String token = stringRedisTemplate.opsForValue().get(userDetails.getUsername());
-        log.info("用户信息：账号名称：{},token：{},",userDetails.getUsername(),token);
+
+        String token = stringRedisTemplate.opsForValue().get(userDetails.getUsername()+userDetails.getPassword());
         if(token ==null) {
             //如果token为空，则去创建一个新的token
             token = jwtTokenUtil.generateToken(userDetails);
             //将新的token存到redis中，并且设置token过期时间
-            stringRedisTemplate.opsForValue().set(userDetails.getUsername(),token);
-            stringRedisTemplate.expire(userDetails.getUsername(), Duration.ofDays(7));
+//            stringRedisTemplate.opsForValue().set(userDetails.getUsername(),token);
+            stringRedisTemplate.opsForValue().set(userDetails.getUsername()+userDetails.getPassword(),token);
+            stringRedisTemplate.expire(userDetails.getUsername()+userDetails.getPassword(), Duration.ofDays(7));
         }
 
         //前端菜单获取放在api里了

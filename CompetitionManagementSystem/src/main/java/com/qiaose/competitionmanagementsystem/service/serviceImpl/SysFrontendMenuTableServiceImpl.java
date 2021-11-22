@@ -119,7 +119,10 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         sysFrontendMenuTable.setPath(sysFrontendDto.getPath());
         sysFrontendMenuTable.setState(Boolean.valueOf(sysFrontendDto.getState()));
         sysFrontendMenuTable.setSortValue(sysFrontendDto.getSortValue());
-        sysFrontendMenuTable.setParentId(Long.valueOf(sysFrontendDto.getParentId()));
+        if (sysFrontendDto.getParentId()!=null){
+            sysFrontendMenuTable.setParentId(Long.valueOf(sysFrontendDto.getParentId()));
+        }
+
         sysFrontendMenuTable.setReadonly(sysFrontendDto.getReadOnly());
         sysFrontendMenuTable.setIsGeneral(sysFrontendDto.getKeepAlive());
         sysFrontendMenuTable.setIcon(sysFrontendDto.getIcon());

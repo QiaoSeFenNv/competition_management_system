@@ -3,6 +3,8 @@ package com.qiaose.competitionmanagementsystem.configuration.auth;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -19,13 +21,13 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class MyLogoutSuccessHandler extends JSONAuthentication implements LogoutSuccessHandler {
+
+
     @Override
     public void onLogoutSuccess(HttpServletRequest request,
                                 HttpServletResponse response,
                                 Authentication authentication) throws IOException, ServletException {
 
-        AuthUser principal = (AuthUser)authentication.getPrincipal();
-        log.info("用户：{}退出",principal.getUsername());
         R<String> data = R.ok("退出成功");
         super.WriteJSON(request,response,data);
     }

@@ -28,8 +28,6 @@ public class BackendApiController {
 
 
 
-
-
     @GetMapping("/getAllApi")
     @ApiOperation(value="返回所有的权限接口",notes="")
     public R getAllApi(){
