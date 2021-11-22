@@ -29,6 +29,9 @@
     where role_id = #{roleId,jdbcType=VARCHAR}
   </select>
 
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from sys_role_backend_api_table

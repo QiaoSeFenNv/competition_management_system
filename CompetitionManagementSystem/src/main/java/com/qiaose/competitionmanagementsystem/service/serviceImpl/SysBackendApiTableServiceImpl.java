@@ -2,6 +2,7 @@ package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
 
 import com.qiaose.competitionmanagementsystem.entity.SysBackendApiTable;
+import com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable;
 import com.qiaose.competitionmanagementsystem.mapper.SysBackendApiTableMapper;
 import com.qiaose.competitionmanagementsystem.service.SysBackendApiTableService;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,11 @@ public class SysBackendApiTableServiceImpl implements SysBackendApiTableService 
     @Override
     public SysBackendApiTable selectByPrimaryKey(String backendApiId) {
         return sysBackendApiTableMapper.selectByPrimaryKey(backendApiId);
+    }
+
+    @Override
+    public List<SysBackendApiTable> selectByAll() {
+        return sysBackendApiTableMapper.selectByAll();
     }
 
     @Override

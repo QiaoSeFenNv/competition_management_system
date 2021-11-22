@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@Api(value = "菜单接口")
+@Api(value = "前台菜单接口")
 @RequestMapping("/front")
 public class FrontendMenuController {
 
@@ -68,7 +68,7 @@ public class FrontendMenuController {
 
     @PostMapping("/insert")
     @ApiOperation(value = "插入菜单信息", notes = "需要前端传入body和请求头")
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R InsertFrontMenu(@RequestBody SysFrontendDto sysFrontendDto,HttpServletRequest request){
         if(sysFrontendDto == null || sysFrontendDto.getLabel() == null){
             return R.ok("填写为空信息");
@@ -87,7 +87,7 @@ public class FrontendMenuController {
         sysFrontendMenuTable.setId(id);
         sysFrontendMenuTable.setCreatedBy(Long.valueOf(roleId));
         sysFrontendMenuTable.setCreateTime(DateKit.getNow());
-
+        sysFrontendMenuTable.setComponent(sysFrontendDto.getComponent());
         //判断path是否重复
         if (!Duplicate_Path(sysFrontendMenuTable)) {
             return R.failed("Path重复，插入失败");
@@ -99,7 +99,6 @@ public class FrontendMenuController {
         //创建一个RoleFront表
         SysRoleFrontendMenuTable sysRoleFrontendMenuTable = new SysRoleFrontendMenuTable();
         sysRoleFrontendMenuTable.setRoleId(Long.valueOf(roleId));
-//        sysRoleFrontendMenuTable.setRoleId(Long.valueOf(1));
         sysRoleFrontendMenuTable.setAuthorityId(id);
         sysRoleFrontendMenuTable.setId(IDUtils.CreateId());
         sysRoleFrontendMenuTable.setAuthorityType("MENU");
@@ -117,8 +116,8 @@ public class FrontendMenuController {
 
 
     @PostMapping("/update")
-    @ApiOperation(value = "更新菜单信息", notes = "需要前端传入body和请求头")
-    @Transactional
+    @ApiOperation(value = "更新菜单信息", notes = "需要前端传入body")
+    @Transactional(rollbackFor = Exception.class)
     public R UpdateFrontMenu(@RequestBody SysFrontendDto sysFrontendDto){
         if(sysFrontendDto == null || sysFrontendDto.getLabel() == null){
             return R.ok("填写为空信息");
@@ -146,7 +145,7 @@ public class FrontendMenuController {
 
     @PostMapping("/delete")
     @ApiOperation(value = "删除菜单信息", notes = "需要前端传送一个id号")
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public R DeleteFrontMenu(@RequestBody SysFrontendDto sysFrontendDto){
         //如果是body则就这样做
         if (sysFrontendDto.getId()==null){
@@ -163,10 +162,10 @@ public class FrontendMenuController {
     }
 
 
-
     @GetMapping("/getMenuAllList")
-    @ApiOperation(value = "返回所有初始菜单", notes = "需要用户传入请求头，从中获取个人信息")
+    @ApiOperation(value = "返回所有初始菜单", notes = "不需要任何信息")
     public R getAllMenu() {
+        //树状结构
         List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.selectByAll();
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
         for (SysFrontendMenuTable frontendMenuTable : sysFrontendMenuTables) {

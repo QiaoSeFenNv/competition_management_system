@@ -19,6 +19,8 @@ public class SysFrontendDto{
 
     private String describe;
 
+    private String component;
+
     private String label;
 
     private String state;

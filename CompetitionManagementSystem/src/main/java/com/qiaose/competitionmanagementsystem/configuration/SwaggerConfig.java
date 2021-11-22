@@ -40,7 +40,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("Spring Boot 整合 Vue 开发竞赛管理系统")
                 .description("竞赛管理系统api")
-                .termsOfServiceUrl("https://gitee.com/qiaosefennv/")
+                .termsOfServiceUrl("https://gitee.com/")
                 .version("1.0")
                 .build();
     }
