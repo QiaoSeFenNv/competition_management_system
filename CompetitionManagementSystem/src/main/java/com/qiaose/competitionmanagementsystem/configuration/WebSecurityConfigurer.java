@@ -82,11 +82,11 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 //测试放行
                 .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers(HttpMethod.POST,"/user/register").permitAll()
                 .antMatchers(HttpMethod.GET,"/login").permitAll()
                 .antMatchers("/images/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/insert").permitAll()
+                .antMatchers(HttpMethod.POST,"/update").permitAll()
                 .antMatchers(HttpMethod.GET,"/getMenuAllList").permitAll()
+                .antMatchers(HttpMethod.POST,"/delete").permitAll()
                 //动态加载资源
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
 

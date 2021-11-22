@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 public class SysFrontendDto{
 
+    private Long id;
 
     private String path;
 
