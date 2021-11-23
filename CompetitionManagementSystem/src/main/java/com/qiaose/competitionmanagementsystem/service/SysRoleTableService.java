@@ -3,6 +3,7 @@ package com.qiaose.competitionmanagementsystem.service;
 
 
 import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
+import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface SysRoleTableService{
     int updateByPrimaryKey(SysRoleTable record);
 
     List<SysRoleTable> selectAll();
+
+    public SysRoleTable R_PoToDto(SysRoleDto sysRoleDto);
 }

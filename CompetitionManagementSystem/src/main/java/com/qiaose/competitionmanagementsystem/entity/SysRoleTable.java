@@ -28,5 +28,7 @@ public class SysRoleTable implements Serializable {
     */
     private String description;
 
+    
+
     private static final long serialVersionUID = 1L;
 }

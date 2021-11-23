@@ -2,8 +2,10 @@ package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
 
 import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
+import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
 import com.qiaose.competitionmanagementsystem.mapper.SysRoleTableMapper;
 import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
+import io.netty.util.internal.StringUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -48,6 +50,18 @@ public class SysRoleTableServiceImpl implements SysRoleTableService {
     @Override
     public List<SysRoleTable> selectAll() {
         return sysRoleTableMapper.selectAll();
+    }
+
+    @Override
+    public SysRoleTable R_PoToDto(SysRoleDto sysRoleDto) {
+        SysRoleTable sysRoleTable = new SysRoleTable();
+        if (!StringUtil.isNullOrEmpty( sysRoleDto.getRoleId()))
+            sysRoleTable.setRoleId(sysRoleDto.getRoleId());
+        if (!StringUtil.isNullOrEmpty( sysRoleDto.getRoleName()))
+            sysRoleTable.setRoleName(sysRoleDto.getRoleName());
+        if (!StringUtil.isNullOrEmpty( sysRoleDto.getDescription()))
+            sysRoleTable.setDescription(sysRoleDto.getDescription());
+        return sysRoleTable;
     }
 
 }
