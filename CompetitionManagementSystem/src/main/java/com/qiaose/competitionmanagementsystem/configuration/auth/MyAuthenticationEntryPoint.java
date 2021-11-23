@@ -21,7 +21,7 @@ public class MyAuthenticationEntryPoint extends JSONAuthentication  implements A
                          AuthenticationException authException) throws IOException, ServletException {
 
         R<String> data = R.failed("访问此资源需要完全身份验证（"+authException.getMessage()+"）！");
-        response.setStatus(404);
+        response.setStatus(401);
         //输出
         this.WriteJSON(request, response, data);
     }
