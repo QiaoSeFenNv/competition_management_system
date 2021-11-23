@@ -21,4 +21,5 @@ public interface SysRoleFrontendMenuTableService{
 
     List<SysRoleFrontendMenuTable> selectByRoleId(Long roleId);
 
+    int deleteByAuthorityId(Long id);
 }

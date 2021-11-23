@@ -50,4 +50,9 @@ public class SysRoleBackendApiTableServiceImpl implements SysRoleBackendApiTable
         return sysRoleBackendApiTableMapper.selectByRoleId(roleId);
     }
 
+    @Override
+    public int deleteByBackApiId(String backendApiId) {
+        return sysRoleBackendApiTableMapper.deleteByBackApiId(backendApiId);
+    }
+
 }

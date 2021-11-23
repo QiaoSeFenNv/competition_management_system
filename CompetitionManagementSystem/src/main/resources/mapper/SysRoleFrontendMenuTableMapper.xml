@@ -35,8 +35,16 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from sys_role_frontend_menu_table
+    where authority_id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <delete id="deleteByAuthorityId" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from sys_role_frontend_menu_table
     where id = #{id,jdbcType=BIGINT}
   </delete>
+
+
   <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable">
     <!--@mbg.generated-->
     insert into sys_role_frontend_menu_table (id, authority_id, authority_type, 

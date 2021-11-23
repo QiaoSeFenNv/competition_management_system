@@ -7,6 +7,8 @@ import java.util.List;
 public interface SysRoleBackendApiTableMapper {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByBackApiId(String backendApiId);
+
     int insert(SysRoleBackendApiTable record);
 
     int insertSelective(SysRoleBackendApiTable record);

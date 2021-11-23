@@ -40,10 +40,6 @@ public class FrontendMenuController {
     @GetMapping("/getMenuList")
     @ApiOperation(value = "返回角色初始菜单", notes = "需要用户传入请求头，从中获取个人信息")
     public R getCurMenu(HttpServletRequest request) {
-//        String token = request.getHeader("Authorization");
-//        System.out.println(token);
-//        String username = jwtTokenUtil.getUsernameFromToken(token);
-//        User user = userService.selectByAccountName(username);
         User user = myUtils.TokenGetUserByName(request);
         List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable = sysRoleFrontendMenuTableService.selectByRoleId(Long.valueOf(user.getRoleId()));
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
@@ -53,8 +49,6 @@ public class FrontendMenuController {
                 sysFrontendDtos.add(sysFrontendMenuTable);
             }
         }
-
-//        String s = JSONObject.toJSONString(sysFrontendDtos);
         return R.ok(sysFrontendDtos);
     }
 
@@ -73,39 +67,24 @@ public class FrontendMenuController {
         if(sysFrontendDto == null || sysFrontendDto.getLabel() == null){
             return R.ok("填写为空信息");
         }
-        //获取角色id
-//        String token = request.getHeader("Authorization");
-//        System.out.println(token);
-//        String username = jwtTokenUtil.getUsernameFromToken(token);
-//        User user = userService.selectByAccountName(username);
         User user = myUtils.TokenGetUserByName(request);
         String roleId = user.getRoleId();
         //数据插入菜单表
         SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.F_DtoToF_Po(sysFrontendDto);
         Long id = IDUtils.CreateId();
         sysFrontendMenuTable.setId(id);
+        //请求头来获取角色id 创建者
         sysFrontendMenuTable.setCreatedBy(Long.valueOf(roleId));
         sysFrontendMenuTable.setCreateTime(DateKit.getNow());
-
+        sysFrontendMenuTable.setUpdateTime(DateKit.getNowTime());
         sysFrontendMenuTable.setComponent(sysFrontendDto.getComponent());
         //判断path是否重复
         if (!Duplicate_Path(sysFrontendMenuTable)) {
             return R.failed("Path重复，插入失败");
         }
-
         //完成一次菜单表插入
         int i = sysFrontendMenuTableService.insertSelective(sysFrontendMenuTable);
-
-        //创建一个RoleFront表
-        SysRoleFrontendMenuTable sysRoleFrontendMenuTable = new SysRoleFrontendMenuTable();
-        sysRoleFrontendMenuTable.setRoleId(Long.valueOf(roleId));
-        sysRoleFrontendMenuTable.setAuthorityId(id);
-        sysRoleFrontendMenuTable.setId(IDUtils.CreateId());
-        sysRoleFrontendMenuTable.setAuthorityType("MENU");
-        sysRoleFrontendMenuTable.setCreateTime(DateKit.getNow());
-        //完成插入角色菜单表
-        int i1 = sysRoleFrontendMenuTableService.insertSelective(sysRoleFrontendMenuTable);
-        if ( i !=1 || i1 !=1){
+        if ( i <=0 ){
             return R.failed("插入失败");
         }
 
@@ -115,23 +94,22 @@ public class FrontendMenuController {
 
 
     @PostMapping("/update")
-    @ApiOperation(value = "更新菜单信息", notes = "需要前端传入body")
+    @ApiOperation(value = "更新菜单信息", notes = "需要前端传入body和请求头")
     @Transactional(rollbackFor = Exception.class)
-    public R UpdateFrontMenu(@RequestBody SysFrontendDto sysFrontendDto){
+    public R UpdateFrontMenu(@RequestBody SysFrontendDto sysFrontendDto,HttpServletRequest request){
         if(sysFrontendDto == null || sysFrontendDto.getLabel() == null){
             return R.ok("填写为空信息");
         }
-
+        User user = myUtils.TokenGetUserByName(request);
+        String roleId = user.getRoleId();
         SysFrontendMenuTable frontendMenuTable = sysFrontendMenuTableService.F_DtoToF_Po(sysFrontendDto);
         frontendMenuTable.setId(sysFrontendDto.getId());
         frontendMenuTable.setUpdateTime(DateKit.getNowTime());
-        frontendMenuTable.setUpdatedBy(1L);
+        frontendMenuTable.setUpdatedBy(Long.valueOf(roleId));
 
-
-        //path是唯一的不能重复
         int i = sysFrontendMenuTableService.updateByPrimaryKeySelective(frontendMenuTable);
         //完成插入角色菜单表
-        if ( i !=1 ){
+        if ( i <=0 ){
             return R.failed("更新失败");
         }
         return R.ok("更新成功");
@@ -150,9 +128,11 @@ public class FrontendMenuController {
 
         //path是唯一的不能重复
         int i = sysFrontendMenuTableService.deleteByPrimaryKey(sysFrontendDto.getId());
+        //删除前端表，中间表会出现查询空数据，是否对应删除  别删除可能后面要还原
+//        int j = sysRoleFrontendMenuTableService.deleteByAuthorityId(sysFrontendDto.getId());
 
         //完成插入角色菜单表
-        if ( i !=1 ){
+        if ( i <=0){
             return R.failed("删除失败");
         }
         return R.ok("删除成功");

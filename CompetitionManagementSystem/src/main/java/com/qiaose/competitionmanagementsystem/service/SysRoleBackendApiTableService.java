@@ -20,4 +20,6 @@ public interface SysRoleBackendApiTableService{
     int updateByPrimaryKey(SysRoleBackendApiTable record);
 
     List<SysRoleBackendApiTable> selectByRoleId(String roleId);
+
+    int deleteByBackApiId(String backendApiId);
 }

@@ -37,6 +37,13 @@
     delete from sys_role_backend_api_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+  <delete id="deleteByBackApiId" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from sys_role_backend_api_table
+    where backend_api_id = #{backendApiId,jdbcType=VARCHAR}
+  </delete>
+
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into sys_role_backend_api_table (role_id, backend_api_id)

@@ -7,6 +7,8 @@ import java.util.List;
 public interface SysRoleFrontendMenuTableMapper {
     int deleteByPrimaryKey(Long id);
 
+    int deleteByAuthorityId(Long id);
+
     int insert(SysRoleFrontendMenuTable record);
 
     int insertSelective(SysRoleFrontendMenuTable record);
