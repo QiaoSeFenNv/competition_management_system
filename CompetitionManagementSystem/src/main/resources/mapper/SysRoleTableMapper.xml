@@ -21,7 +21,12 @@
   </select>
 
 
-
+  <select id="selectAll"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from sys_role_table
+  </select>
 
 
 

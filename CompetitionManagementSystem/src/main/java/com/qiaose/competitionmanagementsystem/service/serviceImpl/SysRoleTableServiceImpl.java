@@ -45,4 +45,9 @@ public class SysRoleTableServiceImpl implements SysRoleTableService {
         return sysRoleTableMapper.updateByPrimaryKey(record);
     }
 
+    @Override
+    public List<SysRoleTable> selectAll() {
+        return sysRoleTableMapper.selectAll();
+    }
+
 }

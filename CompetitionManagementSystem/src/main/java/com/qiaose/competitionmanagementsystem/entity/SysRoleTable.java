@@ -1,5 +1,7 @@
 package com.qiaose.competitionmanagementsystem.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,6 +15,7 @@ public class SysRoleTable implements Serializable {
     /**
     * 角色号
     */
+    @TableId(type= IdType.AUTO)
     private String roleId;
 
     /**

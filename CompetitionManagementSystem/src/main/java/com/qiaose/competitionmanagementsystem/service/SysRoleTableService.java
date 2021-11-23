@@ -21,4 +21,5 @@ public interface SysRoleTableService{
 
     int updateByPrimaryKey(SysRoleTable record);
 
+    List<SysRoleTable> selectAll();
 }
