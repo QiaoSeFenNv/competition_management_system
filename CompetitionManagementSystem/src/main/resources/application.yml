@@ -10,6 +10,9 @@ mybatis:
     type-aliases-package: com.qiaose.competitionmanagementsystem.mapper
 pagehelper:
     helper-dialect: mysql
+    params: count=countSql
+    reasonable: true
+    support-methods-arguments: true
 
 
 server:

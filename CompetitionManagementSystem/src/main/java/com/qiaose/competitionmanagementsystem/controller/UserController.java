@@ -47,13 +47,14 @@ public class UserController {
     JwtTokenUtil jwtTokenUtil;
 
 
-    @GetMapping("/search/{pageNum}/{pageSize}")
+    @GetMapping("/search")
     @ApiOperation(value="查询所有用户", notes="显示所有用户数据,封装未R.ok类型")
-    public R getList(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "2", value = "pageSize") Integer pageSize) {
+    public PageInfo<User> getList(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "2", value = "pageSize") Integer pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<User> list =  userService.list();
         PageInfo<User> pageInfo = new PageInfo<>(list);
-        return  R.ok(pageInfo);
+
+        return  pageInfo;
     }
 
 

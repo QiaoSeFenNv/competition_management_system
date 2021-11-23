@@ -2,13 +2,17 @@ package com.qiaose.competitionmanagementsystem;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.controller.UserController;
+import com.qiaose.competitionmanagementsystem.entity.SysBackendApiTable;
 import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.User;
 
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
+import com.qiaose.competitionmanagementsystem.service.SysBackendApiTableService;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import com.qiaose.competitionmanagementsystem.utils.TaleUtils;
@@ -35,6 +39,21 @@ class CompetitionManagementSystemApplicationTests {
     @Autowired
     UserController controller;
 
+
+    @Autowired
+    SysBackendApiTableService sysBackendApiTableService;
+
+
+
+    @Test
+    public void Page(){
+
+        PageHelper.startPage(1,2);
+        List<SysBackendApiTable> sysBackendApiTables = sysBackendApiTableService.selectByAll();
+        PageInfo<SysBackendApiTable> pageInfo = new PageInfo<>(sysBackendApiTables);
+        System.out.println(pageInfo);
+
+    }
 
     @Test
     public void Json(){
