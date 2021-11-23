@@ -2,6 +2,8 @@ package com.qiaose.competitionmanagementsystem.controller;
 
 
 import com.baomidou.mybatisplus.extension.api.R;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleUserTable;
@@ -45,12 +47,17 @@ public class UserController {
     JwtTokenUtil jwtTokenUtil;
 
 
-    @GetMapping("/search")
+    @GetMapping("/search/{pageNum}/{pageSize}")
     @ApiOperation(value="查询所有用户", notes="显示所有用户数据,封装未R.ok类型")
-    public R getList() {
+    public R getList(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "2", value = "pageSize") Integer pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
         List<User> list =  userService.list();
-        return  R.ok(list);
+        PageInfo<User> pageInfo = new PageInfo<>(list);
+        return  R.ok(pageInfo);
     }
+
+
+
 
 
 
