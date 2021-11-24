@@ -42,13 +42,13 @@ public class FrontendMenuController {
     @GetMapping("/getMenuList")
     @ApiOperation(value = "返回角色初始菜单", notes = "需要用户传入请求头，从中获取个人信息")
     public R getCurMenu(HttpServletRequest request,
-                        @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,
+                        @RequestParam(defaultValue = "1", value = "page") Integer page,
                         @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
 
         User user = myUtils.TokenGetUserByName(request);
         List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable = sysRoleFrontendMenuTableService.selectByRoleId(Long.valueOf(user.getRoleId()));
 
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(page,pageSize);
 
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
         for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTable) {

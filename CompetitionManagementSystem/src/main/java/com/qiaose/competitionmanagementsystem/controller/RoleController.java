@@ -35,10 +35,10 @@ public class RoleController {
 
     @GetMapping("/getAllRoles")
     @ApiOperation(value = "返回所有角色", notes = "不需要发送任何请求")
-    public R getAllRoles(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,
+    public R getAllRoles(@RequestParam(defaultValue = "1", value = "page") Integer page,
                          @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize
     ) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(page,pageSize);
         List<SysRoleTable> sysRoleTables = sysRoleTableService.selectAll();
 
         PageInfo<SysRoleTable> pageInfo = new PageInfo<>(sysRoleTables);
