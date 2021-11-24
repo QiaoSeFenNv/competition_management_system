@@ -48,9 +48,9 @@ public class UserController {
 
     @GetMapping("/search")
     @ApiOperation(value="查询所有用户", notes="显示所有用户数据,封装未R.ok类型")
-    public R getList(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum
+    public R getList(@RequestParam(defaultValue = "1", value = "page") Integer page
     ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(page,pageSize);
         List<User> list =  userService.list();
         PageInfo<User> pageInfo = new PageInfo<>(list);
         List<User> list1 = pageInfo.getList();

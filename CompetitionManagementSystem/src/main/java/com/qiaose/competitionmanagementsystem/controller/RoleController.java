@@ -5,11 +5,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
-import com.qiaose.competitionmanagementsystem.entity.User;
+import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
 import com.qiaose.competitionmanagementsystem.mapper.SysRoleFrontendMenuTableMapper;
 import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
-import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import io.netty.util.internal.StringUtil;
@@ -35,15 +34,19 @@ public class RoleController {
 
     @GetMapping("/getAllRoles")
     @ApiOperation(value = "返回所有角色", notes = "不需要发送任何请求")
-    public R getAllRoles(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,
+    public R getAllRoles(@RequestParam(defaultValue = "1", value = "page") Integer page,
                          @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize
     ) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(page,pageSize);
         List<SysRoleTable> sysRoleTables = sysRoleTableService.selectAll();
 
         PageInfo<SysRoleTable> pageInfo = new PageInfo<>(sysRoleTables);
         List<SysRoleTable> list = pageInfo.getList();
-        return R.ok(list);
+
+        PageDto pageDto = new PageDto();
+        pageDto.setItems(list);
+        pageDto.setTotal((int) pageInfo.getTotal());
+        return R.ok(pageDto);
     }
 
     @PostMapping("/insert")
