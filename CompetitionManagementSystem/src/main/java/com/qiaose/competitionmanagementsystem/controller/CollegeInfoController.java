@@ -42,6 +42,13 @@ public class CollegeInfoController {
         return  R.ok(list);
     }
 
+    /**
+     * 查询二级学院对应的学生信息
+     * @param page
+     * @param pageSize
+     * @param deptId
+     * @return
+     */
     @GetMapping("/getCurStuInfo")
     @ApiOperation(value="查询二级学院对应的学生信息", notes="携带三个参数")
     public R getCurStuInfo(@RequestParam(defaultValue = "1", value = "page") Integer page
