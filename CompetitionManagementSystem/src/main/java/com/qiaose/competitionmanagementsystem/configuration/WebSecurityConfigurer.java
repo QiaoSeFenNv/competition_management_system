@@ -64,7 +64,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     /**
      * 从容器中取出 AuthenticationManagerBuilder，执行方法里面的逻辑之后，放回容器
-     *
      * @param authenticationManagerBuilder
      * @throws Exception
      */
@@ -93,6 +92,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/role/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/role/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/front/**").permitAll()
                 //动态加载资源
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
 
@@ -127,7 +127,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     /**
      * 手动注册账号、密码拦截器
-     * @return
+     * @return MyUsernamePasswordAuthenticationFilter
      * @throws Exception
      */
     @Bean

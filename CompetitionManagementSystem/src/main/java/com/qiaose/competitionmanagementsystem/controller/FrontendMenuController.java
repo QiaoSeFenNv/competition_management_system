@@ -1,6 +1,8 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
 import com.baomidou.mybatisplus.extension.api.R;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
@@ -39,17 +41,26 @@ public class FrontendMenuController {
 
     @GetMapping("/getMenuList")
     @ApiOperation(value = "返回角色初始菜单", notes = "需要用户传入请求头，从中获取个人信息")
-    public R getCurMenu(HttpServletRequest request) {
+    public R getCurMenu(HttpServletRequest request,
+                        @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
+
         User user = myUtils.TokenGetUserByName(request);
         List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable = sysRoleFrontendMenuTableService.selectByRoleId(Long.valueOf(user.getRoleId()));
+
+        PageHelper.startPage(pageNum,2);
+
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
         for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTable) {
             List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.listWithTree(roleFrontendMenuTable.getAuthorityId());
-            for (SysFrontendMenuTable sysFrontendMenuTable : sysFrontendMenuTables) {
-                sysFrontendDtos.add(sysFrontendMenuTable);
-            }
+            sysFrontendDtos.addAll(sysFrontendMenuTables);
+//            for (SysFrontendMenuTable sysFrontendMenuTable : sysFrontendMenuTables) {
+//                sysFrontendDtos.add(sysFrontendMenuTable);
+//            }
         }
-        return R.ok(sysFrontendDtos);
+
+
+        PageInfo<SysFrontendMenuTable> pageInfo = new PageInfo<>(sysFrontendDtos);
+        return R.ok(pageInfo);
     }
 
 
@@ -141,19 +152,24 @@ public class FrontendMenuController {
 
     @GetMapping("/getMenuAllList")
     @ApiOperation(value = "返回所有初始菜单", notes = "不需要任何信息")
-    public R getAllMenu() {
+    public R getAllMenu(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
         //树状结构
         List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.selectByAll();
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
+
+        PageHelper.startPage(pageNum,2);
+
         for (SysFrontendMenuTable frontendMenuTable : sysFrontendMenuTables) {
             //                                                                                                    getAuthorityId == front menu id
             List<SysFrontendMenuTable> sysFrontendMenu = sysFrontendMenuTableService.listWithTree(frontendMenuTable.getId());
-            for (SysFrontendMenuTable sysFrontendMenuTable : sysFrontendMenu) {
-                sysFrontendDtos.add(sysFrontendMenuTable);
-            }
+            sysFrontendDtos.addAll(sysFrontendMenu);
+//            for (SysFrontendMenuTable sysFrontendMenuTable : sysFrontendMenu) {
+//                sysFrontendDtos.add(sysFrontendMenuTable);
+//            }
         }
+        PageInfo<SysFrontendMenuTable> pageInfo =new PageInfo<>(sysFrontendDtos);
 
-        return R.ok(sysFrontendDtos);
+        return R.ok(pageInfo);
     }
 
 

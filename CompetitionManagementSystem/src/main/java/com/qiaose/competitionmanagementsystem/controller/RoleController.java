@@ -1,6 +1,8 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
 import com.baomidou.mybatisplus.extension.api.R;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
@@ -32,9 +34,12 @@ public class RoleController {
 
     @GetMapping("/getAllRoles")
     @ApiOperation(value = "返回所有角色", notes = "不需要发送任何请求")
-    public R getAllRoles() {
+    public R getAllRoles(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
+        PageHelper.startPage(pageNum,2);
         List<SysRoleTable> sysRoleTables = sysRoleTableService.selectAll();
-        return R.ok(sysRoleTables);
+
+        PageInfo<SysRoleTable> pageInfo = new PageInfo<>(sysRoleTables);
+        return R.ok(pageInfo);
     }
 
     @PostMapping("/insert")

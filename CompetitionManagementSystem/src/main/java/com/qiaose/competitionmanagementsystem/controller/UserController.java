@@ -49,12 +49,12 @@ public class UserController {
 
     @GetMapping("/search")
     @ApiOperation(value="查询所有用户", notes="显示所有用户数据,封装未R.ok类型")
-    public PageInfo<User> getList(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,@RequestParam(defaultValue = "2", value = "pageSize") Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+    public R getList(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
+        PageHelper.startPage(pageNum,2);
         List<User> list =  userService.list();
         PageInfo<User> pageInfo = new PageInfo<>(list);
 
-        return  pageInfo;
+        return  R.ok(pageInfo);
     }
 
 
@@ -78,7 +78,7 @@ public class UserController {
             role.put("roleName",sysRoleTable.getRoleName());
             role.put("value",sysRoleTable.getRoleId());
         }
-        List list = new ArrayList(Collections.singleton(role));
+        List list = new ArrayList<>(Collections.singleton(role));
         userDto.setRoles(list);
         return R.ok(userDto);
     }
