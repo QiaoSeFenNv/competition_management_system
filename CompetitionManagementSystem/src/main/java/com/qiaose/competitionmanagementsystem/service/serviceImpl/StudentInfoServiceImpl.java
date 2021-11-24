@@ -49,4 +49,9 @@ public class StudentInfoServiceImpl implements StudentInfoService{
         return studentInfoMapper.selectByDeptId(deptId);
     }
 
+    @Override
+    public List<StudentInfo> selectByAll() {
+        return studentInfoMapper.selectByAll();
+    }
+
 }

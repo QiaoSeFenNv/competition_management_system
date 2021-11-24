@@ -20,4 +20,6 @@ public interface StudentInfoService{
     int updateByPrimaryKey(StudentInfo record);
 
     List<StudentInfo> selectByDeptId(Integer deptId);
+
+    List<StudentInfo> selectByAll();
 }

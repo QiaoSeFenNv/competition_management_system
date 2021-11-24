@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@Api(value = "前台菜单接口")
+@Api(value = "二级学院接口")
 @RequestMapping("/college")
 public class CollegeInfoController {
 
@@ -32,14 +32,17 @@ public class CollegeInfoController {
 
 
     @GetMapping("/getAllDeptInfo")
-    @ApiOperation(value="查询所有二级学院", notes="显示所有用户二级学院")
+    @ApiOperation(value="查询所有二级学院", notes="显示所有二级学院")
     public R getAllDeptInfo(@RequestParam(defaultValue = "1", value = "page") Integer page
             ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
         PageHelper.startPage(page,pageSize);
         List<CollegeInfo> collegeInfos = collegeInfoService.selectAll();
         PageInfo<CollegeInfo> pageInfo = new PageInfo<>(collegeInfos);
         List<CollegeInfo> list = pageInfo.getList();
-        return  R.ok(list);
+        PageDto pageDto = new PageDto();
+        pageDto.setItems(list);
+        pageDto.setTotal((int) pageInfo.getTotal());
+        return  R.ok(pageDto);
     }
 
     /**
