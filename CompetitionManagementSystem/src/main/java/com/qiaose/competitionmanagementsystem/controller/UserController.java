@@ -12,18 +12,17 @@ import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
 import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
-import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+
 import java.util.*;
 
 
@@ -53,9 +52,14 @@ public class UserController {
         PageHelper.startPage(pageNum,2);
         List<User> list =  userService.list();
         PageInfo<User> pageInfo = new PageInfo<>(list);
+        List<User> list1 = pageInfo.getList();
+        return  R.ok(list1);
 
-        return  R.ok(pageInfo);
+
+
     }
+
+
 
 
 

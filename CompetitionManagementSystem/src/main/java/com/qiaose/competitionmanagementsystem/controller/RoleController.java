@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
+import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
 import com.qiaose.competitionmanagementsystem.mapper.SysRoleFrontendMenuTableMapper;
 import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
@@ -39,7 +40,8 @@ public class RoleController {
         List<SysRoleTable> sysRoleTables = sysRoleTableService.selectAll();
 
         PageInfo<SysRoleTable> pageInfo = new PageInfo<>(sysRoleTables);
-        return R.ok(pageInfo);
+        List<SysRoleTable> list = pageInfo.getList();
+        return R.ok(list);
     }
 
     @PostMapping("/insert")
@@ -47,12 +49,10 @@ public class RoleController {
     @Transactional(rollbackFor = Exception.class)
     public R InsertRole(@RequestBody SysRoleDto sysRoleDto) {
         SysRoleTable sysRoleTable = sysRoleTableService.R_PoToDto(sysRoleDto);
-
         if (sysRoleTable == null || StringUtil.isNullOrEmpty(sysRoleTable.getRoleName())
                 || StringUtil.isNullOrEmpty(sysRoleTable.getDescription())) {
             return R.failed("信息不全");
         }
-
         List<SysRoleTable> sysRoleTables = sysRoleTableService.selectAll();
         for (SysRoleTable roleTable : sysRoleTables) {
             if (roleTable.getRoleName().equals(sysRoleTable.getRoleName())
@@ -61,7 +61,6 @@ public class RoleController {
                 return R.failed("角色名称重复，无法插入");
             }
         }
-
         sysRoleTable.setRoleId(String.valueOf(IDUtils.CreateId()));
         int i = sysRoleTableService.insertSelective(sysRoleTable);
         //中间表
@@ -70,12 +69,9 @@ public class RoleController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         if (i <= 0) {
             return R.failed("插入失败");
         }
-
         return R.ok("插入成功");
     }
 
@@ -99,7 +95,6 @@ public class RoleController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         if (i <= 0) {
             return R.failed("更新失败");
         }
@@ -110,7 +105,6 @@ public class RoleController {
     @ApiOperation(value = "删除一条角色信息", notes = "前端需要插入角色body,携带id")
     @Transactional(rollbackFor = Exception.class)
     public R DeleteRole(@RequestBody SysRoleTable sysRoleTable) {
-
         int i = sysRoleTableService.deleteByPrimaryKey(sysRoleTable.getRoleId());
         if (i <= 0) {
             return R.failed("删除失败");
@@ -140,9 +134,6 @@ public class RoleController {
         }
         return true;
     }
-
-
-
 
 
 }

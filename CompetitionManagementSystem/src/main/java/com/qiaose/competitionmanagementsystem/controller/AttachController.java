@@ -30,7 +30,6 @@ import java.util.*;
 @RequestMapping("/attach")
 @Api(value = "文件接口")
 public class AttachController {
-
     public static final String CLASSPATH = TaleUtils.getUplodFilePath();
 
     @Autowired
@@ -38,7 +37,6 @@ public class AttachController {
 
     @Autowired
     UserService userService;
-
 
     @PostMapping(value = "/upload")
     @ResponseBody
@@ -87,15 +85,9 @@ public class AttachController {
                 System.out.println("成功上传且写入数据");
                 return R.ok("上传成功");
             }
-
         }
-
         return R.failed("非法的文件，不允许的文件类型："+suffix);
-
     }
-
-
-
 
     @PostMapping(value = "/images")
     @ResponseBody

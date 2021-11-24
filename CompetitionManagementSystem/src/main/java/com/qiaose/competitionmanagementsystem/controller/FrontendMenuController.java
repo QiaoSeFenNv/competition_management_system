@@ -60,7 +60,8 @@ public class FrontendMenuController {
 
 
         PageInfo<SysFrontendMenuTable> pageInfo = new PageInfo<>(sysFrontendDtos);
-        return R.ok(pageInfo);
+        List<SysFrontendMenuTable> list = pageInfo.getList();
+        return R.ok(list);
     }
 
 
@@ -168,8 +169,9 @@ public class FrontendMenuController {
 //            }
         }
         PageInfo<SysFrontendMenuTable> pageInfo =new PageInfo<>(sysFrontendDtos);
+        List<SysFrontendMenuTable> list = pageInfo.getList();
 
-        return R.ok(pageInfo);
+        return R.ok(list);
     }
 
 
