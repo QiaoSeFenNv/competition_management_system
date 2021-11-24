@@ -8,6 +8,7 @@ import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.entity.User;
+import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
 import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
@@ -54,17 +55,12 @@ public class UserController {
         List<User> list =  userService.list();
         PageInfo<User> pageInfo = new PageInfo<>(list);
         List<User> list1 = pageInfo.getList();
-        return  R.ok(list1);
 
-
-
+        PageDto pageDto = new PageDto();
+        pageDto.setItems(list1);
+        pageDto.setTotal((int) pageInfo.getTotal());
+        return  R.ok(pageDto);
     }
-
-
-
-
-
-
 
 
     @GetMapping("/getUserInfo")

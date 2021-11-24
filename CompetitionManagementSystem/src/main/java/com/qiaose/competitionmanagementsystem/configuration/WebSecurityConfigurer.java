@@ -89,11 +89,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers(HttpMethod.GET,"/login").permitAll()
                 .antMatchers("/images/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/role/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/role/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/user/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/front/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/user/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/college/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/college/**").permitAll()
                 //动态加载资源
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
 

@@ -2,6 +2,8 @@ package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.CollegeInfo;
 
+import java.util.List;
+
 public interface CollegeInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -11,7 +13,11 @@ public interface CollegeInfoMapper {
 
     CollegeInfo selectByPrimaryKey(Integer id);
 
+    List<CollegeInfo> selectAll();
+
     int updateByPrimaryKeySelective(CollegeInfo record);
 
     int updateByPrimaryKey(CollegeInfo record);
+
+
 }

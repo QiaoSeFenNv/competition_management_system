@@ -64,8 +64,6 @@ public class FrontendMenuController {
         PageInfo<SysFrontendMenuTable> pageInfo = new PageInfo<>(sysFrontendDtos);
         List<SysFrontendMenuTable> list = pageInfo.getList();
 
-
-
         return R.ok(list);
     }
 

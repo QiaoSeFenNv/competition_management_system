@@ -5,6 +5,9 @@ import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.mapper.CollegeInfoMapper;
 import com.qiaose.competitionmanagementsystem.entity.CollegeInfo;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
+
+import java.util.List;
+
 @Service
 public class CollegeInfoServiceImpl implements CollegeInfoService{
 
@@ -39,6 +42,11 @@ public class CollegeInfoServiceImpl implements CollegeInfoService{
     @Override
     public int updateByPrimaryKey(CollegeInfo record) {
         return collegeInfoMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<CollegeInfo> selectAll() {
+        return collegeInfoMapper.selectAll();
     }
 
 }

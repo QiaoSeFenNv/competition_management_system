@@ -43,6 +43,7 @@ public class RoleController {
         PageInfo<SysRoleTable> pageInfo = new PageInfo<>(sysRoleTables);
         List<SysRoleTable> list = pageInfo.getList();
 
+        //封装起来前端需要
         PageDto pageDto = new PageDto();
         pageDto.setItems(list);
         pageDto.setTotal((int) pageInfo.getTotal());

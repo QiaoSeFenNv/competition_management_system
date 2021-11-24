@@ -5,6 +5,10 @@ import lombok.Data;
 @Data
 public class SysUserDto {
 
+    /**
+     * 用于返回多表信息
+     */
+
     private String stuId;
     private String name;
     private String email;

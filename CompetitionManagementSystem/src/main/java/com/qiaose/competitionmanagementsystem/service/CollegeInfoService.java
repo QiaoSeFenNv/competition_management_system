@@ -1,6 +1,9 @@
 package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.CollegeInfo;
+
+import java.util.List;
+
 public interface CollegeInfoService{
 
 
@@ -16,4 +19,5 @@ public interface CollegeInfoService{
 
     int updateByPrimaryKey(CollegeInfo record);
 
+    List<CollegeInfo> selectAll();
 }
