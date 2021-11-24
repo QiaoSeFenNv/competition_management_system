@@ -121,6 +121,7 @@ public class FrontendMenuController {
         frontendMenuTable.setId(sysFrontendDto.getId());
         frontendMenuTable.setUpdateTime(DateKit.getNowTime());
         frontendMenuTable.setUpdatedBy(Long.valueOf(roleId));
+        frontendMenuTable.setComponent(sysFrontendDto.getComponent());
 
         int i = sysFrontendMenuTableService.updateByPrimaryKeySelective(frontendMenuTable);
         //完成插入角色菜单表
