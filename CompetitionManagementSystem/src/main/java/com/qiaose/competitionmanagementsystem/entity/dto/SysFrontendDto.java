@@ -21,7 +21,7 @@ public class SysFrontendDto{
     private String describe;
 
     private String component;
-    @JSONField(name = "name")
+
     private String label;
 
     private String state;

@@ -26,7 +26,7 @@ public class SysFrontendMenuTable implements Serializable {
     /**
      * 名称
      */
-    @JSONField(name = "name")
+
     private String label;
 
     /**
