@@ -54,4 +54,9 @@ public class StudentInfoServiceImpl implements StudentInfoService{
         return studentInfoMapper.selectByAll();
     }
 
+    @Override
+    public StudentInfo selectByStuId(String stuId) {
+        return studentInfoMapper.selectByStuId(stuId);
+    }
+
 }

@@ -2,6 +2,11 @@ package com.qiaose.competitionmanagementsystem.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 /**
@@ -12,6 +17,7 @@ public class StudentInfo implements Serializable {
     /**
     * id
     */
+    @TableId(type= IdType.AUTO)
     private Integer id;
 
     /**
@@ -62,6 +68,7 @@ public class StudentInfo implements Serializable {
     /**
     * 二级学院id
     */
+    @JSONField(serialize = false)
     private Integer deptId;
 
     /**
@@ -87,22 +94,36 @@ public class StudentInfo implements Serializable {
     /**
     * 银行id
     */
+    @JSONField(serialize = false)
     private Integer bankId;
 
     /**
     * 班级id
     */
+    @JSONField(serialize = false)
     private Integer classId;
 
     /**
     * 学生信息创建时间
     */
+    @JSONField(serialize = false)
     private Date createTime;
 
     /**
     * 学生信息更新时间
     */
+    @JSONField(serialize = false)
     private Date updateTime;
+
+    @TableField(exist = false)
+    private BankTable bankTable;
+
+    @TableField(exist = false)
+    private ClassTable classTable;
+
+    @TableField(exist = false)
+    private CollegeInfo collegeInfo;
+
 
     private static final long serialVersionUID = 1L;
 }

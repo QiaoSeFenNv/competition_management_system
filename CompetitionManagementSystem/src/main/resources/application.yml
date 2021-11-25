@@ -20,12 +20,13 @@ server:
 spring:
     datasource:
         driverClassName: com.mysql.cj.jdbc.Driver
-        initialSize: 20
-        maxActive: 100
-        minIdle: 10
         password: root
         url: jdbc:mysql://182.254.226.174/competition_msdb?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
         username: root
+        hikari:
+            connection-timeout: 6000000
+            idle-timeout: 30000
+            max-lifetime: 55000
     mvc:
         static-path-pattern: /**
     redis:
