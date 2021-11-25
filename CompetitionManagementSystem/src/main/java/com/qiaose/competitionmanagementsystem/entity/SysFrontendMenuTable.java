@@ -33,14 +33,14 @@ public class SysFrontendMenuTable implements Serializable {
     /**
      * 描述
      */
-    @JSONField(serialize=false)
+
     private String describe;
 
     /**
      * 通用菜单
      * True表示无需分配所有人就可以访问的
      */
-    @JSONField(serialize=false)
+
     private Boolean isGeneral;
 
     /**
@@ -61,19 +61,19 @@ public class SysFrontendMenuTable implements Serializable {
     /**
      * 状态
      */
-//    @JSONField(serialize=false)
+
     private Boolean state;
 
     /**
      * 排序
      */
-//    @JSONField(serialize=false)
+
     private Integer sortValue;
 
     /**
      * 菜单图标
      */
-//    @JSONField(serialize=false)
+
     private String icon;
 
     /**
@@ -85,25 +85,23 @@ public class SysFrontendMenuTable implements Serializable {
     /**
      * 父级菜单ID
      */
-    @JSONField(serialize=false)
     private Long parentId;
 
     /**
      * 内置
      */
-//    @JSONField(serialize=false)
+
     private Boolean readonly;
 
     /**
      * 创建人id
      */
-//    @JSONField(serialize=false)
+    @JSONField(serialize=false)
     private Long createdBy;
 
     /**
      * 创建时间
      */
-    @JSONField(serialize=false)
     private Date createTime;
 
     /**
