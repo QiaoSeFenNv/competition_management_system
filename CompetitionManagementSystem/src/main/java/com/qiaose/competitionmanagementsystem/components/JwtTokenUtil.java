@@ -19,7 +19,9 @@ import java.util.Map;
 public class JwtTokenUtil {
     //私钥
     private static final String SECRET_KEY = "competition_ms";
-
+    /**
+     * ssss
+     */
     // 过期时间 毫秒,设置默认1周的时间过期
     private  static final long EXPIRATION_TIME = 3600000L * 24*7;
 
