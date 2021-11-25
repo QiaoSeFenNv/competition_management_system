@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.entity.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
 import lombok.Data;
 
@@ -20,7 +21,7 @@ public class SysFrontendDto{
     private String describe;
 
     private String component;
-
+    @JSONField(name = "name")
     private String label;
 
     private String state;
