@@ -79,8 +79,8 @@ public class FrontendMenuController {
     @ApiOperation(value = "插入菜单信息", notes = "需要前端传入body和请求头")
     @Transactional(rollbackFor = Exception.class)
     public R InsertFrontMenu(@RequestBody SysFrontendDto sysFrontendDto,HttpServletRequest request){
-        if(sysFrontendDto == null || sysFrontendDto.getLabel() == null){
-            return R.ok("填写为空信息");
+        if(sysFrontendDto.getLabel() == null){
+            return R.failed("填写为空信息");
         }
         User user = myUtils.TokenGetUserByName(request);
         String roleId = user.getRoleId();

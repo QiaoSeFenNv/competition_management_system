@@ -115,18 +115,26 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         SysFrontendMenuTable sysFrontendMenuTable = new SysFrontendMenuTable();
 
         //转换  可以设置默认值
-        sysFrontendMenuTable.setLabel(sysFrontendDto.getLabel());
-        sysFrontendMenuTable.setPath(sysFrontendDto.getPath());
-        sysFrontendMenuTable.setState(Boolean.valueOf(sysFrontendDto.getState()));
-        sysFrontendMenuTable.setSortValue(sysFrontendDto.getSortValue());
+        if (sysFrontendDto.getParentId()!=null) {
+            sysFrontendMenuTable.setLabel(sysFrontendDto.getLabel());
+        }
+        if (sysFrontendDto.getPath()!=null)
+            sysFrontendMenuTable.setPath(sysFrontendDto.getPath());
+        if (sysFrontendDto.getState()!=null)
+            sysFrontendMenuTable.setState(Boolean.valueOf(sysFrontendDto.getState()));
+        if (sysFrontendDto.getSortValue()!=null)
+            sysFrontendMenuTable.setSortValue(sysFrontendDto.getSortValue());
         if (sysFrontendDto.getParentId()!=null){
             sysFrontendMenuTable.setParentId(Long.valueOf(sysFrontendDto.getParentId()));
         }
-
-        sysFrontendMenuTable.setReadonly(sysFrontendDto.getReadOnly());
-        sysFrontendMenuTable.setIsGeneral(sysFrontendDto.getKeepAlive());
-        sysFrontendMenuTable.setIcon(sysFrontendDto.getIcon());
-        sysFrontendMenuTable.setDescribe(sysFrontendDto.getDescribe());
+        if (sysFrontendDto.getReadOnly()!=null)
+            sysFrontendMenuTable.setReadonly(sysFrontendDto.getReadOnly());
+        if (sysFrontendDto.getKeepAlive()!=null)
+            sysFrontendMenuTable.setIsGeneral(sysFrontendDto.getKeepAlive());
+        if (sysFrontendDto.getIcon()!=null)
+            sysFrontendMenuTable.setIcon(sysFrontendDto.getIcon());
+        if (sysFrontendDto.getDescribe()!=null)
+            sysFrontendMenuTable.setDescribe(sysFrontendDto.getDescribe());
 
         return sysFrontendMenuTable;
     }
