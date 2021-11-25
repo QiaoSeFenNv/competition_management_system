@@ -21,7 +21,6 @@ public class SysFrontendMenuTable implements Serializable {
     /**
      * ID
      */
-    @JSONField(serialize=false)
     private Long id;
 
     /**
