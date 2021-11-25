@@ -157,20 +157,20 @@ public class FrontendMenuController {
 
     @GetMapping("/getMenuAllList")
     @ApiOperation(value = "返回所有初始菜单", notes = "不需要任何信息")
-    public R getAllMenu(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
+    public R getAllMenu(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,
+                        @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
         //树状结构
         List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.selectByAll();
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
-
-        PageHelper.startPage(pageNum,2);
+        PageHelper.startPage(pageNum,pageSize);
 
         for (SysFrontendMenuTable frontendMenuTable : sysFrontendMenuTables) {
-            //                                                                                                    getAuthorityId == front menu id
-            List<SysFrontendMenuTable> sysFrontendMenu = sysFrontendMenuTableService.listWithTree(frontendMenuTable.getId());
-            sysFrontendDtos.addAll(sysFrontendMenu);
-//            for (SysFrontendMenuTable sysFrontendMenuTable : sysFrontendMenu) {
-//                sysFrontendDtos.add(sysFrontendMenuTable);
-//            }
+
+            //加一个判断，判断表中的父类id是否为0                                                                                             getAuthorityId == front menu id
+            if (frontendMenuTable.getParentId() == 0){
+                List<SysFrontendMenuTable> sysFrontendMenu = sysFrontendMenuTableService.listWithTree(frontendMenuTable.getId());
+                sysFrontendDtos.addAll(sysFrontendMenu);
+            }
         }
         PageInfo<SysFrontendMenuTable> pageInfo =new PageInfo<>(sysFrontendDtos);
         List<SysFrontendMenuTable> list = pageInfo.getList();

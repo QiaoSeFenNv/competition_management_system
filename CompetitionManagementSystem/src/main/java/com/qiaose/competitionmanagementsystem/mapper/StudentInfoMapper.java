@@ -17,6 +17,8 @@ public interface StudentInfoMapper {
 
     List<StudentInfo> selectByAll();
 
+    StudentInfo selectByStuId(String stuId);
+
     int updateByPrimaryKeySelective(StudentInfo record);
 
     int updateByPrimaryKey(StudentInfo record);

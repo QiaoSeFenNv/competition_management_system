@@ -22,4 +22,6 @@ public interface StudentInfoService{
     List<StudentInfo> selectByDeptId(Integer deptId);
 
     List<StudentInfo> selectByAll();
+
+    StudentInfo selectByStuId(String stuId);
 }
