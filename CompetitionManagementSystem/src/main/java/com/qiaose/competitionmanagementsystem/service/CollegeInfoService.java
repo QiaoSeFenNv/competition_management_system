@@ -20,4 +20,6 @@ public interface CollegeInfoService{
     int updateByPrimaryKey(CollegeInfo record);
 
     List<CollegeInfo> selectAll();
+
+    CollegeInfo selectByName(String collegeName);
 }

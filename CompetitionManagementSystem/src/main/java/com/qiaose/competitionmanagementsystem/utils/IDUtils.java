@@ -39,4 +39,17 @@ public class IDUtils {
         return  Long.valueOf(bi.toString());
     }
 
+    public static Integer CreateIDInt(){
+        int i = CreateId().intValue() * -1;
+        Integer integer = new Integer(i);
+        return integer;
+    }
+
+
+    public static void main(String[] args) {
+        Integer integer = CreateIDInt();
+        System.out.println(integer);
+    }
 }
+
+

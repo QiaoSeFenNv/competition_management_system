@@ -6,6 +6,8 @@ import java.util.Date;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Data;
 
 /**
@@ -16,7 +18,6 @@ public class ClassTable implements Serializable {
     /**
     * 班级id
     */
-    @TableId(type= IdType.AUTO)
     private Integer classId;
 
     /**
@@ -37,13 +38,14 @@ public class ClassTable implements Serializable {
     /**
     * 信息创建时间
     */
-    @JSONField(serialize = false)
+    @JsonIgnore
     private Date createTime;
 
     /**
     * 信息更新时间
     */
     @JSONField(serialize = false)
+    @JsonIgnore
     private Date updateTime;
 
     private static final long serialVersionUID = 1L;

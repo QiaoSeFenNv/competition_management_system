@@ -27,13 +27,15 @@
     delete from bank_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.BankTable" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into bank_table (belongs_bank, bank_id, open_bank, 
-      create_time, update_time)
-    values (#{belongsBank,jdbcType=VARCHAR}, #{bankId,jdbcType=INTEGER}, #{openBank,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    insert into bank_table (id,belongs_bank, bank_id, open_bank)
+    values (#{id,jdbcType=INTEGER},#{belongsBank,jdbcType=VARCHAR}, #{bankId,jdbcType=INTEGER}, #{openBank,jdbcType=VARCHAR})
   </insert>
+
+
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.BankTable" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into bank_table

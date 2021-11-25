@@ -12,11 +12,13 @@ import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.User;
 
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
+import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
 import com.qiaose.competitionmanagementsystem.service.SysBackendApiTableService;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import com.qiaose.competitionmanagementsystem.utils.TaleUtils;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -43,6 +45,15 @@ class CompetitionManagementSystemApplicationTests {
     @Autowired
     SysBackendApiTableService sysBackendApiTableService;
 
+
+
+    @Test
+    public void mapTest(){
+        ModelMapper modelMapper = new ModelMapper();
+        User user = new User();
+        UserDto map = modelMapper.map(user, UserDto.class);
+        System.out.println(map);
+    }
 
 
     @Test

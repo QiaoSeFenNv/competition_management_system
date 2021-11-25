@@ -46,6 +46,33 @@ public class CollegeInfoController {
     }
 
 
+    @GetMapping("/getAllStuInfo")
+    @ApiOperation(value="查询默认条件下学生信息", notes="")
+    public R getAllStuInfo(@RequestParam(defaultValue = "1", value = "page") Integer page
+            ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+
+        List<SysUserDto> listUser = new ArrayList<>();
+        PageHelper.startPage(page,pageSize);
+        List<StudentInfo> studentInfo = studentInfoService.selectByAll();
+        //将student封装成为SysUser
+        for (StudentInfo info : studentInfo) {
+            CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(info.getDeptId());
+            SysUserDto sysUserDto = StuChangeUser(info);
+            sysUserDto.setDepartment(collegeInfo.getCollegeName());
+            listUser.add(sysUserDto);
+        }
+        PageInfo<SysUserDto> pageInfo = new PageInfo<>(listUser);
+
+        List<SysUserDto> list = pageInfo.getList();
+
+        PageDto pageDto = new PageDto();
+        pageDto.setItems(list);
+        pageDto.setTotal((int) pageInfo.getTotal());
+        return  R.ok(pageDto);
+    }
+
+
+
 
 
 

@@ -115,7 +115,7 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         SysFrontendMenuTable sysFrontendMenuTable = new SysFrontendMenuTable();
 
         //转换  可以设置默认值
-        if (sysFrontendDto.getParentId()!=null) {
+        if (sysFrontendDto.getLabel()!=null) {
             sysFrontendMenuTable.setLabel(sysFrontendDto.getLabel());
         }
         if (sysFrontendDto.getPath()!=null)

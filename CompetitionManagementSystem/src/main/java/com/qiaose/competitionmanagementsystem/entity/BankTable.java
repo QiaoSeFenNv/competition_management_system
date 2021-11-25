@@ -7,6 +7,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -17,7 +18,6 @@ public class BankTable implements Serializable {
     /**
     * 银行id
     */
-    @TableId(type= IdType.AUTO)
     private Integer id;
 
     /**
@@ -38,13 +38,15 @@ public class BankTable implements Serializable {
     /**
     * 信息创建时间
     */
-    @JSONField(serialize = false)
+    @JsonIgnore
     private Date createTime;
 
     /**
     * 信息更新时间
+     *
     */
-    @JSONField(serialize = false)
+    @JSONField(serialize = false)   //忽略返回给前端的字段
+    @JsonIgnore  //忽略实体类中的字段
     private Date updateTime;
 
     private static final long serialVersionUID = 1L;

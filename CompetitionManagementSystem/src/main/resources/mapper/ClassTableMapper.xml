@@ -27,13 +27,15 @@
     delete from class_table
     where class_id = #{classId,jdbcType=INTEGER}
   </delete>
+
+
   <insert id="insert" keyColumn="class_id" keyProperty="classId" parameterType="com.qiaose.competitionmanagementsystem.entity.ClassTable" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into class_table (grade, class_name, major, 
-      create_time, update_time)
-    values (#{grade,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    insert into class_table (class_id,grade, class_name, major)
+    values (#{classId,jdbcType=INTEGER},#{grade,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR})
   </insert>
+
+
   <insert id="insertSelective" keyColumn="class_id" keyProperty="classId" parameterType="com.qiaose.competitionmanagementsystem.entity.ClassTable" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into class_table
@@ -72,6 +74,10 @@
       </if>
     </trim>
   </insert>
+
+
+
+
   <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.ClassTable">
     <!--@mbg.generated-->
     update class_table

@@ -49,4 +49,9 @@ public class CollegeInfoServiceImpl implements CollegeInfoService{
         return collegeInfoMapper.selectAll();
     }
 
+    @Override
+    public CollegeInfo selectByName(String collegeName) {
+        return collegeInfoMapper.selectByName(collegeName);
+    }
+
 }

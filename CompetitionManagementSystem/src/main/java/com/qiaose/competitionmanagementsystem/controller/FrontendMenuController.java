@@ -135,14 +135,12 @@ public class FrontendMenuController {
 
     @PostMapping("/delete")
     @ApiOperation(value = "删除菜单信息", notes = "需要前端传送一个id号")
-    @Transactional(rollbackFor = Exception.class)
     public R DeleteFrontMenu(@RequestBody SysFrontendDto sysFrontendDto){
         //如果是body则就这样做
         if (sysFrontendDto.getId()==null){
             return R.failed("删除失败,未选择");
         }
 
-        //path是唯一的不能重复
         int i = sysFrontendMenuTableService.deleteByPrimaryKey(sysFrontendDto.getId());
         //删除前端表，中间表会出现查询空数据，是否对应删除  别删除可能后面要还原
 //        int j = sysRoleFrontendMenuTableService.deleteByAuthorityId(sysFrontendDto.getId());
@@ -177,11 +175,9 @@ public class FrontendMenuController {
         }
         PageInfo<SysFrontendMenuTable> pageInfo =new PageInfo<>(sysFrontendDtos);
         List<SysFrontendMenuTable> list = pageInfo.getList();
-
         PageDto pageDto = new PageDto();
         pageDto.setItems(list);
         pageDto.setTotal((int) pageInfo.getTotal());
-
         return R.ok(pageDto);
     }
 

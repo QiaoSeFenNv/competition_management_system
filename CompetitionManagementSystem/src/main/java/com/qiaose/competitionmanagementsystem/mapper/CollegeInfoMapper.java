@@ -15,6 +15,8 @@ public interface CollegeInfoMapper {
 
     List<CollegeInfo> selectAll();
 
+    CollegeInfo selectByName(String collegeName);
+
     int updateByPrimaryKeySelective(CollegeInfo record);
 
     int updateByPrimaryKey(CollegeInfo record);
