@@ -165,11 +165,13 @@ public class FrontendMenuController {
         PageHelper.startPage(pageNum,pageSize);
 
         for (SysFrontendMenuTable frontendMenuTable : sysFrontendMenuTables) {
-
             //加一个判断，判断表中的父类id是否为0                                                                                             getAuthorityId == front menu id
             if (frontendMenuTable.getParentId() == 0){
                 List<SysFrontendMenuTable> sysFrontendMenu = sysFrontendMenuTableService.listWithTree(frontendMenuTable.getId());
-                sysFrontendDtos.addAll(sysFrontendMenu);
+                for (SysFrontendMenuTable frontendMenu : sysFrontendMenu) {
+                    frontendMenu.setSortValue(frontendMenuTable.getSortValue());
+                    sysFrontendDtos.add(frontendMenu);
+                }
             }
         }
         PageInfo<SysFrontendMenuTable> pageInfo =new PageInfo<>(sysFrontendDtos);
