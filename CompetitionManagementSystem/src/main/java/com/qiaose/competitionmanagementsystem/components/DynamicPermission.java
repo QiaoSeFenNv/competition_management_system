@@ -103,14 +103,13 @@ public class DynamicPermission {
             if (rs) {
                 return rs;
             }else {
-//                return false;
                 throw  new MyaccessDeniedException("您没有访问该API的权限！");
             }
 
         }else{
             throw  new MyaccessDeniedException("不是UserDetails类型！");
         }
-//        return true;
+
     }
 }
 

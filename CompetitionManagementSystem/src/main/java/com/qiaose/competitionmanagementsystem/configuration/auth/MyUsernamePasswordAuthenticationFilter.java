@@ -1,8 +1,13 @@
 package com.qiaose.competitionmanagementsystem.configuration.auth;
 
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.net.NetUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.qiaose.competitionmanagementsystem.entity.CompetitionLog;
+import com.qiaose.competitionmanagementsystem.mapper.CompetitionLogMapper;
+import com.qiaose.competitionmanagementsystem.service.CompetitionLogService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,6 +30,9 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CompetitionLogService competitionLogService;
 
 
     @Override
@@ -56,6 +64,14 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
                         //将账号、密码装入UsernamePasswordAuthenticationToken中
                         authRequest = new UsernamePasswordAuthenticationToken(username, password);
                         setDetails(request, authRequest);
+                        //记录登录信息
+                        CompetitionLog competitionLog = CompetitionLog.builder()
+                                .action(request.getRequestURI())
+                                .data(request.getMethod())
+                                .ip(request.getRemoteAddr())
+                                .createTime(DateTime.now())
+                                .build();
+                        competitionLogService.insertSelective(competitionLog);
                         return this.getAuthenticationManager().authenticate(authRequest);
                     }
                 }
