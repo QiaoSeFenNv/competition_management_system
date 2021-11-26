@@ -75,7 +75,7 @@
       <if test=" name != null and name !='' ">
         label like concat('%' , #{name,jdbcType=VARCHAR} , '%')
       </if>
-      <if test="state != null and state!='' ">
+      <if test="state != null ">
         or state = #{state,jdbcType=INTEGER}
       </if>
     </where>

@@ -180,12 +180,14 @@ public class FrontendMenuController {
     @ApiOperation(value = "模糊查询菜单", notes = "")
     public R findMenu(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Boolean state
-    ) {
+            @RequestParam(required = false) Integer state) {
 
-
+        System.out.println(state);
         //树状结构
-        List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.findMenu(name,Convert.toInt(state));
+        List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.findMenu(name,state);
+        if (sysFrontendMenuTables == null) {
+            return R.ok(null);
+        }
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
 
         for (SysFrontendMenuTable frontendMenuTable : sysFrontendMenuTables) {

@@ -2,11 +2,9 @@ package com.qiaose.competitionmanagementsystem.configuration.auth;
 
 
 import cn.hutool.core.date.DateTime;
-import cn.hutool.core.net.NetUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionLog;
-import com.qiaose.competitionmanagementsystem.mapper.CompetitionLogMapper;
 import com.qiaose.competitionmanagementsystem.service.CompetitionLogService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
