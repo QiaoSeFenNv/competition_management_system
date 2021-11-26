@@ -29,6 +29,23 @@
   </select>
 
 
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from sys_role_table
+    where role_name = #{role,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectFindName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from sys_role_table
+    where role_name like concat('%' ,#{roleName,jdbcType=VARCHAR}, '%')
+  </select>
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--@mbg.generated-->

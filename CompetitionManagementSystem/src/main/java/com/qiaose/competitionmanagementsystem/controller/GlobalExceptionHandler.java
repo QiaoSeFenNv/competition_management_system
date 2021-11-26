@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
-@RestControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(value = TipException.class)
-    public R tipException(Exception e) {
-        String msg = e.getMessage();
-        String substring = msg.substring(1, 100);
-        return R.failed(substring);
-    }
-
-    @ExceptionHandler(value = Exception.class)
-    public R exception(Exception e){
-        String msg = e.getMessage();
+//@RestControllerAdvice
+//public class GlobalExceptionHandler {
+//
+//    @ExceptionHandler(value = TipException.class)
+//    public R tipException(Exception e) {
+//        String msg = e.getMessage();
 //        String substring = msg.substring(1, 100);
-        return R.failed(msg);
-    }
-}
+//        return R.failed(substring);
+//    }
+//
+//    @ExceptionHandler(value = Exception.class)
+//    public R exception(Exception e){
+//        String msg = e.getMessage();
+////        String substring = msg.substring(1, 100);
+//        return R.failed(msg);
+//    }
+//}

@@ -17,6 +17,10 @@ public interface SysRoleTableMapper {
 
     List<SysRoleTable> selectAll();
 
+    List<SysRoleTable> selectFindName(String roleName);
+
+    SysRoleTable selectByName(String role);
+
     int updateByPrimaryKeySelective(SysRoleTable record);
 
     int updateByPrimaryKey(SysRoleTable record);

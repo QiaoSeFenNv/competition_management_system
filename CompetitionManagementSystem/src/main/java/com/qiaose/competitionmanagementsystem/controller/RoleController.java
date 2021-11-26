@@ -50,6 +50,25 @@ public class RoleController {
         return R.ok(pageDto);
     }
 
+
+    @GetMapping("/findRole")
+    @ApiOperation(value = "模糊查询返回所有角色", notes = "")
+    public R findRole(@RequestParam(defaultValue = "1", value = "page") Integer page,
+                    @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize,
+                    @RequestParam(value = "roleName",required = false) String roleName) {
+        PageHelper.startPage(page,pageSize);
+        List<SysRoleTable> sysRoleTables = sysRoleTableService.selectFindName(roleName);
+
+        PageInfo<SysRoleTable> pageInfo = new PageInfo<>(sysRoleTables);
+        List<SysRoleTable> list = pageInfo.getList();
+
+        //封装起来前端需要
+        PageDto pageDto = new PageDto();
+        pageDto.setItems(list);
+        pageDto.setTotal((int) pageInfo.getTotal());
+        return R.ok(pageDto);
+    }
+
     @PostMapping("/insert")
     @ApiOperation(value = "插入一条角色信息", notes = "前端需要插入角色body,不需要携带id")
     @Transactional(rollbackFor = Exception.class)

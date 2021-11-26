@@ -25,4 +25,8 @@ public interface SysRoleTableService{
     List<SysRoleTable> selectAll();
 
     public SysRoleTable R_PoToDto(SysRoleDto sysRoleDto);
+
+    SysRoleTable selectByName(String role);
+
+    List<SysRoleTable> selectFindName(String roleName);
 }

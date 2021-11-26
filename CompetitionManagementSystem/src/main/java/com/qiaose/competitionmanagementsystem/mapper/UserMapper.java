@@ -30,6 +30,9 @@ public interface UserMapper {
     User selectByAccountName(String name);
 
 
+    List<User> findUser(User record);
+
+    List<User> selectByAll();
 
     /**
      * 传入User对象修改存在的字段
@@ -45,5 +48,7 @@ public interface UserMapper {
      */
     int updateByPrimaryKey(User record);
 
-    List<User> selectByAll();
+
+
+
 }

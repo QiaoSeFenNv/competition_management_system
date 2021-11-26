@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.utils;
 
+import cn.hutool.core.lang.UUID;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigInteger;
@@ -45,11 +46,6 @@ public class IDUtils {
         return integer;
     }
 
-
-    public static void main(String[] args) {
-        Integer integer = CreateIDInt();
-        System.out.println(integer);
-    }
 }
 
 

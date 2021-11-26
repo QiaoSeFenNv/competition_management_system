@@ -1,7 +1,7 @@
 package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
-
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,6 +20,7 @@ public interface SysFrontendMenuTableMapper {
 
     List<SysFrontendMenuTable> selectByAll();
 
+    List<SysFrontendMenuTable> findMenu(@Param("name") String name,@Param("state") Integer state);
 
     int updateByPrimaryKeySelective(SysFrontendMenuTable record);
 

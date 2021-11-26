@@ -31,4 +31,6 @@ public interface UserService{
     User U_DtoToPo(UserDto userDto);
 
     Boolean register(User user) throws Exception;
+
+    List<User> findUser(User user);
 }

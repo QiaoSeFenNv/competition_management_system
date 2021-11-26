@@ -33,16 +33,11 @@ public class CollegeInfoController {
 
     @GetMapping("/getAllDeptInfo")
     @ApiOperation(value="查询所有二级学院", notes="显示所有二级学院")
-    public R getAllDeptInfo(@RequestParam(defaultValue = "1", value = "page") Integer page
-            ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
-        PageHelper.startPage(page,pageSize);
+    public R getAllDeptInfo() {
+
         List<CollegeInfo> collegeInfos = collegeInfoService.selectAll();
-        PageInfo<CollegeInfo> pageInfo = new PageInfo<>(collegeInfos);
-        List<CollegeInfo> list = pageInfo.getList();
-        PageDto pageDto = new PageDto();
-        pageDto.setItems(list);
-        pageDto.setTotal((int) pageInfo.getTotal());
-        return  R.ok(pageDto);
+
+        return  R.ok(collegeInfos);
     }
 
 

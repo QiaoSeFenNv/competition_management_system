@@ -1,5 +1,7 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -155,13 +157,10 @@ public class FrontendMenuController {
 
     @GetMapping("/getMenuAllList")
     @ApiOperation(value = "返回所有初始菜单", notes = "不需要任何信息")
-    public R getAllMenu(@RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum,
-                        @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+    public R getAllMenu() {
         //树状结构
         List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.selectByAll();
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
-        PageHelper.startPage(pageNum,pageSize);
-
 
         for (SysFrontendMenuTable frontendMenuTable : sysFrontendMenuTables) {
             //加一个判断，判断表中的父类id是否为0                                                                                             getAuthorityId == front menu id
@@ -173,15 +172,35 @@ public class FrontendMenuController {
                 }
             }
         }
-        PageInfo<SysFrontendMenuTable> pageInfo =new PageInfo<>(sysFrontendDtos);
-        List<SysFrontendMenuTable> list = pageInfo.getList();
-        PageDto pageDto = new PageDto();
-        pageDto.setItems(list);
-        pageDto.setTotal((int) pageInfo.getTotal());
-        return R.ok(pageDto);
+
+        return R.ok(sysFrontendDtos);
     }
 
+    @GetMapping("/findMenu")
+    @ApiOperation(value = "模糊查询菜单", notes = "")
+    public R findMenu(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Boolean state
+    ) {
 
+
+        //树状结构
+        List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.findMenu(name,Convert.toInt(state));
+        List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
+
+        for (SysFrontendMenuTable frontendMenuTable : sysFrontendMenuTables) {
+            //加一个判断，判断表中的父类id是否为0                                                                                             getAuthorityId == front menu id
+            if (frontendMenuTable.getParentId() == 0){
+                List<SysFrontendMenuTable> sysFrontendMenu = sysFrontendMenuTableService.listWithTree(frontendMenuTable.getId());
+                for (SysFrontendMenuTable frontendMenu : sysFrontendMenu) {
+                    frontendMenu.setSortValue(frontendMenuTable.getSortValue());
+                    sysFrontendDtos.add(frontendMenu);
+                }
+            }
+        }
+
+        return R.ok(sysFrontendDtos);
+    }
 
 
 

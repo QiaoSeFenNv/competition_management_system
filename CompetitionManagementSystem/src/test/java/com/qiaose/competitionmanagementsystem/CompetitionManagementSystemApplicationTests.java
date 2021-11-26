@@ -82,8 +82,8 @@ class CompetitionManagementSystemApplicationTests {
         User user = new User();
         user.setPassword("123456");
         user.setAccountName("lisi");
-        R register = controller.register(user);
-        System.out.println(register);
+//        R register = controller.register(user);
+//        System.out.println(register);
     }
 
 

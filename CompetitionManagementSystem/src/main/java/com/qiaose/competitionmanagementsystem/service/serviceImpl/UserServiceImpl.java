@@ -106,6 +106,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findUser(User user) {
+        return userMapper.findUser(user);
+    }
+
+    @Override
     public UserDto PoToDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setUserId(String.valueOf(user.getId()));

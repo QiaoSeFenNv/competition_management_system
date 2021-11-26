@@ -25,7 +25,7 @@ public interface SysFrontendMenuTableService{
 
     SysFrontendMenuTable selectByPrimaryKeyTwo(long id);
 
-//    List<SysFrontendMenuTable> listWithTree(Long id);
+
 
     List<SysFrontendMenuTable> listWithTree(Long id);
 
@@ -33,4 +33,5 @@ public interface SysFrontendMenuTableService{
 
     List<SysFrontendMenuTable> selectByAll();
 
+    List<SysFrontendMenuTable> findMenu(String name, Integer state);
 }

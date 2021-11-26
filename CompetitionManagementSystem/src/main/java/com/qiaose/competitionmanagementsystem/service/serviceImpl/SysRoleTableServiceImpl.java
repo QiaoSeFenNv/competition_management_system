@@ -64,4 +64,14 @@ public class SysRoleTableServiceImpl implements SysRoleTableService {
         return sysRoleTable;
     }
 
+    @Override
+    public SysRoleTable selectByName(String role) {
+        return sysRoleTableMapper.selectByName(role);
+    }
+
+    @Override
+    public List<SysRoleTable> selectFindName(String roleName) {
+        return sysRoleTableMapper.selectFindName(roleName);
+    }
+
 }

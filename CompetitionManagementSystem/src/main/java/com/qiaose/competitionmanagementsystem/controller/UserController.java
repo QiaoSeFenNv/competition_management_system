@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
 
+import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -14,6 +15,7 @@ import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 
+import io.netty.util.internal.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,9 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Size;
 
 import java.util.*;
 
@@ -63,6 +68,41 @@ public class UserController {
     }
 
 
+    @GetMapping("/findUser")
+    @ApiOperation(value="模糊查询用户", notes="查找带有条件用户数据")
+    public R getList(
+            @RequestParam(value = "name",required = false) String name,
+            @RequestParam(value = "phone",required = false) String phone,
+            @RequestParam(value = "role",required = false) String role,
+            @RequestParam(defaultValue = "1", value = "page") Integer page,
+            @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+
+        SysRoleTable sysRoleTable = null;
+        //通过角色表来获得id号，再将id号进行查询  id值可能会很多
+        if (StringUtil.isNullOrEmpty(role)){
+            sysRoleTable = sysRoleTableService.selectByName(role);
+        }
+        //分页操作
+        PageHelper.startPage(page,pageSize);
+        //将三参数封装为一个对象 动态查询
+        User user = new User();
+        user.setAccountName(name);
+        user.setTelephone(Convert.toStr(phone));
+        if (sysRoleTable != null)
+            user.setRoleId(sysRoleTable.getRoleId());
+        List<User> list =  userService.findUser(user);
+        //分页操作
+        PageInfo<User> pageInfo = new PageInfo<>(list);
+        List<User> list1 = pageInfo.getList();
+
+        PageDto pageDto = new PageDto();
+        pageDto.setItems(list1);
+        pageDto.setTotal((int) pageInfo.getTotal());
+        return  R.ok(pageDto);
+    }
+
+
+
     @GetMapping("/getUserInfo")
     @ApiOperation(value="查询自己的用户信息", notes="由前端请求头中获取token,在利用token获得用户信息")
     public R getUser(HttpServletRequest request){
@@ -87,24 +127,24 @@ public class UserController {
 
 
 
-    /**
-     * 添加用户、用户自行注册。
-     * @param user
-     * @return
-     */
-    @PostMapping("/register")
-    @ApiOperation(value="用户注册信息", notes="由前端发送用户信息,后端保存用户信息")
-    public R register(User user) {
-        try {
-            System.out.println("register = " + user);
-            if (userService.register(user)) {
-                return  R.ok("成功注册");
-            }
-        }catch (Exception e){
-            return R.failed(e.getMessage());
-        }
-        return R.failed("注册失败");
-    }
+//    /**
+//     * 添加用户、用户自行注册。
+//     * @param user
+//     * @return
+//     */
+//    @PostMapping("/register")
+//    @ApiOperation(value="用户注册信息", notes="由前端发送用户信息,后端保存用户信息")
+//    public R register(User user) {
+//        try {
+//            System.out.println("register = " + user);
+//            if (userService.register(user)) {
+//                return  R.ok("成功注册");
+//            }
+//        }catch (Exception e){
+//            return R.failed(e.getMessage());
+//        }
+//        return R.failed("注册失败");
+//    }
 
 
 

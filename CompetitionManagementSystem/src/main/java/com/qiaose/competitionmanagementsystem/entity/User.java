@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
