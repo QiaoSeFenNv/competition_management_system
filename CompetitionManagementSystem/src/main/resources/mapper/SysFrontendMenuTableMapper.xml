@@ -76,7 +76,7 @@
         label like concat('%' , #{name,jdbcType=VARCHAR} , '%')
       </if>
       <if test="state != null ">
-        or state = #{state,jdbcType=INTEGER}
+        and state = #{state,jdbcType=INTEGER}
       </if>
     </where>
   </select>

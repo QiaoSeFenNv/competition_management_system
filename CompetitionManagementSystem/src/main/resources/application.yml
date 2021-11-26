@@ -47,5 +47,16 @@ spring:
             max-file-size: 50MB
             max-request-size: 100MB
 
+    mail:
+        username: qiaosefennv@163.com
+        password: SMYJQCSGYYGNWWFX
+        host: smtp.163.com
+        properties:
+            mail:
+                smtp:
+                    ssl:
+                        enable: true
+
+
 
 

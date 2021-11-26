@@ -12,7 +12,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling
 @SpringBootApplication()
 @MapperScan("com.qiaose.competitionmanagementsystem.mapper")
 public class CompetitionManagementSystemApplication extends SpringBootServletInitializer {

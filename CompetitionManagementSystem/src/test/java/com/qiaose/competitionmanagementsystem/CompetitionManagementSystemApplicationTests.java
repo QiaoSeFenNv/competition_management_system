@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem;
 
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
@@ -21,6 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +32,18 @@ import java.util.List;
 class CompetitionManagementSystemApplicationTests {
 
 
+//    @Autowired
+//    JavaMailSenderImpl javaMailSender;
 //
-    @Test
-    void contextLoads() {
-    }
+//
+//    @Test
+//    void contextLoads() {
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setSubject("开始工作了");
+//        message.setText("打工人的生活正式开始，今天是"+ DateUtil.date()+"天气良好，是打工的美好一天");
+//        message.setFrom("qiaosefennv@163.com");
+//        message.setTo("642190034@qq.com");
+//        javaMailSender.send(message);
+//    }
 
 }

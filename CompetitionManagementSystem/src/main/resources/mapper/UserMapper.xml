@@ -62,10 +62,10 @@
         account_name like concat('%' ,#{accountName,jdbcType=VARCHAR}, '%')
       </if>
       <if test="telephone != null and telephone!='' ">
-        or telephone like concat('%' ,#{telephone,jdbcType=VARCHAR}, '%')
+        and telephone like concat('%' ,#{telephone,jdbcType=VARCHAR}, '%')
       </if>
       <if test="roleId != null and roleId!='' ">
-        or role_id = #{roleId,jdbcType=VARCHAR}
+        and role_id = #{roleId,jdbcType=VARCHAR}
       </if>
     </where>
   </select>
