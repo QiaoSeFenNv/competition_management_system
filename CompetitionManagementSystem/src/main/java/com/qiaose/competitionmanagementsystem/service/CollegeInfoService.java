@@ -19,7 +19,10 @@ public interface CollegeInfoService{
 
     int updateByPrimaryKey(CollegeInfo record);
 
-    List<CollegeInfo> selectAll();
+    List<CollegeInfo> findByName(String collegeName);
+
 
     CollegeInfo selectByName(String collegeName);
+
+    List<CollegeInfo> selectAll();
 }

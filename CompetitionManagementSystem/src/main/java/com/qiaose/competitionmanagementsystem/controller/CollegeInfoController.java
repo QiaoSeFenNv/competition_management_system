@@ -33,9 +33,10 @@ public class CollegeInfoController {
 
     @GetMapping("/getAllDeptInfo")
     @ApiOperation(value="查询所有二级学院", notes="显示所有二级学院")
-    public R getAllDeptInfo() {
+    public R getAllDeptInfo(@RequestParam(required = false ,value = "collegeName") String collegeName ) {
 
-        List<CollegeInfo> collegeInfos = collegeInfoService.selectAll();
+
+        List<CollegeInfo> collegeInfos = collegeInfoService.findByName(collegeName);
 
         return  R.ok(collegeInfos);
     }

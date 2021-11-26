@@ -79,6 +79,10 @@ public class TaleUtils {
         return JSON.toJSONString(src, filter);
     }
 
+    public static void main(String[] args) {
+        System.out.println(getUplodFilePath());
+    }
+
 }
 
 

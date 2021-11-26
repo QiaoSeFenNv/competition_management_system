@@ -52,7 +52,7 @@ public class StudentInfoController {
     @GetMapping("/getCurStu")
     @ApiOperation(value="查询当前学生信息", notes="返回数据为学生所有信息")
 //    @Transactional(rollbackFor = Exception.class)
-    public R getCurStu(@RequestParam @NotNull String stuId) {
+    public R getCurStu(@RequestParam(required = false)  String stuId) {
         //根据学号查询学生信息对象
         StudentInfo studentInfo = studentInfoService.selectByStuId(stuId);
         if (studentInfo == null){

@@ -45,13 +45,20 @@ public class CollegeInfoServiceImpl implements CollegeInfoService{
     }
 
     @Override
-    public List<CollegeInfo> selectAll() {
-        return collegeInfoMapper.selectAll();
+    public List<CollegeInfo> findByName(String collegeName) {
+        return collegeInfoMapper.findByName(collegeName);
     }
+
+
 
     @Override
     public CollegeInfo selectByName(String collegeName) {
         return collegeInfoMapper.selectByName(collegeName);
+    }
+
+    @Override
+    public List<CollegeInfo> selectAll() {
+        return collegeInfoMapper.selectAll();
     }
 
 }

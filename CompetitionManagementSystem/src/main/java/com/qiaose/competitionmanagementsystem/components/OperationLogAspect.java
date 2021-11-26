@@ -27,7 +27,9 @@ public class OperationLogAspect {
 
 
 
-    @Pointcut("execution(public * com.qiaose.competitionmanagementsystem.controller.GlobalExceptionHandler..*(..))")
+    @Pointcut(  "execution(public * com.qiaose.competitionmanagementsystem.controller.GlobalExceptionHandler..*(..)) "
+            + "||"+
+            "execution(public * com.qiaose.competitionmanagementsystem.components.OperationLogAspect..*(..))"   )
     public void ExceptionMethod() {
     }
 
@@ -63,7 +65,7 @@ public class OperationLogAspect {
         } else {
             requestLog.append("请求参数 = [");
             for (int i = 0; i < paramLength - 1; i++) {
-                requestLog.append(paramNames[i]).append("=").append(JSONObject.toJSONString(paramValues[i])).append(",");
+                requestLog.append(paramNames[i]).append("=").append(JSONObject.toJSONString(paramValues[i])).append(",/t/t/t/t");
             }
             requestLog.append(paramNames[paramLength - 1]).append("=").append(JSONObject.toJSONString(paramValues[paramLength - 1])).append("]");
         }
