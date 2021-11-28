@@ -21,6 +21,15 @@
     from competition_slideshow
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="selectAll"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_slideshow
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from competition_slideshow

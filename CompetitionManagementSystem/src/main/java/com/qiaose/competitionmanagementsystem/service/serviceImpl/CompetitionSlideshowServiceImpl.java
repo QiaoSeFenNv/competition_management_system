@@ -5,6 +5,9 @@ import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionSlideshow;
 import com.qiaose.competitionmanagementsystem.mapper.CompetitionSlideshowMapper;
 import com.qiaose.competitionmanagementsystem.service.CompetitionSlideshowService;
+
+import java.util.List;
+
 @Service
 public class CompetitionSlideshowServiceImpl implements CompetitionSlideshowService{
 
@@ -39,6 +42,11 @@ public class CompetitionSlideshowServiceImpl implements CompetitionSlideshowServ
     @Override
     public int updateByPrimaryKey(CompetitionSlideshow record) {
         return competitionSlideshowMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<CompetitionSlideshow> selectAll() {
+        return competitionSlideshowMapper.selectAll();
     }
 
 }

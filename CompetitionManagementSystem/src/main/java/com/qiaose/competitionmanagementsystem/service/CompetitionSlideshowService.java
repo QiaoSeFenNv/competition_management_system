@@ -1,6 +1,9 @@
 package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionSlideshow;
+
+import java.util.List;
+
 public interface CompetitionSlideshowService{
 
 
@@ -16,4 +19,5 @@ public interface CompetitionSlideshowService{
 
     int updateByPrimaryKey(CompetitionSlideshow record);
 
+    List<CompetitionSlideshow> selectAll();
 }

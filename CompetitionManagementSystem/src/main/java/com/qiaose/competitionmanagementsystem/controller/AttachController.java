@@ -91,7 +91,7 @@ public class AttachController {
 
     @PostMapping(value = "/images")
     @ResponseBody
-    @ApiOperation(value = "上传图片", notes = "限制文件上传种类，清楚之前用户上传得头像")
+    @ApiOperation(value = "上传图片", notes = "限制文件上传种类，用户上传得头像")
     @Transactional(rollbackFor = Exception.class)
     public R uploadImages(HttpServletRequest request, @RequestParam("file") MultipartFile[] multipartFiles) throws IOException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -142,5 +142,8 @@ public class AttachController {
         }
         return R.ok("上传成功");
     }
+
+
+
 
 }

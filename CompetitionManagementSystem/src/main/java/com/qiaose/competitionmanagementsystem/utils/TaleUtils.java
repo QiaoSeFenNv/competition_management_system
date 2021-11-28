@@ -52,6 +52,11 @@ public class TaleUtils {
         return getString(name, prefix);
     }
 
+    public static String getSlide(String name) {
+        String prefix = "/slides";
+        return getString(name, prefix);
+    }
+
     private static String getString(String name, String prefix) {
         if (!new File(AttachController.CLASSPATH + prefix).exists()) {
             new File(AttachController.CLASSPATH + prefix).mkdirs();
@@ -73,11 +78,6 @@ public class TaleUtils {
     }
 
 
-    public static String filterFieldsJson(Object src, Class<?> clazz, String... args)
-    {
-        SimplePropertyPreFilter filter = new SimplePropertyPreFilter(clazz, args);
-        return JSON.toJSONString(src, filter);
-    }
 
     public static void main(String[] args) {
         System.out.println(getUplodFilePath());
