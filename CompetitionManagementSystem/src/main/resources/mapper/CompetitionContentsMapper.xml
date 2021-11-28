@@ -28,6 +28,15 @@
     from competition_contents
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+
+  <select id="selectALl"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_contents
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from competition_contents

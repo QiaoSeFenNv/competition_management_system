@@ -1,8 +1,10 @@
 package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionContents;
-public interface CompetitionContentsService{
 
+import java.util.List;
+
+public interface CompetitionContentsService {
 
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,6 @@ public interface CompetitionContentsService{
 
     int updateByPrimaryKey(CompetitionContents record);
 
+    List<CompetitionContents> selectALl();
 }
+

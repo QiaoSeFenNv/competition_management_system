@@ -5,8 +5,11 @@ import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.mapper.CompetitionContentsMapper;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionContents;
 import com.qiaose.competitionmanagementsystem.service.CompetitionContentsService;
+
+import java.util.List;
+
 @Service
-public class CompetitionContentsServiceImpl implements CompetitionContentsService{
+public class CompetitionContentsServiceImpl implements CompetitionContentsService {
 
     @Resource
     private CompetitionContentsMapper competitionContentsMapper;
@@ -41,4 +44,10 @@ public class CompetitionContentsServiceImpl implements CompetitionContentsServic
         return competitionContentsMapper.updateByPrimaryKey(record);
     }
 
+    @Override
+    public List<CompetitionContents> selectALl() {
+        return competitionContentsMapper.selectALl();
+    }
+
 }
+
