@@ -75,7 +75,6 @@ public class StudentInfo implements Serializable {
     /**
     * 二级学院id
     */
-    @JSONField(serialize = false)
     @JsonIgnore
     private Integer deptId;
 
@@ -102,14 +101,12 @@ public class StudentInfo implements Serializable {
     /**
     * 银行id
     */
-    @JSONField(serialize = false)
     @JsonIgnore
     private Integer bankId;
 
     /**
     * 班级id
     */
-    @JSONField(serialize = false)
     @JsonIgnore
     private Integer classId;
 

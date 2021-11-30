@@ -8,12 +8,14 @@ import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.entity.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.entity.User;
 
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
+import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
@@ -40,6 +42,9 @@ public class FrontendMenuController {
     SysRoleFrontendMenuTableService sysRoleFrontendMenuTableService;
 
     @Autowired
+    SysRoleUserTableService sysRoleUserTableService;
+
+    @Autowired
     MyUtils myUtils;
 
     @GetMapping("/getMenuList")
@@ -49,7 +54,17 @@ public class FrontendMenuController {
                         @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
 
         User user = myUtils.TokenGetUserByName(request);
-        List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable = sysRoleFrontendMenuTableService.selectByRoleId(Long.valueOf(user.getRoleId()));
+
+        //实际是角色id
+        List<SysRoleUserTable> sysRoleUserTables = sysRoleUserTableService.selectByRoleId(user.getRoleId());
+
+        List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable = new ArrayList<>();
+        for (SysRoleUserTable sysRoleUserTable : sysRoleUserTables) {
+            List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTables = sysRoleFrontendMenuTableService.selectByRoleId(Long.valueOf(user.getRoleId()));
+            for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTables) {
+                sysRoleFrontendMenuTable.add(roleFrontendMenuTable);
+            }
+        }
 
         PageHelper.startPage(page,pageSize);
 
@@ -84,6 +99,7 @@ public class FrontendMenuController {
         if(sysFrontendDto.getLabel() == null){
             return R.failed("填写为空信息");
         }
+        //角色号
         User user = myUtils.TokenGetUserByName(request);
         String roleId = user.getRoleId();
         //数据插入菜单表

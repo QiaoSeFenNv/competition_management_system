@@ -8,6 +8,7 @@ import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
 import com.qiaose.competitionmanagementsystem.mapper.SysRoleFrontendMenuTableMapper;
+import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
@@ -30,7 +31,8 @@ public class RoleController {
 
 
     @Autowired
-    SysRoleFrontendMenuTableMapper sysRoleFrontendMenuTableMapper;
+    SysRoleFrontendMenuTableService sysRoleFrontendMenuTableService;
+
 
     @GetMapping("/getAllRoles")
     @ApiOperation(value = "返回所有角色", notes = "不需要发送任何请求")
@@ -138,6 +140,23 @@ public class RoleController {
     }
 
 
+
+    @GetMapping("/binding")
+    @ApiOperation(value = "绑定角色与菜单关系", notes = "前端需要传入两个值，role对应角色表中的id，auth对应菜单表id")
+    @Transactional(rollbackFor = Exception.class)
+    public R RoleBindMenu(@RequestParam Long roleId,
+                          @RequestParam Long authId){
+
+
+        SysRoleFrontendMenuTable sysRoleFrontendMenuTable = new SysRoleFrontendMenuTable();
+        sysRoleFrontendMenuTable.setRoleId(roleId);
+        sysRoleFrontendMenuTable.setAuthorityId(authId);
+
+        sysRoleFrontendMenuTableService.insertSelective(sysRoleFrontendMenuTable);
+
+        return R.ok("绑定成功");
+    }
+
     public Boolean InsertRoleFrontMenu(SysRoleDto sysRoleDto) throws Exception{
         try {
             if (sysRoleDto.getMenu() == null){
@@ -152,7 +171,7 @@ public class RoleController {
             sysRoleFrontendMenuTable.setRoleId(Long.valueOf(sysRoleDto.getRoleId()));
             for (Integer integer : menu) {
                 sysRoleFrontendMenuTable.setAuthorityId(Long.valueOf(integer));
-                sysRoleFrontendMenuTableMapper.insertSelective(sysRoleFrontendMenuTable);
+                sysRoleFrontendMenuTableService.insertSelective(sysRoleFrontendMenuTable);
             }
         }catch (Exception exception){
             throw new Exception();

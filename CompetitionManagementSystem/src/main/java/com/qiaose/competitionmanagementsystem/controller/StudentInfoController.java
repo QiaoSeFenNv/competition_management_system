@@ -119,17 +119,23 @@ public class StudentInfoController {
     @ApiOperation(value="更新当前学生信息", notes="携带参数需要携带id")
     @Transactional(rollbackFor = Exception.class)
     public R updateCurStu(@RequestBody @Valid StudentInfo studentInfo) {
+        
+        //查询当前对象
+        StudentInfo studentInfo1 = studentInfoService.selectByPrimaryKey(studentInfo.getId());
+
+        Integer bankId = studentInfo1.getBankId();
+        Integer classId = studentInfo1.getClassId();
+        Integer deptId = studentInfo1.getDeptId();
+        //取出原本bankId
         BankTable bankTable = studentInfo.getBankTable();
+        bankTable.setId(bankId);
+
         ClassTable classTable = studentInfo.getClassTable();
-        CollegeInfo collegeInfo = studentInfo.getCollegeInfo();
+        classTable.setClassId(classId);
 
-        BankTable bankTable_ID = bankTableService.selectByPrimaryKey(bankTable.getId());
-        ClassTable classTable_ID = classTableService.selectByPrimaryKey(classTable.getClassId());
-        CollegeInfo collegeInfo_ID = collegeInfoService.selectByPrimaryKey(collegeInfo.getId());
-
-        studentInfo.setDeptId(collegeInfo_ID.getId());
-        studentInfo.setClassId(classTable_ID.getClassId());
-        studentInfo.setBankId(bankTable_ID.getId());
+        studentInfo.setDeptId(deptId);
+        studentInfo.setClassId(classId);
+        studentInfo.setBankId(bankId);
 
         int k = studentInfoService.updateByPrimaryKeySelective(studentInfo);
         int i = bankTableService.updateByPrimaryKeySelective(bankTable);

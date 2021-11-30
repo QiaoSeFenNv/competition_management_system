@@ -2,6 +2,7 @@ package com.qiaose.competitionmanagementsystem.entity;
 
 import java.io.Serializable;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,6 +17,7 @@ public class CollegeInfo implements Serializable {
     * id
     */
     @TableId(type= IdType.AUTO)
+    @JsonIgnore
     private Integer id;
 
     /**

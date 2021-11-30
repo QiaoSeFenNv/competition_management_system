@@ -18,7 +18,7 @@ public class ClassTable implements Serializable {
     /**
     * 班级id
     */
-
+    @JsonIgnore
     private Integer classId;
 
     /**

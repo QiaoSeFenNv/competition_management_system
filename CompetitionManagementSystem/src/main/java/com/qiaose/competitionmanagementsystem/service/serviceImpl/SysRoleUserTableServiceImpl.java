@@ -7,6 +7,7 @@ import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class SysRoleUserTableServiceImpl implements SysRoleUserTableService {
@@ -35,7 +36,7 @@ public class SysRoleUserTableServiceImpl implements SysRoleUserTableService {
     }
 
     @Override
-    public SysRoleUserTable selectByRoleId(String userId) {
+    public List<SysRoleUserTable> selectByRoleId(String userId) {
         return sysRoleUserTableMapper.selectByRoleId(userId);
     }
 
@@ -48,5 +49,6 @@ public class SysRoleUserTableServiceImpl implements SysRoleUserTableService {
     public int updateByPrimaryKey(SysRoleUserTable record) {
         return sysRoleUserTableMapper.updateByPrimaryKey(record);
     }
+
 
 }

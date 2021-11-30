@@ -2,6 +2,8 @@ package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.SysRoleUserTable;
 
+import java.util.List;
+
 public interface SysRoleUserTableMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -11,9 +13,11 @@ public interface SysRoleUserTableMapper {
 
     SysRoleUserTable selectByPrimaryKey(Integer id);
 
-    SysRoleUserTable selectByRoleId(String userId);
+    List<SysRoleUserTable> selectByRoleId(String userId);
 
     int updateByPrimaryKeySelective(SysRoleUserTable record);
 
     int updateByPrimaryKey(SysRoleUserTable record);
+
+
 }

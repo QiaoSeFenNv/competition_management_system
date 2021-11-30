@@ -21,7 +21,9 @@ import com.qiaose.competitionmanagementsystem.utils.TaleUtils;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -38,5 +40,7 @@ class CompetitionManagementSystemApplicationTests {
     void contextLoads() {
 
     }
+
+
 
 }

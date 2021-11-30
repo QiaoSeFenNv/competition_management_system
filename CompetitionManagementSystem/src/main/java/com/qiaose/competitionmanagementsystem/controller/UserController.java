@@ -112,8 +112,14 @@ public class UserController {
         User user = userService.selectByAccountName(username);
         UserDto userDto = userService.PoToDto(user);
         userDto.setToken(token);
-        SysRoleUserTable sysRoleUserTable = sysRoleUserTableService.selectByRoleId(user.getRoleId());
-        List<SysRoleTable> sysRoleTables = sysRoleTableService.selectByPrimaryKey(sysRoleUserTable.getRoleId());
+        List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByRoleId(user.getRoleId());
+        List<SysRoleTable> sysRoleTables = new ArrayList<>();
+        for (SysRoleUserTable roleUserTable : sysRoleUserTable) {
+            List<SysRoleTable> sysRoleTables1 = sysRoleTableService.selectByPrimaryKey(roleUserTable.getRoleId());
+            for (SysRoleTable sysRoleTable : sysRoleTables1) {
+                sysRoleTables.add(sysRoleTable);
+            }
+        }
         HashMap<String,String> role = new HashMap<>();
         for (SysRoleTable sysRoleTable : sysRoleTables) {
             role.put("roleName",sysRoleTable.getRoleName());
