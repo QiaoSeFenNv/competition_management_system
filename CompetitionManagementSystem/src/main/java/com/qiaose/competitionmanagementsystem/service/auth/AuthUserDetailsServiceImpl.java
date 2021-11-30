@@ -49,11 +49,17 @@ public class AuthUserDetailsServiceImpl implements UserDetailsService {
             //从用户中获得角色号（这里是等于中间表的userid字段）
             String userId = user.getRoleId();
             //通过角色号从RoleUser中间表中查出角色号
-            SysRoleUserTable sysRoleUserTable = sysRoleUserTableService.selectByRoleId(userId);
+            List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByRoleId(userId);
+            List<SysRoleTable> sysRoleTables = new ArrayList<>();
             //获取正真的角色号
-            String roleId = sysRoleUserTable.getRoleId();
+            for (SysRoleUserTable roleUserTable : sysRoleUserTable) {
+                List<SysRoleTable> sysRoleTable = sysRoleTableService.selectByPrimaryKey(roleUserTable.getRoleId());
+                for (SysRoleTable roleTable : sysRoleTable) {
+                    sysRoleTables.add(roleTable);
+                }
+            }
             //从角色表中获取角色（一个用户可以有多个角色）
-            List<SysRoleTable> sysRoleTables = sysRoleTableService.selectByPrimaryKey(roleId);
+
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
             //判断账号角色
             for (SysRoleTable sysRoleTable : sysRoleTables) {
