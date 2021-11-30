@@ -108,6 +108,7 @@ public class UserController {
     public R getUser(HttpServletRequest request){
         String token = request.getHeader("Authorization");
         System.out.println(token);
+        //
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userService.selectByAccountName(username);
         UserDto userDto = userService.PoToDto(user);
