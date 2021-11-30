@@ -99,7 +99,7 @@ public class StudentInfoController {
         //查找college对应id号插入实体中
         CollegeInfo collegeInfo_id = collegeInfoService.selectByName(collegeInfo.getCollegeName());
         studentInfo.setDeptId(collegeInfo_id.getId());
-
+        System.out.println(studentInfo);
 
         //插入整个对象
         studentInfo.setClassId(classId);
