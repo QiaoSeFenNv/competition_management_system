@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.components;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionLog;
 import com.qiaose.competitionmanagementsystem.service.CompetitionLogService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;

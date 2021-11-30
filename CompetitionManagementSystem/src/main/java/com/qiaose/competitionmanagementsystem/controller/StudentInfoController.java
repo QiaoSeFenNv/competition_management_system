@@ -1,23 +1,23 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
 import com.baomidou.mybatisplus.extension.api.R;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+
 import com.qiaose.competitionmanagementsystem.entity.BankTable;
 import com.qiaose.competitionmanagementsystem.entity.ClassTable;
 import com.qiaose.competitionmanagementsystem.entity.CollegeInfo;
 import com.qiaose.competitionmanagementsystem.entity.StudentInfo;
-import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
-import com.qiaose.competitionmanagementsystem.entity.dto.SysUserDto;
+
 import com.qiaose.competitionmanagementsystem.service.BankTableService;
 import com.qiaose.competitionmanagementsystem.service.ClassTableService;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.StudentInfoService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
+
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
+import io.netty.util.internal.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.hibernate.validator.constraints.Length;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -25,9 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @RestController
 @Api(value = "学生信息接口")
@@ -78,17 +76,21 @@ public class StudentInfoController {
     @Transactional(rollbackFor = Exception.class)
     public R insertCurStu(@RequestBody @Valid StudentInfo studentInfo) {
         //从对象中取除 银行和班级对象，然后插入对应表中
-        BankTable bankTable = studentInfo.getBankTable();
-        Integer bankId = IDUtils.CreateIDInt();
+        BankTable bankTable = new BankTable();
+        bankTable = studentInfo.getBankTable();
+        Integer bankId = IDUtils.getUUIDInOrderId();
         bankTable.setId(bankId);
 
-        ClassTable classTable = studentInfo.getClassTable();
-        Integer classId = IDUtils.CreateIDInt();
-        classTable.setClassId(classId);
+        System.out.println(bankTable);
 
+        ClassTable classTable = new ClassTable();
+        classTable = studentInfo.getClassTable();
+        Integer classId = IDUtils.getUUIDInOrderId();
+        classTable.setClassId(classId);
+        System.out.println(classTable);
 
         CollegeInfo collegeInfo = studentInfo.getCollegeInfo();
-
+        System.out.println(collegeInfo);
 
         int i = bankTableService.insert(bankTable);
         int j = classTableService.insert(classTable);
@@ -102,6 +104,7 @@ public class StudentInfoController {
         //插入整个对象
         studentInfo.setClassId(classId);
         studentInfo.setBankId(bankId);
+        studentInfo.setCreateTime(DateKit.getNow());
 
         int k = studentInfoService.insertSelective(studentInfo);
         if ( i<=0 || j<=0 || k<=0) {

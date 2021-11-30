@@ -91,7 +91,8 @@ public class SlidesController {
         if (i<=0) {
             return R.failed("插入失败");
         }
-        return R.ok("插入成功");
+
+        return R.ok(competitionSlideshow);
 
     }
 

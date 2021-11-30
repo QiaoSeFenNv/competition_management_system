@@ -116,6 +116,7 @@ public class StudentInfo implements Serializable {
     /**
     * 学生信息创建时间
     */
+    @JsonIgnore
     private Date createTime;
 
     /**

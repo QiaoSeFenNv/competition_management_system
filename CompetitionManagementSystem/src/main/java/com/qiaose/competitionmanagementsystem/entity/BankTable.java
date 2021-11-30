@@ -18,6 +18,7 @@ public class BankTable implements Serializable {
     /**
     * 银行id
     */
+
     private Integer id;
 
     /**

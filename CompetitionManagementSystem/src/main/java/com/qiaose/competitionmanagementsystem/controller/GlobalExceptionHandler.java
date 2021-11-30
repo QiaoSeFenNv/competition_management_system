@@ -21,6 +21,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public R exception(Exception e){
 
-        return R.failed(e.getMessage());
+        return R.failed(String.valueOf(e));
     }
 }

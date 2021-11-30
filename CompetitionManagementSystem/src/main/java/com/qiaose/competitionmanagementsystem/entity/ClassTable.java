@@ -18,11 +18,13 @@ public class ClassTable implements Serializable {
     /**
     * 班级id
     */
+
     private Integer classId;
 
     /**
     * 年纪
     */
+
     private String grade;
 
     /**
