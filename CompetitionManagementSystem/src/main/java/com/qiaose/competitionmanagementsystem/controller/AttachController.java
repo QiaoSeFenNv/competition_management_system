@@ -83,7 +83,7 @@ public class AttachController {
                 }
                 competitionAttachService.insertSelective(competitionAttach);
                 System.out.println("成功上传且写入数据");
-                return R.ok("上传成功");
+                return R.ok(competitionAttach);
             }
         }
         return R.failed("非法的文件，不允许的文件类型："+suffix);

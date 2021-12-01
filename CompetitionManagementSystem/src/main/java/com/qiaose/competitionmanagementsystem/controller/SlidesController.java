@@ -97,16 +97,16 @@ public class SlidesController {
     }
 
 
-//    @PostMapping("/update")
-//    @ApiOperation(value = "更新轮播图片", notes = "需要前端传递一个body，需要附带id值")
-//    @Transactional(rollbackFor = Exception.class)
-//    public R updateSlides(@RequestBody CompetitionSlideshow competitionSlideshow ){
-//        int i = competitionSlideshowService.updateByPrimaryKeySelective(competitionSlideshow);
-//        if (i<=0) {
-//            return R.failed("更新失败");
-//        }
-//        return R.ok("更新成功");
-//    }
+    @PostMapping("/update")
+    @ApiOperation(value = "更新轮播图片", notes = "需要前端传递一个body，需要附带id值")
+    @Transactional(rollbackFor = Exception.class)
+    public R updateSlides(@RequestBody CompetitionSlideshow competitionSlideshow ){
+        int i = competitionSlideshowService.updateByPrimaryKeySelective(competitionSlideshow);
+        if (i<=0) {
+            return R.failed("更新失败");
+        }
+        return R.ok("更新成功");
+    }
 
     @PostMapping("/delete")
     @ApiOperation(value = "删除轮播图片", notes = "需要前端传递一个id值")
