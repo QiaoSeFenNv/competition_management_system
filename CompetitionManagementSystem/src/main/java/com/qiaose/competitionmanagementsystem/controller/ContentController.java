@@ -45,8 +45,8 @@ public class ContentController {
 
     @PostMapping("/getContent")
     @ApiOperation(value = "获得选择文章",notes = "输入id值即可")
-    public R getContent(@RequestBody CompetitionContents competitionContents){
-        competitionContents.getId()
+    public R getContent(@RequestBody CompetitionContents competitionContent){
+        Integer id = competitionContent.getId();
         CompetitionContents competitionContents = competitionContentsService.selectByPrimaryKey(id);
         if (competitionContents == null){
             return R.failed("失败");
