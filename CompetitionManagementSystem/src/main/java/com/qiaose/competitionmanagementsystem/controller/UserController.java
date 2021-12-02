@@ -5,6 +5,7 @@ import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleUserTable;
@@ -21,6 +22,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -51,6 +54,8 @@ public class UserController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    BCryptPasswordEncoderUtil bCryptPasswordEncoderUtil;
 
     @GetMapping("/search")
     @ApiOperation(value="查询所有用户", notes="显示所有用户数据,封装未R.ok类型")
@@ -134,24 +139,32 @@ public class UserController {
 
 
 
-//    /**
-//     * 添加用户、用户自行注册。
-//     * @param user
-//     * @return
-//     */
-//    @PostMapping("/register")
-//    @ApiOperation(value="用户注册信息", notes="由前端发送用户信息,后端保存用户信息")
-//    public R register(User user) {
-//        try {
-//            System.out.println("register = " + user);
-//            if (userService.register(user)) {
-//                return  R.ok("成功注册");
-//            }
-//        }catch (Exception e){
-//            return R.failed(e.getMessage());
-//        }
-//        return R.failed("注册失败");
-//    }
+    @PostMapping("/change")
+    @ApiOperation(value="修改密码,在已登录的情况下", notes="三个信息，可以放在body中")
+    @Transactional(rollbackFor = {Exception.class})
+    public R changePass(@RequestParam(required = true) String username,
+                        @RequestParam(required = true) String OncePassword,
+                        @RequestParam(required = true) String passWord){
+
+        User user = userService.selectByAccountName(username);
+        if (user == null)
+            return R.failed("账号输入错误");
+        if (!OncePassword.equals(passWord)) {
+            return R.failed("两次密码不同");
+        }
+
+        String replacePs = bCryptPasswordEncoderUtil.encode(passWord);
+
+        user.setPassword(replacePs);
+
+        int i = userService.updateByPrimaryKeySelective(user);
+
+        if (i<=0){
+            return R.failed("");
+        }
+
+        return R.ok("修改成功");
+    }
 
 
 

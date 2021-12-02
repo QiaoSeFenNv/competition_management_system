@@ -43,6 +43,20 @@ public class ContentController {
         return R.ok(pageDto);
     }
 
+    @PostMapping("/getContent")
+    @ApiOperation(value = "获得选择文章",notes = "输入id值即可")
+    public R getContent(@RequestBody CompetitionContents competitionContents){
+        competitionContents.getId()
+        CompetitionContents competitionContents = competitionContentsService.selectByPrimaryKey(id);
+        if (competitionContents == null){
+            return R.failed("失败");
+        }
+        return R.ok(competitionContents);
+    }
+
+
+
+
     @PostMapping("/insertContents")
     @ApiOperation(value = "插入文章",notes = "需要body")
     @Transactional(rollbackFor = {Exception.class})
