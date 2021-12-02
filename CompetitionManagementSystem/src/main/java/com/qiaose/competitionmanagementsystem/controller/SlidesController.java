@@ -115,7 +115,7 @@ public class SlidesController {
     @ApiOperation(value = "删除轮播图片", notes = "需要前端传递一个id值")
     @Transactional(rollbackFor = Exception.class)
     public R deleteSlides(@RequestBody CompetitionSlideshow competitionSlideshow ){
-        final Integer id = competitionSlideshow.getId();
+        Integer id = competitionSlideshow.getId();
         int i = competitionSlideshowService.deleteByPrimaryKey(id);
         if (i<=0) {
             return R.failed("删除失败");

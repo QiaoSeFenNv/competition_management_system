@@ -72,11 +72,11 @@ public class ContentController {
         return R.ok("");
     }
 
-    @GetMapping("/deleteContents")
+    @PostMapping("/deleteContents")
     @ApiOperation(value = "删除文章",notes = "需要id")
     @Transactional(rollbackFor = {Exception.class})
-    public R deleteContents(@RequestParam(required = false,value = "id")Integer id){
-
+    public R deleteContents(@RequestBody CompetitionContents competitionContents){
+        Integer id = competitionContents.getId();
         int i = competitionContentsService.deleteByPrimaryKey(id);
 
         if (i<=0){
