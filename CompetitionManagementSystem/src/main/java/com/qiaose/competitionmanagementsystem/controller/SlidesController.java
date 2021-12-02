@@ -108,11 +108,14 @@ public class SlidesController {
         return R.ok("更新成功");
     }
 
+
+
+    /* 以后都是使用post*/
     @PostMapping("/delete")
     @ApiOperation(value = "删除轮播图片", notes = "需要前端传递一个id值")
     @Transactional(rollbackFor = Exception.class)
     public R deleteSlides(@RequestBody CompetitionSlideshow competitionSlideshow ){
-        Integer id = competitionSlideshow.getId();
+        final Integer id = competitionSlideshow.getId();
         int i = competitionSlideshowService.deleteByPrimaryKey(id);
         if (i<=0) {
             return R.failed("删除失败");
