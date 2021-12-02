@@ -37,6 +37,22 @@
     from competition_contents
   </select>
 
+
+  <select id="findContent"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_contents
+    <where>
+      <if test="title != null and title != ''">
+        title like title('%' , #{title,jdbcType=VARCHAR} , '%')
+      </if>
+
+    </where>
+  </select>
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from competition_contents

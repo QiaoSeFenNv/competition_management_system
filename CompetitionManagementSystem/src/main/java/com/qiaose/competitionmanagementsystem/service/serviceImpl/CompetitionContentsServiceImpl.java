@@ -49,5 +49,10 @@ public class CompetitionContentsServiceImpl implements CompetitionContentsServic
         return competitionContentsMapper.selectALl();
     }
 
+    @Override
+    public List<CompetitionContents> findContent(String sub) {
+        return competitionContentsMapper.findContent(sub);
+    }
+
 }
 

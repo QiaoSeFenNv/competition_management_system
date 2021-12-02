@@ -19,5 +19,7 @@ public interface CompetitionContentsService {
     int updateByPrimaryKey(CompetitionContents record);
 
     List<CompetitionContents> selectALl();
+
+    List<CompetitionContents> findContent(String sub);
 }
 

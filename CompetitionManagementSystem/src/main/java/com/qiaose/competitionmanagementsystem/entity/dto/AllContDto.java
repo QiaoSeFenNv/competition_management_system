@@ -1,19 +1,16 @@
-package com.qiaose.competitionmanagementsystem.entity;
+package com.qiaose.competitionmanagementsystem.entity.dto;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
-
+@Builder
 @Data
-//@JsonInclude(JsonInclude.Include.NON_NULL)
-public class CompetitionContents implements Serializable {
-    @TableId(type = IdType.AUTO)
+public class AllContDto implements Serializable {
     private Integer id;
 
     /**
@@ -38,10 +35,6 @@ public class CompetitionContents implements Serializable {
     @JsonIgnore
     private Date updateTime;
 
-    /**
-     * 内容文字
-     */
-    private String content;
 
     @JsonIgnore
     @JSONField(serialize = false)

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionContents;
+import com.qiaose.competitionmanagementsystem.entity.dto.AllContDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 
 import com.qiaose.competitionmanagementsystem.service.CompetitionContentsService;
@@ -33,7 +34,35 @@ public class ContentController {
             ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize){
 
         PageHelper.startPage(page,pageSize);
+        List<AllContDto> allContDto = new ArrayList<>();
         List<CompetitionContents> competitionContents = competitionContentsService.selectALl();
+        for (CompetitionContents competitionContent : competitionContents) {
+            allContDto.add(AllContDto.builder()
+                            .id(competitionContent.getId())
+                            .hits(competitionContent.getHits())
+                            .slug(competitionContent.getSlug())
+                            .title(competitionContent.getContent())
+                            .status(competitionContent.getStatus())
+                            .build());
+        }
+        PageInfo<AllContDto> pageInfo = new PageInfo<>(allContDto);
+        List<AllContDto> list = pageInfo.getList();
+        PageDto pageDto = new PageDto();
+        pageDto.setItems(list);
+        pageDto.setTotal((int) pageInfo.getTotal());
+
+        return R.ok(pageDto);
+    }
+
+
+    @GetMapping("/findContent")
+    @ApiOperation(value = "模糊查找")
+    public R findContent(@RequestParam(defaultValue = "1", value = "page") Integer page
+            ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize
+            ,@RequestParam(required = false) String sub){
+
+        PageHelper.startPage(page,pageSize);
+        List<CompetitionContents> competitionContents = competitionContentsService.findContent(sub);
         PageInfo<CompetitionContents> pageInfo = new PageInfo<>(competitionContents);
         List<CompetitionContents> list = pageInfo.getList();
         PageDto pageDto = new PageDto();
@@ -42,6 +71,7 @@ public class ContentController {
 
         return R.ok(pageDto);
     }
+
 
     @PostMapping("/getContent")
     @ApiOperation(value = "获得选择文章",notes = "输入id值即可")
