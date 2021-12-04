@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.CompetitionCreditsMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.CompetitionCredits">
+    <!--@mbg.generated-->
+    <!--@Table competition_credits-->
+    <id column="credit_id" jdbcType="INTEGER" property="creditId" />
+    <result column="credit_level" jdbcType="VARCHAR" property="creditLevel" />
+    <result column="credit_credits" jdbcType="INTEGER" property="creditCredits" />
+    <result column="reward_id" jdbcType="BIGINT" property="rewardId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    credit_id, credit_level, credit_credits, reward_id, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from competition_credits
+    where credit_id = #{creditId,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="getAllCredit"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_credits
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from competition_credits
+    where credit_id = #{creditId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionCredits">
+    <!--@mbg.generated-->
+    insert into competition_credits (credit_id, credit_level, credit_credits, 
+      reward_id, create_time, update_time
+      )
+    values (#{creditId,jdbcType=INTEGER}, #{creditLevel,jdbcType=VARCHAR}, #{creditCredits,jdbcType=INTEGER}, 
+      #{rewardId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionCredits">
+    <!--@mbg.generated-->
+    insert into competition_credits
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="creditId != null">
+        credit_id,
+      </if>
+      <if test="creditLevel != null">
+        credit_level,
+      </if>
+      <if test="creditCredits != null">
+        credit_credits,
+      </if>
+      <if test="rewardId != null">
+        reward_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="creditId != null">
+        #{creditId,jdbcType=INTEGER},
+      </if>
+      <if test="creditLevel != null">
+        #{creditLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCredits != null">
+        #{creditCredits,jdbcType=INTEGER},
+      </if>
+      <if test="rewardId != null">
+        #{rewardId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionCredits">
+    <!--@mbg.generated-->
+    update competition_credits
+    <set>
+      <if test="creditLevel != null">
+        credit_level = #{creditLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCredits != null">
+        credit_credits = #{creditCredits,jdbcType=INTEGER},
+      </if>
+      <if test="rewardId != null">
+        reward_id = #{rewardId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where credit_id = #{creditId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionCredits">
+    <!--@mbg.generated-->
+    update competition_credits
+    set credit_level = #{creditLevel,jdbcType=VARCHAR},
+      credit_credits = #{creditCredits,jdbcType=INTEGER},
+      reward_id = #{rewardId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where credit_id = #{creditId,jdbcType=INTEGER}
+  </update>
+</mapper>

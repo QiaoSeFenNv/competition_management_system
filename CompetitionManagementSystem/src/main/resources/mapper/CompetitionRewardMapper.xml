@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.CompetitionRewardMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.CompetitionReward">
+    <!--@mbg.generated-->
+    <!--@Table competition_reward-->
+    <id column="reward_id" jdbcType="BIGINT" property="rewardId" />
+    <result column="reward_level" jdbcType="VARCHAR" property="rewardLevel" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    reward_id, reward_level, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from competition_reward
+    where reward_id = #{rewardId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectAll"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_reward
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from competition_reward
+    where reward_id = #{rewardId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="reward_id" keyProperty="rewardId" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionReward" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into competition_reward (reward_level, create_time, update_time
+      )
+    values (#{rewardLevel,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="reward_id" keyProperty="rewardId" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionReward" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into competition_reward
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rewardLevel != null">
+        reward_level,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rewardLevel != null">
+        #{rewardLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionReward">
+    <!--@mbg.generated-->
+    update competition_reward
+    <set>
+      <if test="rewardLevel != null">
+        reward_level = #{rewardLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where reward_id = #{rewardId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionReward">
+    <!--@mbg.generated-->
+    update competition_reward
+    set reward_level = #{rewardLevel,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where reward_id = #{rewardId,jdbcType=BIGINT}
+  </update>
+</mapper>
