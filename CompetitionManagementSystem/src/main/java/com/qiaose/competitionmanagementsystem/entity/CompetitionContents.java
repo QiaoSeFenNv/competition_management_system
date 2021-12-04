@@ -24,6 +24,8 @@ public class CompetitionContents implements Serializable {
     /**
      * 辅标题
      */
+    @JsonIgnore
+    @JSONField(serialize = false)
     private String slug;
 
     /**

@@ -108,6 +108,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/credit/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/reward/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/reward/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/organize/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/organize/**").permitAll()
                 //动态加载资源
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
 
