@@ -40,9 +40,9 @@ public class ContentController {
             allContDto.add(AllContDto.builder()
                             .id(competitionContent.getId())
                             .hits(competitionContent.getHits())
-                            .slug(competitionContent.getSlug())
-                            .title(competitionContent.getContent())
+                            .title(competitionContent.getTitle())
                             .status(competitionContent.getStatus())
+                            .createTime(competitionContent.getCreateTime())
                             .build());
         }
         PageInfo<AllContDto> pageInfo = new PageInfo<>(allContDto);

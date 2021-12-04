@@ -18,10 +18,6 @@ public class AllContDto implements Serializable {
      */
     private String title;
 
-    /**
-     * 辅标题
-     */
-    private String slug;
 
     /**
      * 创建时间
