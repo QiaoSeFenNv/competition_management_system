@@ -30,7 +30,7 @@ import java.util.*;
 @RequestMapping("/attach")
 @Api(value = "文件接口")
 public class AttachController {
-    public static final String CLASSPATH = TaleUtils.getUplodFilePath();
+
 
     @Autowired
     CompetitionAttachService competitionAttachService;
@@ -68,7 +68,7 @@ public class AttachController {
                 //附件得类型无论是图片还是文件都为file
                 String ftype = "file";
                 //获得文件路径
-                String fkey = TaleUtils.getFileKey(fname);
+                String fkey = TaleUtils.getFileKey(fname,request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static");
                 //将数据存放到competitionAttach对象中
                 CompetitionAttach competitionAttach = new CompetitionAttach();
                 competitionAttach.setFkey(fkey);
@@ -124,7 +124,7 @@ public class AttachController {
             if (!allowSuffix.contains(suffix.toLowerCase())) {
                 return R.failed("非法的文件，不允许的文件类型：" + suffix);
             }
-            String fkey = TaleUtils.getImagesKey(fname);
+            String fkey = TaleUtils.getImagesKey(fname,request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static");
             String ftype = "image-ava";
             CompetitionAttach competitionAttach = new CompetitionAttach();
             competitionAttach.setFkey(fkey);

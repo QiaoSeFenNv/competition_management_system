@@ -39,25 +39,25 @@ public class TaleUtils {
      * @param name
      * @return
      */
-    public static String getImagesKey(String name) {
+    public static String getImagesKey(String name,String ServicePath) {
         String prefix = "/images";
-        return getString(name, prefix);
+        return getString(name, prefix,ServicePath);
     }
     /**
      * 判断文件类型是否为文件
      * @param name
      * @return
      */
-    public static String getFileKey(String name) {
+    public static String getFileKey(String name,String ServicePath) {
         String prefix = "/files";
-        return getString(name, prefix);
+        return getString(name, prefix,ServicePath);
     }
 
 
 
-    private static String getString(String name, String prefix) {
-        if (!new File(AttachController.CLASSPATH + prefix).exists()) {
-            new File(AttachController.CLASSPATH + prefix).mkdirs();
+    private static String getString(String name, String prefix,String ServicePath) {
+        if (!new File(ServicePath + prefix).exists()) {
+            new File(ServicePath + prefix).mkdirs();
         }
 
         name = StringUtils.trimToNull(name);
