@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.CompetitionProcessMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.CompetitionProcess">
+    <!--@mbg.generated-->
+    <!--@Table competition_process-->
+    <id column="process_id" jdbcType="BIGINT" property="processId" />
+    <result column="top_id" jdbcType="VARCHAR" property="topId" />
+    <result column="approver_id" jdbcType="VARCHAR" property="approverId" />
+    <result column="approver_name" jdbcType="VARCHAR" property="approverName" />
+    <result column="next_id" jdbcType="BIGINT" property="nextId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    process_id, top_id, approver_id, approver_name, next_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from competition_process
+    where process_id = #{processId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from competition_process
+    where process_id = #{processId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="process_id" keyProperty="processId" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionProcess" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into competition_process (top_id, approver_id, approver_name, 
+      next_id)
+    values (#{topId,jdbcType=VARCHAR}, #{approverId,jdbcType=VARCHAR}, #{approverName,jdbcType=VARCHAR}, 
+      #{nextId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="process_id" keyProperty="processId" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionProcess" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into competition_process
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="topId != null">
+        top_id,
+      </if>
+      <if test="approverId != null">
+        approver_id,
+      </if>
+      <if test="approverName != null">
+        approver_name,
+      </if>
+      <if test="nextId != null">
+        next_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="topId != null">
+        #{topId,jdbcType=VARCHAR},
+      </if>
+      <if test="approverId != null">
+        #{approverId,jdbcType=VARCHAR},
+      </if>
+      <if test="approverName != null">
+        #{approverName,jdbcType=VARCHAR},
+      </if>
+      <if test="nextId != null">
+        #{nextId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionProcess">
+    <!--@mbg.generated-->
+    update competition_process
+    <set>
+      <if test="topId != null">
+        top_id = #{topId,jdbcType=VARCHAR},
+      </if>
+      <if test="approverId != null">
+        approver_id = #{approverId,jdbcType=VARCHAR},
+      </if>
+      <if test="approverName != null">
+        approver_name = #{approverName,jdbcType=VARCHAR},
+      </if>
+      <if test="nextId != null">
+        next_id = #{nextId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where process_id = #{processId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionProcess">
+    <!--@mbg.generated-->
+    update competition_process
+    set top_id = #{topId,jdbcType=VARCHAR},
+      approver_id = #{approverId,jdbcType=VARCHAR},
+      approver_name = #{approverName,jdbcType=VARCHAR},
+      next_id = #{nextId,jdbcType=BIGINT}
+    where process_id = #{processId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.CompetitionTodoMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.CompetitionTodo">
+    <!--@mbg.generated-->
+    <!--@Table competition_todo-->
+    <id column="todo_id" jdbcType="BIGINT" property="todoId" />
+    <result column="approval_id" jdbcType="BIGINT" property="approvalId" />
+    <result column="applicant_id" jdbcType="VARCHAR" property="applicantId" />
+    <result column="todo_status" jdbcType="TINYINT" property="todoStatus" />
+    <result column="todo_type" jdbcType="VARCHAR" property="todoType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="complete_time" jdbcType="TIMESTAMP" property="completeTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    todo_id, approval_id, applicant_id, todo_status, todo_type, create_time, complete_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from competition_todo
+    where todo_id = #{todoId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByApplicantId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_todo
+    where applicant_id = #{accountName,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="selectByApprovalId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_todo
+    where approval_id = #{approvalId,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from competition_todo
+    where todo_id = #{todoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="todo_id" keyProperty="todoId" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionTodo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into competition_todo (approval_id, applicant_id, todo_status, 
+      todo_type, create_time, complete_time
+      )
+    values (#{approvalId,jdbcType=BIGINT}, #{applicantId,jdbcType=VARCHAR}, #{todoStatus,jdbcType=TINYINT}, 
+      #{todoType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{completeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="todo_id" keyProperty="todoId" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionTodo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into competition_todo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="approvalId != null">
+        approval_id,
+      </if>
+      <if test="applicantId != null">
+        applicant_id,
+      </if>
+      <if test="todoStatus != null">
+        todo_status,
+      </if>
+      <if test="todoType != null">
+        todo_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="completeTime != null">
+        complete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="approvalId != null">
+        #{approvalId,jdbcType=BIGINT},
+      </if>
+      <if test="applicantId != null">
+        #{applicantId,jdbcType=VARCHAR},
+      </if>
+      <if test="todoStatus != null">
+        #{todoStatus,jdbcType=TINYINT},
+      </if>
+      <if test="todoType != null">
+        #{todoType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null">
+        #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionTodo">
+    <!--@mbg.generated-->
+    update competition_todo
+    <set>
+      <if test="approvalId != null">
+        approval_id = #{approvalId,jdbcType=BIGINT},
+      </if>
+      <if test="applicantId != null">
+        applicant_id = #{applicantId,jdbcType=VARCHAR},
+      </if>
+      <if test="todoStatus != null">
+        todo_status = #{todoStatus,jdbcType=TINYINT},
+      </if>
+      <if test="todoType != null">
+        todo_type = #{todoType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null">
+        complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where todo_id = #{todoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionTodo">
+    <!--@mbg.generated-->
+    update competition_todo
+    set approval_id = #{approvalId,jdbcType=BIGINT},
+      applicant_id = #{applicantId,jdbcType=VARCHAR},
+      todo_status = #{todoStatus,jdbcType=TINYINT},
+      todo_type = #{todoType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      complete_time = #{completeTime,jdbcType=TIMESTAMP}
+    where todo_id = #{todoId,jdbcType=BIGINT}
+  </update>
+
+
+</mapper>

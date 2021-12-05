@@ -2,16 +2,24 @@ package com.qiaose.competitionmanagementsystem.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
     * competition_record
     */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CompetitionRecord implements Serializable {
     /**
     * id
     */
+
     private Long recordId;
 
     /**

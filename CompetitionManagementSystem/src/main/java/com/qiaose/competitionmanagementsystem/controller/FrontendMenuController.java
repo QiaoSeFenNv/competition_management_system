@@ -1,22 +1,17 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.entity.User;
 
-import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
-import com.qiaose.competitionmanagementsystem.service.UserService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import com.qiaose.competitionmanagementsystem.utils.MyUtils;

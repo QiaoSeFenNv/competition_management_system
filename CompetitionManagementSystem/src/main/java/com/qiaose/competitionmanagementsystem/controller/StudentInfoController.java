@@ -14,7 +14,6 @@ import com.qiaose.competitionmanagementsystem.service.StudentInfoService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
-import io.netty.util.internal.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 

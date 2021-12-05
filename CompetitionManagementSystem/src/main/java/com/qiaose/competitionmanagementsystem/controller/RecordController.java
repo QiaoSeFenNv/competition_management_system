@@ -1,38 +1,43 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
 import com.baomidou.mybatisplus.extension.api.R;
+import com.qiaose.competitionmanagementsystem.entity.CompetitionApproval;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
+import com.qiaose.competitionmanagementsystem.service.CompetitionApprovalService;
 import com.qiaose.competitionmanagementsystem.service.CompetitionRecordService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Api("学生申请表接口")
+@Api("比赛记录接口")
 @RequestMapping("/record")
 public class RecordController {
+
+
+
 
     @Autowired
     CompetitionRecordService competitionRecordService;
 
 
+    @Autowired
+    CompetitionApprovalService competitionApprovalService;
 
-    @PostMapping("/insertRecord")
-    @ApiOperation(value = "插入比赛名称表",notes = "传入一个body")
-    @Transactional(rollbackFor = {Exception.class})
-    public R insertRecord(@RequestBody CompetitionRecord competitionRecord){
 
-        if (competitionRecord == null) {
-            return R.failed("数据为空");
-        }
+    @GetMapping("/curRecord")
+    public R  curRecord(@RequestParam Long approvalId){
+        CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(approvalId);
 
-        int i = competitionRecordService.insertSelective(competitionRecord);
-        if (i<=0) {
+        if (competitionApproval == null)
             return R.failed("");
-        }
-        return R.ok("");
+
+        CompetitionRecord competitionRecord = competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid());
+
+        return R.ok(competitionRecord);
+
     }
+
+
 
 }

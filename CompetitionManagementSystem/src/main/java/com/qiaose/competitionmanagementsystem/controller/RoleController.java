@@ -7,7 +7,6 @@ import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
-import com.qiaose.competitionmanagementsystem.mapper.SysRoleFrontendMenuTableMapper;
 import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;

@@ -2,8 +2,6 @@ package com.qiaose.competitionmanagementsystem.controller;
 
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.entity.SysBackendApiTable;
-import com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable;
-import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.service.SysBackendApiTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleBackendApiTableService;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
@@ -14,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
