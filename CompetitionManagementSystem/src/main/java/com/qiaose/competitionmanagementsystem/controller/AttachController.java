@@ -77,8 +77,9 @@ public class AttachController {
                 competitionAttach.setUserId(uid);
                 competitionAttach.setCreated((int) (System.currentTimeMillis() / 1000));
                 //在指定路径存放文件
-                File file = new File(CLASSPATH + fkey);
-
+//                File file = new File(CLASSPATH + fkey);
+                String realPath=request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static";
+                File file = new File(realPath + fkey);
                 try {
                     FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
                 } catch (IOException e) {
@@ -129,7 +130,8 @@ public class AttachController {
             competitionAttach.setUserId(uid);
             competitionAttach.setCreated((int) (System.currentTimeMillis() / 1000));
             user.setAvatarurl(fkey);
-            File file = new File(CLASSPATH + fkey);
+            String realPath=request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static";
+            File file = new File(realPath + fkey);
             try {
                 FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
             } catch (IOException e) {

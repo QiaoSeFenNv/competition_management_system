@@ -31,7 +31,7 @@ public class TaleUtils {
         int lastIndex = path.lastIndexOf("/") + 1;
         path = path.substring(0, lastIndex);
         File file = new File("");
-        return file.getAbsolutePath() + "\\CompetitionManagementSystem\\src\\main\\resources\\static"+"/";
+        return file.getAbsolutePath() + "\\CompetitionManagementSystem\\src\\main\\resources\\static"+"\\";
     }
 
     /**
