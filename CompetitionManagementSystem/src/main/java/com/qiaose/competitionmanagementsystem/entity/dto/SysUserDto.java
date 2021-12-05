@@ -8,7 +8,7 @@ public class SysUserDto {
     /**
      * 用于返回多表信息
      */
-
+    private Integer id;
     private String stuId;
     private String name;
     private String email;

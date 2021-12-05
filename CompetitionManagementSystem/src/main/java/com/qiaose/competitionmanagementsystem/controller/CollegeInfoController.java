@@ -146,6 +146,7 @@ public class CollegeInfoController {
 
     public SysUserDto StuChangeUser(StudentInfo studentInfo){
         SysUserDto sysUserDto = new SysUserDto();
+        sysUserDto.setId(studentInfo.getId());
         sysUserDto.setStuId(studentInfo.getStuId());
         sysUserDto.setPhone(studentInfo.getTelephone());
         sysUserDto.setEmail(studentInfo.getEmail());
