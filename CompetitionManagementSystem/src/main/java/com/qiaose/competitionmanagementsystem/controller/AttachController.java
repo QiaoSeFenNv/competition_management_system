@@ -77,12 +77,8 @@ public class AttachController {
                 competitionAttach.setUserId(uid);
                 competitionAttach.setCreated((int) (System.currentTimeMillis() / 1000));
                 //在指定路径存放文件
-
-                //SSS
                 String realPath=request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static";
                 File file = new File(realPath + fkey);
-
-
                 try {
                     FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
                 } catch (IOException e) {
@@ -98,7 +94,7 @@ public class AttachController {
 
     @PostMapping(value = "/images")
     @ResponseBody
-    @ApiOperation(value = "上传图片", notes = "限制文件上传种类，用户上传得头像")
+    @ApiOperation(value = "上传图片", notes = "限制文件上传种类")
     @Transactional(rollbackFor = Exception.class)
     public R uploadImages(HttpServletRequest request, @RequestParam("file") MultipartFile[] multipartFiles) throws IOException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -124,7 +120,9 @@ public class AttachController {
             if (!allowSuffix.contains(suffix.toLowerCase())) {
                 return R.failed("非法的文件，不允许的文件类型：" + suffix);
             }
+            //获得文件的路径
             String fkey = TaleUtils.getImagesKey(fname,request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static");
+            //设置类型
             String ftype = "image";
             CompetitionAttach competitionAttach = new CompetitionAttach();
             competitionAttach.setFkey(fkey);
@@ -132,12 +130,9 @@ public class AttachController {
             competitionAttach.setFtype(ftype);
             competitionAttach.setUserId(uid);
             competitionAttach.setCreated((int) (System.currentTimeMillis() / 1000));
-            user.setAvatarurl(fkey);
-            //SSS
+            //上传到真实路径上
             String realPath=request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static";
             File file = new File(realPath + fkey);
-
-
             try {
                 FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
             } catch (IOException e) {
@@ -192,8 +187,6 @@ public class AttachController {
             //SSS
             String realPath=request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static";
             File file = new File(realPath + fkey);
-
-
             try {
                 FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
             } catch (IOException e) {
