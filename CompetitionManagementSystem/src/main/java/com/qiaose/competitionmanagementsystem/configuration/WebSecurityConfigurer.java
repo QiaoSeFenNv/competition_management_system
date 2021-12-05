@@ -90,7 +90,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/docs.html").permitAll()
                 .antMatchers(HttpMethod.GET,"/login").permitAll()
                 .antMatchers("/images/**").permitAll()
-                .antMatchers("/static/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/student/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/student/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/college/**").permitAll()
