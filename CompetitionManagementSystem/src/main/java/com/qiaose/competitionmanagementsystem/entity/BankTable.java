@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -17,6 +19,7 @@ public class BankTable implements Serializable {
     * 银行id
     */
     @JsonIgnore
+
     private Integer id;
 
     /**

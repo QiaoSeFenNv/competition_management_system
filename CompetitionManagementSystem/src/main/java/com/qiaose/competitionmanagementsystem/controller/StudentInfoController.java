@@ -72,29 +72,23 @@ public class StudentInfoController {
 
 
     @PostMapping("/insertCurStu")
-    @ApiOperation(value="插入当前学生信息", notes="")
+    @ApiOperation(value="插入当前学生信息", notes="传入对象")
     @Transactional(rollbackFor = Exception.class)
     public R insertCurStu(@RequestBody @Valid StudentInfo studentInfo) {
         //从对象中取除 银行和班级对象，然后插入对应表中
-        BankTable bankTable = new BankTable();
-        bankTable = studentInfo.getBankTable();
+
+        BankTable bankTable = studentInfo.getBankTable();
         Integer bankId = IDUtils.getUUIDInOrderId();
         bankTable.setId(bankId);
 
-        System.out.println(bankTable);
-
-        ClassTable classTable = new ClassTable();
-        classTable = studentInfo.getClassTable();
+        ClassTable classTable = studentInfo.getClassTable();
         Integer classId = IDUtils.getUUIDInOrderId();
         classTable.setClassId(classId);
-        System.out.println(classTable);
 
         CollegeInfo collegeInfo = studentInfo.getCollegeInfo();
-        System.out.println(collegeInfo);
 
         int i = bankTableService.insert(bankTable);
         int j = classTableService.insert(classTable);
-
 
         //查找college对应id号插入实体中
         CollegeInfo collegeInfo_id = collegeInfoService.selectByName(collegeInfo.getCollegeName());
@@ -119,30 +113,32 @@ public class StudentInfoController {
     @ApiOperation(value="更新当前学生信息", notes="携带参数需要携带id")
     @Transactional(rollbackFor = Exception.class)
     public R updateCurStu(@RequestBody @Valid StudentInfo studentInfo) {
-        
+
         //查询当前对象
         StudentInfo studentInfo1 = studentInfoService.selectByPrimaryKey(studentInfo.getId());
 
+        //由于studentinfo中没有携带三个id，自己获取
         Integer bankId = studentInfo1.getBankId();
+        System.out.println(bankId);
         Integer classId = studentInfo1.getClassId();
+        System.out.println(classId);
         Integer deptId = studentInfo1.getDeptId();
-        //取出原本bankId
+
+
+        //取出原本三个对象，在为三个对象赋id值进行更新
         BankTable bankTable = studentInfo.getBankTable();
         bankTable.setId(bankId);
 
         ClassTable classTable = studentInfo.getClassTable();
         classTable.setClassId(classId);
 
+
         studentInfo.setDeptId(deptId);
         studentInfo.setClassId(classId);
         studentInfo.setBankId(bankId);
 
         int k = studentInfoService.updateByPrimaryKeySelective(studentInfo);
-        int i = bankTableService.updateByPrimaryKeySelective(bankTable);
-        int j = classTableService.updateByPrimaryKeySelective(classTable);
-        if(  j<=0 || i<=0 || k <= 0){
-            return R.failed("更新失败");
-        }
+
 
         return  R.ok("更新成功");
     }
@@ -152,14 +148,17 @@ public class StudentInfoController {
     @ApiOperation(value="删除当前学生信息", notes="携带id")
     @Transactional(rollbackFor = Exception.class)
     public R deleteCurStu(@RequestBody StudentInfo studentInfo) {
-        BankTable bankTable = studentInfo.getBankTable();
-        ClassTable classTable = studentInfo.getClassTable();
-        bankTable.setUpdateTime(DateKit.getNowTime());
-        classTable.setUpdateTime(DateKit.getNowTime());
+
+        StudentInfo studentInfo1 = studentInfoService.selectByPrimaryKey(studentInfo.getId());
+        System.out.println(studentInfo1);
+        Integer bankId = studentInfo1.getBankId();
+        Integer classId = studentInfo1.getClassId();
+
+
 
         int i =studentInfoService.deleteByPrimaryKey(studentInfo.getId());
-        int j = bankTableService.deleteByPrimaryKey(bankTable.getId());
-        int k = classTableService.deleteByPrimaryKey(classTable.getClassId());
+        int j = bankTableService.deleteByPrimaryKey(bankId);
+        int k = classTableService.deleteByPrimaryKey(classId);
 
         if( i<=0 || j<=0 ||k <= 0){
             return R.failed("删除失败");
