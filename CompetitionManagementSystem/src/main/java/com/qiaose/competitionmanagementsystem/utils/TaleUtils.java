@@ -21,6 +21,7 @@ public class TaleUtils {
      */
     public static String getUplodFilePath() {
         String path = TaleUtils.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+
         path = path.substring(1, path.length());
         try {
             path = java.net.URLDecoder.decode(path, "utf-8");
@@ -29,8 +30,9 @@ public class TaleUtils {
         }
         int lastIndex = path.lastIndexOf("/") + 1;
         path = path.substring(0, lastIndex);
-        File file = new File("");
-        return file.getAbsolutePath() + "\\CompetitionManagementSystem\\src\\main\\resources\\static"+"/";
+        System.out.println(path);
+        return path+"static"+"/";
+//        return file.getAbsolutePath() + "\\CompetitionManagementSystem\\src\\main\\resources\\static"+"/";
     }
 
     /**

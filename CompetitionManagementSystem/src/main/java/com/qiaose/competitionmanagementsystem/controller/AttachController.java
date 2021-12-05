@@ -143,9 +143,7 @@ public class AttachController {
             System.out.println("成功上传且写入数据,并且删除之前上传的文件");
         }
         return R.ok("上传成功");
+
     }
-
-
-
 
 }
