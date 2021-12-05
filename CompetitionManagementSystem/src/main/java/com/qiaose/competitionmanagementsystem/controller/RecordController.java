@@ -1,8 +1,11 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
 import com.qiaose.competitionmanagementsystem.service.CompetitionRecordService;
+import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +21,5 @@ public class RecordController {
     CompetitionRecordService competitionRecordService;
 
 
-
-    @PostMapping("/insertRecord")
-    @ApiOperation(value = "插入比赛名称表",notes = "传入一个body")
-    @Transactional(rollbackFor = {Exception.class})
-    public R insertRecord(@RequestBody CompetitionRecord competitionRecord){
-
-        if (competitionRecord == null) {
-            return R.failed("数据为空");
-        }
-
-        int i = competitionRecordService.insertSelective(competitionRecord);
-        if (i<=0) {
-            return R.failed("");
-        }
-        return R.ok("");
-    }
 
 }
