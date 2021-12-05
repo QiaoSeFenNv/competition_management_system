@@ -125,7 +125,7 @@ public class AttachController {
                 return R.failed("非法的文件，不允许的文件类型：" + suffix);
             }
             String fkey = TaleUtils.getImagesKey(fname,request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static");
-            String ftype = "image-ava";
+            String ftype = "image";
             CompetitionAttach competitionAttach = new CompetitionAttach();
             competitionAttach.setFkey(fkey);
             competitionAttach.setFname(fname);
@@ -144,10 +144,6 @@ public class AttachController {
                 e.printStackTrace();
             }
             competitionAttachService.insertSelective(competitionAttach);
-//            userService.updateByPrimaryKeySelective(user);
-//            List<CompetitionAttach> number = competitionAttachService.selectByPrimaryUserid(user.getId());
-            //删除文件类型为image-ava且是本用户，时间还得小于刚上传得
-//            competitionAttachService.deleteByIdTime(user.getId(), competitionAttach.getCreated(), "image-ava");
             return R.ok(competitionAttach);
         }
         return R.ok("上传失败");
@@ -185,7 +181,7 @@ public class AttachController {
                 return R.failed("非法的文件，不允许的文件类型：" + suffix);
             }
             String fkey = TaleUtils.getImagesKey(fname,request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static");
-            String ftype = "image";
+            String ftype = "image-ava";
             CompetitionAttach competitionAttach = new CompetitionAttach();
             competitionAttach.setFkey(fkey);
             competitionAttach.setFname(fname);
