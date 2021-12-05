@@ -58,6 +58,7 @@ public class CreditsController {
 
 
 
+
     @PostMapping("/insertCredit")
     @ApiOperation(value = "插入一条积分等级信息" ,notes="传递一个对象，不需要携带id")
     @Transactional(rollbackFor = {Exception.class})

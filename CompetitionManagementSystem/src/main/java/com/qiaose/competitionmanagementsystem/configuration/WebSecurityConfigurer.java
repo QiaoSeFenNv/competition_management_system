@@ -1,9 +1,9 @@
 package com.qiaose.competitionmanagementsystem.configuration;
 
 
+
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 import com.qiaose.competitionmanagementsystem.components.DynamicPermission;
-
 import com.qiaose.competitionmanagementsystem.configuration.auth.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -111,6 +111,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/reward/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/organize/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/organize/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/record/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/record/**").permitAll()
                 //动态加载资源
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
 

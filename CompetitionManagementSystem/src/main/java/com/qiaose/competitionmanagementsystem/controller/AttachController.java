@@ -154,4 +154,60 @@ public class AttachController {
 
     }
 
+
+
+    @PostMapping(value = "/imagesAva")
+    @ResponseBody
+    @ApiOperation(value = "上传图片", notes = "限制文件上传种类，用户上传得头像")
+    @Transactional(rollbackFor = Exception.class)
+    public R uploadImageAva(HttpServletRequest request, @RequestParam("file") MultipartFile[] multipartFiles) throws IOException {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = null;
+        if (principal instanceof UserDetails) {
+            AuthUser authUser = (AuthUser) principal;
+            user = userService.selectByAccountName(authUser.getUsername());
+        }
+        if (user == null) {
+            return R.failed("用户信息错误");
+        }
+        Integer uid = user.getId();
+        for (MultipartFile multipartFile : multipartFiles) {
+            String fname = multipartFile.getOriginalFilename();
+            //判断文件类是是否为图片 fname为上传文件名
+            int index = fname.lastIndexOf(".");
+            String suffix = null;
+            if (index == -1 || (suffix = fname.substring(index + 1)).isEmpty()) {
+                return R.failed("文件后缀不能为空");
+            }
+            //记录可以上传文件类型种类
+            Set<String> allowSuffix = new HashSet<>(Arrays.asList("jpg", "jpeg", "png", "gif"));
+            if (!allowSuffix.contains(suffix.toLowerCase())) {
+                return R.failed("非法的文件，不允许的文件类型：" + suffix);
+            }
+            String fkey = TaleUtils.getImagesKey(fname,request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static");
+            String ftype = "image";
+            CompetitionAttach competitionAttach = new CompetitionAttach();
+            competitionAttach.setFkey(fkey);
+            competitionAttach.setFname(fname);
+            competitionAttach.setFtype(ftype);
+            competitionAttach.setUserId(uid);
+            competitionAttach.setCreated((int) (System.currentTimeMillis() / 1000));
+            user.setAvatarurl(fkey);
+            //SSS
+            String realPath=request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static";
+            File file = new File(realPath + fkey);
+
+
+            try {
+                FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            competitionAttachService.insertSelective(competitionAttach);
+            userService.updateByPrimaryKeySelective(user);
+            return R.ok(competitionAttach);
+        }
+        return R.ok("上传失败");
+
+    }
 }

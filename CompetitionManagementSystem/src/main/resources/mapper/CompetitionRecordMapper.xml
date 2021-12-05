@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.CompetitionRecordMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.CompetitionRecord">
+    <!--@mbg.generated-->
+    <!--@Table competition_record-->
+    <id column="record_id" jdbcType="BIGINT" property="recordId" />
+    <result column="record_name" jdbcType="VARCHAR" property="recordName" />
+    <result column="record_Indiv_groups" jdbcType="VARCHAR" property="recordIndivGroups" />
+    <result column="record_instructor" jdbcType="VARCHAR" property="recordInstructor" />
+    <result column="record_winning_time" jdbcType="TIMESTAMP" property="recordWinningTime" />
+    <result column="record_location" jdbcType="VARCHAR" property="recordLocation" />
+    <result column="record_winning_student" jdbcType="VARCHAR" property="recordWinningStudent" />
+    <result column="record_apply_credit" jdbcType="VARCHAR" property="recordApplyCredit" />
+    <result column="record_grade" jdbcType="VARCHAR" property="recordGrade" />
+    <result column="record_college_id" jdbcType="INTEGER" property="recordCollegeId" />
+    <result column="record_reward_id" jdbcType="BIGINT" property="recordRewardId" />
+    <result column="record_level_id" jdbcType="INTEGER" property="recordLevelId" />
+    <result column="record_competition_id" jdbcType="INTEGER" property="recordCompetitionId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    record_id, record_name, record_Indiv_groups, record_instructor, record_winning_time, 
+    record_location, record_winning_student, record_apply_credit, record_grade, record_college_id, 
+    record_reward_id, record_level_id, record_competition_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from competition_record
+    where record_id = #{recordId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from competition_record
+    where record_id = #{recordId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionRecord">
+    <!--@mbg.generated-->
+    insert into competition_record (record_id, record_name, record_Indiv_groups, 
+      record_instructor, record_winning_time, 
+      record_location, record_winning_student, record_apply_credit, 
+      record_grade, record_college_id, record_reward_id, 
+      record_level_id, record_competition_id)
+    values (#{recordId,jdbcType=BIGINT}, #{recordName,jdbcType=VARCHAR}, #{recordIndivGroups,jdbcType=VARCHAR}, 
+      #{recordInstructor,jdbcType=VARCHAR}, #{recordWinningTime,jdbcType=TIMESTAMP}, 
+      #{recordLocation,jdbcType=VARCHAR}, #{recordWinningStudent,jdbcType=VARCHAR}, #{recordApplyCredit,jdbcType=VARCHAR}, 
+      #{recordGrade,jdbcType=VARCHAR}, #{recordCollegeId,jdbcType=INTEGER}, #{recordRewardId,jdbcType=BIGINT}, 
+      #{recordLevelId,jdbcType=INTEGER}, #{recordCompetitionId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionRecord">
+    <!--@mbg.generated-->
+    insert into competition_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="recordName != null">
+        record_name,
+      </if>
+      <if test="recordIndivGroups != null">
+        record_Indiv_groups,
+      </if>
+      <if test="recordInstructor != null">
+        record_instructor,
+      </if>
+      <if test="recordWinningTime != null">
+        record_winning_time,
+      </if>
+      <if test="recordLocation != null">
+        record_location,
+      </if>
+      <if test="recordWinningStudent != null">
+        record_winning_student,
+      </if>
+      <if test="recordApplyCredit != null">
+        record_apply_credit,
+      </if>
+      <if test="recordGrade != null">
+        record_grade,
+      </if>
+      <if test="recordCollegeId != null">
+        record_college_id,
+      </if>
+      <if test="recordRewardId != null">
+        record_reward_id,
+      </if>
+      <if test="recordLevelId != null">
+        record_level_id,
+      </if>
+      <if test="recordCompetitionId != null">
+        record_competition_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        #{recordId,jdbcType=BIGINT},
+      </if>
+      <if test="recordName != null">
+        #{recordName,jdbcType=VARCHAR},
+      </if>
+      <if test="recordIndivGroups != null">
+        #{recordIndivGroups,jdbcType=VARCHAR},
+      </if>
+      <if test="recordInstructor != null">
+        #{recordInstructor,jdbcType=VARCHAR},
+      </if>
+      <if test="recordWinningTime != null">
+        #{recordWinningTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordLocation != null">
+        #{recordLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="recordWinningStudent != null">
+        #{recordWinningStudent,jdbcType=VARCHAR},
+      </if>
+      <if test="recordApplyCredit != null">
+        #{recordApplyCredit,jdbcType=VARCHAR},
+      </if>
+      <if test="recordGrade != null">
+        #{recordGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="recordCollegeId != null">
+        #{recordCollegeId,jdbcType=INTEGER},
+      </if>
+      <if test="recordRewardId != null">
+        #{recordRewardId,jdbcType=BIGINT},
+      </if>
+      <if test="recordLevelId != null">
+        #{recordLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="recordCompetitionId != null">
+        #{recordCompetitionId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionRecord">
+    <!--@mbg.generated-->
+    update competition_record
+    <set>
+      <if test="recordName != null">
+        record_name = #{recordName,jdbcType=VARCHAR},
+      </if>
+      <if test="recordIndivGroups != null">
+        record_Indiv_groups = #{recordIndivGroups,jdbcType=VARCHAR},
+      </if>
+      <if test="recordInstructor != null">
+        record_instructor = #{recordInstructor,jdbcType=VARCHAR},
+      </if>
+      <if test="recordWinningTime != null">
+        record_winning_time = #{recordWinningTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordLocation != null">
+        record_location = #{recordLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="recordWinningStudent != null">
+        record_winning_student = #{recordWinningStudent,jdbcType=VARCHAR},
+      </if>
+      <if test="recordApplyCredit != null">
+        record_apply_credit = #{recordApplyCredit,jdbcType=VARCHAR},
+      </if>
+      <if test="recordGrade != null">
+        record_grade = #{recordGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="recordCollegeId != null">
+        record_college_id = #{recordCollegeId,jdbcType=INTEGER},
+      </if>
+      <if test="recordRewardId != null">
+        record_reward_id = #{recordRewardId,jdbcType=BIGINT},
+      </if>
+      <if test="recordLevelId != null">
+        record_level_id = #{recordLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="recordCompetitionId != null">
+        record_competition_id = #{recordCompetitionId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where record_id = #{recordId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionRecord">
+    <!--@mbg.generated-->
+    update competition_record
+    set record_name = #{recordName,jdbcType=VARCHAR},
+      record_Indiv_groups = #{recordIndivGroups,jdbcType=VARCHAR},
+      record_instructor = #{recordInstructor,jdbcType=VARCHAR},
+      record_winning_time = #{recordWinningTime,jdbcType=TIMESTAMP},
+      record_location = #{recordLocation,jdbcType=VARCHAR},
+      record_winning_student = #{recordWinningStudent,jdbcType=VARCHAR},
+      record_apply_credit = #{recordApplyCredit,jdbcType=VARCHAR},
+      record_grade = #{recordGrade,jdbcType=VARCHAR},
+      record_college_id = #{recordCollegeId,jdbcType=INTEGER},
+      record_reward_id = #{recordRewardId,jdbcType=BIGINT},
+      record_level_id = #{recordLevelId,jdbcType=INTEGER},
+      record_competition_id = #{recordCompetitionId,jdbcType=INTEGER}
+    where record_id = #{recordId,jdbcType=BIGINT}
+  </update>
+</mapper>
