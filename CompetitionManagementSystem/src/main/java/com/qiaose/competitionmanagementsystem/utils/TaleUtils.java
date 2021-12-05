@@ -30,9 +30,8 @@ public class TaleUtils {
         }
         int lastIndex = path.lastIndexOf("/") + 1;
         path = path.substring(0, lastIndex);
-        System.out.println(path);
-        return path+"static"+"/";
-//        return file.getAbsolutePath() + "\\CompetitionManagementSystem\\src\\main\\resources\\static"+"/";
+        File file = new File("");
+        return file.getAbsolutePath() + "\\CompetitionManagementSystem\\src\\main\\resources\\static"+"/";
     }
 
     /**
