@@ -148,9 +148,9 @@ public class AttachController {
 //            List<CompetitionAttach> number = competitionAttachService.selectByPrimaryUserid(user.getId());
             //删除文件类型为image-ava且是本用户，时间还得小于刚上传得
 //            competitionAttachService.deleteByIdTime(user.getId(), competitionAttach.getCreated(), "image-ava");
-            System.out.println("成功上传且写入数据,并且删除之前上传的文件");
+            return R.ok(competitionAttach);
         }
-        return R.ok("上传成功");
+        return R.ok("上传失败");
 
     }
 
