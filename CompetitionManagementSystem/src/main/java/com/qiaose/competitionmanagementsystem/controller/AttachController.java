@@ -54,7 +54,9 @@ public class AttachController {
             return R.failed("用户信息错误");
         }
         Integer uid = user.getId();
+        //文件上传
         for (MultipartFile multipartFile : multipartFiles) {
+            //文件原本名称
             String fname = multipartFile.getOriginalFilename();
             //判断文件类是是否为图片 fname为上传文件名
             int index = fname.lastIndexOf(".");

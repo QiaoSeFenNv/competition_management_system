@@ -115,7 +115,7 @@ public class OrganizeController {
             return R.failed("数据不全");
         }
 
-        int i = competitionOrganizerService.deleteByPrimaryKey(competitionOrganizer.getId());
+        int i = competitionOrganizerService.deleteByPrimaryKey(competitionOrganizer.getOrganizeId());
 
         if (i<=0) {
             return R.failed("删除失败");

@@ -52,10 +52,7 @@ public class TaleUtils {
         return getString(name, prefix);
     }
 
-    public static String getSlide(String name) {
-        String prefix = "/slides";
-        return getString(name, prefix);
-    }
+
 
     private static String getString(String name, String prefix) {
         if (!new File(AttachController.CLASSPATH + prefix).exists()) {

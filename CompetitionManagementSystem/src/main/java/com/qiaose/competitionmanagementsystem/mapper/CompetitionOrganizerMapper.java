@@ -6,13 +6,13 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface CompetitionOrganizerMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Integer organizeId);
 
     int insert(CompetitionOrganizer record);
 
     int insertSelective(CompetitionOrganizer record);
 
-    CompetitionOrganizer selectByPrimaryKey(Integer id);
+    CompetitionOrganizer selectByPrimaryKey(Integer organizeId);
 
     int updateByPrimaryKeySelective(CompetitionOrganizer record);
 

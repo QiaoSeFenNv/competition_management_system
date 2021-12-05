@@ -50,41 +50,40 @@ public class SlidesController {
     @ApiOperation(value = "插入轮播图片", notes = "需要前端传递一个body,文件")
     @Transactional(rollbackFor = Exception.class)
     public R insertSlides(@RequestBody CompetitionSlideshow competitionSlideshow
-        , @RequestParam(required = false ,value = "multipartFiles") MultipartFile[] multipartFiles){
-
-        if (multipartFiles != null){
-            for (MultipartFile multipartFile : multipartFiles) {
-                String fname = multipartFile.getOriginalFilename();
-                //判断文件类是是否为图片 fname为上传文件名
-                int index = fname.lastIndexOf(".");
-                String suffix = null;
-                if (index == -1 || (suffix = fname.substring(index + 1)).isEmpty()) {
-                    return R.failed("文件后缀不能为空");
-                }
-                //记录可以上传文件类型种类
-                Set<String> allowSuffix = new HashSet<>(Arrays.asList("jpg", "jpeg", "png", "gif"));
-                if (!allowSuffix.contains(suffix.toLowerCase())) {
-                    return R.failed("非法的文件，不允许的文件类型：" + suffix);
-                }
-                String fkey = TaleUtils.getSlide(fname);
-                String ftype = "slide";
-                CompetitionAttach competitionAttach = new CompetitionAttach();
-                competitionAttach.setFkey(fkey);
-                competitionAttach.setFname(fname);
-                competitionAttach.setFtype(ftype);
-                competitionAttach.setUserId(0);
-                competitionAttach.setCreated((int) (System.currentTimeMillis() / 1000));
-                File file = new File(CLASSPATH + fkey);
-                try {
-                    FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                competitionAttachService.insertSelective(competitionAttach);
-                competitionSlideshow.setPath(ftype);
-            }
-        }
-
+        ){
+//, @RequestParam(required = false ,value = "multipartFiles") MultipartFile[] multipartFiles
+//        if (multipartFiles != null){
+//            for (MultipartFile multipartFile : multipartFiles) {
+//                String fname = multipartFile.getOriginalFilename();
+//                //判断文件类是是否为图片 fname为上传文件名
+//                int index = fname.lastIndexOf(".");
+//                String suffix = null;
+//                if (index == -1 || (suffix = fname.substring(index + 1)).isEmpty()) {
+//                    return R.failed("文件后缀不能为空");
+//                }
+//                //记录可以上传文件类型种类
+//                Set<String> allowSuffix = new HashSet<>(Arrays.asList("jpg", "jpeg", "png", "gif"));
+//                if (!allowSuffix.contains(suffix.toLowerCase())) {
+//                    return R.failed("非法的文件，不允许的文件类型：" + suffix);
+//                }
+//                String fkey = TaleUtils.getSlide(fname);
+//                String ftype = "slide";
+//                CompetitionAttach competitionAttach = new CompetitionAttach();
+//                competitionAttach.setFkey(fkey);
+//                competitionAttach.setFname(fname);
+//                competitionAttach.setFtype(ftype);
+//                competitionAttach.setUserId(0);
+//                competitionAttach.setCreated((int) (System.currentTimeMillis() / 1000));
+//                File file = new File(CLASSPATH + fkey);
+//                try {
+//                    FileCopyUtils.copy(multipartFile.getInputStream(), new FileOutputStream(file));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                competitionAttachService.insertSelective(competitionAttach);
+//                competitionSlideshow.setPath(ftype);
+//            }
+//        }
 
         competitionSlideshow.setCreateTime(DateUtil.date());
         int i = competitionSlideshowService.insertSelective(competitionSlideshow);

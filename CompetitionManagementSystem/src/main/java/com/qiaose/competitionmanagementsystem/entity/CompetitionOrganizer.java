@@ -18,27 +18,27 @@ public class CompetitionOrganizer implements Serializable {
     * id
     */
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Integer organizeId;
 
     /**
     * 比赛级别：A1 A2 B1 B2
     */
-    private String level;
+    private String organizeLevel;
 
     /**
     * 主办单位
     */
-    private String organizer;
+    private String organizeOrganizer;
 
     /**
     * 赛事名称
     */
-    private String levelName;
+    private String organizeName;
 
     /**
     * 备注
     */
-    private String note;
+    private String organizeNote;
 
     /**
     * 赛事级别创建时间

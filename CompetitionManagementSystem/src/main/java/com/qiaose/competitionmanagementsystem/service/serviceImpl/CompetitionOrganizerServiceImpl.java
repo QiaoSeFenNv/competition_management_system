@@ -15,8 +15,8 @@ public class CompetitionOrganizerServiceImpl implements CompetitionOrganizerServ
     private CompetitionOrganizerMapper competitionOrganizerMapper;
 
     @Override
-    public int deleteByPrimaryKey(Integer id) {
-        return competitionOrganizerMapper.deleteByPrimaryKey(id);
+    public int deleteByPrimaryKey(Integer organizeId) {
+        return competitionOrganizerMapper.deleteByPrimaryKey(organizeId);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class CompetitionOrganizerServiceImpl implements CompetitionOrganizerServ
     }
 
     @Override
-    public CompetitionOrganizer selectByPrimaryKey(Integer id) {
-        return competitionOrganizerMapper.selectByPrimaryKey(id);
+    public CompetitionOrganizer selectByPrimaryKey(Integer organizeId) {
+        return competitionOrganizerMapper.selectByPrimaryKey(organizeId);
     }
 
     @Override
