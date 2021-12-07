@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @Api("学生申请表")
-@RequestMapping("/record")
+@RequestMapping("/approval")
 public class ApprovalController {
 
     //三个接口一同实现一个功能

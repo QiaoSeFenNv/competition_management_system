@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem;
 
+import cn.hutool.captcha.generator.RandomGenerator;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.api.R;
@@ -40,6 +41,7 @@ class CompetitionManagementSystemApplicationTests {
     void contextLoads() {
 
     }
+
 
 
 

@@ -22,6 +22,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +58,9 @@ public class UserController {
 
     @Autowired
     BCryptPasswordEncoderUtil bCryptPasswordEncoderUtil;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
 
     @GetMapping("/search")
     @ApiOperation(value="查询所有用户", notes="显示所有用户数据,封装未R.ok类型")
@@ -169,6 +174,16 @@ public class UserController {
 
 
 
+    @PostMapping("/changePas")
+    @ApiOperation(value="修改密码,在已登录的情况下", notes="三个信息可以放在body中")
+    @Transactional(rollbackFor = {Exception.class})
+    public R changePas(@RequestParam(required = true) String OriginPas,
+                       @RequestParam(required = true) String NewPas,
+                       @RequestParam(required = true) String Verification){
 
+
+
+        return R.ok("");
+    }
 
 }
