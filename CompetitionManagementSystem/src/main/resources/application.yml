@@ -25,7 +25,6 @@ spring:
         username: root
         hikari:
             connection-timeout: 6000000
-            idle-timeout: 30000
             max-lifetime: 55000
     mvc:
         static-path-pattern: /**
@@ -40,7 +39,7 @@ spring:
                 min-idle: 0
         password: rFmZmcXd%npZ8^0ts
         port: 6379
-        timeout: 300
+        timeout: 800
     servlet:
         multipart:
             enabled: true

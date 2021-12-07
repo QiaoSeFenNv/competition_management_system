@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
 import java.util.*;
@@ -144,29 +145,13 @@ public class UserController {
 
 
 
-    @PostMapping("/change")
+    @PostMapping("/changePas")
     @ApiOperation(value="修改密码,在已登录的情况下", notes="三个信息，可以放在body中")
     @Transactional(rollbackFor = {Exception.class})
-    public R changePass(@RequestParam(required = true) String username,
-                        @RequestParam(required = true) String OncePassword,
+    public R changePass(@RequestParam(required = true) String OriginPas,
                         @RequestParam(required = true) String passWord){
 
-        User user = userService.selectByAccountName(username);
-        if (user == null)
-            return R.failed("账号输入错误");
-        if (!OncePassword.equals(passWord)) {
-            return R.failed("两次密码不同");
-        }
 
-        String replacePs = bCryptPasswordEncoderUtil.encode(passWord);
-
-        user.setPassword(replacePs);
-
-        int i = userService.updateByPrimaryKeySelective(user);
-
-        if (i<=0){
-            return R.failed("");
-        }
 
         return R.ok("修改成功");
     }
@@ -174,13 +159,38 @@ public class UserController {
 
 
 
-    @PostMapping("/changePas")
-    @ApiOperation(value="修改密码,在已登录的情况下", notes="三个信息可以放在body中")
+    @PostMapping("/NoChangePas")
+    @ApiOperation(value="修改密码,在未登录的情况下", notes="5个信息，名称保持一致")
     @Transactional(rollbackFor = {Exception.class})
-    public R changePas(@RequestParam(required = true) String OriginPas,
+    public R changePas(@RequestParam(required = true) String AccountName,
+                       @RequestParam(required = true) String OriginPas,
                        @RequestParam(required = true) String NewPas,
                        @RequestParam(required = true) String Verification){
 
+
+        User user = userService.selectByAccountName(AccountName);
+        if (user == null){
+            return R.failed("账号错误");
+        }
+
+        String mailTo = user.getEmail();
+        if (mailTo == null){
+            return R.failed("未绑定邮箱,无法修改密码");
+        }
+        String s = stringRedisTemplate.opsForValue().get(mailTo);
+        if ( !Verification.equals(s)){
+            return R.failed("验证码输入错误");
+        }
+
+        String password = user.getPassword();
+        boolean matches = bCryptPasswordEncoderUtil.matches(OriginPas, password);
+
+        if (matches == false){
+            return R.failed("密码错误,请重新输入");
+        }
+        String encode = bCryptPasswordEncoderUtil.encode(NewPas);
+        user.setPassword(encode);
+        int i = userService.updateByPrimaryKeySelective(user);
 
 
         return R.ok("");

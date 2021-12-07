@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +36,7 @@ public class CommonController {
 
     @GetMapping("/sendCode")
     @ApiOperation(value = "发送二维码",notes = "需要输入邮箱地址")
-    public R sendCode(@RequestParam String mailTo){
+    public R sendCode(@RequestParam @Email String mailTo){
 
         RandomGenerator randomGenerator = new RandomGenerator(6);
         //验证码6位
@@ -43,12 +45,18 @@ public class CommonController {
         //设置邮件内容
         String mailText = "【竞赛管理系统】 验证码："+generate+"  请勿将验证码告诉他人哦。";
 
-
-
-        if(!mailTo.isEmpty()){
-            toMail(mailTo,mailText);
-            stringRedisTemplate.opsForValue().set(mailTo,generate,30, TimeUnit.SECONDS);
-            return R.ok("");
+        try{
+            String s = stringRedisTemplate.opsForValue().get(mailTo);
+            if (s!=null){
+                return R.failed("邮箱时间还未过90秒");
+            }
+            if(!mailTo.isEmpty()){
+                toMail(mailTo,mailText);
+                stringRedisTemplate.opsForValue().set(mailTo,generate,90, TimeUnit.SECONDS);
+                return R.ok("");
+            }
+        }catch (Exception exception){
+            return R.failed("超时，请等待10秒后重试");
         }
 
         return R.failed("");
