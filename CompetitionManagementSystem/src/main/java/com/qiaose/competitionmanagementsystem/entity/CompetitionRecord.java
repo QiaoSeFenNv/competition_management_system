@@ -3,23 +3,19 @@ package com.qiaose.competitionmanagementsystem.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.AllArgsConstructor;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
     * competition_record
     */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CompetitionRecord implements Serializable {
     /**
     * id
     */
-
     private Long recordId;
 
     /**
@@ -50,7 +46,12 @@ public class CompetitionRecord implements Serializable {
     /**
     * 获奖学生
     */
+    @JsonIgnore
+    @JSONField(serialize = false)
     private String recordWinningStudent;
+
+    @TableField(exist = false)
+    private String[] recordWinningStudents;
 
     /**
     * 申请学分
@@ -75,7 +76,7 @@ public class CompetitionRecord implements Serializable {
     /**
     * 赛事级别
     */
-    private Integer recordLevelId;
+    private String recordLevelName;
 
     /**
     * 赛事名称
