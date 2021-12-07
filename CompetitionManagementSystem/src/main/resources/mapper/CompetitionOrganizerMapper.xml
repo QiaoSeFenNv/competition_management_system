@@ -22,7 +22,7 @@
     select 
     <include refid="Base_Column_List" />
     from competition_organizer
-    where organize_organizer = #{organizeId,jdbcType=INTEGER}
+    where organize_id = #{organizeId,jdbcType=INTEGER}
   </select>
 
 
@@ -38,7 +38,7 @@
     select
     <include refid="Base_Column_List"/>
     from competition_organizer
-    where organizer like concat('%',#{organize,jdbcType=VARCHAR},'%')
+    where organize_organizer like concat('%',#{organize,jdbcType=VARCHAR},'%')
   </select>
 
 

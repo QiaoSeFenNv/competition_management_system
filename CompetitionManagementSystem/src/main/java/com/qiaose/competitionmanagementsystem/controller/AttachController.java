@@ -64,6 +64,8 @@ public class AttachController {
             if (index == -1 || (suffix = fname.substring(index + 1)).isEmpty()) {
                 return R.failed("文件后缀不能为空");
             }
+
+            List<CompetitionAttach> listAttach = new ArrayList<>();
             if (FileTypeUtil.imageType(suffix.toLowerCase()) || FileTypeUtil.fileType(suffix.toLowerCase())){
                 //附件得类型无论是图片还是文件都为file
                 String ftype = "file";
@@ -85,10 +87,13 @@ public class AttachController {
                     e.printStackTrace();
                 }
                 competitionAttachService.insertSelective(competitionAttach);
+                listAttach.add(competitionAttach);
                 System.out.println("成功上传且写入数据");
-                return R.ok(competitionAttach);
+
             }
+            return R.ok(listAttach);
         }
+
         return R.failed("非法的文件，不允许的文件类型："+suffix);
     }
 
@@ -107,6 +112,7 @@ public class AttachController {
             return R.failed("用户信息错误");
         }
         Integer uid = user.getId();
+        List<CompetitionAttach> listAttach = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             String fname = multipartFile.getOriginalFilename();
             //判断文件类是是否为图片 fname为上传文件名
@@ -139,17 +145,17 @@ public class AttachController {
                 e.printStackTrace();
             }
             competitionAttachService.insertSelective(competitionAttach);
-            return R.ok(competitionAttach);
-        }
-        return R.ok("上传失败");
+            listAttach.add(competitionAttach);
 
+        }
+        return R.ok(listAttach);
     }
 
 
 
     @PostMapping(value = "/imagesAva")
     @ResponseBody
-    @ApiOperation(value = "上传图片", notes = "限制文件上传种类，用户上传得头像")
+    @ApiOperation(value = "上传头像", notes = "限制文件上传种类，用户上传得头像")
     @Transactional(rollbackFor = Exception.class)
     public R uploadImageAva(HttpServletRequest request, @RequestParam("file") MultipartFile[] multipartFiles) throws IOException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
