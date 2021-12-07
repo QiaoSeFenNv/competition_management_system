@@ -49,4 +49,9 @@ public class CompetitionCreditsServiceImpl implements CompetitionCreditsService{
         return competitionCreditsMapper.getAllCredit();
     }
 
+    @Override
+    public CompetitionCredits selectByNameAndId(Long recordRewardId, String recordLevelName) {
+        return competitionCreditsMapper.selectByNameAndId(recordRewardId,recordLevelName);
+    }
+
 }

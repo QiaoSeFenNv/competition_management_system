@@ -15,14 +15,14 @@
     <result column="record_grade" jdbcType="VARCHAR" property="recordGrade" />
     <result column="record_college_id" jdbcType="INTEGER" property="recordCollegeId" />
     <result column="record_reward_id" jdbcType="BIGINT" property="recordRewardId" />
-    <result column="record_level_id" jdbcType="INTEGER" property="recordLevelId" />
+    <result column="record_level_name" jdbcType="VARCHAR" property="recordLevelName" />
     <result column="record_competition_id" jdbcType="INTEGER" property="recordCompetitionId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     record_id, record_name, record_Indiv_groups, record_instructor, record_winning_time, 
     record_location, record_winning_student, record_apply_credit, record_grade, record_college_id, 
-    record_reward_id, record_level_id, record_competition_id
+    record_reward_id, record_level_name, record_competition_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -42,12 +42,12 @@
       record_instructor, record_winning_time, 
       record_location, record_winning_student, record_apply_credit, 
       record_grade, record_college_id, record_reward_id, 
-      record_level_id, record_competition_id)
+      record_level_name, record_competition_id)
     values (#{recordId,jdbcType=BIGINT}, #{recordName,jdbcType=VARCHAR}, #{recordIndivGroups,jdbcType=VARCHAR}, 
       #{recordInstructor,jdbcType=VARCHAR}, #{recordWinningTime,jdbcType=TIMESTAMP}, 
       #{recordLocation,jdbcType=VARCHAR}, #{recordWinningStudent,jdbcType=VARCHAR}, #{recordApplyCredit,jdbcType=VARCHAR}, 
       #{recordGrade,jdbcType=VARCHAR}, #{recordCollegeId,jdbcType=INTEGER}, #{recordRewardId,jdbcType=BIGINT}, 
-      #{recordLevelId,jdbcType=INTEGER}, #{recordCompetitionId,jdbcType=INTEGER})
+      #{recordLevelName,jdbcType=VARCHAR}, #{recordCompetitionId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionRecord">
     <!--@mbg.generated-->
@@ -86,8 +86,8 @@
       <if test="recordRewardId != null">
         record_reward_id,
       </if>
-      <if test="recordLevelId != null">
-        record_level_id,
+      <if test="recordLevelName != null">
+        record_level_name,
       </if>
       <if test="recordCompetitionId != null">
         record_competition_id,
@@ -127,8 +127,8 @@
       <if test="recordRewardId != null">
         #{recordRewardId,jdbcType=BIGINT},
       </if>
-      <if test="recordLevelId != null">
-        #{recordLevelId,jdbcType=INTEGER},
+      <if test="recordLevelName != null">
+        #{recordLevelName,jdbcType=VARCHAR},
       </if>
       <if test="recordCompetitionId != null">
         #{recordCompetitionId,jdbcType=INTEGER},
@@ -169,8 +169,8 @@
       <if test="recordRewardId != null">
         record_reward_id = #{recordRewardId,jdbcType=BIGINT},
       </if>
-      <if test="recordLevelId != null">
-        record_level_id = #{recordLevelId,jdbcType=INTEGER},
+      <if test="recordLevelName != null">
+        record_level_name = #{recordLevelName,jdbcType=VARCHAR},
       </if>
       <if test="recordCompetitionId != null">
         record_competition_id = #{recordCompetitionId,jdbcType=INTEGER},
@@ -191,7 +191,7 @@
       record_grade = #{recordGrade,jdbcType=VARCHAR},
       record_college_id = #{recordCollegeId,jdbcType=INTEGER},
       record_reward_id = #{recordRewardId,jdbcType=BIGINT},
-      record_level_id = #{recordLevelId,jdbcType=INTEGER},
+      record_level_name = #{recordLevelName,jdbcType=VARCHAR},
       record_competition_id = #{recordCompetitionId,jdbcType=INTEGER}
     where record_id = #{recordId,jdbcType=BIGINT}
   </update>

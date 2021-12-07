@@ -32,6 +32,7 @@ public interface UserMapper {
 
     List<User> findUser(User record);
 
+
     List<User> selectByAll();
 
     /**

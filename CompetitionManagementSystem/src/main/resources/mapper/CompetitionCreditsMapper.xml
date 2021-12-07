@@ -24,6 +24,15 @@
   </select>
 
 
+  <select id="selectByNameAndId" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_credits
+    where reward_id = #{recordRewardId,jdbcType=BIGINT}
+    and credit_level =#{recordLevelName,jdbcType=VARCHAR}
+  </select>
+
   <select id="getAllCredit"  resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select

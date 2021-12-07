@@ -56,7 +56,15 @@ public class CreditsController {
 
 
 
+    @GetMapping("/getCurCredit")
+    @ApiOperation(value = "获取所有内容",notes = "只需要传入page和pagesize即可")
+    public R getAllCredit(@RequestParam String recordLevelName
+            ,@RequestParam Long recordRewardId){
 
+        CompetitionCredits competitionCredits = competitionCreditsService.selectByNameAndId(recordRewardId,recordLevelName);
+
+        return  R.ok(competitionCredits);
+    }
 
 
     @PostMapping("/insertCredit")

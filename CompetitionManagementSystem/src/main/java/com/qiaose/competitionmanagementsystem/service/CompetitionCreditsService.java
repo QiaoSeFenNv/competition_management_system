@@ -20,4 +20,6 @@ public interface CompetitionCreditsService{
     int updateByPrimaryKey(CompetitionCredits record);
 
     List<CompetitionCredits> getAllCredit();
+
+    CompetitionCredits selectByNameAndId(Long recordRewardId, String recordLevelName);
 }

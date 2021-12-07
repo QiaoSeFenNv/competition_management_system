@@ -13,7 +13,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class SysApproval implements Serializable {
 
-    private String rejectReason;
 
     private Long todoId;
 

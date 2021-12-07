@@ -42,80 +42,25 @@ public class TodoController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
-    @GetMapping("/stuTodo")
-    @ApiOperation(value = "获得学生的todo信息",notes = "需要传入一个对象（对象封装两个小对象）")
+    @GetMapping("/getCurTodo")
+    @ApiOperation(value = "获得当前用户的todo信息",notes = "直接传递一个请求头,携带token")
     public R getStuCurTodo(HttpServletRequest request){
         //从token中拿到账号
         String token = request.getHeader("Authorization");
 
         if (token == null){
-            return R.failed("信息不全");
+            return R.failed("用户信息错误,请重新登录");
         }
 
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userService.selectByAccountName(username);
 
         if (user.getAccountName() == null){
-            return R.failed("信息错误");
+            return R.failed("用户信息错误,请重新登录");
         }
 
         List<CompetitionTodo> competitionTodo = competitionTodoService.selectByApplicantId(user.getAccountName());
 
         return R.ok(competitionTodo);
-    }
-
-    @GetMapping("/successTodo")
-    @ApiOperation(value = "老师同意",notes = "")
-    public R successTodo(@RequestBody SysApproval sysApproval, @RequestParam Long todoId){
-        CompetitionApproval competitionApproval = sysApproval.getCompetitionApproval();
-
-        CompetitionProcess competitionProcess = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
-
-        //如果下一个编号为空则结束
-        if (competitionProcess.getNextId() == null){
-            competitionApproval.setApprovalStatus((byte)1);
-            competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
-            List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(competitionApproval.getApprovalId());
-            for (CompetitionTodo competitionTodo : competitionTodos) {
-                competitionTodo.setTodoStatus(competitionApproval.getApprovalStatus());
-                competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
-            }
-            return R.ok("");
-        }
-
-        //先获得当前的todo对象
-        CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(todoId);
-
-
-        //如果下一个编号不为空
-        //更新表的下一个审批者
-        competitionApproval.setProcessId(competitionProcess.getNextId());
-        competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
-        //插入一条todo表
-        competitionTodo.setApplicantId(competitionProcess.getApproverId());
-        competitionTodoService.insertSelective(competitionTodo);
-
-        return R.ok("");
-    }
-
-
-
-    @GetMapping("/rejectTodo")
-    @ApiOperation(value = "老师拒绝",notes = "")
-    public R rejectTodo(@RequestBody SysApproval sysApproval){
-        CompetitionApproval competitionApproval = sysApproval.getCompetitionApproval();
-
-        CompetitionProcess competitionProcess = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
-
-        competitionApproval.setApprovalStatus((byte)2);
-        competitionApproval.setRejectReson(sysApproval.getRejectReason());
-        competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
-        List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(competitionApproval.getApprovalId());
-        for (CompetitionTodo competitionTodo : competitionTodos) {
-            competitionTodo.setTodoStatus(competitionApproval.getApprovalStatus());
-            competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
-        }
-
-        return R.ok("");
     }
 }

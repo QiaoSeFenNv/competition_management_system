@@ -7,14 +7,14 @@
     <id column="organize_id" jdbcType="INTEGER" property="organizeId" />
     <result column="organize_level" jdbcType="VARCHAR" property="organizeLevel" />
     <result column="organize_organizer" jdbcType="VARCHAR" property="organizeOrganizer" />
-    <result column="organize__name" jdbcType="VARCHAR" property="organizeName" />
+    <result column="organize_name" jdbcType="VARCHAR" property="organizeName" />
     <result column="organize_note" jdbcType="VARCHAR" property="organizeNote" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    organize_id, organize_level, organize_organizer, organize__name, organize_note, create_time, 
+    organize_id, organize_level, organize_organizer, organize_name, organize_note, create_time, 
     update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -50,7 +50,7 @@
   <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionOrganizer">
     <!--@mbg.generated-->
     insert into competition_organizer (organize_id, organize_level, organize_organizer, 
-      organize__name, organize_note, create_time, 
+      organize_name, organize_note, create_time, 
       update_time)
     values (#{organizeId,jdbcType=INTEGER}, #{organizeLevel,jdbcType=VARCHAR}, #{organizeOrganizer,jdbcType=VARCHAR}, 
       #{organizeName,jdbcType=VARCHAR}, #{organizeNote,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
@@ -70,7 +70,7 @@
         organize_organizer,
       </if>
       <if test="organizeName != null">
-        organize__name,
+        organize_name,
       </if>
       <if test="organizeNote != null">
         organize_note,
@@ -117,7 +117,7 @@
         organize_organizer = #{organizeOrganizer,jdbcType=VARCHAR},
       </if>
       <if test="organizeName != null">
-        organize__name = #{organizeName,jdbcType=VARCHAR},
+        organize_name = #{organizeName,jdbcType=VARCHAR},
       </if>
       <if test="organizeNote != null">
         organize_note = #{organizeNote,jdbcType=VARCHAR},
@@ -136,7 +136,7 @@
     update competition_organizer
     set organize_level = #{organizeLevel,jdbcType=VARCHAR},
       organize_organizer = #{organizeOrganizer,jdbcType=VARCHAR},
-      organize__name = #{organizeName,jdbcType=VARCHAR},
+      organize_name = #{organizeName,jdbcType=VARCHAR},
       organize_note = #{organizeNote,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}

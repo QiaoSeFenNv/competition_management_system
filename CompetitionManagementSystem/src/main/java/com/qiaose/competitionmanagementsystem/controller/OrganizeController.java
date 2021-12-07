@@ -31,6 +31,7 @@ public class OrganizeController {
     @ApiOperation(value = "获得所有比赛组织信息")
     public R getAllOrganize(@RequestParam(defaultValue = "1", value = "page") Integer page
             ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+
         PageHelper.startPage(page,pageSize);
 
         List<CompetitionOrganizer> list= competitionOrganizerService.selectAll();
@@ -58,12 +59,12 @@ public class OrganizeController {
         PageInfo<CompetitionOrganizer> pageInfo = new PageInfo<>(list);
         List<CompetitionOrganizer> list1 = pageInfo.getList();
 
-        PageDto<CompetitionOrganizer> competitionOrganizerPageDto = new PageDto<>();
+        PageDto<CompetitionOrganizer> PageDto = new PageDto<>();
 
-        competitionOrganizerPageDto.setItems(list1);
-        competitionOrganizerPageDto.setTotal((int)pageInfo.getTotal());
+        PageDto.setItems(list1);
+        PageDto.setTotal((int)pageInfo.getTotal());
 
-        return R.ok(competitionOrganizerPageDto);
+        return R.ok(PageDto);
     }
 
 
