@@ -42,7 +42,7 @@ public class TodoController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
-    @GetMapping("/stuTodo")
+    @GetMapping("/Todo")
     @ApiOperation(value = "获得学生的todo信息",notes = "需要传入一个对象（对象封装两个小对象）")
     public R getStuCurTodo(HttpServletRequest request){
         //从token中拿到账号
@@ -64,9 +64,11 @@ public class TodoController {
         return R.ok(competitionTodo);
     }
 
+
+
     @GetMapping("/successTodo")
     @ApiOperation(value = "老师同意",notes = "")
-    public R successTodo(@RequestBody SysApproval sysApproval, @RequestParam Long todoId){
+    public R successTodo(@RequestBody SysApproval sysApproval){
         CompetitionApproval competitionApproval = sysApproval.getCompetitionApproval();
 
         CompetitionProcess competitionProcess = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
@@ -75,6 +77,7 @@ public class TodoController {
         if (competitionProcess.getNextId() == null){
             competitionApproval.setApprovalStatus((byte)1);
             competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
+
             List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(competitionApproval.getApprovalId());
             for (CompetitionTodo competitionTodo : competitionTodos) {
                 competitionTodo.setTodoStatus(competitionApproval.getApprovalStatus());
@@ -84,7 +87,7 @@ public class TodoController {
         }
 
         //先获得当前的todo对象
-        CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(todoId);
+        CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(sysApproval.getTodoId());
 
 
         //如果下一个编号不为空

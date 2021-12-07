@@ -95,5 +95,23 @@ public class ApprovalController {
 
 
 
+    @GetMapping("/getCurApproval")
+    @ApiOperation(value = "获取申请表与记录标的信息",notes = "需要传入todo中的申请表id即可")
+    @Transactional(rollbackFor = {Exception.class})
+    public R getCurApproval(@RequestBody SysApproval sysApproval){
+        Long todoId = sysApproval.getTodoId();
+        CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(todoId);
+
+        CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
+
+        sysApproval.setCompetitionApproval(competitionApproval);
+
+        CompetitionRecord competitionRecord = competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid());
+
+        sysApproval.setCompetitionRecord(competitionRecord);
+
+        return R.ok(sysApproval);
+
+    }
 
 }
