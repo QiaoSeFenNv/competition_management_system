@@ -67,7 +67,7 @@ public class ApprovalController {
         String[] recordWinningStudents = competitionRecord.getRecordWinningStudents();
         String winStudent = "";
         for (String recordWinningStudent : recordWinningStudents) {
-            winStudent += recordWinningStudent;
+            winStudent += recordWinningStudent+",";
         }
         competitionRecord.setRecordWinningStudent(winStudent);
         //生成long类型的id.插入到对应对象中
@@ -131,6 +131,13 @@ public class ApprovalController {
         sysApproval.setCompetitionApproval(competitionApproval);
         //根据申请表的id 查询记录表
         CompetitionRecord competitionRecord = competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid());
+        //将数据库中的字符串变为数组
+        String recordWinningStudent = competitionRecord.getRecordWinningStudent();
+        //用数组接收
+        String[] recordWinningStudents = recordWinningStudent.split(",");
+        //将数组放入返回体中
+        competitionRecord.setRecordWinningStudents(recordWinningStudents);
+
         //将记录表内容注入到sysApproval对象
         sysApproval.setCompetitionRecord(competitionRecord);
         //返回给前端
