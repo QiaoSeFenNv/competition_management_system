@@ -146,12 +146,24 @@ public class UserController {
 
 
     @PostMapping("/changePas")
-    @ApiOperation(value="修改密码,在已登录的情况下", notes="三个信息，可以放在body中")
+    @ApiOperation(value="修改密码,在已登录的情况下", notes="二个信息，可以放在body中还要携带一个请求头")
     @Transactional(rollbackFor = {Exception.class})
-    public R changePass(@RequestParam(required = true) String OriginPas,
+    public R changePass(HttpServletRequest request,
+                        @RequestParam(required = true) String OriginPas,
                         @RequestParam(required = true) String passWord){
 
+        String token = request.getHeader("Authorization");
+        System.out.println(token);
+        //
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        User user = userService.selectByAccountName(username);
+        //原始密码比较
+        if (!bCryptPasswordEncoderUtil.matches(OriginPas,user.getPassword())) {
+            return R.failed("原密码错误");
+        }
 
+        user.setPassword( bCryptPasswordEncoderUtil.encode(passWord));
+        userService.updateByPrimaryKeySelective(user);
 
         return R.ok("修改成功");
     }
