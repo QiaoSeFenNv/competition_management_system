@@ -46,7 +46,7 @@ public class RewardController {
     }
 
 
-    @GetMapping("/getReward")
+    @GetMapping("/getRewardById")
     @ApiOperation(value = "获取所有的等级",notes = "需要携带一个id值")
     public R getReward(@RequestParam Long id){
 

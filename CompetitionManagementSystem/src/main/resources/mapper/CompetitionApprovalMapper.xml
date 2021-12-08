@@ -43,10 +43,13 @@
       #{completeTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="approval_id" keyProperty="approvalId" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionApproval" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionApproval">
     <!--@mbg.generated-->
     insert into competition_approval
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="approvalId != null">
+        approval_id,
+      </if>
       <if test="applicantId != null">
         applicant_id,
       </if>
@@ -76,6 +79,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="approvalId != null">
+        #{approvalId,jdbcType=BIGINT},
+      </if>
       <if test="applicantId != null">
         #{applicantId,jdbcType=VARCHAR},
       </if>
@@ -105,6 +111,11 @@
       </if>
     </trim>
   </insert>
+
+
+
+
+
   <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionApproval">
     <!--@mbg.generated-->
     update competition_approval

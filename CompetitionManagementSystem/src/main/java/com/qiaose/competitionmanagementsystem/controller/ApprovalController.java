@@ -65,24 +65,40 @@ public class ApprovalController {
         CompetitionRecord competitionRecord = sysApproval.getCompetitionRecord();
         //将前端传来的数组变为字符串
         String[] recordWinningStudents = competitionRecord.getRecordWinningStudents();
+
         String winStudent = "";
         for (String recordWinningStudent : recordWinningStudents) {
             winStudent += recordWinningStudent+",";
         }
+
         competitionRecord.setRecordWinningStudent(winStudent);
         //生成long类型的id.插入到对应对象中
         Snowflake snowflake = IdUtil.getSnowflake();
         long approvalId = snowflake.nextId();
+        System.out.println(approvalId);
         long recordId = snowflake.nextId();
-        competitionApproval.setApprovalId(approvalId);
+
+        //record表写进数据库
         competitionRecord.setRecordId(recordId);
 
-        //有些对象前端无法填写
+
+        //拼接多文件路径
+        String recordUpload = "";
+        String[] recordUploads = competitionRecord.getRecordUploads();
+        for (String upload : recordUploads) {
+            recordUpload +=upload+",";
+        }
+        competitionRecord.setRecordUpload(recordUpload);
+
+
+        //有些对象前端无法填写 申请表自动生成
+        competitionApproval.setApprovalId(approvalId);
         competitionApproval.setApplicantContentid(recordId);
         competitionApproval.setApplicantId(studentInfo.getStuId());
         competitionApproval.setApplicantName(studentInfo.getName());
         competitionApproval.setApprovalStatus((byte)0);
-
+        competitionApproval.setProcessId(1L);
+        System.out.println(competitionApproval);
         //插入对应数据库中
         int i = competitionApprovalService.insertSelective(competitionApproval);
         int j = competitionRecordService.insertSelective(competitionRecord);
@@ -137,6 +153,10 @@ public class ApprovalController {
         String[] recordWinningStudents = recordWinningStudent.split(",");
         //将数组放入返回体中
         competitionRecord.setRecordWinningStudents(recordWinningStudents);
+
+        //返回数组类型的upload
+        String[] recordUploads = competitionRecord.getRecordUpload().split(",");
+        competitionRecord.setRecordUploads(recordUploads);
 
         //将记录表内容注入到sysApproval对象
         sysApproval.setCompetitionRecord(competitionRecord);
