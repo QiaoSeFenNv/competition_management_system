@@ -54,6 +54,17 @@ public class CompetitionRecord implements Serializable {
     private String[] recordWinningStudents;
 
     /**
+     * 附件路径
+     */
+    @JsonIgnore
+    @JSONField(serialize = false)
+    private String recordUpload;
+
+    @TableField(exist = false)
+    private String[] recordUploads;
+
+
+    /**
     * 申请学分
     */
     private String recordApplyCredit;
@@ -82,6 +93,8 @@ public class CompetitionRecord implements Serializable {
     * 赛事名称
     */
     private Integer recordCompetitionId;
+
+
 
     private static final long serialVersionUID = 1L;
 }
