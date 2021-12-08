@@ -6,23 +6,28 @@ import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.SysRoleUserTable;
-import com.qiaose.competitionmanagementsystem.entity.User;
 
+import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
+import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import com.qiaose.competitionmanagementsystem.utils.MyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -51,11 +56,11 @@ public class FrontendMenuController {
         User user = myUtils.TokenGetUserByName(request);
 
         //实际是角色id
-        List<SysRoleUserTable> sysRoleUserTables = sysRoleUserTableService.selectByRoleId(user.getRoleId());
+        List<SysRoleUserTable> sysRoleUserTables = sysRoleUserTableService.selectByUserId(user.getUserId());
 
         List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable = new ArrayList<>();
         for (SysRoleUserTable sysRoleUserTable : sysRoleUserTables) {
-            List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTables = sysRoleFrontendMenuTableService.selectByRoleId(Long.valueOf(user.getRoleId()));
+            List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTables = sysRoleFrontendMenuTableService.selectByRoleId(Long.valueOf(sysRoleUserTable.getRoleId()));
             for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTables) {
                 sysRoleFrontendMenuTable.add(roleFrontendMenuTable);
             }
@@ -96,7 +101,7 @@ public class FrontendMenuController {
         }
         //角色号
         User user = myUtils.TokenGetUserByName(request);
-        String roleId = user.getRoleId();
+        String roleId = user.getUserId();
         //数据插入菜单表
         SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.F_DtoToF_Po(sysFrontendDto);
         Long id = IDUtils.CreateId();
@@ -129,7 +134,7 @@ public class FrontendMenuController {
             return R.ok("填写为空信息");
         }
         User user = myUtils.TokenGetUserByName(request);
-        String roleId = user.getRoleId();
+        String roleId = user.getUserId();
         SysFrontendMenuTable frontendMenuTable = sysFrontendMenuTableService.F_DtoToF_Po(sysFrontendDto);
         frontendMenuTable.setId(sysFrontendDto.getId());
         frontendMenuTable.setUpdateTime(DateKit.getNowTime());

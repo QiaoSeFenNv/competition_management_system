@@ -12,7 +12,7 @@ import java.util.Collection;
 @Component
 public class AuthUser implements UserDetails {
 
-    private String username;
+    private String username;  //对应user表的userId
 
     private String password;
 

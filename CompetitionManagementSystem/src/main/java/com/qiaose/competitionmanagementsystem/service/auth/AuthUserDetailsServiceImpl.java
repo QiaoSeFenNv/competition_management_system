@@ -24,7 +24,7 @@ import java.util.List;
 public class AuthUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
     private SysRoleTableService sysRoleTableService;
@@ -34,22 +34,21 @@ public class AuthUserDetailsServiceImpl implements UserDetailsService {
 
     /**
      * 通过账号查找用户、角色的信息
-     * @param accountName
+     * @param username
      * @return
      * @throws UsernameNotFoundException
      */
     @Override
-    public UserDetails loadUserByUsername(String accountName) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        String userId = username;
         //查出账号用户
-        User user = userService.selectByAccountName(accountName);
+        User user = userServiceImpl.selectByUserId(userId);
         //判断用户是否存在
         if (user == null){
-            throw new UsernameNotFoundException(String.format("%s.这个用户不存在", accountName));
+            throw new UsernameNotFoundException(String.format("%s.这个用户不存在", userId));
         }else{
-            //从用户中获得角色号（这里是等于中间表的userid字段）
-            String userId = user.getRoleId();
             //通过角色号从RoleUser中间表中查出角色号
-            List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByRoleId(userId);
+            List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByUserId(userId);
             List<SysRoleTable> sysRoleTables = new ArrayList<>();
             //获取正真的角色号
             for (SysRoleUserTable roleUserTable : sysRoleUserTable) {
@@ -61,13 +60,14 @@ public class AuthUserDetailsServiceImpl implements UserDetailsService {
             //从角色表中获取角色（一个用户可以有多个角色）
 
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-            //判断账号角色
+            //将获得角色id放进权限池中
             for (SysRoleTable sysRoleTable : sysRoleTables) {
-                authorities.add(new SimpleGrantedAuthority(sysRoleTable.getRoleName()));
+                authorities.add(new SimpleGrantedAuthority(sysRoleTable.getRoleId()));
             }
 
             System.out.println("loadUserByUsername......user ===> " + user);
-            return new AuthUser(user.getAccountName(), user.getPassword(),authorities);
+            //将用户信息写入authUser里面
+            return new AuthUser(user.getUserId(), user.getUserPassword(),authorities);
         }
     }
 }

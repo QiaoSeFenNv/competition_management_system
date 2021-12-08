@@ -31,7 +31,7 @@ public class CompetitionAttach implements Serializable {
     /**
     * 所属者
     */
-    private Integer userId;
+    private Long userId;
 
     /**
     * 创建时间

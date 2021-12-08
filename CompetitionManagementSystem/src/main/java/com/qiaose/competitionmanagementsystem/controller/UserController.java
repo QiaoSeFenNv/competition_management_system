@@ -1,7 +1,7 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
 
-import cn.hutool.core.convert.Convert;
+
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -14,26 +14,19 @@ import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
 import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
-import com.qiaose.competitionmanagementsystem.service.UserService;
 
-import io.netty.util.internal.StringUtil;
+import com.qiaose.competitionmanagementsystem.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
 
 import java.util.*;
 
@@ -63,15 +56,16 @@ public class UserController {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
+
     @GetMapping("/search")
     @ApiOperation(value="查询所有用户", notes="显示所有用户数据,封装未R.ok类型")
     public R getList(@RequestParam(defaultValue = "1", value = "page") Integer page
     ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+
         PageHelper.startPage(page,pageSize);
-        List<User> list =  userService.list();
+        List<User> list = userService.getAllUser();
         PageInfo<User> pageInfo = new PageInfo<>(list);
         List<User> list1 = pageInfo.getList();
-
         PageDto pageDto = new PageDto();
         pageDto.setItems(list1);
         pageDto.setTotal((int) pageInfo.getTotal());
@@ -88,22 +82,9 @@ public class UserController {
             @RequestParam(defaultValue = "1", value = "page") Integer page,
             @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
 
-        SysRoleTable sysRoleTable = null;
-        //通过角色表来获得id号，再将id号进行查询  id值可能会很多
-        if (StringUtil.isNullOrEmpty(role)){
-            sysRoleTable = sysRoleTableService.selectByName(role);
-        }
+
         //分页操作
-        PageHelper.startPage(page,pageSize);
-        //将三参数封装为一个对象 动态查询
-        User user = new User();
-        user.setAccountName(name);
-        user.setTelephone(Convert.toStr(phone));
-        if (sysRoleTable != null)
-            user.setRoleId(sysRoleTable.getRoleId());
-        List<User> list =  userService.findUser(user);
-        //分页操作
-        PageInfo<User> pageInfo = new PageInfo<>(list);
+        PageInfo<User> pageInfo = new PageInfo<>();
         List<User> list1 = pageInfo.getList();
 
         PageDto pageDto = new PageDto();
@@ -121,10 +102,15 @@ public class UserController {
         System.out.println(token);
         //
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        User user = userService.selectByAccountName(username);
-        UserDto userDto = userService.PoToDto(user);
+        User user = userService.selectByUserId(username);
+        UserDto userDto = UserDto.builder()
+                .avatar(user.getUserAvatarurl())
+                .token(token)
+                .userId(user.getUserId())
+                .build();
+
         userDto.setToken(token);
-        List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByRoleId(user.getRoleId());
+        List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByUserId(user.getUserId());
         List<SysRoleTable> sysRoleTables = new ArrayList<>();
         for (SysRoleUserTable roleUserTable : sysRoleUserTable) {
             List<SysRoleTable> sysRoleTables1 = sysRoleTableService.selectByPrimaryKey(roleUserTable.getRoleId());
@@ -153,16 +139,12 @@ public class UserController {
                         @RequestParam(required = true) String passWord){
 
         String token = request.getHeader("Authorization");
-        System.out.println(token);
-        //
-        String username = jwtTokenUtil.getUsernameFromToken(token);
-        User user = userService.selectByAccountName(username);
+        User user = userService.selectByUserId(jwtTokenUtil.getUsernameFromToken(token));
         //原始密码比较
-        if (!bCryptPasswordEncoderUtil.matches(OriginPas,user.getPassword())) {
+        if (!bCryptPasswordEncoderUtil.matches(OriginPas,user.getUserPassword())) {
             return R.failed("原密码错误");
         }
-
-        user.setPassword( bCryptPasswordEncoderUtil.encode(passWord));
+        user.setUserPassword( bCryptPasswordEncoderUtil.encode(passWord));
         userService.updateByPrimaryKeySelective(user);
 
         return R.ok("修改成功");
@@ -171,41 +153,41 @@ public class UserController {
 
 
 
-    @PostMapping("/NoChangePas")
-    @ApiOperation(value="修改密码,在未登录的情况下", notes="5个信息，名称保持一致")
-    @Transactional(rollbackFor = {Exception.class})
-    public R changePas(@RequestParam(required = true) String AccountName,
-                       @RequestParam(required = true) String OriginPas,
-                       @RequestParam(required = true) String NewPas,
-                       @RequestParam(required = true) String Verification){
-
-
-        User user = userService.selectByAccountName(AccountName);
-        if (user == null){
-            return R.failed("账号错误");
-        }
-
-        String mailTo = user.getEmail();
-        if (mailTo == null){
-            return R.failed("未绑定邮箱,无法修改密码");
-        }
-        String s = stringRedisTemplate.opsForValue().get(mailTo);
-        if ( !Verification.equals(s)){
-            return R.failed("验证码输入错误");
-        }
-
-        String password = user.getPassword();
-        boolean matches = bCryptPasswordEncoderUtil.matches(OriginPas, password);
-
-        if (matches == false){
-            return R.failed("密码错误,请重新输入");
-        }
-        String encode = bCryptPasswordEncoderUtil.encode(NewPas);
-        user.setPassword(encode);
-        int i = userService.updateByPrimaryKeySelective(user);
-
-
-        return R.ok("");
-    }
+//    @PostMapping("/NoChangePas")
+//    @ApiOperation(value="修改密码,在未登录的情况下", notes="5个信息，名称保持一致")
+//    @Transactional(rollbackFor = {Exception.class})
+//    public R changePas(@RequestParam(required = true) String UserId,
+//                       @RequestParam(required = true) String OriginPas,
+//                       @RequestParam(required = true) String NewPas,
+//                       @RequestParam(required = true) String Verification){
+//
+//
+//        User user = userService.selectByUserId(UserId);
+//        if (user == null){
+//            return R.failed("账号错误");
+//        }
+//        //通过详细的用户表查询
+////        String mailTo = user.getEmail();
+//        if (mailTo == null){
+//            return R.failed("未绑定邮箱,无法修改密码");
+//        }
+//        String s = stringRedisTemplate.opsForValue().get(mailTo);
+//        if ( !Verification.equals(s)){
+//            return R.failed("验证码输入错误");
+//        }
+//
+//        String password = user.getPassword();
+//        boolean matches = bCryptPasswordEncoderUtil.matches(OriginPas, password);
+//
+//        if (matches == false){
+//            return R.failed("密码错误,请重新输入");
+//        }
+//        String encode = bCryptPasswordEncoderUtil.encode(NewPas);
+//        user.setPassword(encode);
+//        int i = userService.updateByPrimaryKeySelective(user);
+//
+//
+//        return R.ok("");
+//    }
 
 }

@@ -55,8 +55,8 @@ public class ApprovalController {
         String token = request.getHeader("Authorization");
         System.out.println(token);
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        User user = userService.selectByAccountName(username);
-        StudentInfo studentInfo = studentInfoService.selectByStuId(user.getAccountName());
+        User user = userService.selectByUserId(username);
+        StudentInfo studentInfo = studentInfoService.selectByStuId(user.getUserId());
 
         //注意前端可能不会传递这个对象，所以自己生成一个
         CompetitionApproval competitionApproval = new CompetitionApproval();
@@ -106,7 +106,7 @@ public class ApprovalController {
 
         //插入完毕需要注意todo表也会立刻生一条相关数据,因此也需要插入到todo中
         CompetitionTodo competitionTodo = CompetitionTodo.builder()
-                .applicantId(user.getAccountName())     //拥有者
+                .applicantId(user.getUserId())     //拥有者
                 .approvalId(approvalId)     //申请表id
                 .todoStatus((byte) 0)       //状态
                 .todoType("比赛信息申请")     //写死的类型

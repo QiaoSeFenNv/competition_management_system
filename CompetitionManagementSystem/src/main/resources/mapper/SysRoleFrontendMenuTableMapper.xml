@@ -54,7 +54,7 @@
       #{roleId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable">
+  <insert id="insertSelective"  parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable">
     <!--@mbg.generated-->
     insert into sys_role_frontend_menu_table
     <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -21,7 +21,7 @@
   </select>
 
 
-  <select id="selectByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select
     <include refid="Base_Column_List" />

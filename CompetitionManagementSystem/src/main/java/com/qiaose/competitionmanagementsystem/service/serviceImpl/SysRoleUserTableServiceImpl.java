@@ -36,8 +36,8 @@ public class SysRoleUserTableServiceImpl implements SysRoleUserTableService {
     }
 
     @Override
-    public List<SysRoleUserTable> selectByRoleId(String userId) {
-        return sysRoleUserTableMapper.selectByRoleId(userId);
+    public List<SysRoleUserTable> selectByUserId(String userId) {
+        return sysRoleUserTableMapper.selectByUserId(userId);
     }
 
     @Override

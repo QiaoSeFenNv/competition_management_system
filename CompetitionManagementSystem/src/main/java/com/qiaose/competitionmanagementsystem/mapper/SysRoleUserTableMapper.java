@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.SysRoleUserTable;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface SysRoleUserTableMapper {
 
     SysRoleUserTable selectByPrimaryKey(Integer id);
 
-    List<SysRoleUserTable> selectByRoleId(String userId);
+    List<SysRoleUserTable> selectByUserId(@Param("userId") String userId);
 
     int updateByPrimaryKeySelective(SysRoleUserTable record);
 

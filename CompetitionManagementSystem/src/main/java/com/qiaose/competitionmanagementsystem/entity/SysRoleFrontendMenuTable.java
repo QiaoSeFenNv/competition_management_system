@@ -2,12 +2,18 @@ package com.qiaose.competitionmanagementsystem.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * sys_role_frontend_menu_table
  */
 @Data
+@NoArgsConstructor
 public class SysRoleFrontendMenuTable implements Serializable {
     /**
      * 主键

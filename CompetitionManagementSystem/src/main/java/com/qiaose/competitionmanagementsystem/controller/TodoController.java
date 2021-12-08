@@ -1,13 +1,9 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
-import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
-import com.qiaose.competitionmanagementsystem.entity.CompetitionApproval;
-import com.qiaose.competitionmanagementsystem.entity.CompetitionProcess;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionTodo;
 import com.qiaose.competitionmanagementsystem.entity.User;
-import com.qiaose.competitionmanagementsystem.entity.dto.SysApproval;
 import com.qiaose.competitionmanagementsystem.service.CompetitionApprovalService;
 import com.qiaose.competitionmanagementsystem.service.CompetitionProcessService;
 import com.qiaose.competitionmanagementsystem.service.CompetitionTodoService;
@@ -15,7 +11,6 @@ import com.qiaose.competitionmanagementsystem.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,13 +48,13 @@ public class TodoController {
         }
 
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        User user = userService.selectByAccountName(username);
+        User user = userService.selectByUserId(username);
 
-        if (user.getAccountName() == null){
+        if (user.getUserId() == null){
             return R.failed("用户信息错误,请重新登录");
         }
 
-        List<CompetitionTodo> competitionTodo = competitionTodoService.selectByApplicantId(user.getAccountName());
+        List<CompetitionTodo> competitionTodo = competitionTodoService.selectByApplicantId(user.getUserId());
 
         return R.ok(competitionTodo);
     }

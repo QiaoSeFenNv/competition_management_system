@@ -1,7 +1,6 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
 import com.baomidou.mybatisplus.extension.api.R;
-import com.qiaose.competitionmanagementsystem.constant.WebConst;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionAttach;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.service.UserService;
@@ -48,12 +47,12 @@ public class AttachController {
         User user = null;
         if (principal instanceof UserDetails) {
             AuthUser authUser = (AuthUser) principal;
-            user = userService.selectByAccountName(authUser.getUsername());
+            user = userService.selectByUserId(authUser.getUsername());
         }
         if (user == null) {
             return R.failed("用户信息错误");
         }
-        Integer uid = user.getId();
+        Long uid = user.getId();
         //文件上传
         for (MultipartFile multipartFile : multipartFiles) {
             //文件原本名称
@@ -106,12 +105,12 @@ public class AttachController {
         User user = null;
         if (principal instanceof UserDetails) {
             AuthUser authUser = (AuthUser) principal;
-            user = userService.selectByAccountName(authUser.getUsername());
+            user = userService.selectByUserId(authUser.getUsername());
         }
         if (user == null) {
             return R.failed("用户信息错误");
         }
-        Integer uid = user.getId();
+        Long uid = user.getId();
         List<CompetitionAttach> listAttach = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             String fname = multipartFile.getOriginalFilename();
@@ -162,12 +161,12 @@ public class AttachController {
         User user = null;
         if (principal instanceof UserDetails) {
             AuthUser authUser = (AuthUser) principal;
-            user = userService.selectByAccountName(authUser.getUsername());
+            user = userService.selectByUserId(authUser.getUsername());
         }
         if (user == null) {
             return R.failed("用户信息错误");
         }
-        Integer uid = user.getId();
+        Long uid = user.getId();
         for (MultipartFile multipartFile : multipartFiles) {
             String fname = multipartFile.getOriginalFilename();
             //判断文件类是是否为图片 fname为上传文件名
@@ -189,7 +188,7 @@ public class AttachController {
             competitionAttach.setFtype(ftype);
             competitionAttach.setUserId(uid);
             competitionAttach.setCreated((int) (System.currentTimeMillis() / 1000));
-            user.setAvatarurl(fkey);
+            user.setUserAvatarurl(fkey);
             //SSS
             String realPath=request.getSession().getServletContext().getRealPath("")+"/WEB-INF/classes/static";
             File file = new File(realPath + fkey);

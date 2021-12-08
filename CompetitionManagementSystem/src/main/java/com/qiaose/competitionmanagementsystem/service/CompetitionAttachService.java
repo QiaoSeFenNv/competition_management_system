@@ -19,7 +19,7 @@ public interface CompetitionAttachService{
 
     int updateByPrimaryKey(CompetitionAttach record);
 
-    int deleteByIdTime(Integer id, Integer created,String ftype);
+
 
     List<CompetitionAttach> selectByPrimaryUserid(Integer id);
 }

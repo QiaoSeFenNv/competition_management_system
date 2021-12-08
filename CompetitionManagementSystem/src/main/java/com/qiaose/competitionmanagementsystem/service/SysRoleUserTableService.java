@@ -15,7 +15,7 @@ public interface SysRoleUserTableService{
 
     SysRoleUserTable selectByPrimaryKey(Integer id);
 
-    List<SysRoleUserTable> selectByRoleId(String userId);
+    List<SysRoleUserTable> selectByUserId(String userId);
 
     int updateByPrimaryKeySelective(SysRoleUserTable record);
 

@@ -20,8 +20,7 @@ public class MyUtils {
 
     public User TokenGetUserByName(HttpServletRequest request){
         String token = request.getHeader("Authorization");
-        System.out.println(token);
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        return userService.selectByAccountName(username);
+        return userService.selectByUserId(username);
     }
 }

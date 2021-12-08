@@ -10,7 +10,6 @@ public class SysRoleDto {
     /**
      * 角色号
      */
-    @TableId(type= IdType.AUTO)
     private String roleId;
 
     /**
@@ -24,5 +23,5 @@ public class SysRoleDto {
     private String description;
 
 
-    private Integer[] menu;
+    private Long[] menu;
 }

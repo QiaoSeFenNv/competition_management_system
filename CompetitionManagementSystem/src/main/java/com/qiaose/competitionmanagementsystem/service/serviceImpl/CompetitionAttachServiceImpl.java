@@ -44,10 +44,6 @@ public class CompetitionAttachServiceImpl implements CompetitionAttachService{
         return competitionAttachMapper.updateByPrimaryKey(record);
     }
 
-    @Override
-    public int deleteByIdTime(Integer userId, Integer created,String ftype) {
-        return competitionAttachMapper.deleteByIdTime( userId, created,ftype);
-    }
 
     @Override
     public List<CompetitionAttach> selectByPrimaryUserid(Integer id) {
