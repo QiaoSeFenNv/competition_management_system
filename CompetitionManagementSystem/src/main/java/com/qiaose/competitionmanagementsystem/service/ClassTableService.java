@@ -4,13 +4,13 @@ import com.qiaose.competitionmanagementsystem.entity.ClassTable;
 public interface ClassTableService{
 
 
-    int deleteByPrimaryKey(Integer classId);
+    int deleteByPrimaryKey(Long classId);
 
     int insert(ClassTable record);
 
     int insertSelective(ClassTable record);
 
-    ClassTable selectByPrimaryKey(Integer classId);
+    ClassTable selectByPrimaryKey(Long classId);
 
     int updateByPrimaryKeySelective(ClassTable record);
 

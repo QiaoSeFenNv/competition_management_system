@@ -4,50 +4,44 @@
   <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.ClassTable">
     <!--@mbg.generated-->
     <!--@Table class_table-->
-    <id column="class_id" jdbcType="INTEGER" property="classId" />
-    <result column="grade" jdbcType="VARCHAR" property="grade" />
-    <result column="class_name" jdbcType="VARCHAR" property="className" />
-    <result column="major" jdbcType="VARCHAR" property="major" />
+    <id column="class_id" jdbcType="BIGINT" property="classId" />
+    <result column="major_class" jdbcType="VARCHAR" property="majorClass" />
+    <result column="class_manger" jdbcType="VARCHAR" property="classManger" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    class_id, grade, class_name, major, create_time, update_time
+    class_id, major_class, class_manger, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select 
     <include refid="Base_Column_List" />
     from class_table
-    where class_id = #{classId,jdbcType=INTEGER}
+    where class_id = #{classId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from class_table
-    where class_id = #{classId,jdbcType=INTEGER}
+    where class_id = #{classId,jdbcType=BIGINT}
   </delete>
-
-
   <insert id="insert" keyColumn="class_id" keyProperty="classId" parameterType="com.qiaose.competitionmanagementsystem.entity.ClassTable" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into class_table (class_id,grade, class_name, major)
-    values (#{classId,jdbcType=INTEGER},#{grade,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR})
+    insert into class_table (major_class, class_manger, create_time, 
+      update_time)
+    values (#{majorClass,jdbcType=VARCHAR}, #{classManger,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-
-
   <insert id="insertSelective" keyColumn="class_id" keyProperty="classId" parameterType="com.qiaose.competitionmanagementsystem.entity.ClassTable" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into class_table
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="grade != null">
-        grade,
+      <if test="majorClass != null">
+        major_class,
       </if>
-      <if test="className != null">
-        class_name,
-      </if>
-      <if test="major != null">
-        major,
+      <if test="classManger != null">
+        class_manger,
       </if>
       <if test="createTime != null">
         create_time,
@@ -57,14 +51,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="grade != null">
-        #{grade,jdbcType=VARCHAR},
+      <if test="majorClass != null">
+        #{majorClass,jdbcType=VARCHAR},
       </if>
-      <if test="className != null">
-        #{className,jdbcType=VARCHAR},
-      </if>
-      <if test="major != null">
-        #{major,jdbcType=VARCHAR},
+      <if test="classManger != null">
+        #{classManger,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -74,22 +65,15 @@
       </if>
     </trim>
   </insert>
-
-
-
-
   <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.ClassTable">
     <!--@mbg.generated-->
     update class_table
     <set>
-      <if test="grade != null">
-        grade = #{grade,jdbcType=VARCHAR},
+      <if test="majorClass != null">
+        major_class = #{majorClass,jdbcType=VARCHAR},
       </if>
-      <if test="className != null">
-        class_name = #{className,jdbcType=VARCHAR},
-      </if>
-      <if test="major != null">
-        major = #{major,jdbcType=VARCHAR},
+      <if test="classManger != null">
+        class_manger = #{classManger,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -98,16 +82,15 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where class_id = #{classId,jdbcType=INTEGER}
+    where class_id = #{classId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.ClassTable">
     <!--@mbg.generated-->
     update class_table
-    set grade = #{grade,jdbcType=VARCHAR},
-      class_name = #{className,jdbcType=VARCHAR},
-      major = #{major,jdbcType=VARCHAR},
+    set major_class = #{majorClass,jdbcType=VARCHAR},
+      class_manger = #{classManger,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where class_id = #{classId,jdbcType=INTEGER}
+    where class_id = #{classId,jdbcType=BIGINT}
   </update>
 </mapper>

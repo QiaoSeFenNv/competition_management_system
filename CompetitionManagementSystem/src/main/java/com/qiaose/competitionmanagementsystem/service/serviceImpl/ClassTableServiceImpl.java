@@ -12,7 +12,7 @@ public class ClassTableServiceImpl implements ClassTableService{
     private ClassTableMapper classTableMapper;
 
     @Override
-    public int deleteByPrimaryKey(Integer classId) {
+    public int deleteByPrimaryKey(Long classId) {
         return classTableMapper.deleteByPrimaryKey(classId);
     }
 
@@ -27,7 +27,7 @@ public class ClassTableServiceImpl implements ClassTableService{
     }
 
     @Override
-    public ClassTable selectByPrimaryKey(Integer classId) {
+    public ClassTable selectByPrimaryKey(Long classId) {
         return classTableMapper.selectByPrimaryKey(classId);
     }
 
