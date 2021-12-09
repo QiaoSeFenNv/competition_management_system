@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.User">
+    <!--@mbg.generated-->
+    <!--@Table `user`-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_avatarUrl" jdbcType="VARCHAR" property="userAvatarurl" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="updated_time" jdbcType="DATE" property="updatedTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, user_id, user_avatarUrl, user_password, user_integral, create_time, updated_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from `user`
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <select id="getAllUser" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from `user`
+  </select>
+
+
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from `user`
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from `user`
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into `user` (user_id, user_avatarUrl, user_password, 
+      user_integral, create_time, updated_time
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{userAvatarurl,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userIntegral,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, #{updatedTime,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into `user`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userAvatarurl != null">
+        user_avatarUrl,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userIntegral != null">
+        user_integral,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userAvatarurl != null">
+        #{userAvatarurl,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userIntegral != null">
+        #{userIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.User">
+    <!--@mbg.generated-->
+    update `user`
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userAvatarurl != null">
+        user_avatarUrl = #{userAvatarurl,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userIntegral != null">
+        user_integral = #{userIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.User">
+    <!--@mbg.generated-->
+    update `user`
+    set user_id = #{userId,jdbcType=VARCHAR},
+      user_avatarUrl = #{userAvatarurl,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_integral = #{userIntegral,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=DATE},
+      updated_time = #{updatedTime,jdbcType=DATE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
