@@ -124,6 +124,7 @@ public class StudentInfoController {
         Integer deptId = studentInfo1.getDeptId();
 
 
+
         //取出原本三个对象，在为三个对象赋id值进行更新
         BankTable bankTable = studentInfo.getBankTable();
         bankTable.setId(bankId);
