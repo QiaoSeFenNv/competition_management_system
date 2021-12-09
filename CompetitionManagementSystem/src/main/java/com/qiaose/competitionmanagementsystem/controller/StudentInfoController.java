@@ -155,6 +155,7 @@ public class StudentInfoController {
 
 
 
+        /**/
         int i =studentInfoService.deleteByPrimaryKey(studentInfo.getId());
         int j = bankTableService.deleteByPrimaryKey(bankId);
         int k = classTableService.deleteByPrimaryKey(Long.valueOf(classId));
