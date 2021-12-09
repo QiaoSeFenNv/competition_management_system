@@ -60,7 +60,7 @@ public class FrontendMenuController {
 
         List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable = new ArrayList<>();
         for (SysRoleUserTable sysRoleUserTable : sysRoleUserTables) {
-            List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTables = sysRoleFrontendMenuTableService.selectByRoleId(Long.valueOf(sysRoleUserTable.getRoleId()));
+            List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTables = sysRoleFrontendMenuTableService.selectByRoleId(sysRoleUserTable.getRoleId());
             for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTables) {
                 sysRoleFrontendMenuTable.add(roleFrontendMenuTable);
             }
@@ -161,7 +161,7 @@ public class FrontendMenuController {
 
         int i = sysFrontendMenuTableService.deleteByPrimaryKey(sysFrontendDto.getId());
         //删除前端表，中间表会出现查询空数据，是否对应删除  别删除可能后面要还原
-//        int j = sysRoleFrontendMenuTableService.deleteByAuthorityId(sysFrontendDto.getId());
+        int j = sysRoleFrontendMenuTableService.deleteByAuthorityId(sysFrontendDto.getId());
 
         //完成插入角色菜单表
         if ( i <=0){

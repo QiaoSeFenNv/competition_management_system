@@ -36,7 +36,7 @@ public class SysRoleFrontendMenuTable implements Serializable {
      * 角色id
      * #c_role
      */
-    private Long roleId;
+    private String roleId;
 
     /**
      * 创建时间

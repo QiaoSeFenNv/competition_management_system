@@ -56,10 +56,15 @@ public class SysRoleTableServiceImpl implements SysRoleTableService {
     public SysRoleTable R_PoToDto(SysRoleDto sysRoleDto) {
         SysRoleTable sysRoleTable = new SysRoleTable();
 
+        if (!StringUtil.isNullOrEmpty(sysRoleDto.getRoleId()))
+            sysRoleTable.setRoleId(sysRoleDto.getRoleId());
+
         if (!StringUtil.isNullOrEmpty( sysRoleDto.getRoleName()))
             sysRoleTable.setRoleName(sysRoleDto.getRoleName());
+
         if (!StringUtil.isNullOrEmpty( sysRoleDto.getDescription()))
             sysRoleTable.setDescription(sysRoleDto.getDescription());
+
         return sysRoleTable;
     }
 

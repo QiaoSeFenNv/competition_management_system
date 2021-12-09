@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.Role;
 import java.util.List;
 
 @RestController
@@ -72,142 +73,57 @@ public class RoleController {
 
 
 
-    @PostMapping("/insert")
-    @ApiOperation(value = "插入一条角色信息", notes = "前端需要插入角色body,不需要携带id")
+    @PostMapping("/InsertOrUpdate")
+    @ApiOperation(value = "插入或者一条角色信息,与绑定前端菜单", notes = "如果传递的数据中携带id则会更新否则插入,也可用选择不带菜单id,则就会插入角色")
     @Transactional(rollbackFor = Exception.class)
-    public R InsertRole(@RequestBody SysRoleDto sysRoleDto) {
-
+    public R InsertAndUpdate(@RequestBody SysRoleDto sysRoleDto) {
         SysRoleTable sysRoleTable = sysRoleTableService.R_PoToDto(sysRoleDto);
+        String RoleId;
+        if (sysRoleDto.getRoleId()!=null){
+            //更新
+            int i = sysRoleTableService.updateByPrimaryKeySelective(sysRoleTable);
+            if (sysRoleDto.getMenu() == null){
+                return R.ok("");
+            }
+            RoleId = sysRoleTable.getRoleId();
+            //更新就删除roleId相关的数据，再插入
+            int q = sysRoleFrontendMenuTableService.deleteByRoleId(RoleId);
+            for (Long menu : sysRoleDto.getMenu()) {
+                sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,menu);
+            }
 
-        if (sysRoleTable == null || StringUtil.isNullOrEmpty(sysRoleTable.getRoleName())
-                || StringUtil.isNullOrEmpty(sysRoleTable.getDescription())) {
-            return R.failed("信息不全");
-        }
 
-        List<SysRoleTable> sysRoleTables = sysRoleTableService.selectAll();
-        for (SysRoleTable roleTable : sysRoleTables) {
-            if (roleTable.getRoleName().equals(sysRoleTable.getRoleName())
-                    && roleTable.getRoleId().equals(sysRoleTable.getRoleId())
-            ) {
-                return R.failed("角色名称重复，无法插入");
+        }else{
+            //插入
+            RoleId = IDUtils.CreateId()+"";
+            sysRoleTable.setRoleId(RoleId);
+
+            int i = sysRoleTableService.insertSelective(sysRoleTable);
+            if (sysRoleDto.getMenu() == null){
+                return R.ok("");
+            }
+            for (Long menu : sysRoleDto.getMenu()) {
+                int j = sysRoleFrontendMenuTableService.insertRoleMenu(RoleId, menu);
             }
         }
 
-
-        sysRoleTable.setRoleId( IDUtils.CreateId()+"");
-        int i = sysRoleTableService.insertSelective(sysRoleTable);
-        //以上都是插入一个角色对象
-
-        //中间表
-
-        Long[] menu = sysRoleDto.getMenu();
-        SysRoleFrontendMenuTable sysRoleFrontendMenuTable = new SysRoleFrontendMenuTable();
-        sysRoleFrontendMenuTable.setId(IDUtils.CreateId());
-        sysRoleFrontendMenuTable.setAuthorityType("MENU");
-        sysRoleFrontendMenuTable.setRoleId(Long.valueOf(sysRoleDto.getRoleId()));
-
-
-        for (Long aLong : menu) {
-            sysRoleFrontendMenuTable.setAuthorityId(aLong);
-            sysRoleFrontendMenuTableService.insertSelective(sysRoleFrontendMenuTable);
-        }
-
-        if (i <= 0) {
-            return R.failed("插入失败");
-        }
         return R.ok("插入成功");
     }
 
-    @PostMapping("/update")
-    @ApiOperation(value = "更新一条角色信息", notes = "前端需要插入角色body,需要携带id")
-    @Transactional(rollbackFor = Exception.class)
-    public R UpdateRole(@RequestBody SysRoleDto sysRoleDto) {
-        SysRoleTable sysRoleTable = sysRoleTableService.R_PoToDto(sysRoleDto);
 
-        List<SysRoleTable> sysRoleTables = sysRoleTableService.selectAll();
-
-        for (SysRoleTable roleTable : sysRoleTables) {
-            if (roleTable.getRoleName().equals(sysRoleTable.getRoleName())
-                 && !roleTable.getRoleId().equals(sysRoleTable.getRoleId())
-            ) {
-                return R.failed("角色名称重复，无法插入");
-            }
-        }
-        int i = sysRoleTableService.updateByPrimaryKeySelective(sysRoleTable);
-        //中间表
-
-
-        InsertRoleFrontMenu(sysRoleDto);
-
-
-        if (i <= 0) {
-            return R.failed("更新失败");
-        }
-        return R.ok("更新成功");
-    }
 
     @PostMapping("/delete")
     @ApiOperation(value = "删除一条角色信息", notes = "前端需要插入角色body,携带id")
     @Transactional(rollbackFor = Exception.class)
     public R DeleteRole(@RequestBody SysRoleTable sysRoleTable) {
         int i = sysRoleTableService.deleteByPrimaryKey(sysRoleTable.getRoleId());
+
+        int j = sysRoleFrontendMenuTableService.deleteByRoleId(sysRoleTable.getRoleId());
+
         if (i <= 0) {
             return R.failed("删除失败");
         }
         return R.ok("删除成功");
     }
-
-
-
-    @GetMapping("/binding")
-    @ApiOperation(value = "绑定角色与菜单关系", notes = "前端需要传入两个值，role对应角色表中的id，auth对应菜单表id")
-    @Transactional(rollbackFor = Exception.class)
-    public R RoleBindMenu(@RequestParam Long roleId,
-                          @RequestParam Long authId){
-
-
-        SysRoleFrontendMenuTable sysRoleFrontendMenuTable = new SysRoleFrontendMenuTable();
-        sysRoleFrontendMenuTable.setRoleId(roleId);
-        sysRoleFrontendMenuTable.setAuthorityId(authId);
-
-        sysRoleFrontendMenuTableService.insertSelective(sysRoleFrontendMenuTable);
-
-        return R.ok("绑定成功");
-    }
-
-    public Boolean InsertRoleFrontMenu(SysRoleDto sysRoleDto){
-
-            if (sysRoleDto.getMenu() == null){
-                return false;
-            }
-            Long[] menu = sysRoleDto.getMenu();
-            SysRoleFrontendMenuTable sysRoleFrontendMenuTable = new SysRoleFrontendMenuTable();
-            sysRoleFrontendMenuTable.setId(IDUtils.CreateId());
-
-            sysRoleFrontendMenuTable.setCreateTime(DateKit.getNow());
-            sysRoleFrontendMenuTable.setCreatedBy(Long.valueOf(sysRoleDto.getRoleId()));
-            sysRoleFrontendMenuTable.setAuthorityType("MENU");
-
-            sysRoleFrontendMenuTable.setRoleId(Long.valueOf(sysRoleDto.getRoleId()));
-
-            //判断是否重复插入
-        List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTables = sysRoleFrontendMenuTableService.selectByRoleId(Long.valueOf(sysRoleDto.getRoleId()));
-
-        for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTables) {
-            Long authorityId = roleFrontendMenuTable.getAuthorityId();
-            for (Long aLong : menu) {
-                if (authorityId == aLong) {
-                    return false;
-                }
-            }
-        }
-
-        for (Long integer : menu) {
-                sysRoleFrontendMenuTable.setAuthorityId(integer);
-                sysRoleFrontendMenuTableService.insertSelective(sysRoleFrontendMenuTable);
-            }
-        return true;
-    }
-
 
 }

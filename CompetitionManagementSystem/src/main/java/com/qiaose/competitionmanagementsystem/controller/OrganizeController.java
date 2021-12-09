@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Api("积分接口")
+@Api("比赛名称接口")
 @RequestMapping("/organize")
 public class OrganizeController {
 

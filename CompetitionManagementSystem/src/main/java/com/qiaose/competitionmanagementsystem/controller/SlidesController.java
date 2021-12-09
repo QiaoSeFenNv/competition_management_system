@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@Api(value = "轮播图")
+@Api(value = "轮播图接口")
 @RequestMapping("/slideshow")
 public class SlidesController {
 

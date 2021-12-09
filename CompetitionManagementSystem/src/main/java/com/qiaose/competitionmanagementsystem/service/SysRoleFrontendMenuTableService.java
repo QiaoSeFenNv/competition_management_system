@@ -19,7 +19,13 @@ public interface SysRoleFrontendMenuTableService{
 
     int updateByPrimaryKey(SysRoleFrontendMenuTable record);
 
-    List<SysRoleFrontendMenuTable> selectByRoleId(Long roleId);
+    List<SysRoleFrontendMenuTable> selectByRoleId(String roleId);
+
+
+
+    int insertRoleMenu(String roleId, Long menu);
+
+    int deleteByRoleId(String roleId);
 
     int deleteByAuthorityId(Long id);
 }

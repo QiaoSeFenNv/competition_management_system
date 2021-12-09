@@ -9,13 +9,15 @@ public interface SysRoleFrontendMenuTableMapper {
 
     int deleteByAuthorityId(Long id);
 
+    int deleteByRoleId(String roleId);
+
     int insert(SysRoleFrontendMenuTable record);
 
     int insertSelective(SysRoleFrontendMenuTable record);
 
     SysRoleFrontendMenuTable selectByPrimaryKey(Long id);
 
-    List<SysRoleFrontendMenuTable> selectByRoleId(Long roleId);
+    List<SysRoleFrontendMenuTable> selectByRoleId(String roleId);
 
     int updateByPrimaryKeySelective(SysRoleFrontendMenuTable record);
 

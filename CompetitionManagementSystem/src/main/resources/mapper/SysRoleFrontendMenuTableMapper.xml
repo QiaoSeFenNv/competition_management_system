@@ -7,7 +7,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="authority_id" jdbcType="BIGINT" property="authorityId" />
     <result column="authority_type" jdbcType="VARCHAR" property="authorityType" />
-    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="created_by" jdbcType="BIGINT" property="createdBy" />
   </resultMap>
@@ -23,25 +23,31 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
-  <select id="selectByRoleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select
     <include refid="Base_Column_List" />
     from sys_role_frontend_menu_table
-    where role_id = #{roleId,jdbcType=BIGINT}
+    where role_id = #{roleId,jdbcType=VARCHAR}
   </select>
 
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from sys_role_frontend_menu_table
-    where authority_id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <delete id="deleteByRoleId" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from sys_role_frontend_menu_table
+    where role_id = #{roleId,jdbcType=VARCHAR}
   </delete>
 
   <delete id="deleteByAuthorityId" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from sys_role_frontend_menu_table
-    where id = #{id,jdbcType=BIGINT}
+    where authority_id = #{id,jdbcType=BIGINT}
   </delete>
 
 
@@ -51,7 +57,7 @@
       role_id, create_time, created_by
       )
     values (#{id,jdbcType=BIGINT}, #{authorityId,jdbcType=BIGINT}, #{authorityType,jdbcType=VARCHAR}, 
-      #{roleId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=BIGINT}
+      #{roleId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective"  parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable">
@@ -88,7 +94,7 @@
         #{authorityType,jdbcType=VARCHAR},
       </if>
       <if test="roleId != null">
-        #{roleId,jdbcType=BIGINT},
+        #{roleId,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -109,7 +115,7 @@
         authority_type = #{authorityType,jdbcType=VARCHAR},
       </if>
       <if test="roleId != null">
-        role_id = #{roleId,jdbcType=BIGINT},
+        role_id = #{roleId,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -125,7 +131,7 @@
     update sys_role_frontend_menu_table
     set authority_id = #{authorityId,jdbcType=BIGINT},
       authority_type = #{authorityType,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=BIGINT},
+      role_id = #{roleId,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       created_by = #{createdBy,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}

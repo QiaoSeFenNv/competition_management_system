@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
+import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.mapper.SysRoleFrontendMenuTableMapper;
@@ -45,8 +46,28 @@ public class SysRoleFrontendMenuTableServiceImpl implements SysRoleFrontendMenuT
     }
 
     @Override
-    public List<SysRoleFrontendMenuTable> selectByRoleId(Long roleId) {
+    public List<SysRoleFrontendMenuTable> selectByRoleId(String roleId) {
         return sysRoleFrontendMenuTableMapper.selectByRoleId(roleId);
+    }
+
+
+    @Override
+    public int insertRoleMenu(String roleId, Long menu) {
+        SysRoleFrontendMenuTable sysRoleFrontendMenuTable = new SysRoleFrontendMenuTable();
+
+        sysRoleFrontendMenuTable.setId(IDUtils.CreateId());
+        sysRoleFrontendMenuTable.setAuthorityId(menu);
+        sysRoleFrontendMenuTable.setAuthorityType("MENU");
+        sysRoleFrontendMenuTable.setRoleId(roleId);
+
+        int i = sysRoleFrontendMenuTableMapper.insertSelective(sysRoleFrontendMenuTable);
+
+        return i;
+    }
+
+    @Override
+    public int deleteByRoleId(String roleId) {
+        return sysRoleFrontendMenuTableMapper.deleteByRoleId(roleId);
     }
 
     @Override

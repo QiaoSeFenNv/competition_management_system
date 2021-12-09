@@ -59,7 +59,7 @@ public class StudentInfoController {
         BankTable bankTable = bankTableService.selectByPrimaryKey(studentInfo.getBankId());
         studentInfo.setBankTable(bankTable);
         //用班级id查询班级信息
-        ClassTable classTable = classTableService.selectByPrimaryKey(studentInfo.getClassId());
+        ClassTable classTable = classTableService.selectByPrimaryKey(Long.valueOf(studentInfo.getClassId()));
         studentInfo.setClassTable(classTable);
         //用college查询二级学院信息
         CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(studentInfo.getDeptId());
@@ -82,7 +82,7 @@ public class StudentInfoController {
 
         ClassTable classTable = studentInfo.getClassTable();
         Integer classId = IDUtils.getUUIDInOrderId();
-        classTable.setClassId(classId);
+        classTable.setClassId(Long.valueOf(classId));
 
         CollegeInfo collegeInfo = studentInfo.getCollegeInfo();
 
@@ -129,7 +129,7 @@ public class StudentInfoController {
         bankTable.setId(bankId);
 
         ClassTable classTable = studentInfo.getClassTable();
-        classTable.setClassId(classId);
+        classTable.setClassId(Long.valueOf(classId));
 
 
         studentInfo.setDeptId(deptId);
@@ -157,7 +157,7 @@ public class StudentInfoController {
 
         int i =studentInfoService.deleteByPrimaryKey(studentInfo.getId());
         int j = bankTableService.deleteByPrimaryKey(bankId);
-        int k = classTableService.deleteByPrimaryKey(classId);
+        int k = classTableService.deleteByPrimaryKey(Long.valueOf(classId));
 
         if( i<=0 || j<=0 ||k <= 0){
             return R.failed("删除失败");
