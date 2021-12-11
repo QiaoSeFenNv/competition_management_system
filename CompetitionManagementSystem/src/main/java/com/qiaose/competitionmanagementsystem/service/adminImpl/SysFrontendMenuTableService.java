@@ -1,4 +1,4 @@
-package com.qiaose.competitionmanagementsystem.service;
+package com.qiaose.competitionmanagementsystem.service.adminImpl;
 
 import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;

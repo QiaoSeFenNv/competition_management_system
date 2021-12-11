@@ -1,9 +1,9 @@
-package com.qiaose.competitionmanagementsystem.service.serviceImpl;
+package com.qiaose.competitionmanagementsystem.service.serviceImpl.adminServiceImpl;
 
 
 import com.qiaose.competitionmanagementsystem.entity.admin.SysBackendApiTable;
 import com.qiaose.competitionmanagementsystem.mapper.adminMapper.SysBackendApiTableMapper;
-import com.qiaose.competitionmanagementsystem.service.SysBackendApiTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysBackendApiTableService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

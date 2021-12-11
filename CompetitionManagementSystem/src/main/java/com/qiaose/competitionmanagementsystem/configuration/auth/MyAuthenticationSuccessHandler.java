@@ -2,8 +2,8 @@ package com.qiaose.competitionmanagementsystem.configuration.auth;
 
 import com.baomidou.mybatisplus.extension.api.R;
 
-import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
-import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysFrontendMenuTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;

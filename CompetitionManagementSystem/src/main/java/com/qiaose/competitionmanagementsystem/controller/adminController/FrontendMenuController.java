@@ -9,9 +9,9 @@ import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
-import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
-import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
-import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysFrontendMenuTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleFrontendMenuTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import com.qiaose.competitionmanagementsystem.utils.MyUtils;

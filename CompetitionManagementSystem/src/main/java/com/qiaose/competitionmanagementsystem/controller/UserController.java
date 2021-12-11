@@ -12,8 +12,8 @@ import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
-import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
-import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import io.swagger.annotations.Api;

@@ -2,8 +2,8 @@ package com.qiaose.competitionmanagementsystem.controller.adminController;
 
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysBackendApiTable;
-import com.qiaose.competitionmanagementsystem.service.SysBackendApiTableService;
-import com.qiaose.competitionmanagementsystem.service.SysRoleBackendApiTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysBackendApiTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleBackendApiTableService;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import com.qiaose.competitionmanagementsystem.utils.MyUtils;
 import io.swagger.annotations.Api;

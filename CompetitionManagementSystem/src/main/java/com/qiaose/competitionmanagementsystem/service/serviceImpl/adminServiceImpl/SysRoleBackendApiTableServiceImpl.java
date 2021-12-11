@@ -1,9 +1,9 @@
-package com.qiaose.competitionmanagementsystem.service.serviceImpl;
+package com.qiaose.competitionmanagementsystem.service.serviceImpl.adminServiceImpl;
 
 
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleBackendApiTable;
 import com.qiaose.competitionmanagementsystem.mapper.adminMapper.SysRoleBackendApiTableMapper;
-import com.qiaose.competitionmanagementsystem.service.SysRoleBackendApiTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleBackendApiTableService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

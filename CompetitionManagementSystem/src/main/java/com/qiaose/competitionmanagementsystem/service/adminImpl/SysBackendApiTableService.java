@@ -1,4 +1,4 @@
-package com.qiaose.competitionmanagementsystem.service;
+package com.qiaose.competitionmanagementsystem.service.adminImpl;
 
 
 

@@ -1,9 +1,9 @@
-package com.qiaose.competitionmanagementsystem.service.serviceImpl;
+package com.qiaose.competitionmanagementsystem.service.serviceImpl.adminServiceImpl;
 
 
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.mapper.adminMapper.SysRoleUserTableMapper;
-import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
