@@ -13,7 +13,7 @@ class CompetitionManagementSystemApplicationTests {
 
     @Test
     void contextLoads() {
-        log.info("java:os");
+
     }
 
 
