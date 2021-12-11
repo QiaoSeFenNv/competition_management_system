@@ -123,6 +123,7 @@ public class SysFrontendMenuTable implements Serializable {
 
     private Meta meta;
 
+
     private List<SysFrontendMenuTable> children;
 //    private List<SysFrontendDto> children;
 
