@@ -1,11 +1,6 @@
 package com.qiaose.competitionmanagementsystem.entity.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * 前端需要显示父级pid、名称

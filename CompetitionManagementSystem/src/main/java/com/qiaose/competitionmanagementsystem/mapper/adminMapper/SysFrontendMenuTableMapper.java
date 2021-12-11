@@ -1,6 +1,6 @@
-package com.qiaose.competitionmanagementsystem.mapper;
+package com.qiaose.competitionmanagementsystem.mapper.adminMapper;
 
-import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

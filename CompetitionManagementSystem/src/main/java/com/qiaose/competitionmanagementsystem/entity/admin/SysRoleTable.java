@@ -1,4 +1,4 @@
-package com.qiaose.competitionmanagementsystem.entity;
+package com.qiaose.competitionmanagementsystem.entity.admin;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

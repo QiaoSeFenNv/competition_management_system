@@ -2,14 +2,12 @@ package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 import io.netty.util.internal.StringUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import com.qiaose.competitionmanagementsystem.mapper.SysFrontendMenuTableMapper;
-import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.mapper.adminMapper.SysFrontendMenuTableMapper;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

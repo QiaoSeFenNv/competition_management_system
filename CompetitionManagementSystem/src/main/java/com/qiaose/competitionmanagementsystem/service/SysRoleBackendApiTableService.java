@@ -1,6 +1,6 @@
 package com.qiaose.competitionmanagementsystem.service;
 
-import com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleBackendApiTable;
 
 import java.util.List;
 

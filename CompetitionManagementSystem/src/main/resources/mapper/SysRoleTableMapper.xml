@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.SysRoleTableMapper">
-  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.SysRoleTable">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.adminMapper.SysRoleTableMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable">
     <!--@mbg.generated-->
     <!--@Table sys_role_table-->
     <id column="role_id" jdbcType="VARCHAR" property="roleId" />
@@ -52,14 +52,14 @@
     delete from sys_role_table
     where role_id = #{roleId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleTable">
+  <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable">
     <!--@mbg.generated-->
     insert into sys_role_table (role_id, role_name, description
       )
     values (#{roleId,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleTable">
+  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable">
     <!--@mbg.generated-->
     insert into sys_role_table
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -85,7 +85,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleTable">
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable">
     <!--@mbg.generated-->
     update sys_role_table
     <set>
@@ -98,7 +98,7 @@
     </set>
     where role_id = #{roleId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.SysRoleTable">
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable">
     <!--@mbg.generated-->
     update sys_role_table
     set role_name = #{roleName,jdbcType=VARCHAR},

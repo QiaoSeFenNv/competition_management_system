@@ -1,6 +1,6 @@
-package com.qiaose.competitionmanagementsystem.mapper;
+package com.qiaose.competitionmanagementsystem.mapper.adminMapper;
 
-import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleFrontendMenuTable;
 
 import java.util.List;
 

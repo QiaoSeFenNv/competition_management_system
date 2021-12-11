@@ -2,7 +2,7 @@ package com.qiaose.competitionmanagementsystem.service;
 
 
 
-import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
 
 import java.util.List;

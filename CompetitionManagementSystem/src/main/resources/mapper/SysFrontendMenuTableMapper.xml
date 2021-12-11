@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.SysFrontendMenuTableMapper">
-  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.adminMapper.SysFrontendMenuTableMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable">
     <!--@mbg.generated-->
     <!--@Table sys_frontend_menu_table-->
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -86,7 +86,7 @@
     delete from sys_frontend_menu_table
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+  <insert id="insert" parameterType="com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable">
     <!--@mbg.generated-->
     insert into sys_frontend_menu_table (id, `label`, describe_, 
       is_general, `path`, redirect, 
@@ -101,7 +101,7 @@
       #{readonly,jdbcType=BIT}, #{createdBy,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updatedBy,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+  <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable">
     <!--@mbg.generated-->
     insert into sys_frontend_menu_table
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -211,7 +211,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable">
     <!--@mbg.generated-->
     update sys_frontend_menu_table
     <set>
@@ -266,7 +266,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable">
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable">
     <!--@mbg.generated-->
     update sys_frontend_menu_table
     set `label` = #{label,jdbcType=VARCHAR},

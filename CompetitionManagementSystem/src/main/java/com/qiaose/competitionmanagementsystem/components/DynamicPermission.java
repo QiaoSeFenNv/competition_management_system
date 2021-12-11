@@ -3,9 +3,8 @@ package com.qiaose.competitionmanagementsystem.components;
 
 
 import com.qiaose.competitionmanagementsystem.configuration.auth.MyaccessDeniedException;
-import com.qiaose.competitionmanagementsystem.entity.SysBackendApiTable;
-import com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable;
-import com.qiaose.competitionmanagementsystem.entity.User;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysBackendApiTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleBackendApiTable;
 import com.qiaose.competitionmanagementsystem.service.SysBackendApiTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleBackendApiTableService;
 import com.qiaose.competitionmanagementsystem.service.UserService;

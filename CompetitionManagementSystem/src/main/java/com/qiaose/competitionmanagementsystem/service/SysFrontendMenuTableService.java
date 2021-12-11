@@ -1,6 +1,6 @@
 package com.qiaose.competitionmanagementsystem.service;
 
-import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.qiaose.competitionmanagementsystem.entity;
+package com.qiaose.competitionmanagementsystem.entity.admin;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;

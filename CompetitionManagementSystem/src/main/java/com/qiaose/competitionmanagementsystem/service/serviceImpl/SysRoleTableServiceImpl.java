@@ -1,9 +1,9 @@
 package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
 
-import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
-import com.qiaose.competitionmanagementsystem.mapper.SysRoleTableMapper;
+import com.qiaose.competitionmanagementsystem.mapper.adminMapper.SysRoleTableMapper;
 import com.qiaose.competitionmanagementsystem.service.SysRoleTableService;
 import io.netty.util.internal.StringUtil;
 import org.springframework.stereotype.Service;

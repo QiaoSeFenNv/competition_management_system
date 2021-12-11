@@ -3,8 +3,8 @@ package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import com.qiaose.competitionmanagementsystem.mapper.SysRoleFrontendMenuTableMapper;
-import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.mapper.adminMapper.SysRoleFrontendMenuTableMapper;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
 
 import java.util.List;

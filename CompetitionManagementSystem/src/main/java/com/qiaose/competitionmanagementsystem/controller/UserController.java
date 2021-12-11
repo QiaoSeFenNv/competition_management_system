@@ -7,8 +7,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
-import com.qiaose.competitionmanagementsystem.entity.SysRoleTable;
-import com.qiaose.competitionmanagementsystem.entity.SysRoleUserTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
@@ -61,6 +61,9 @@ public class UserController {
     @ApiOperation(value="查询所有用户", notes="显示所有用户数据,封装未R.ok类型")
     public R getList(@RequestParam(defaultValue = "1", value = "page") Integer page
     ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+
+
+
 
         PageHelper.startPage(page,pageSize);
         List<User> list = userService.getAllUser();

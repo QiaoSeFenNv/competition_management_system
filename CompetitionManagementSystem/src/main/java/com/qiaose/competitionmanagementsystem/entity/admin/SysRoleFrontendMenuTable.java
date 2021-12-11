@@ -1,4 +1,4 @@
-package com.qiaose.competitionmanagementsystem.entity;
+package com.qiaose.competitionmanagementsystem.entity.admin;
 
 import java.io.Serializable;
 import java.util.Date;

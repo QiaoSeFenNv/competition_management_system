@@ -1,15 +1,13 @@
-package com.qiaose.competitionmanagementsystem.entity;
+package com.qiaose.competitionmanagementsystem.entity.admin;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonFilter;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**

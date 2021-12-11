@@ -1,33 +1,28 @@
-package com.qiaose.competitionmanagementsystem.controller;
+package com.qiaose.competitionmanagementsystem.controller.adminController;
 
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.qiaose.competitionmanagementsystem.entity.SysFrontendMenuTable;
-import com.qiaose.competitionmanagementsystem.entity.SysRoleFrontendMenuTable;
-import com.qiaose.competitionmanagementsystem.entity.SysRoleUserTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 import com.qiaose.competitionmanagementsystem.service.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.SysRoleUserTableService;
-import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import com.qiaose.competitionmanagementsystem.utils.MyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RestController

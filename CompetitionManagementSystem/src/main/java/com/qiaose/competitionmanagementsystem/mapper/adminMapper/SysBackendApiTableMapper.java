@@ -1,9 +1,8 @@
-package com.qiaose.competitionmanagementsystem.mapper;
+package com.qiaose.competitionmanagementsystem.mapper.adminMapper;
 
 
 
-import com.qiaose.competitionmanagementsystem.entity.SysBackendApiTable;
-import com.qiaose.competitionmanagementsystem.entity.SysRoleBackendApiTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysBackendApiTable;
 
 import java.util.List;
 
