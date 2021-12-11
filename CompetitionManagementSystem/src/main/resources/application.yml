@@ -5,6 +5,8 @@ logging:
             qiaose:
                 competitionmanagementsystem:
                     mapper: debug
+
+
 mybatis:
     mapper-locations: classpath:mapper/*.xml
     type-aliases-package: com.qiaose.competitionmanagementsystem.mapper
