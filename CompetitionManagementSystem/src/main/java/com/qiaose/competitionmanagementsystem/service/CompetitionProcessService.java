@@ -1,6 +1,8 @@
 package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionProcess;
+import com.qiaose.competitionmanagementsystem.entity.UserInfo;
+
 public interface CompetitionProcessService{
 
 
@@ -16,4 +18,5 @@ public interface CompetitionProcessService{
 
     int updateByPrimaryKey(CompetitionProcess record);
 
+    String passProcess(Long processId, UserInfo userInfo);
 }

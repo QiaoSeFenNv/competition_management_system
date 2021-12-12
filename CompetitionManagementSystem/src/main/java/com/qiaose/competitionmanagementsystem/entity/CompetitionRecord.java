@@ -99,7 +99,6 @@ public class CompetitionRecord implements Serializable {
     private Long todoId;
 
     @TableField(exist = false)
-    @JsonIgnore
     private CompetitionApproval competitionApproval;
 
 

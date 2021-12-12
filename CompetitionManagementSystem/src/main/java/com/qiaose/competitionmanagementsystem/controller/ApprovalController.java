@@ -36,8 +36,9 @@ public class ApprovalController {
     @Resource
     CompetitionProcessService competitionProcessService;
 
-    @Resource
+    @Autowired
     UserInfoService userInfoService;
+
 
 
     @Autowired
@@ -45,6 +46,8 @@ public class ApprovalController {
 
     @Autowired
     UserService userService;
+
+
 
 
 //    @PostMapping("/insertApproval")
@@ -166,7 +169,6 @@ public class ApprovalController {
         }
 
 
-
         //返回给前端
         return R.ok(sysApproval);
 
@@ -174,17 +176,17 @@ public class ApprovalController {
 
 
     @PostMapping("/agreeTodo")
-    @ApiOperation(value = "老师同意",notes = "上传一个对象原封不懂的上传")
+    @ApiOperation(value = "老师同意",notes = "上传一个对象")
     @Transactional(rollbackFor = {Exception.class})
     public R agreeTodo(@RequestBody SysApproval sysApproval){
         //获得当前的申请流程
         CompetitionApproval competitionApproval = sysApproval.getCompetitionApproval();
         //获得最新的申请流程
-        CompetitionProcess competitionProcess = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
+        CompetitionProcess competitionProcessO = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
 
 
         //如果下一个编号为空则结束
-        if (competitionProcess.getNextId() == null){
+        if (competitionProcessO.getNextId() == null){
             //修改申请表的状态为同意 1为同意 0执行中 2拒绝
             competitionApproval.setApprovalStatus((byte)1);
             //更新申请表的状态
@@ -199,16 +201,19 @@ public class ApprovalController {
             return R.ok("");
         }
 
+        UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
+
+        String applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
+
         //先获得当前的todo对象
         CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(sysApproval.getTodoId());
 
-
         //如果下一个编号不为空
         //更新表的下一个审批者
-        competitionApproval.setProcessId(competitionProcess.getNextId());
+        competitionApproval.setProcessId(competitionProcessO.getNextId());
         competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
         //插入一条todo表
-        competitionTodo.setApplicantId(competitionProcess.getApproverId());
+        competitionTodo.setApplicantId(applicantId);
         competitionTodoService.insertSelective(competitionTodo);
 
         return R.ok("");
