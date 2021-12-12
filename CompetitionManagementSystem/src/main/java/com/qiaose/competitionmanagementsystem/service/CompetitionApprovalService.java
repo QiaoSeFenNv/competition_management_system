@@ -1,6 +1,8 @@
 package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionApproval;
+import com.qiaose.competitionmanagementsystem.entity.UserInfo;
+
 public interface CompetitionApprovalService{
 
 
@@ -16,4 +18,5 @@ public interface CompetitionApprovalService{
 
     int updateByPrimaryKey(CompetitionApproval record);
 
+    CompetitionApproval SendApproval(Long approvalId, Long contentId, UserInfo userInfo, Long processId) ;
 }

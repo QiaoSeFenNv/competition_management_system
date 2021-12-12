@@ -8,10 +8,13 @@
     <result column="college_name" jdbcType="VARCHAR" property="collegeName" />
     <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="ancestors" jdbcType="VARCHAR" property="ancestors" />
+    <result column="duty_id" jdbcType="VARCHAR" property="dutyId"/>
   </resultMap>
+
+
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, college_name, parent_id, ancestors
+    id, college_name, parent_id, ancestors,duty_id
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -75,9 +78,9 @@
 
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CollegeInfo" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into college_info (college_name, parent_id, ancestors
+    insert into college_info (college_name, parent_id, ancestors,duty_id
       )
-    values (#{collegeName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{ancestors,jdbcType=VARCHAR}
+    values (#{collegeName,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, #{ancestors,jdbcType=VARCHAR},#{dutyId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CollegeInfo" useGeneratedKeys="true">
@@ -93,6 +96,9 @@
       <if test="ancestors != null">
         ancestors,
       </if>
+      <if test="dutyId != null">
+        duty_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="collegeName != null">
@@ -103,6 +109,9 @@
       </if>
       <if test="ancestors != null">
         #{ancestors,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyId != null">
+        #{dutyId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -119,6 +128,9 @@
       <if test="ancestors != null">
         ancestors = #{ancestors,jdbcType=VARCHAR},
       </if>
+      <if test="dutyId != null">
+        duty_id = #{dutyId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -127,7 +139,8 @@
     update college_info
     set college_name = #{collegeName,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=BIGINT},
-      ancestors = #{ancestors,jdbcType=VARCHAR}
+      ancestors = #{ancestors,jdbcType=VARCHAR},
+      duty_id = #{dutyId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

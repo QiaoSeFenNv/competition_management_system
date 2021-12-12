@@ -95,6 +95,13 @@ public class CompetitionRecord implements Serializable {
     private Integer recordCompetitionId;
 
 
+    @TableField(exist = false)
+    private Long todoId;
+
+    @TableField(exist = false)
+    @JsonIgnore
+    private CompetitionApproval competitionApproval;
+
 
     private static final long serialVersionUID = 1L;
 }

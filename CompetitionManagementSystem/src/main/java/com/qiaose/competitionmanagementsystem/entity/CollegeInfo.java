@@ -36,6 +36,12 @@ public class CollegeInfo implements Serializable {
     */
     private String ancestors;
 
+
+    /**
+     * 责任人
+     */
+    private String dutyId;
+
     @TableField(exist = false)
     @JsonIgnore
     private List<CollegeInfo> children;

@@ -11,14 +11,14 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysApproval implements Serializable {
+public class SysApproval<T> implements Serializable {
 
 
     private Long todoId;
 
     private CompetitionApproval competitionApproval;
 
-    private CompetitionRecord competitionRecord;
+    private T Content;
 
     private static final long serialVersionUID = 1L;
 }
