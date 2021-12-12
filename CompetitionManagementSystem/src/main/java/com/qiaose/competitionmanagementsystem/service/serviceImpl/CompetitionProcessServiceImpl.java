@@ -77,7 +77,9 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
                 return collegeInfo.getDutyId();
             }
         }
-        return null;
+
+
+        return competitionProcess.getApproverId();
     }
 
 }

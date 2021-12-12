@@ -167,8 +167,6 @@ public class ApprovalController {
             //将记录表内容注入到sysApproval对象
             sysApproval.setContent(competitionRecord);
         }
-
-
         //返回给前端
         return R.ok(sysApproval);
 
