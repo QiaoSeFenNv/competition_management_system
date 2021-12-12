@@ -30,6 +30,26 @@
     from user_info
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+
+  <select id="selectByDeptId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where dept_id like concat('%' ,#{s,jdbcType=VARCHAR}, '%')
+  </select>
+
+
+  <select id="selectByWorkId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where user_id = #{workId,jdbcType=VARCHAR}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from user_info

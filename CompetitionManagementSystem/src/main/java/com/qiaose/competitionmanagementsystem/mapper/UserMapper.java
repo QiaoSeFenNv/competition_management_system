@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserMapper {
     int deleteByPrimaryKey(Long id);
 
+    int deleteByUserId(@Param("userId") String userId);
+
     int insert(User record);
 
     int insertSelective(User record);
@@ -21,4 +23,6 @@ public interface UserMapper {
     User selectByUserId(@Param("userId") String userId);
 
     List<User> getAllUser();
+
+
 }

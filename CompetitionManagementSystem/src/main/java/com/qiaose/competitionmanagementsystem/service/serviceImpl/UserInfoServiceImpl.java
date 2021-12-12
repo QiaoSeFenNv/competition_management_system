@@ -1,10 +1,14 @@
 package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
+import com.qiaose.competitionmanagementsystem.entity.User;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
 import com.qiaose.competitionmanagementsystem.mapper.UserInfoMapper;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
+
+import java.util.List;
+
 @Service
 public class UserInfoServiceImpl implements UserInfoService{
 
@@ -39,6 +43,16 @@ public class UserInfoServiceImpl implements UserInfoService{
     @Override
     public int updateByPrimaryKey(UserInfo record) {
         return userInfoMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<UserInfo> selectByDeptId(String s) {
+        return userInfoMapper.selectByDeptId(s);
+    }
+
+    @Override
+    public UserInfo selectByWorkId(String workId) {
+        return userInfoMapper.selectByWorkId(workId);
     }
 
 }

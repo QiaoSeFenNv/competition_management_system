@@ -57,7 +57,13 @@ public class User implements Serializable {
     @JSONField(serialize = false)
     private Date updatedTime;
 
+    @JsonIgnore
+    @TableField(exist = false)
+    private String Username;
 
+    @JsonIgnore
+    @TableField(exist = false)
+    private String userStatus;
 
 
     private static final long serialVersionUID = 1L;

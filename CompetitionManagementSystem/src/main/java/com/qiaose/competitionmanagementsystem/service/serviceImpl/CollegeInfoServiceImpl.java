@@ -67,4 +67,9 @@ public class CollegeInfoServiceImpl implements CollegeInfoService{
         return collegeInfoMapper.deleteByParentId(ParentId);
     }
 
+    @Override
+    public List<CollegeInfo> selectByAncestors(String s) {
+        return collegeInfoMapper.selectByAncestors(s);
+    }
+
 }

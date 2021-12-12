@@ -50,6 +50,16 @@
     where parent_id = #{id,jdbcType=BIGINT}
   </select>
 
+
+  <select id="selectByAncestors" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from college_info
+    where ancestors like concat('%' ,#{s,jdbcType=VARCHAR}, '%')
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from college_info

@@ -1,6 +1,10 @@
 package com.qiaose.competitionmanagementsystem.mapper;
 
+import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserInfoMapper {
     int deleteByPrimaryKey(Long id);
@@ -11,7 +15,13 @@ public interface UserInfoMapper {
 
     UserInfo selectByPrimaryKey(Long id);
 
+    List<UserInfo> selectByDeptId(@Param("s") String s);
+
+    UserInfo selectByWorkId(@Param("workId") String workId);
+
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
+
+
 }

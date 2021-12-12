@@ -1,6 +1,10 @@
 package com.qiaose.competitionmanagementsystem.service;
 
+import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
+
+import java.util.List;
+
 public interface UserInfoService{
 
 
@@ -16,4 +20,7 @@ public interface UserInfoService{
 
     int updateByPrimaryKey(UserInfo record);
 
+    List<UserInfo> selectByDeptId(String s);
+
+    UserInfo selectByWorkId(String workId);
 }

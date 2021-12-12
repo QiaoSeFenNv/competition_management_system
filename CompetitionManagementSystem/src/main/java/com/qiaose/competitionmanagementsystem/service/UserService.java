@@ -24,4 +24,6 @@ public interface UserService{
     boolean checkLogin(String username, String password)throws Exception;
 
     List<User> getAllUser();
+
+    int deleteByUserId(String userId);
 }

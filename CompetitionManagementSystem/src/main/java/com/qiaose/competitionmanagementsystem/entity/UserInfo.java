@@ -2,6 +2,8 @@ package com.qiaose.competitionmanagementsystem.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 /**
@@ -73,6 +75,9 @@ public class UserInfo implements Serializable {
     * 更新时间
     */
     private Date updatedTime;
+
+    @TableField(exist = false)
+    private BankTable bankTable;
 
     private static final long serialVersionUID = 1L;
 }

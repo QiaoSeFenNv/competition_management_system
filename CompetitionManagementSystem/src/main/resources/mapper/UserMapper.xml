@@ -47,6 +47,13 @@
     delete from `user`
     where id = #{id,jdbcType=BIGINT}
   </delete>
+
+  <delete id="deleteByUserId" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from `user`
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.User" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into `user` (user_id, user_avatarUrl, user_password, 

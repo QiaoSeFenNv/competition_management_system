@@ -27,4 +27,6 @@ public interface CollegeInfoService{
     List<CollegeInfo> selectAll();
 
     int deleteByParentId(Long id);
+
+    List<CollegeInfo> selectByAncestors(String s);
 }
