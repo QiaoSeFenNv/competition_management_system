@@ -7,6 +7,7 @@
     <id column="todo_id" jdbcType="BIGINT" property="todoId" />
     <result column="approval_id" jdbcType="BIGINT" property="approvalId" />
     <result column="applicant_id" jdbcType="VARCHAR" property="applicantId" />
+    <result column="applicant_name" jdbcType="VARCHAR" property="applicantId" />
     <result column="todo_status" jdbcType="TINYINT" property="todoStatus" />
     <result column="todo_type" jdbcType="VARCHAR" property="todoType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -14,7 +15,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    todo_id, approval_id, applicant_id, todo_status, todo_type, create_time, complete_time
+    todo_id, approval_id, applicant_id, applicant_name,todo_status, todo_type, create_time, complete_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -46,15 +47,20 @@
     delete from competition_todo
     where todo_id = #{todoId,jdbcType=BIGINT}
   </delete>
+
+
   <insert id="insert" keyColumn="todo_id" keyProperty="todoId" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionTodo" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into competition_todo (approval_id, applicant_id, todo_status, 
+    insert into competition_todo (approval_id, applicant_id, applicant_name,todo_status,
       todo_type, create_time, complete_time
       )
-    values (#{approvalId,jdbcType=BIGINT}, #{applicantId,jdbcType=VARCHAR}, #{todoStatus,jdbcType=TINYINT}, 
+    values (#{approvalId,jdbcType=BIGINT}, #{applicantId,jdbcType=VARCHAR},
+    #{applicantName,jdbcType=VARCHAR},  #{todoStatus,jdbcType=TINYINT},
       #{todoType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{completeTime,jdbcType=TIMESTAMP}
       )
   </insert>
+
+
   <insert id="insertSelective" keyColumn="todo_id" keyProperty="todoId" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionTodo" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into competition_todo
@@ -64,6 +70,9 @@
       </if>
       <if test="applicantId != null">
         applicant_id,
+      </if>
+      <if test="applicantName != null">
+        applicant_name,
       </if>
       <if test="todoStatus != null">
         todo_status,
@@ -84,6 +93,9 @@
       </if>
       <if test="applicantId != null">
         #{applicantId,jdbcType=VARCHAR},
+      </if>
+      <if test="applicantName != null">
+        #{applicantName,jdbcType=VARCHAR},
       </if>
       <if test="todoStatus != null">
         #{todoStatus,jdbcType=TINYINT},
@@ -109,6 +121,9 @@
       <if test="applicantId != null">
         applicant_id = #{applicantId,jdbcType=VARCHAR},
       </if>
+      <if test="applicantName != null">
+        applicant_name = #{applicantName,jdbcType=VARCHAR},
+      </if>
       <if test="todoStatus != null">
         todo_status = #{todoStatus,jdbcType=TINYINT},
       </if>
@@ -129,12 +144,12 @@
     update competition_todo
     set approval_id = #{approvalId,jdbcType=BIGINT},
       applicant_id = #{applicantId,jdbcType=VARCHAR},
+      applicant_name = #{applicantName,jdbcType=VARCHAR},
       todo_status = #{todoStatus,jdbcType=TINYINT},
       todo_type = #{todoType,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       complete_time = #{completeTime,jdbcType=TIMESTAMP}
     where todo_id = #{todoId,jdbcType=BIGINT}
   </update>
-
 
 </mapper>

@@ -8,10 +8,12 @@ import com.qiaose.competitionmanagementsystem.entity.BankTable;
 import com.qiaose.competitionmanagementsystem.entity.CollegeInfo;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.service.BankTableService;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
@@ -43,6 +45,10 @@ public class UserInfoController {
 
     @Resource
     BankTableService bankTableService;
+
+
+    @Autowired
+    SysRoleUserTableService sysRoleUserTableService;
 
     @Autowired
     BCryptPasswordEncoderUtil bCryptPasswordEncoderUtil;
@@ -90,11 +96,19 @@ public class UserInfoController {
         user.setUserPassword(bCryptPasswordEncoderUtil.encode("000000"));
         int j = userService.insertSelective(user);
 
+        //绑定角色
+        SysRoleUserTable sysRoleUserTable = new SysRoleUserTable();
+        sysRoleUserTable.setRoleId(1+"");
+        sysRoleUserTable.setUserId(userInfo.getUserId());
+        sysRoleUserTableService.insertSelective(sysRoleUserTable);
+
+
         //插入整个对象
         userInfo.setBankId(bankId);
         userInfo.setCreateTime(DateKit.getNow());
 
         int k = userInfoService.insertSelective(userInfo);
+
         if (i <= 0  || k <= 0) {
             return R.failed("插入失败");
         }

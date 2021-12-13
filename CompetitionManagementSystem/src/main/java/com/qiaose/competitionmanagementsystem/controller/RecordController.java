@@ -46,6 +46,8 @@ public class RecordController {
     UserService userService;
 
 
+
+
     @PostMapping("/insertApproval")
     @ApiOperation(value = "插入一条申请信息",notes = "需要传入一个对象（对象封装两个小对象）")
     @Transactional(rollbackFor = {Exception.class})
@@ -104,6 +106,7 @@ public class RecordController {
         //插入完毕需要注意todo表也会立刻生一条相关数据,因此也需要插入到todo中  这调是发起者的
         CompetitionTodo competitionTodo = CompetitionTodo.builder()
                 .applicantId(user.getUserId())     //拥有者
+                .applicantName(userInfo.getUserName())
                 .approvalId(approvalId)     //申请表id
                 .todoStatus((byte) 0)       //状态
                 .todoType("比赛信息申请")     //写死的类型

@@ -188,11 +188,11 @@ public class ApprovalController {
         //获得当前的申请内容
         CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
         //获得当前流程
-        CompetitionProcess competitionProcessO = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
+        CompetitionProcess competitionProcessOld = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
 
 
         //如果下一个编号为空则结束
-        if (competitionProcessO.getNextId() == null){
+        if (competitionProcessOld.getNextId() == null){
             //修改申请表的状态为同意 1为同意 0执行中 2拒绝
             competitionApproval.setApprovalStatus((byte)1);
             //更新申请表的状态
@@ -210,14 +210,14 @@ public class ApprovalController {
         }
 
 
-
         UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
         //获得更新之后的责任人的id
-        String applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
+//        String applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
+        String applicantId = competitionProcessService.passProcess(competitionProcessOld.getNextId(),userInfo);
 
 
         //更新表的下一个审批者
-        competitionApproval.setProcessId(competitionProcessO.getNextId());
+        competitionApproval.setProcessId(competitionProcessOld.getNextId());
         competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
 
         //插入一条todo表
