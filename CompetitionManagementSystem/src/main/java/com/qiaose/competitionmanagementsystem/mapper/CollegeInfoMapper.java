@@ -24,6 +24,8 @@ public interface CollegeInfoMapper {
 
     List<CollegeInfo> selectByAncestors(@Param("s")String s);
 
+    List<CollegeInfo> selectDutyId(@Param("userId") String userId);
+
     int updateByPrimaryKeySelective(CollegeInfo record);
 
     int updateByPrimaryKey(CollegeInfo record);

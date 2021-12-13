@@ -18,12 +18,15 @@ import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableServ
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 
 import com.qiaose.competitionmanagementsystem.service.UserService;
+import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -104,6 +107,8 @@ public class UserController {
     @GetMapping("/getUserInfo")
     @ApiOperation(value="查询自己的用户信息", notes="由前端请求头中获取token,在利用token获得用户信息")
     public R getUser(HttpServletRequest request){
+
+
         String token = request.getHeader("Authorization");
         System.out.println(token);
         //
@@ -141,13 +146,13 @@ public class UserController {
     @ApiOperation(value="修改密码,在已登录的情况下", notes="二个信息，可以放在body中还要携带一个请求头")
     @Transactional(rollbackFor = {Exception.class})
     public R changePass(HttpServletRequest request,
-                        @RequestParam(required = true) String OriginPas,
+                        @RequestParam(required = true) String originPas,
                         @RequestParam(required = true) String passWord){
 
         String token = request.getHeader("Authorization");
         User user = userService.selectByUserId(jwtTokenUtil.getUsernameFromToken(token));
         //原始密码比较
-        if (!bCryptPasswordEncoderUtil.matches(OriginPas,user.getUserPassword())) {
+        if (!bCryptPasswordEncoderUtil.matches(originPas,user.getUserPassword())) {
             return R.failed("原密码错误");
         }
         user.setUserPassword( bCryptPasswordEncoderUtil.encode(passWord));
@@ -159,39 +164,34 @@ public class UserController {
 
 
 
-    @PostMapping("/NoChangePas")
+
+
+    @PostMapping("/NoLoginPas")
     @ApiOperation(value="修改密码,在未登录的情况下", notes="5个信息，名称保持一致")
     @Transactional(rollbackFor = {Exception.class})
-    public R changePas(@RequestParam(required = true) String UserId,
-                       @RequestParam(required = true) String OriginPas,
-                       @RequestParam(required = true) String NewPas,
-                       @RequestParam(required = true) String Verification){
+    public R changePas(@RequestParam(required = true) String newPas,
+                       @RequestParam(required = true) String email,
+                       @RequestParam(required = true) String verification){
 
-        User user1 = userService.selectByUserId(UserId);
-        UserInfo user = userInfoService.selectByWorkId(UserId);
 
-        if (user == null){
-            return R.failed("账号错误");
-        }
-        //通过详细的用户表查询
-        String mailTo = user.getEmail();
-        if (mailTo == null){
+       UserInfo userInfo = userInfoService.selectByEmail(email);
+
+
+        User user = userService.selectByUserId(userInfo.getUserId());
+
+        if (email == null){
             return R.failed("未绑定邮箱,无法修改密码");
         }
-        String s = stringRedisTemplate.opsForValue().get(mailTo);
-        if ( !Verification.equals(s)){
+        String s = stringRedisTemplate.opsForValue().get(email);
+        if ( !verification.equals(s)){
             return R.failed("验证码输入错误");
         }
 
-        String password = user1.getUserPassword();
-        boolean matches = bCryptPasswordEncoderUtil.matches(OriginPas, password);
+        String password = user.getUserPassword();
 
-        if (matches == false){
-            return R.failed("密码错误,请重新输入");
-        }
-        String encode = bCryptPasswordEncoderUtil.encode(NewPas);
-        user1.setUserPassword(encode);
-        int i = userService.updateByPrimaryKeySelective(user1);
+        String encode = bCryptPasswordEncoderUtil.encode(newPas);
+        user.setUserPassword(encode);
+        int i = userService.updateByPrimaryKeySelective(user);
 
 
         return R.ok("");

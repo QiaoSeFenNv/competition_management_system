@@ -63,6 +63,11 @@ public class CollegeInfoServiceImpl implements CollegeInfoService{
     }
 
     @Override
+    public List<CollegeInfo> selectDutyId(String userId) {
+        return collegeInfoMapper.selectDutyId(userId);
+    }
+
+    @Override
     public int deleteByParentId(Long ParentId) {
         return collegeInfoMapper.deleteByParentId(ParentId);
     }

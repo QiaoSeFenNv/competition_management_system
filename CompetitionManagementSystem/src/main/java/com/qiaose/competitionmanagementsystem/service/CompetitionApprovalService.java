@@ -3,6 +3,8 @@ package com.qiaose.competitionmanagementsystem.service;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionApproval;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
 
+import java.util.List;
+
 public interface CompetitionApprovalService{
 
 
@@ -19,4 +21,6 @@ public interface CompetitionApprovalService{
     int updateByPrimaryKey(CompetitionApproval record);
 
     CompetitionApproval SendApproval(Long approvalId, Long contentId, UserInfo userInfo, Long processId) ;
+
+    List<CompetitionApproval> selectByApplicantId(String userId);
 }

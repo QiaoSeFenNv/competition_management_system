@@ -49,6 +49,13 @@
     where user_id = #{workId,jdbcType=VARCHAR}
   </select>
 
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->

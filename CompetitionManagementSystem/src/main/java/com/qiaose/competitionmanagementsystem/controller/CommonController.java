@@ -36,7 +36,7 @@ public class CommonController {
 
     @GetMapping("/sendCode")
     @ApiOperation(value = "发送二维码",notes = "需要输入邮箱地址")
-    public R sendCode(@RequestParam @Email String mailTo){
+    public R sendCode(@RequestParam @Email String email){
 
         RandomGenerator randomGenerator = new RandomGenerator(6);
         //验证码6位
@@ -46,13 +46,13 @@ public class CommonController {
         String mailText = "【竞赛管理系统】 验证码："+generate+"  请勿将验证码告诉他人哦。";
 
         try{
-            String s = stringRedisTemplate.opsForValue().get(mailTo);
+            String s = stringRedisTemplate.opsForValue().get(email);
             if (s!=null){
                 return R.failed("邮箱时间还未过90秒");
             }
-            if(!mailTo.isEmpty()){
-                toMail(mailTo,mailText);
-                stringRedisTemplate.opsForValue().set(mailTo,generate,120, TimeUnit.SECONDS);
+            if(!email.isEmpty()){
+                toMail(email,mailText);
+                stringRedisTemplate.opsForValue().set(email,generate,120, TimeUnit.SECONDS);
                 return R.ok("");
             }
         }catch (Exception exception){
@@ -72,7 +72,7 @@ public class CommonController {
      */
     public void toMail(String mailTo,String mailText){
         //定义发送标题
-        String title = "农产品市场";
+        String title = "竞赛管理系统";
         //设置发送方
         String mailFrom = "qiaosefennv@163.com";
         try {

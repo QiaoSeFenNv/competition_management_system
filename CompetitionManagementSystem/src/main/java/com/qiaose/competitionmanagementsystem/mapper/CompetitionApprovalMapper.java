@@ -1,6 +1,9 @@
 package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionApproval;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CompetitionApprovalMapper {
     int deleteByPrimaryKey(Long approvalId);
@@ -11,7 +14,11 @@ public interface CompetitionApprovalMapper {
 
     CompetitionApproval selectByPrimaryKey(Long approvalId);
 
+    List<CompetitionApproval> selectByApplicantId(@Param("userId") String userId);
+
     int updateByPrimaryKeySelective(CompetitionApproval record);
 
     int updateByPrimaryKey(CompetitionApproval record);
+
+
 }

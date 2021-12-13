@@ -2,6 +2,8 @@ package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
 
+import java.util.List;
+
 public interface CompetitionRecordMapper {
     int deleteByPrimaryKey(Long recordId);
 
@@ -11,7 +13,11 @@ public interface CompetitionRecordMapper {
 
     CompetitionRecord selectByPrimaryKey(Long recordId);
 
+    List<CompetitionRecord> selectAll();
+
     int updateByPrimaryKeySelective(CompetitionRecord record);
 
     int updateByPrimaryKey(CompetitionRecord record);
+
+
 }

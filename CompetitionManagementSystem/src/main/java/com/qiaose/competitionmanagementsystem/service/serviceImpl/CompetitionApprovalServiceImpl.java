@@ -6,6 +6,9 @@ import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionApproval;
 import com.qiaose.competitionmanagementsystem.mapper.CompetitionApprovalMapper;
 import com.qiaose.competitionmanagementsystem.service.CompetitionApprovalService;
+
+import java.util.List;
+
 @Service
 public class CompetitionApprovalServiceImpl implements CompetitionApprovalService{
 
@@ -62,6 +65,11 @@ public class CompetitionApprovalServiceImpl implements CompetitionApprovalServic
         System.out.println(competitionApproval);
         return competitionApproval;
 
+    }
+
+    @Override
+    public List<CompetitionApproval> selectByApplicantId(String userId) {
+        return competitionApprovalMapper.selectByApplicantId(userId);
     }
 
 }

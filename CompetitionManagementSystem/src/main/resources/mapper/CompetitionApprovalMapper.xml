@@ -27,6 +27,16 @@
     from competition_approval
     where approval_id = #{approvalId,jdbcType=BIGINT}
   </select>
+
+  <select id="selectByApplicantId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_approval
+    where applicant_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from competition_approval

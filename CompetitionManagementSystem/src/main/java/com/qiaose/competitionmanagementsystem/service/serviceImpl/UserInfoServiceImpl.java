@@ -55,4 +55,9 @@ public class UserInfoServiceImpl implements UserInfoService{
         return userInfoMapper.selectByWorkId(workId);
     }
 
+    @Override
+    public UserInfo selectByEmail(String email) {
+        return userInfoMapper.selectByEmail(email);
+    }
+
 }

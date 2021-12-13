@@ -19,6 +19,8 @@ public interface UserInfoMapper {
 
     UserInfo selectByWorkId(@Param("workId") String workId);
 
+    UserInfo selectByEmail(@Param("email") String email);
+
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);

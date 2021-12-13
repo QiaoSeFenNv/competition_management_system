@@ -8,10 +8,10 @@ import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.entity.CollegeInfo;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
-import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
+
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 
-import com.qiaose.competitionmanagementsystem.entity.dto.SysUserDto;
+
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserService;

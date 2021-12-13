@@ -1,6 +1,10 @@
 package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
+
+import java.util.Collection;
+import java.util.List;
+
 public interface CompetitionRecordService{
 
 
@@ -12,8 +16,11 @@ public interface CompetitionRecordService{
 
     CompetitionRecord selectByPrimaryKey(Long recordId);
 
+    List<CompetitionRecord> selectAll();
+
     int updateByPrimaryKeySelective(CompetitionRecord record);
 
     int updateByPrimaryKey(CompetitionRecord record);
+
 
 }

@@ -5,6 +5,9 @@ import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
 import com.qiaose.competitionmanagementsystem.mapper.CompetitionRecordMapper;
 import com.qiaose.competitionmanagementsystem.service.CompetitionRecordService;
+
+import java.util.List;
+
 @Service
 public class CompetitionRecordServiceImpl implements CompetitionRecordService{
 
@@ -29,6 +32,11 @@ public class CompetitionRecordServiceImpl implements CompetitionRecordService{
     @Override
     public CompetitionRecord selectByPrimaryKey(Long recordId) {
         return competitionRecordMapper.selectByPrimaryKey(recordId);
+    }
+
+    @Override
+    public List<CompetitionRecord> selectAll() {
+        return competitionRecordMapper.selectAll();
     }
 
     @Override
