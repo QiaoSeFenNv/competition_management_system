@@ -21,10 +21,6 @@ public class CompetitionProcess implements Serializable {
     @TableId(type = IdType.AUTO)
     private Long processId;
 
-    /**
-    * 最等级id
-    */
-    private String topId;
 
     /**
     * 审核人id

@@ -49,11 +49,13 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
     }
 
     @Override
-    public String passProcess(Long processId, UserInfo userInfo) {
+    public String passProcess(Long processId, UserInfo userInfo)  {
 
         CompetitionProcess competitionProcess = competitionProcessMapper.selectByPrimaryKey(processId);
+        System.out.println("这个发放进来了");
         //修改之前事务表的拥有者
-        if (competitionProcess.getApproverId() == "@FDY") {
+        if ("@FDY".equals(competitionProcess.getApproverId() )){
+            System.out.println("FDY进来了没啊？");
             CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId()));
             if (collegeInfo.getDutyId()==null) {
                 return null;
@@ -61,7 +63,8 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
                 return collegeInfo.getDutyId();
             }
         }
-        if (competitionProcess.getApproverId() == "@ERXY"){
+        if ("@ERXY".equals(competitionProcess.getApproverId() )){
+            System.out.println("EJXU进来了没啊？");
             CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId()));
             String[] split = collegeInfo.getAncestors().split(",");
             String result = "";
@@ -70,11 +73,12 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
                     result = split[i1];
                 }
             }
+            System.out.println(result);
             CollegeInfo collegeInfo1 = collegeInfoService.selectByPrimaryKey(Integer.valueOf(result));
             if (collegeInfo1.getDutyId()==null) {
-                return "无负责人，添加失败";
+                return null;
             }else{
-                return collegeInfo.getDutyId();
+                return collegeInfo1.getDutyId();
             }
         }
 

@@ -149,8 +149,11 @@ public class ApprovalController {
         //将申请表内容注入到sysApproval对象
         sysApproval.setCompetitionApproval(competitionApproval);
 
+        String todoType = competitionTodo.getTodoType();
+
         //怎么判断是那个表勒
-        if ( competitionTodo.getTodoType() == "比赛信息申请"){
+        if ( "比赛信息申请".equals(todoType) ){
+            System.out.println(competitionTodo);
             //根据申请表的id 查询记录表
             CompetitionRecord competitionRecord = competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid());
             //将数据库中的字符串变为数组
@@ -161,9 +164,10 @@ public class ApprovalController {
             competitionRecord.setRecordWinningStudents(recordWinningStudents);
 
             //返回数组类型的upload
-            String[] recordUploads = competitionRecord.getRecordUpload().split(",");
-            competitionRecord.setRecordUploads(recordUploads);
-
+            if (competitionRecord.getRecordUpload()!=null){
+                String[] recordUploads = competitionRecord.getRecordUpload().split(",");
+                competitionRecord.setRecordUploads(recordUploads);
+            }
             //将记录表内容注入到sysApproval对象
             sysApproval.setContent(competitionRecord);
         }
@@ -174,12 +178,16 @@ public class ApprovalController {
 
 
     @PostMapping("/agreeTodo")
-    @ApiOperation(value = "老师同意",notes = "上传一个对象")
+    @ApiOperation(value = "老师同意",notes = "上传一个对象,里面放置两个内容下一个流程的id")
     @Transactional(rollbackFor = {Exception.class})
     public R agreeTodo(@RequestBody SysApproval sysApproval){
-        //获得当前的申请流程
-        CompetitionApproval competitionApproval = sysApproval.getCompetitionApproval();
-        //获得最新的申请流程
+
+        Long todoId = sysApproval.getTodoId();
+        //获得当前的事务对象
+        CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(todoId);
+        //获得当前的申请内容
+        CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
+        //获得当前流程
         CompetitionProcess competitionProcessO = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
 
 
@@ -190,26 +198,28 @@ public class ApprovalController {
             //更新申请表的状态
             competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
             //连带事务表的中关于这个申请的状态也发生改变  根据申请表id来
+
+
             List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(competitionApproval.getApprovalId());
-            for (CompetitionTodo competitionTodo : competitionTodos) {
+            for (CompetitionTodo Todo : competitionTodos) {
                 //修改每个事项表的状态为 同意
-                competitionTodo.setTodoStatus(competitionApproval.getApprovalStatus());
-                competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
+                Todo.setTodoStatus(competitionApproval.getApprovalStatus());
+                competitionTodoService.updateByPrimaryKeySelective(Todo);
             }
             return R.ok("");
         }
 
-        UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
 
+
+        UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
+        //获得更新之后的责任人的id
         String applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
 
-        //先获得当前的todo对象
-        CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(sysApproval.getTodoId());
 
-        //如果下一个编号不为空
         //更新表的下一个审批者
         competitionApproval.setProcessId(competitionProcessO.getNextId());
         competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
+
         //插入一条todo表
         competitionTodo.setApplicantId(applicantId);
         competitionTodoService.insertSelective(competitionTodo);
@@ -219,12 +229,15 @@ public class ApprovalController {
 
 
 
-    @GetMapping("/rejectTodo")
+    @PostMapping("/rejectTodo")
     @ApiOperation(value = "老师拒绝",notes = "对象里面只要修改rejectReason")
     @Transactional(rollbackFor = {Exception.class})
     public R rejectTodo(@RequestBody SysApproval sysApproval){
-        //从中获得更新的拒绝的内容,准备进行更新
-        CompetitionApproval competitionApproval = sysApproval.getCompetitionApproval();
+
+        CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(sysApproval.getTodoId());
+
+        CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
+
         //修改状态为驳回
         competitionApproval.setApprovalStatus((byte)2);
         //填写拒绝原因
@@ -233,9 +246,9 @@ public class ApprovalController {
         competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
         //修改每个事务表的状态
         List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(competitionApproval.getApprovalId());
-        for (CompetitionTodo competitionTodo : competitionTodos) {
-            competitionTodo.setTodoStatus(competitionApproval.getApprovalStatus());
-            competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
+        for (CompetitionTodo Todo : competitionTodos) {
+            Todo.setTodoStatus(competitionApproval.getApprovalStatus());
+            competitionTodoService.updateByPrimaryKeySelective(Todo);
         }
 
         return R.ok("");

@@ -63,24 +63,30 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
             String olDToken = headerToken.replace("Bearer", "").trim();
             boolean check = false;
 
-            String userId = jwtTokenUtil.getUsernameFromToken(olDToken);
-            //redis中的token
-            String token = stringRedisTemplate.opsForValue().get("Token"+userId);
-
-            if (token == null){
-                throw  new ServletException("令牌过期,请重新登录");
+            try {
+                check = this.jwtTokenUtil.isTokenExpired(olDToken);
+            } catch (Exception e) {
+                new Throwable("令牌已过期，请重新登录。"+e.getMessage());
             }
+
             if (!check){
-                //通过令牌获取用户名称
+
+                String userId = jwtTokenUtil.getUsernameFromToken(olDToken);
                 System.out.println("username = " + userId);
 
                 //判断用户不为空，且SecurityContextHolder授权信息还是空的
-                if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                if ( userId!=null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     //通过用户信息得到UserDetails
                     UserDetails userDetails = userDetailsService.loadUserByUsername(userId);
                     //验证令牌有效性
                     boolean validata = false;
-                    if (!validata) {
+                    try {
+                        validata = jwtTokenUtil.validateToken(olDToken, userDetails);
+                    }catch (Exception e) {
+                        new Throwable("验证token无效:"+e.getMessage());
+                    }
+
+                    if (validata) {
                         // 将用户信息存入 authentication，方便后续校验
                         UsernamePasswordAuthenticationToken authentication =
                                 new UsernamePasswordAuthenticationToken(

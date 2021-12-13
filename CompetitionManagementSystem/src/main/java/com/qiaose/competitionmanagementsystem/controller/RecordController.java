@@ -123,9 +123,9 @@ public class RecordController {
         int q = competitionTodoService.insertSelective(competitionTodo);
 
         //之后需要更新approval取更新流程编号
-        CompetitionProcess competitionProcess = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
-        competitionApproval.setProcessId(competitionProcess.getNextId());
-        int p = competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
+//        CompetitionProcess competitionProcess = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
+//        competitionApproval.setProcessId(competitionProcess.getNextId());
+//        int p = competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
 
         return R.ok("");
     }

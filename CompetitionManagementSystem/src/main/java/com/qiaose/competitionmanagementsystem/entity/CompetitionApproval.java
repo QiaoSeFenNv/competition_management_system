@@ -40,8 +40,6 @@ public class CompetitionApproval implements Serializable {
     /**
     * 流程编号
     */
-    @JsonIgnore
-    @JSONField(serialize = false)
     private Long processId;
 
     /**
