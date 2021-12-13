@@ -12,6 +12,7 @@ import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
+import com.qiaose.competitionmanagementsystem.entity.dto.SysChangePass;
 import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
@@ -145,17 +146,15 @@ public class UserController {
     @PostMapping("/changePas")
     @ApiOperation(value="修改密码,在已登录的情况下", notes="二个信息，可以放在body中还要携带一个请求头")
     @Transactional(rollbackFor = {Exception.class})
-    public R changePass(HttpServletRequest request,
-                        @RequestParam(required = true) String originPas,
-                        @RequestParam(required = true) String passWord){
+    public R changePass(HttpServletRequest request, @RequestBody SysChangePass sysChangePass){
 
         String token = request.getHeader("Authorization");
         User user = userService.selectByUserId(jwtTokenUtil.getUsernameFromToken(token));
         //原始密码比较
-        if (!bCryptPasswordEncoderUtil.matches(originPas,user.getUserPassword())) {
+        if (!bCryptPasswordEncoderUtil.matches(sysChangePass.getOriginPas(), user.getUserPassword())) {
             return R.failed("原密码错误");
         }
-        user.setUserPassword( bCryptPasswordEncoderUtil.encode(passWord));
+        user.setUserPassword( bCryptPasswordEncoderUtil.encode(sysChangePass.getNewPas()));
         userService.updateByPrimaryKeySelective(user);
 
         return R.ok("修改成功");
@@ -165,31 +164,25 @@ public class UserController {
 
 
 
-
     @PostMapping("/NoLoginPas")
     @ApiOperation(value="修改密码,在未登录的情况下", notes="5个信息，名称保持一致")
     @Transactional(rollbackFor = {Exception.class})
-    public R changePas(@RequestParam(required = true) String newPas,
-                       @RequestParam(required = true) String email,
-                       @RequestParam(required = true) String verification){
+    public R changePas(@RequestBody SysChangePass sysChangePass){
 
-
-       UserInfo userInfo = userInfoService.selectByEmail(email);
-
+        UserInfo userInfo = userInfoService.selectByEmail(sysChangePass.getEmail());
 
         User user = userService.selectByUserId(userInfo.getUserId());
 
-        if (email == null){
+        if (sysChangePass.getEmail() == null){
             return R.failed("未绑定邮箱,无法修改密码");
         }
-        String s = stringRedisTemplate.opsForValue().get(email);
-        if ( !verification.equals(s)){
+        String s = stringRedisTemplate.opsForValue().get(sysChangePass.getEmail());
+        if ( !sysChangePass.getVerification().equals(s)){
             return R.failed("验证码输入错误");
         }
 
-        String password = user.getUserPassword();
 
-        String encode = bCryptPasswordEncoderUtil.encode(newPas);
+        String encode = bCryptPasswordEncoderUtil.encode(sysChangePass.getNewPas());
         user.setUserPassword(encode);
         int i = userService.updateByPrimaryKeySelective(user);
 
