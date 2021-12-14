@@ -96,12 +96,19 @@ public class RecordController {
                 sysRoleTables.add(sysRoleTable);
             }
         }
+        Boolean flag = false;
         for (SysRoleTable sysRoleTable : sysRoleTables) {
-            if (sysRoleTable.getRoleName() != "ROLE_STUDENT") {
-                throw new RuntimeException("只有学生可以申请比赛记录");
+            System.out.println(sysRoleTable);
+            if ("ROLE_STUDENT".equals(sysRoleTable.getRoleName() )||
+                    "学生用户".equals(sysRoleTable.getDescription())  ) {
+                flag = true;
+                break;
             }
         }
-
+        System.out.println(flag);
+        if (!flag){
+            throw new RuntimeException("只有学生可以申请比赛记录");
+        }
 
 
         Snowflake snowflake = IdUtil.getSnowflake();
