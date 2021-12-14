@@ -53,5 +53,6 @@ public class CompetitionOrganizer implements Serializable {
     @JSONField(serialize = false)
     private Date updateTime;
 
+
     private static final long serialVersionUID = 1L;
 }

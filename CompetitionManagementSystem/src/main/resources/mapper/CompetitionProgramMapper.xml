@@ -9,10 +9,11 @@
     <result column="auditor" jdbcType="VARCHAR" property="auditor" />
     <result column="stepName" jdbcType="VARCHAR" property="stepname" />
     <result column="approval_id" jdbcType="BIGINT" property="approvalId" />
+    <result column="complete" jdbcType="DATE" property="complete" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `state`, auditor, stepName, approval_id
+    id, `state`, auditor, stepName, approval_id,complete
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -39,9 +40,9 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionProgram" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into competition_program (`state`, auditor, stepName, 
-      approval_id)
+      approval_id,complete)
     values (#{state,jdbcType=TINYINT}, #{auditor,jdbcType=VARCHAR}, #{stepname,jdbcType=VARCHAR}, 
-      #{approvalId,jdbcType=BIGINT})
+      #{approvalId,jdbcType=BIGINT},#{complete,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionProgram" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -59,6 +60,9 @@
       <if test="approvalId != null">
         approval_id,
       </if>
+      <if test="complete != null">
+        complete,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="state != null">
@@ -72,6 +76,9 @@
       </if>
       <if test="approvalId != null">
         #{approvalId,jdbcType=BIGINT},
+      </if>
+      <if test="complete != null">
+        #{complete,jdbcType=DATE},
       </if>
     </trim>
   </insert>
@@ -91,6 +98,9 @@
       <if test="approvalId != null">
         approval_id = #{approvalId,jdbcType=BIGINT},
       </if>
+      <if test="complete != null">
+        complete = #{complete,jdbcType=DATE},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -100,7 +110,8 @@
     set `state` = #{state,jdbcType=TINYINT},
       auditor = #{auditor,jdbcType=VARCHAR},
       stepName = #{stepname,jdbcType=VARCHAR},
-      approval_id = #{approvalId,jdbcType=BIGINT}
+      approval_id = #{approvalId,jdbcType=BIGINT},
+      compelete = #{complete,jdbcType=DATE}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

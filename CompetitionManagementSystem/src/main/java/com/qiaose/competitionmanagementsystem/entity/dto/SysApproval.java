@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +21,9 @@ public class SysApproval<T> implements Serializable {
     private CompetitionApproval competitionApproval;
 
     private T Content;
+
+    @JsonIgnore
+    private List<CompetitionProgram> competitionProgram;
 
 
     private static final long serialVersionUID = 1L;

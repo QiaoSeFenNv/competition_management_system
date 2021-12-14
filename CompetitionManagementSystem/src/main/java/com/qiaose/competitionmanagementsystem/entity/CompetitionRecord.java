@@ -23,6 +23,8 @@ public class CompetitionRecord implements Serializable {
     */
     private String recordName;
 
+
+
     /**
     * 个人团体
     */
@@ -80,9 +82,20 @@ public class CompetitionRecord implements Serializable {
     private Integer recordCollegeId;
 
     /**
+     * 二级学院
+     */
+    private String recordCollegeName;
+
+    /**
     * 获奖等级
     */
     private Long recordRewardId;
+
+    /**
+     * 等级名称
+     */
+    @TableField(exist = false)
+    private String recordRewardName;
 
     /**
     * 赛事级别
@@ -93,6 +106,13 @@ public class CompetitionRecord implements Serializable {
     * 赛事名称
     */
     private Integer recordCompetitionId;
+
+    /**
+     * 赛事名称
+     */
+    @TableField(exist = false)
+    private String recordCompetitionName;
+
 
 
     @TableField(exist = false)

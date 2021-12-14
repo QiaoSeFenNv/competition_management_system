@@ -40,6 +40,15 @@ public class ApprovalController {
     CompetitionProcessService competitionProcessService;
 
     @Autowired
+    CompetitionOrganizerService competitionOrganizerService;
+
+    @Autowired
+    CollegeInfoService collegeInfoService;
+
+    @Autowired
+    CompetitionRewardService competitionRewardService;
+
+    @Autowired
     UserInfoService userInfoService;
 
 
@@ -147,6 +156,8 @@ public class ApprovalController {
         if (competitionTodo == null) {
             return R.failed("无事项内容");
         }
+
+
         //根据查询出来的事务信息 查询申请表
         CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
         //将申请表内容注入到sysApproval对象
@@ -171,10 +182,25 @@ public class ApprovalController {
                 String[] recordUploads = competitionRecord.getRecordUpload().split(",");
                 competitionRecord.setRecordUploads(recordUploads);
             }
+
+
+            competitionRecord.setRecordCompetitionName( competitionOrganizerService.selectByPrimaryKey(
+                    competitionRecord.getRecordCompetitionId() ).getOrganizeOrganizer());
+
+            competitionRecord.setRecordRewardName(competitionRewardService.selectByPrimaryKey(
+                    competitionRecord.getRecordRewardId() ).getRewardLevel());
+
+            competitionRecord.setRecordCollegeName(collegeInfoService.selectByPrimaryKey(
+                    competitionRecord.getRecordCollegeId() ).getCollegeName());
+
             //将记录表内容注入到sysApproval对象
             sysApproval.setContent(competitionRecord);
         }
 
+
+        List<CompetitionProgram> competitionPrograms = competitionProgramService.selectByApproval(competitionTodo.getApprovalId());
+
+        sysApproval.setCompetitionProgram(competitionPrograms);
         //返回给前端
         return R.ok(sysApproval);
 
@@ -277,18 +303,6 @@ public class ApprovalController {
 
 
         return R.ok("");
-    }
-
-
-    @GetMapping("/getCurProgram")
-    @ApiOperation(value = "根据当前todo对象返回进度条",notes = "传递一个id即可")
-    @Transactional(rollbackFor = {Exception.class})
-    public R getCurProgram(@RequestParam Long todoId){
-        CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(todoId);
-
-        List<CompetitionProgram> competitionPrograms = competitionProgramService.selectByApproval(competitionTodo.getApprovalId());
-
-        return R.ok(competitionPrograms);
     }
 
 }

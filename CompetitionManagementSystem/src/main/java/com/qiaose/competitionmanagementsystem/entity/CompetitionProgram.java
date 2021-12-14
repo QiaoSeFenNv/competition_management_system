@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +33,12 @@ public class CompetitionProgram implements Serializable {
     * 申请表id，返回数据时就靠它
     */
     private Long approvalId;
+
+
+    /**
+     * 申请表id，返回数据时就靠它
+     */
+    private Date complete;
 
     private static final long serialVersionUID = 1L;
 }
