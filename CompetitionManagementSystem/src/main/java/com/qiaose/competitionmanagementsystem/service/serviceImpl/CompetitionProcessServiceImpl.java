@@ -68,7 +68,6 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
             if (collegeInfo.getDutyId()==null) {
                 throw new Exception("null");
             }else{
-
                 return collegeInfo.getDutyId();
             }
         }

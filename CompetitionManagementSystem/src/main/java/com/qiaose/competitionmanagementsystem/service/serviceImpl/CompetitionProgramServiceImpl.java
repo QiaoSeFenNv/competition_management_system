@@ -49,4 +49,14 @@ public class CompetitionProgramServiceImpl implements CompetitionProgramService{
         return competitionProgramMapper.selectByApproval(approvalId);
     }
 
+    @Override
+    public CompetitionProgram selectByUserId(String applicantId) {
+        return competitionProgramMapper.selectByUserId(applicantId);
+    }
+
+    @Override
+    public CompetitionProgram selectUserIdAndApproval(String applicantId, Long approvalId) {
+        return competitionProgramMapper.selectUserIdAndApproval(applicantId,approvalId);
+    }
+
 }

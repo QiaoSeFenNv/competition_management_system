@@ -20,4 +20,8 @@ public interface CompetitionProgramService{
     int updateByPrimaryKey(CompetitionProgram record);
 
     List<CompetitionProgram> selectByApproval(Long approvalId);
+
+    CompetitionProgram selectByUserId(String applicantId);
+
+    CompetitionProgram selectUserIdAndApproval(String applicantId, Long approvalId);
 }

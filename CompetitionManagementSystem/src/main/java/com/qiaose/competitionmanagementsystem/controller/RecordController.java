@@ -97,29 +97,9 @@ public class RecordController {
         * */
         //生成long类型的id.插入到对应对象中
 
-
-//        String[] recordWinningStudents = competitionRecord.getRecordWinningStudents();
-
-//        String winStudent = "";
-//        for (String recordWinningStudent : recordWinningStudents) {
-//            winStudent += recordWinningStudent+",";
-//        }
-//
-//        competitionRecord.setRecordWinningStudent(winStudent);
         CompetitionRecord Record = changeInsert(competitionRecord);
         //record表写进数据库
         Record.setRecordId(recordId);
-
-        //拼接多文件路径
-//        String recordUpload = "";
-//        String[] recordUploads = competitionRecord.getRecordUploads();
-//        for (String upload : recordUploads) {
-//            recordUpload +=upload+",";
-//        }
-//        competitionRecord.setRecordUpload(recordUpload);
-        /*
-        * 不同结束
-        * */
 
         //生成一个对应内容的申请表
         CompetitionApproval competitionApproval =
@@ -160,20 +140,74 @@ public class RecordController {
         int q = competitionTodoService.insertSelective(competitionTodo);
 
         //生成进度内容
-        CompetitionProcess Process = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
 
-        UserInfo userInfo1 = userInfoService.selectByWorkId(applicantId);
 
-        CompetitionProgram competitionProgram = CompetitionProgram.builder()
-                .approvalId(approvalId)
-                .state((byte)3)
-                .stepname(Process.getApproverName())
-                .auditor(userInfo1.getUserName())
-                .build();
-        competitionProgramService.insertSelective(competitionProgram);
+        System.out.println(userInfo);
+        createComProgram(competitionApproval,userInfo);
 
         return R.ok("");
     }
+
+
+    public void createComProgram(CompetitionApproval competitionApproval,UserInfo userInfo){
+
+        System.out.println("----------------进来测试了-------------");
+        //获得当前得流程  流程一
+        CompetitionProcess process = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
+        //将三个流程都创建一个进度
+
+        //userInfo是学生了 这个不能变要一直存在
+        UserInfo temp = null;
+        String applicantId = null;
+        while (process.getNextId() != null){
+
+            try {
+                //这个流程都是用学生来找下一个流程 审核人的
+                applicantId = competitionProcessService.passProcess(process.getProcessId(),userInfo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            temp = userInfoService.selectByWorkId(applicantId);
+
+            System.out.println(userInfo);
+            CompetitionProgram competitionProgram = CompetitionProgram.builder()
+                    .approvalId(competitionApproval.getApprovalId())
+                    .state((byte)3)
+                    .stepname(process.getApproverName())
+                    .auditor(temp.getUserName())
+                    .userId(temp.getUserId())
+                    .build();
+            competitionProgramService.insertSelective(competitionProgram);
+
+            process = competitionProcessService.selectByPrimaryKey(process.getNextId());
+            //更新辅导员为二级学院
+        }
+
+        if(process.getNextId() == null){
+            try {
+                //这个流程都是用学生来找下一个流程 审核人的
+                applicantId = competitionProcessService.passProcess(process.getProcessId(),userInfo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            temp = userInfoService.selectByWorkId(applicantId);
+
+            CompetitionProgram competitionProgram = CompetitionProgram.builder()
+                    .approvalId(competitionApproval.getApprovalId())
+                    .state((byte)3)
+                    .stepname(process.getApproverName())
+                    .auditor(temp.getUserName())
+                    .userId(temp.getUserId())
+                    .build();
+            competitionProgramService.insertSelective(competitionProgram);
+        }
+
+
+
+    }
+
 
 
 

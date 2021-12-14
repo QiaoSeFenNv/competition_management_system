@@ -7,7 +7,7 @@
     <id column="todo_id" jdbcType="BIGINT" property="todoId" />
     <result column="approval_id" jdbcType="BIGINT" property="approvalId" />
     <result column="applicant_id" jdbcType="VARCHAR" property="applicantId" />
-    <result column="applicant_name" jdbcType="VARCHAR" property="applicantId" />
+    <result column="applicant_name" jdbcType="VARCHAR" property="applicantName" />
     <result column="todo_status" jdbcType="TINYINT" property="todoStatus" />
     <result column="todo_type" jdbcType="VARCHAR" property="todoType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />

@@ -10,10 +10,11 @@
     <result column="stepName" jdbcType="VARCHAR" property="stepname" />
     <result column="approval_id" jdbcType="BIGINT" property="approvalId" />
     <result column="complete" jdbcType="DATE" property="complete" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `state`, auditor, stepName, approval_id,complete
+    id, `state`, auditor, stepName, approval_id,complete,user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -32,6 +33,26 @@
     where approval_id = #{approvalId,jdbcType=BIGINT}
   </select>
 
+  <select id="selectUserIdAndApproval"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_program
+    where user_id = #{userId,jdbcType=VARCHAR}
+    and
+    approval_id = #{approvalId,jdbcType=BIGINT}
+  </select>
+
+
+  <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_program
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from competition_program
@@ -40,9 +61,9 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionProgram" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into competition_program (`state`, auditor, stepName, 
-      approval_id,complete)
+      approval_id,complete,user_id)
     values (#{state,jdbcType=TINYINT}, #{auditor,jdbcType=VARCHAR}, #{stepname,jdbcType=VARCHAR}, 
-      #{approvalId,jdbcType=BIGINT},#{complete,jdbcType=DATE})
+      #{approvalId,jdbcType=BIGINT},#{complete,jdbcType=DATE}),#{userId,jdbcType=VARCHAR}
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionProgram" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -63,6 +84,9 @@
       <if test="complete != null">
         complete,
       </if>
+      <if test="userId != null">
+        user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="state != null">
@@ -79,6 +103,9 @@
       </if>
       <if test="complete != null">
         #{complete,jdbcType=DATE},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -101,6 +128,9 @@
       <if test="complete != null">
         complete = #{complete,jdbcType=DATE},
       </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -111,7 +141,8 @@
       auditor = #{auditor,jdbcType=VARCHAR},
       stepName = #{stepname,jdbcType=VARCHAR},
       approval_id = #{approvalId,jdbcType=BIGINT},
-      compelete = #{complete,jdbcType=DATE}
+      compelete = #{complete,jdbcType=DATE},
+      user_id = #{userId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

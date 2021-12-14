@@ -8,6 +8,7 @@ import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.*;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysApproval;
 import com.qiaose.competitionmanagementsystem.service.*;
+import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -215,6 +216,7 @@ public class ApprovalController {
         Long todoId = sysApproval.getTodoId();
         //获得当前的事务对象
         CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(todoId);
+
         //获得当前的申请内容
         CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
         //获得当前流程
@@ -229,6 +231,17 @@ public class ApprovalController {
             competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
             //连带事务表的中关于这个申请的状态也发生改变  根据申请表id来
 
+            //根据事务表上得所有者进行更新                                                                    //userId
+            CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(competitionTodo.getApplicantId(),
+                    //申请id
+                    competitionApproval.getApprovalId());
+            if(competitionProgram.getState() == (byte)2 || competitionProgram.getState() == (byte)1){
+                throw new RuntimeException("不允许操作");
+            }
+            competitionProgram.setState((byte)1);
+            competitionProgram.setComplete(DateKit.getNow());
+            competitionProgramService.updateByPrimaryKeySelective(competitionProgram);
+
             List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(competitionApproval.getApprovalId());
             for (CompetitionTodo Todo : competitionTodos) {
                 //修改每个事项表的状态为 同意
@@ -236,8 +249,24 @@ public class ApprovalController {
                 competitionTodoService.updateByPrimaryKeySelective(Todo);
             }
 
+
             return R.ok("");
         }
+
+        //根据事务表上得所有者进行更新 0---执行中 1--同意 2---拒绝 3--未开始
+
+
+        CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(competitionTodo.getApplicantId(),
+                competitionTodo.getApprovalId());
+
+        if(competitionProgram.getState() == (byte)2 || competitionProgram.getState() == (byte)1){
+            throw new RuntimeException("不允许操作");
+        }
+
+        System.out.println(competitionProgram);
+        competitionProgram.setState((byte)1);
+        competitionProgramService.updateByPrimaryKeySelective(competitionProgram);
+
 
 
         UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
@@ -258,21 +287,6 @@ public class ApprovalController {
         competitionTodo.setApplicantId(applicantId);
         competitionTodoService.insertSelective(competitionTodo);
 
-
-        //生成进度内容
-        CompetitionProcess Process = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
-
-        UserInfo userInfo1 = userInfoService.selectByWorkId(applicantId);
-
-        CompetitionProgram competitionProgram = CompetitionProgram.builder()
-                .approvalId(competitionApproval.getApprovalId())
-                .state((byte)0)
-                .stepname(Process.getApproverName())
-                .auditor(userInfo1.getUserName())
-                .build();
-        competitionProgramService.insertSelective(competitionProgram);
-
-
         return R.ok("");
     }
 
@@ -286,6 +300,16 @@ public class ApprovalController {
         CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(sysApproval.getTodoId());
 
         CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
+
+        CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(competitionTodo.getApplicantId(),
+                competitionTodo.getApprovalId());
+
+        if(competitionProgram.getState() == (byte)2 || competitionProgram.getState() == (byte)1){
+            throw new RuntimeException("不允许操作");
+        }
+        competitionProgram.setState((byte)2);
+        competitionProgram.setComplete(DateKit.getNow());
+        competitionProgramService.updateByPrimaryKeySelective(competitionProgram);
 
         //修改状态为驳回
         competitionApproval.setApprovalStatus((byte)2);
