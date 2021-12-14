@@ -88,6 +88,21 @@ public class RecordController {
         User user = userService.selectByUserId(username);
         UserInfo userInfo = userInfoService.selectByWorkId(user.getUserId());
 
+        List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByUserId(user.getUserId());
+        List<SysRoleTable> sysRoleTables = new ArrayList<>();
+        for (SysRoleUserTable roleUserTable : sysRoleUserTable) {
+            List<SysRoleTable> sysRoleTables1 = sysRoleTableService.selectByPrimaryKey(roleUserTable.getRoleId());
+            for (SysRoleTable sysRoleTable : sysRoleTables1) {
+                sysRoleTables.add(sysRoleTable);
+            }
+        }
+        for (SysRoleTable sysRoleTable : sysRoleTables) {
+            if (sysRoleTable.getRoleName() != "ROLE_STUDENT") {
+                throw new RuntimeException("只有学生可以申请比赛记录");
+            }
+        }
+
+
 
         Snowflake snowflake = IdUtil.getSnowflake();
         long recordId = snowflake.nextId();

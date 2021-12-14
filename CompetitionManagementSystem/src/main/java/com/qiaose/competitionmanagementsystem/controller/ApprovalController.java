@@ -236,7 +236,7 @@ public class ApprovalController {
                     //申请id
                     competitionApproval.getApprovalId());
             if(competitionProgram.getState() == (byte)2 || competitionProgram.getState() == (byte)1){
-                throw new RuntimeException("不允许操作");
+                throw new RuntimeException("状态已同意或结束");
             }
             competitionProgram.setState((byte)1);
             competitionProgram.setComplete(DateKit.getNow());
@@ -260,7 +260,7 @@ public class ApprovalController {
                 competitionTodo.getApprovalId());
 
         if(competitionProgram.getState() == (byte)2 || competitionProgram.getState() == (byte)1){
-            throw new RuntimeException("不允许操作");
+            throw new RuntimeException("状态已同意或结束");
         }
 
         System.out.println(competitionProgram);
@@ -305,7 +305,7 @@ public class ApprovalController {
                 competitionTodo.getApprovalId());
 
         if(competitionProgram.getState() == (byte)2 || competitionProgram.getState() == (byte)1){
-            throw new RuntimeException("不允许操作");
+            throw new RuntimeException("状态已同意或结束");
         }
         competitionProgram.setState((byte)2);
         competitionProgram.setComplete(DateKit.getNow());
