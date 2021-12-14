@@ -16,6 +16,7 @@ import com.qiaose.competitionmanagementsystem.service.*;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
+import com.qiaose.competitionmanagementsystem.service.serviceImpl.CompetitionProgramServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,9 @@ public class RecordController {
 
     @Resource
     CompetitionProcessService competitionProcessService;
+
+    @Autowired
+    CompetitionProgramService competitionProgramService;
     
     @Resource
     CollegeInfoService collegeInfoService;
@@ -144,16 +148,29 @@ public class RecordController {
         * process审核流程发生变化
         * */
         //根据process发送给第一个审判者
-        String applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
+        String applicantId = null;
+        try {
+            applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //插入一条新的记录 拥有者不同的记录  这一条是第一个责任人的
         competitionTodo.setApplicantId(applicantId);
         int q = competitionTodoService.insertSelective(competitionTodo);
 
-        //之后需要更新approval取更新流程编号
-//        CompetitionProcess competitionProcess = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
-//        competitionApproval.setProcessId(competitionProcess.getNextId());
-//        int p = competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
+        //生成进度内容
+        CompetitionProcess Process = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
+
+        UserInfo userInfo1 = userInfoService.selectByWorkId(applicantId);
+
+        CompetitionProgram competitionProgram = CompetitionProgram.builder()
+                .approvalId(approvalId)
+                .state((byte)3)
+                .stepname(Process.getApproverName())
+                .auditor(userInfo1.getUserName())
+                .build();
+        competitionProgramService.insertSelective(competitionProgram);
 
         return R.ok("");
     }
@@ -324,5 +341,6 @@ public class RecordController {
 
         return competitionRecord;
     }
+
 
 }

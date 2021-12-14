@@ -56,10 +56,10 @@ public class CommonController {
                 return R.ok("");
             }
         }catch (Exception exception){
-            return R.failed("超时，请等待10秒后重试");
+            throw  exception;
         }
 
-        return R.failed("");
+        return R.failed("发送成功");
 
     }
 

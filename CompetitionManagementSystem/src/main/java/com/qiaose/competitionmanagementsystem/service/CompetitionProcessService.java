@@ -18,5 +18,5 @@ public interface CompetitionProcessService{
 
     int updateByPrimaryKey(CompetitionProcess record);
 
-    String passProcess(Long processId, UserInfo userInfo);
+    String passProcess(Long processId, UserInfo userInfo) throws Exception;
 }

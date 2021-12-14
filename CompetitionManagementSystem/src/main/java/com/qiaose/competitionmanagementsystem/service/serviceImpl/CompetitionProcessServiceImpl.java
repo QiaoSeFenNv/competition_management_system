@@ -1,19 +1,26 @@
 package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
 import com.baomidou.mybatisplus.extension.api.R;
-import com.qiaose.competitionmanagementsystem.entity.CollegeInfo;
-import com.qiaose.competitionmanagementsystem.entity.UserInfo;
+import com.qiaose.competitionmanagementsystem.entity.*;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
+import com.qiaose.competitionmanagementsystem.service.CompetitionProgramService;
+import com.qiaose.competitionmanagementsystem.service.CompetitionTodoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.mapper.CompetitionProcessMapper;
-import com.qiaose.competitionmanagementsystem.entity.CompetitionProcess;
 import com.qiaose.competitionmanagementsystem.service.CompetitionProcessService;
+
+import java.util.List;
+
 @Service
 public class CompetitionProcessServiceImpl implements CompetitionProcessService{
 
     @Resource
     private CompetitionProcessMapper competitionProcessMapper;
+
+    @Autowired
+    CompetitionTodoService competitionTodoService;
 
     @Resource
     CollegeInfoService collegeInfoService;
@@ -49,17 +56,19 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
     }
 
     @Override
-    public String passProcess(Long processId, UserInfo userInfo)  {
+    public String passProcess(Long processId, UserInfo userInfo)throws Exception  {
 
         CompetitionProcess competitionProcess = competitionProcessMapper.selectByPrimaryKey(processId);
+
         System.out.println("这个发放进来了");
         //修改之前事务表的拥有者
         if ("@FDY".equals(competitionProcess.getApproverId() )){
             System.out.println("FDY进来了没啊？");
             CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId()));
             if (collegeInfo.getDutyId()==null) {
-                return null;
+                throw new Exception("null");
             }else{
+
                 return collegeInfo.getDutyId();
             }
         }
@@ -76,14 +85,16 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
             System.out.println(result);
             CollegeInfo collegeInfo1 = collegeInfoService.selectByPrimaryKey(Integer.valueOf(result));
             if (collegeInfo1.getDutyId()==null) {
-                return null;
+                throw new Exception("null");
             }else{
                 return collegeInfo1.getDutyId();
             }
         }
 
-
         return competitionProcess.getApproverId();
     }
+
+
+
 
 }

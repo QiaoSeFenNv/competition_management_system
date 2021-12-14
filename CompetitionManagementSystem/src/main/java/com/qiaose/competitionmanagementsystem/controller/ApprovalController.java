@@ -30,6 +30,9 @@ public class ApprovalController {
     @Autowired
     CompetitionRecordService competitionRecordService;
 
+    @Autowired
+    CompetitionProgramService competitionProgramService;
+
     @Resource
     CompetitionTodoService competitionTodoService;
 
@@ -171,6 +174,7 @@ public class ApprovalController {
             //将记录表内容注入到sysApproval对象
             sysApproval.setContent(competitionRecord);
         }
+
         //返回给前端
         return R.ok(sysApproval);
 
@@ -192,13 +196,12 @@ public class ApprovalController {
 
 
         //如果下一个编号为空则结束
-        if (competitionProcessOld.getNextId() == null){
-            //修改申请表的状态为同意 1为同意 0执行中 2拒绝
+        if (competitionProcessOld.getNextId() == null && competitionTodo.getTodoStatus() == (byte)0){
+            //修改申请表的状态为同意 0执行中 1为同意  2拒绝
             competitionApproval.setApprovalStatus((byte)1);
             //更新申请表的状态
             competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
             //连带事务表的中关于这个申请的状态也发生改变  根据申请表id来
-
 
             List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(competitionApproval.getApprovalId());
             for (CompetitionTodo Todo : competitionTodos) {
@@ -206,6 +209,7 @@ public class ApprovalController {
                 Todo.setTodoStatus(competitionApproval.getApprovalStatus());
                 competitionTodoService.updateByPrimaryKeySelective(Todo);
             }
+
             return R.ok("");
         }
 
@@ -213,8 +217,12 @@ public class ApprovalController {
         UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
         //获得更新之后的责任人的id
 //        String applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
-        String applicantId = competitionProcessService.passProcess(competitionProcessOld.getNextId(),userInfo);
-
+        String applicantId = null;
+        try {
+            applicantId = competitionProcessService.passProcess(competitionProcessOld.getNextId(),userInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //更新表的下一个审批者
         competitionApproval.setProcessId(competitionProcessOld.getNextId());
@@ -223,6 +231,21 @@ public class ApprovalController {
         //插入一条todo表
         competitionTodo.setApplicantId(applicantId);
         competitionTodoService.insertSelective(competitionTodo);
+
+
+        //生成进度内容
+        CompetitionProcess Process = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
+
+        UserInfo userInfo1 = userInfoService.selectByWorkId(applicantId);
+
+        CompetitionProgram competitionProgram = CompetitionProgram.builder()
+                .approvalId(competitionApproval.getApprovalId())
+                .state((byte)0)
+                .stepname(Process.getApproverName())
+                .auditor(userInfo1.getUserName())
+                .build();
+        competitionProgramService.insertSelective(competitionProgram);
+
 
         return R.ok("");
     }
@@ -251,7 +274,21 @@ public class ApprovalController {
             competitionTodoService.updateByPrimaryKeySelective(Todo);
         }
 
+
+
         return R.ok("");
+    }
+
+
+    @GetMapping("/getCurProgram")
+    @ApiOperation(value = "根据当前todo对象返回进度条",notes = "传递一个id即可")
+    @Transactional(rollbackFor = {Exception.class})
+    public R getCurProgram(@RequestParam Long todoId){
+        CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(todoId);
+
+        List<CompetitionProgram> competitionPrograms = competitionProgramService.selectByApproval(competitionTodo.getApprovalId());
+
+        return R.ok(competitionPrograms);
     }
 
 }

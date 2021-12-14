@@ -1,7 +1,8 @@
 package com.qiaose.competitionmanagementsystem.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionApproval;
-import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
+import com.qiaose.competitionmanagementsystem.entity.CompetitionProgram;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class SysApproval<T> implements Serializable {
     private CompetitionApproval competitionApproval;
 
     private T Content;
+
 
     private static final long serialVersionUID = 1L;
 }
