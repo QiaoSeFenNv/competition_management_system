@@ -4,6 +4,7 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.generator.RandomGenerator;
 import cn.hutool.core.lang.generator.Generator;
 import com.baomidou.mybatisplus.extension.api.R;
+import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
 import com.qiaose.competitionmanagementsystem.utils.MailSend;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,13 +27,14 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/common")
 public class CommonController {
 
-
-
     @Autowired
     JavaMailSender javaMailSender;
 
     @Autowired
     StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    SchedulerMail schedulerMail;
 
     @GetMapping("/sendCode")
     @ApiOperation(value = "发送二维码",notes = "需要输入邮箱地址")
@@ -51,7 +53,7 @@ public class CommonController {
                 return R.failed("邮箱时间还未过90秒");
             }
             if(!email.isEmpty()){
-                toMail(email,mailText);
+                schedulerMail.toMail(email,mailText);
                 stringRedisTemplate.opsForValue().set(email,generate,120, TimeUnit.SECONDS);
                 return R.ok("");
             }
@@ -63,35 +65,4 @@ public class CommonController {
 
     }
 
-
-
-    /**
-     * 发送邮件，公共方法
-     * @param mailTo
-     * @param mailText
-     */
-    public void toMail(String mailTo,String mailText){
-        //定义发送标题
-        String title = "竞赛管理系统";
-        //设置发送方
-        String mailFrom = "qiaosefennv@163.com";
-        try {
-            //构建邮件对象
-            SimpleMailMessage message = new SimpleMailMessage();
-            //设置邮件主题
-            message.setSubject(title);
-            //设置邮件发送者
-            message.setFrom(mailFrom);
-            //设置邮件接收者
-            message.setTo(mailTo);
-            //设置邮件发送日期
-            message.setSentDate(new Date());
-            //设置邮件正文
-            message.setText(mailText);
-            //发送邮件
-            javaMailSender.send(message);
-        }catch (Exception e){
-            System.out.println(e);
-        }
-    }
 }

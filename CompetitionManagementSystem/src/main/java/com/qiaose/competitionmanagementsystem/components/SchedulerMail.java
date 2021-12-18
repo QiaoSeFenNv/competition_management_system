@@ -1,26 +1,44 @@
 package com.qiaose.competitionmanagementsystem.components;
 
-import com.qiaose.competitionmanagementsystem.utils.MailSend;
-import com.qiaose.competitionmanagementsystem.utils.TaleUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.stereotype.Component;
 
-import javax.mail.MessagingException;
+import java.util.Date;
 
-//@Component
+@Component
 public class SchedulerMail {
 
+
     @Autowired
-    MailSend mailSend;
+    JavaMailSender javaMailSender;
 
 
-
-//    @Scheduled(cron = "0 0 8 * * ?")
-    public void proces() throws MessagingException{
-        String [] to = {"642190034@qq.com","1450040534@qq.com"};
-        mailSend.SendMail(to,"开始打工","你好，生活","表情包"
-                , TaleUtils.getUplodFilePath()+"/images/EFCC27A17414CF24B74B989DE13F6E3F.jpg");
+    public void toMail(String mailTo,String mailText){
+        //定义发送标题
+        String title = "竞赛管理系统";
+        //设置发送方
+        String mailFrom = "qiaosefennv@163.com";
+        try {
+            //构建邮件对象
+            SimpleMailMessage message = new SimpleMailMessage();
+            //设置邮件主题
+            message.setSubject(title);
+            //设置邮件发送者
+            message.setFrom(mailFrom);
+            //设置邮件接收者
+            message.setTo(mailTo);
+            //设置邮件发送日期
+            message.setSentDate(new Date());
+            //设置邮件正文
+            message.setText(mailText);
+            //发送邮件
+            javaMailSender.send(message);
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 }
 

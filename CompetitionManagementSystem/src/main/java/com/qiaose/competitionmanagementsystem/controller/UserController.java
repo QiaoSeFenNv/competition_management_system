@@ -186,7 +186,8 @@ public class UserController {
         user.setUserPassword(encode);
         int i = userService.updateByPrimaryKeySelective(user);
 
-
+        stringRedisTemplate.delete(sysChangePass.getEmail());
+        
         return R.ok("");
     }
 

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
+import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
 import com.qiaose.competitionmanagementsystem.entity.*;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
@@ -73,6 +74,8 @@ public class RecordController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    SchedulerMail schedulerMail;
 
 
 
@@ -161,11 +164,15 @@ public class RecordController {
         competitionTodo.setApplicantId(applicantId);
         int q = competitionTodoService.insertSelective(competitionTodo);
 
+
         //生成进度内容
-
-
-        System.out.println(userInfo);
         createComProgram(competitionApproval,userInfo);
+        //发送邮件到辅导员,通知他操作申请
+        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
+                "  发送的比赛记录申请请求操作" +
+                ",请登录【竞赛管理系统】今早进行操作,谢谢！";
+        UserInfo fdu = userInfoService.selectByWorkId(applicantId);
+        schedulerMail.toMail(fdu.getEmail(),mailText);
 
         return R.ok("");
     }
@@ -362,9 +369,17 @@ public class RecordController {
 
 
     public CompetitionRecord changeShow(CompetitionRecord competitionRecord){
+        //1827301,182730104,18230150,
         String recordWinningStudent = competitionRecord.getRecordWinningStudent();
         //用数组接收
         String[] recordWinningStudents = recordWinningStudent.split(",");
+
+        for (int i = 0; i < recordWinningStudents.length; i++) {
+            if (recordWinningStudents[i].isEmpty()) {
+                recordWinningStudents[i] = userInfoService.selectByWorkId(recordWinningStudents[i])
+                        .getUserName();
+            }
+        }
         //将数组放入返回体中
         competitionRecord.setRecordWinningStudents(recordWinningStudents);
 
@@ -383,9 +398,7 @@ public class RecordController {
         for (String recordWinningStudent : recordWinningStudents) {
             winStudent += recordWinningStudent+",";
         }
-
         competitionRecord.setRecordWinningStudent(winStudent);
-
 
         //拼接多文件路径
         String recordUpload = "";

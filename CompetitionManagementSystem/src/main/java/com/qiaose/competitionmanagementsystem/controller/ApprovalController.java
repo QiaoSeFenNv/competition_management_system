@@ -5,6 +5,7 @@ import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
+import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
 import com.qiaose.competitionmanagementsystem.entity.*;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysApproval;
 import com.qiaose.competitionmanagementsystem.service.*;
@@ -59,6 +60,9 @@ public class ApprovalController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    SchedulerMail schedulerMail;
 
 
 
@@ -248,14 +252,16 @@ public class ApprovalController {
                 Todo.setTodoStatus(competitionApproval.getApprovalStatus());
                 competitionTodoService.updateByPrimaryKeySelective(Todo);
             }
-
-
+            //获得学生的学号
+            UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
+            String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
+                    "  发送的比赛记录申请请求操作" +
+                    ",同意该学生的申请！";
+            schedulerMail.toMail(userInfo.getEmail(),mailText);
             return R.ok("");
         }
 
         //根据事务表上得所有者进行更新 0---执行中 1--同意 2---拒绝 3--未开始
-
-
         CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(competitionTodo.getApplicantId(),
                 competitionTodo.getApprovalId());
 
@@ -267,11 +273,9 @@ public class ApprovalController {
         competitionProgram.setState((byte)1);
         competitionProgramService.updateByPrimaryKeySelective(competitionProgram);
 
-
-
         UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
         //获得更新之后的责任人的id
-//        String applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
+
         String applicantId = null;
         try {
             applicantId = competitionProcessService.passProcess(competitionProcessOld.getNextId(),userInfo);
@@ -286,6 +290,13 @@ public class ApprovalController {
         //插入一条todo表
         competitionTodo.setApplicantId(applicantId);
         competitionTodoService.insertSelective(competitionTodo);
+
+
+        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
+                "  发送的比赛记录申请请求操作" +
+                ",请登录【竞赛管理系统】今早进行操作,谢谢！";
+        UserInfo teacher = userInfoService.selectByWorkId(applicantId);
+        schedulerMail.toMail(teacher.getEmail(),mailText);
 
         return R.ok("");
     }
@@ -324,7 +335,11 @@ public class ApprovalController {
             competitionTodoService.updateByPrimaryKeySelective(Todo);
         }
 
-
+        UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
+        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
+                "  发送的比赛记录申请请求操作" +
+                ",拒绝该学生的申请！理由如下"+"【"+competitionApproval.getRejectReson()+"】";
+        schedulerMail.toMail(userInfo.getEmail(),mailText);
 
         return R.ok("");
     }
