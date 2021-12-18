@@ -49,11 +49,7 @@ public class CompetitionRecord implements Serializable {
     * 获奖学生
     */
     @JsonIgnore
-    @JSONField(serialize = false)
     private String recordWinningStudent;
-
-    @TableField(exist = false)
-    private String[] recordWinningStudents;
 
     /**
      * 附件路径
