@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.CompetitionInfoMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.CompetitionInfo">
+    <!--@mbg.generated-->
+    <!--@Table competition_info-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="organizer_id" jdbcType="INTEGER" property="organizerId"/>
+    <result column="signup_start" jdbcType="TIMESTAMP" property="signupStart" />
+    <result column="signup_end" jdbcType="TIMESTAMP" property="signupEnd" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="sponsor" jdbcType="VARCHAR" property="sponsor" />
+    <result column="undertaker" jdbcType="VARCHAR" property="undertaker" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+    <result column="track" jdbcType="TINYINT" property="track" />
+    <result column="team_number" jdbcType="VARCHAR" property="teamNumber" />
+    <result column="is_personal_competition" jdbcType="TINYINT" property="isPersonalCompetition" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, organizer_id,signup_start, signup_end, `location`, sponsor, undertaker, `state`, description,
+    create_time, `level`, track, team_number, is_personal_competition, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from competition_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByAll" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_info
+  </select>
+
+  <select id="selectByState" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_info
+    where state =#{state,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from competition_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into competition_info (`name`, organizer_id,signup_start, signup_end,
+      `location`, sponsor, undertaker, 
+      `state`, description, create_time, 
+      `level`, track, team_number, 
+      is_personal_competition, update_time)
+    values (#{name,jdbcType=VARCHAR}, #{organizerId,jdbcType=INTEGER},#{signupStart,jdbcType=TIMESTAMP}, #{signupEnd,jdbcType=TIMESTAMP},
+      #{location,jdbcType=VARCHAR}, #{sponsor,jdbcType=VARCHAR}, #{undertaker,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{level,jdbcType=VARCHAR}, #{track,jdbcType=TINYINT}, #{teamNumber,jdbcType=VARCHAR},
+      #{isPersonalCompetition,jdbcType=TINYINT}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into competition_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="organizerId != null">
+        `organizer_id`,
+      </if>
+      <if test="signupStart != null">
+        signup_start,
+      </if>
+      <if test="signupEnd != null">
+        signup_end,
+      </if>
+      <if test="location != null">
+        `location`,
+      </if>
+      <if test="sponsor != null">
+        sponsor,
+      </if>
+      <if test="undertaker != null">
+        undertaker,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="level != null">
+        `level`,
+      </if>
+      <if test="track != null">
+        track,
+      </if>
+      <if test="teamNumber != null">
+        team_number,
+      </if>
+      <if test="isPersonalCompetition != null">
+        is_personal_competition,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="organizerId != null">
+        #{organizerId,jdbcType=INTEGER},
+      </if>
+      <if test="signupStart != null">
+        #{signupStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signupEnd != null">
+        #{signupEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsor != null">
+        #{sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="undertaker != null">
+        #{undertaker,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="track != null">
+        #{track,jdbcType=TINYINT},
+      </if>
+      <if test="teamNumber != null">
+        #{teamNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isPersonalCompetition != null">
+        #{isPersonalCompetition,jdbcType=TINYINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionInfo">
+    <!--@mbg.generated-->
+    update competition_info
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="organizerId != null">
+        `organizer_id` = #{organizerId,jdbcType=INTEGER},
+      </if>
+      <if test="signupStart != null">
+        signup_start = #{signupStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signupEnd != null">
+        signup_end = #{signupEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="location != null">
+        `location` = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="sponsor != null">
+        sponsor = #{sponsor,jdbcType=VARCHAR},
+      </if>
+      <if test="undertaker != null">
+        undertaker = #{undertaker,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="level != null">
+        `level` = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="track != null">
+        track = #{track,jdbcType=TINYINT},
+      </if>
+      <if test="teamNumber != null">
+        team_number = #{teamNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isPersonalCompetition != null">
+        is_personal_competition = #{isPersonalCompetition,jdbcType=TINYINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionInfo">
+    <!--@mbg.generated-->
+    update competition_info
+    set `name` = #{name,jdbcType=VARCHAR},
+      organizer_id = #{organizerId,jdbcType=INTEGER},
+      signup_start = #{signupStart,jdbcType=TIMESTAMP},
+      signup_end = #{signupEnd,jdbcType=TIMESTAMP},
+      `location` = #{location,jdbcType=VARCHAR},
+      sponsor = #{sponsor,jdbcType=VARCHAR},
+      undertaker = #{undertaker,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      `level` = #{level,jdbcType=VARCHAR},
+      track = #{track,jdbcType=TINYINT},
+      team_number = #{teamNumber,jdbcType=VARCHAR},
+      is_personal_competition = #{isPersonalCompetition,jdbcType=TINYINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
