@@ -107,6 +107,7 @@ public class ApprovalController {
             sysApproval.setContent(competitionRecord);
         }
 
+//        if ("奖金申请")
 
         List<CompetitionProgram> competitionPrograms = competitionProgramService.selectByApproval(competitionTodo.getApprovalId());
 

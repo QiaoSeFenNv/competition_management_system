@@ -34,7 +34,7 @@ public class CompetitionController {
             ,@RequestParam(required = false) Integer state){
 
         PageHelper.startPage(page,pageSize);
-        List<CompetitionInfo> competitionInfoList = new ArrayList<>();
+        List<CompetitionInfo> competitionInfoList;
         if (state!=null){
             competitionInfoList = competitionInfoService.selectByState(state);
         }else{
@@ -46,6 +46,16 @@ public class CompetitionController {
         pageDto.setItems(list);
         pageDto.setTotal((int) pageInfo.getTotal());
         return R.ok(pageDto);
+    }
+
+
+
+    @GetMapping("/getInfoById")
+    @ApiOperation(value = "返回所有比赛",notes = "如果携带状态则根据比赛状态返回比赛信息，无携带状态返回所有")
+    public R getInfoById(@RequestParam(required = true) Long id){
+
+        CompetitionInfo competitionInfo = competitionInfoService.selectByPrimaryKey(id);
+        return R.ok(competitionInfo);
     }
 
 

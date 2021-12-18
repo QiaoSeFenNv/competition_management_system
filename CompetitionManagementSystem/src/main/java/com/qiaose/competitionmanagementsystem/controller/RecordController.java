@@ -169,11 +169,11 @@ public class RecordController {
         //生成进度内容
         createComProgram(competitionApproval,userInfo);
         //发送邮件到辅导员,通知他操作申请
-        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
-                "  发送的比赛记录申请请求操作" +
-                ",请登录【竞赛管理系统】今早进行操作,谢谢！";
-        UserInfo fdu = userInfoService.selectByWorkId(applicantId);
-        schedulerMail.toMail(fdu.getEmail(),mailText);
+//        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
+//                "  发送的比赛记录申请请求操作" +
+//                ",请登录【竞赛管理系统】今早进行操作,谢谢！";
+//        UserInfo fdu = userInfoService.selectByWorkId(applicantId);
+//        schedulerMail.toMail(fdu.getEmail(),mailText);
 
         return R.ok("");
     }
@@ -264,13 +264,13 @@ public class RecordController {
         Integer flag = 0;
 
         for (SysRoleTable sysRoleTable : sysRoleTables) {
-            if (sysRoleTable.getRoleName() == "ROLE_ADMIN") {
+            if (sysRoleTable.getRoleName().equals("ROLE_ADMIN")) {
                 flag = 1;
                 break;
-            }else if (sysRoleTable.getRoleName() == "ROLE_FDY"){
+            }else if (sysRoleTable.getRoleName().equals("ROLE_FDY")){
                 flag = 2;
                 break;
-            }else if(sysRoleTable.getRoleName() == "ROLE_STUDENT"){
+            }else if(sysRoleTable.getRoleName().equals("ROLE_STUDENT")){
                 flag = 3;
                 break;
             }
@@ -281,7 +281,7 @@ public class RecordController {
         List<CompetitionRecord> competitionRecords = new ArrayList<>();
 
         //管理员 看全部
-        if (flag ==0){
+        if (flag ==1){
             List<CompetitionRecord> competitionRecords1 = competitionRecordService.selectAll();
             for (CompetitionRecord competitionRecord : competitionRecords1) {
                 competitionRecords.add( changeShow(competitionRecord));
