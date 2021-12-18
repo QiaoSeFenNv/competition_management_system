@@ -6,8 +6,6 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.*;
-import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
-import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.service.*;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
@@ -23,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/bonus")
@@ -82,6 +78,7 @@ public class BonusController {
         Snowflake snowflake = IdUtil.getSnowflake();
         long bonusId = snowflake.nextId();
         long approvalId = snowflake.nextId();
+
 
         //奖金内容未生成
         competitionBonus.setId(bonusId);
