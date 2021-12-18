@@ -125,7 +125,8 @@ public class RecordController {
         CompetitionRecord Record = changeInsert(competitionRecord);
         //record表写进数据库
         Record.setRecordId(recordId);
-
+        //写进当前学生
+        Record.setRecordWinningStudent(user.getUserId());
         //生成一个对应内容的申请表
         CompetitionApproval competitionApproval =
                 competitionApprovalService.SendApproval(
@@ -369,19 +370,11 @@ public class RecordController {
 
 
     public CompetitionRecord changeShow(CompetitionRecord competitionRecord){
-        //1827301,182730104,18230150,
+        //1827302
         String recordWinningStudent = competitionRecord.getRecordWinningStudent();
-        //用数组接收
-        String[] recordWinningStudents = recordWinningStudent.split(",");
 
-        for (int i = 0; i < recordWinningStudents.length; i++) {
-            if (recordWinningStudents[i].isEmpty()) {
-                recordWinningStudents[i] = userInfoService.selectByWorkId(recordWinningStudents[i])
-                        .getUserName();
-            }
-        }
-        //将数组放入返回体中
-        competitionRecord.setRecordWinningStudents(recordWinningStudents);
+        competitionRecord.setRecordWinningStudent(
+                userInfoService.selectByWorkId(recordWinningStudent).getUserName());
 
         //返回数组类型的upload
         if (competitionRecord.getRecordUpload()!=null){
@@ -392,13 +385,6 @@ public class RecordController {
     }
 
     public CompetitionRecord changeInsert(CompetitionRecord competitionRecord){
-        String[] recordWinningStudents = competitionRecord.getRecordWinningStudents();
-
-        String winStudent = "";
-        for (String recordWinningStudent : recordWinningStudents) {
-            winStudent += recordWinningStudent+",";
-        }
-        competitionRecord.setRecordWinningStudent(winStudent);
 
         //拼接多文件路径
         String recordUpload = "";

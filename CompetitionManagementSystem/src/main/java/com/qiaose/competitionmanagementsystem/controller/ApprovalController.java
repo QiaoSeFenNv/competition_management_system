@@ -161,8 +161,6 @@ public class ApprovalController {
         if (competitionTodo == null) {
             return R.failed("无事项内容");
         }
-
-
         //根据查询出来的事务信息 查询申请表
         CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
         //将申请表内容注入到sysApproval对象
@@ -178,26 +176,21 @@ public class ApprovalController {
             //将数据库中的字符串变为数组
             String recordWinningStudent = competitionRecord.getRecordWinningStudent();
             //用数组接收
-            String[] recordWinningStudents = recordWinningStudent.split(",");
+            competitionRecord.setRecordWinningStudent(
+                    userInfoService.selectByWorkId(recordWinningStudent).getUserName());
             //将数组放入返回体中
-            competitionRecord.setRecordWinningStudents(recordWinningStudents);
-
             //返回数组类型的upload
             if (competitionRecord.getRecordUpload()!=null){
                 String[] recordUploads = competitionRecord.getRecordUpload().split(",");
                 competitionRecord.setRecordUploads(recordUploads);
             }
-
-
             competitionRecord.setRecordCompetitionName( competitionOrganizerService.selectByPrimaryKey(
                     competitionRecord.getRecordCompetitionId() ).getOrganizeOrganizer());
 
             competitionRecord.setRecordRewardName(competitionRewardService.selectByPrimaryKey(
                     competitionRecord.getRecordRewardId() ).getRewardLevel());
-
             competitionRecord.setRecordCollegeName(collegeInfoService.selectByPrimaryKey(
                     competitionRecord.getRecordCollegeId() ).getCollegeName());
-
             //将记录表内容注入到sysApproval对象
             sysApproval.setContent(competitionRecord);
         }
