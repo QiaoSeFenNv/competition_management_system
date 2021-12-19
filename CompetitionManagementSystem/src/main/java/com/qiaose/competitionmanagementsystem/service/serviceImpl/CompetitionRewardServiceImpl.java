@@ -49,4 +49,9 @@ public class CompetitionRewardServiceImpl implements CompetitionRewardService{
         return competitionRewardMapper.selectAll();
     }
 
+    @Override
+    public CompetitionReward selectByName(String name) {
+        return competitionRewardMapper.selectByName(name);
+    }
+
 }

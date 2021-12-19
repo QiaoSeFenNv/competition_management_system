@@ -5,14 +5,15 @@
     <!--@mbg.generated-->
     <!--@Table competition_apply-->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="info_id" jdbcType="INTEGER" property="infoId" />
+    <result column="info_id" jdbcType="BIGINT" property="infoId" />
     <result column="applyStudent" jdbcType="VARCHAR" property="applystudent" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="reward" jdbcType="VARCHAR" property="reward" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, info_id, applyStudent, create_time, update_time
+    id, info_id, applyStudent, create_time, update_time,reward
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -20,6 +21,14 @@
     <include refid="Base_Column_List" />
     from competition_apply
     where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_apply
+    and applyStudent like concat('%' ,#{userId,jdbcType=VARCHAR}, '%')
   </select>
 
   <select id="selectByUserIdAndInfoId" resultMap="BaseResultMap">
@@ -39,9 +48,9 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionApply" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into competition_apply (info_id, applyStudent, create_time, 
-      update_time)
-    values (#{infoId,jdbcType=INTEGER}, #{applystudent,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      update_time,reward)
+    values (#{infoId,jdbcType=BIGINT}, #{applystudent,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP},#{reward,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionApply" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -59,10 +68,13 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="reward != null">
+        reward,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="infoId != null">
-        #{infoId,jdbcType=INTEGER},
+        #{infoId,jdbcType=BIGINT},
       </if>
       <if test="applystudent != null">
         #{applystudent,jdbcType=VARCHAR},
@@ -73,6 +85,9 @@
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="reward != null">
+        #{reward,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionApply">
@@ -80,7 +95,7 @@
     update competition_apply
     <set>
       <if test="infoId != null">
-        info_id = #{infoId,jdbcType=INTEGER},
+        info_id = #{infoId,jdbcType=BIGINT},
       </if>
       <if test="applystudent != null">
         applyStudent = #{applystudent,jdbcType=VARCHAR},
@@ -91,16 +106,20 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="reward != null">
+        reward = #{reward,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionApply">
     <!--@mbg.generated-->
     update competition_apply
-    set info_id = #{infoId,jdbcType=INTEGER},
+    set info_id = #{infoId,jdbcType=BIGINT},
       applyStudent = #{applystudent,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      reward = #{reward,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

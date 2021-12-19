@@ -11,6 +11,7 @@ import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableServ
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+
+@RestController
+@Api(value = "奖金申请接口")
 @RequestMapping("/bonus")
-@Api(value = "奖金记录接口")
 public class BonusController {
 
 
@@ -53,6 +55,13 @@ public class BonusController {
     @Resource
     CompetitionApplyService competitionApplyService;
 
+    @Resource
+    CompetitionInfoService competitionInfoService;
+
+    @Resource
+    CompetitionRewardService competitionRewardService;
+
+
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
@@ -60,34 +69,39 @@ public class BonusController {
     UserService userService;
 
 
-    @GetMapping("/getBonus")
-    @ApiOperation(value = "插入一条申请信息",notes = "需要传入一个对象（对象封装两个小对象）")
+    @GetMapping("/insertApproval")
+    @ApiOperation(value = "第二页",notes = "请求头、那个结算比赛id")
     @Transactional(rollbackFor = {Exception.class})
-    public R getBonus(HttpServletRequest request,Integer infoId,Double Amount){
+    public R insertApproval(HttpServletRequest request,Long infoId){
         String token = request.getHeader("Authorization");
         System.out.println(token);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userService.selectByUserId(username);
         UserInfo userInfo = userInfoService.selectByWorkId(user.getUserId());
-        
+
         CompetitionApply competitionApply = competitionApplyService.selectByUserIdAndInfoId(infoId,user.getUserId());
         String[] split = competitionApply.getApplystudent().split(",");
+
+        CompetitionInfo competitionInfo = competitionInfoService.selectByPrimaryKey(infoId);
+        CompetitionReward competitionReward = competitionRewardService.selectByName(competitionApply.getReward());
+        CompetitionCredits competitionCredits = competitionCreditsService.selectByNameAndId( competitionReward.getRewardId(), competitionInfo.getLevel());
+
+        Double amount = competitionCredits.getBonus();
+
         List<CompetitionBonus> competitionBonusList = new ArrayList<>();
         for (String userId : split) {
             competitionBonusList.add(competitionBonusService.selectByUserIdAndInfoId(infoId,userId));
         }
-        if (Amount>=500){
+        if (amount>=500){
             //收税
-            Amount = Amount * 1;
+            amount = amount * 1;
         }
         for (CompetitionBonus competitionBonus : competitionBonusList) {
             //均分
-            competitionBonus.setShouldSend(Amount/split.length);
-            competitionBonus.setRealSend(Amount/split.length);
+            competitionBonus.setShouldSend(amount/split.length);
+            competitionBonus.setRealSend(amount/split.length);
         }
-
         //以下流程部分
-
         Snowflake snowflake = IdUtil.getSnowflake();
         long approvalId = snowflake.nextId();
         /*
@@ -101,11 +115,8 @@ public class BonusController {
                 competitionApprovalService.SendApproval(
                         approvalId,bonusId,userInfo,1L
                 );
-
         //插入对应数据库中
         int i = competitionApprovalService.insertSelective(competitionApproval);
-
-
         //插入完毕需要注意todo表也会立刻生一条相关数据,因此也需要插入到todo中  这调是发起者的
         CompetitionTodo competitionTodo = CompetitionTodo.builder()
                 .applicantId(user.getUserId())     //拥有者
@@ -138,27 +149,44 @@ public class BonusController {
     
 
     @PostMapping("/insertBonus")
-    @ApiOperation(value = "插入一条申请信息",notes = "需要传入一个对象（对象封装两个小对象）")
+    @ApiOperation(value = "插入一条申请信息,第一页",notes = "插入一条金额信息")
     @Transactional(rollbackFor = {Exception.class})
     public R insertBonus(HttpServletRequest request, @RequestBody CompetitionBonus competitionBonus){
         //每一个人都可以插入银行号
         String token = request.getHeader("Authorization");
-        System.out.println(token);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userService.selectByUserId(username);
         competitionBonus.setUserId(user.getUserId());
+
         int i1 = competitionBonusService.insertSelective(competitionBonus);
+
         return R.ok("");
     }
 
 
 
     @GetMapping("/getBonus")
-    @ApiOperation(value = "插入一条申请信息",notes = "需要传入一个对象（对象封装两个小对象）")
+    @ApiOperation(value = "获得总金额信息",notes = "需要一个请求头,以及查看那个比赛的金额所以传递一个比赛id")
     @Transactional(rollbackFor = {Exception.class})
-    public R getBonus(@RequestParam Long rewardId,String level){
-        CompetitionCredits competitionCredits = competitionCreditsService.selectByNameAndId(rewardId, level);
-        return R.ok(competitionCredits.getBonus());
+    public R getBonus(HttpServletRequest request,Long infoId){
+        String token = request.getHeader("Authorization");
+        System.out.println(token);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+
+        User user = userService.selectByUserId(username);
+
+        CompetitionApply competitionApply = competitionApplyService.selectByUserIdAndInfoId(infoId,user.getUserId());
+        if (competitionApply == null) {
+            return R.failed("infoId 不存在");
+        }
+
+        CompetitionInfo competitionInfo = competitionInfoService.selectByPrimaryKey(infoId);
+        CompetitionReward competitionReward = competitionRewardService.selectByName(competitionApply.getReward());
+        CompetitionCredits competitionCredits = competitionCreditsService.selectByNameAndId( competitionReward.getRewardId(), competitionInfo.getLevel());
+
+
+
+        return R.ok(competitionCredits);
     }
 
 

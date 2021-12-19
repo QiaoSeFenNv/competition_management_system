@@ -21,6 +21,14 @@
     where reward_id = #{rewardId,jdbcType=BIGINT}
   </select>
 
+  <select id="selectByName"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_reward
+    where reward_level = #{name,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectAll"  resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select

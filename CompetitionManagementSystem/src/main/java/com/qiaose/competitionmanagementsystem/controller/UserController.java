@@ -71,7 +71,6 @@ public class UserController {
     public R getList(@RequestParam(defaultValue = "1", value = "page") Integer page
     ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
 
-
         PageHelper.startPage(page,pageSize);
         List<User> list = userService.getAllUser();
         PageInfo<User> pageInfo = new PageInfo<>(list);

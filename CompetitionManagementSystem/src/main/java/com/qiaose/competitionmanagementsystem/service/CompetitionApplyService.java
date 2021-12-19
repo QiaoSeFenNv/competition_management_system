@@ -1,6 +1,9 @@
 package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionApply;
+
+import java.util.List;
+
 public interface CompetitionApplyService{
 
 
@@ -16,5 +19,7 @@ public interface CompetitionApplyService{
 
     int updateByPrimaryKey(CompetitionApply record);
 
-    CompetitionApply selectByUserIdAndInfoId(Integer infoId, String userId);
+    CompetitionApply selectByUserIdAndInfoId(Long infoId, String userId);
+
+    List<CompetitionApply> selectByUserId(String userId);
 }

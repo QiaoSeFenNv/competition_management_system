@@ -16,5 +16,5 @@ public interface CompetitionBonusMapper {
 
     int updateByPrimaryKey(CompetitionBonus record);
 
-    CompetitionBonus selectByUserIdAndInfoId(@Param("infoId") Integer infoId,@Param("userId") String userId);
+    CompetitionBonus selectByUserIdAndInfoId(@Param("infoId") Long infoId,@Param("userId") String userId);
 }

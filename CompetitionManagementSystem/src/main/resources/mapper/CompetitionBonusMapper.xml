@@ -13,7 +13,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="info_id" jdbcType="INTEGER" property="infoId" />
+    <result column="info_id" jdbcType="BIGINT" property="infoId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -34,7 +34,7 @@
     <include refid="Base_Column_List" />
     from competition_bonus
     where user_id = #{userId,jdbcType=VARCHAR}
-    and info_id = #{infoId,jdbcType=INTEGER}
+    and info_id = #{infoId,jdbcType=BIGINT}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -50,7 +50,7 @@
       )
     values (#{cardId,jdbcType=INTEGER}, #{openBank,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{shouldSend,jdbcType=DOUBLE}, #{realSend,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{infoId,jdbcType=INTEGER}
+      #{updateTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{infoId,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionBonus" useGeneratedKeys="true">
@@ -111,7 +111,7 @@
         #{userId,jdbcType=VARCHAR},
       </if>
       <if test="infoId != null">
-        #{infoId,jdbcType=INTEGER},
+        #{infoId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -144,7 +144,7 @@
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
       <if test="infoId != null">
-        info_id = #{infoId,jdbcType=INTEGER},
+        info_id = #{infoId,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -160,7 +160,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       user_id = #{userId,jdbcType=VARCHAR},
-      info_id = #{infoId,jdbcType=INTEGER}
+      info_id = #{infoId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -42,7 +42,7 @@ public class CompetitionBonusServiceImpl implements CompetitionBonusService{
     }
 
     @Override
-    public CompetitionBonus selectByUserIdAndInfoId(Integer infoId, String userId) {
+    public CompetitionBonus selectByUserIdAndInfoId(Long infoId, String userId) {
         return competitionBonusMapper.selectByUserIdAndInfoId(infoId,userId);
     }
 

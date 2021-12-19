@@ -5,6 +5,9 @@ import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.mapper.CompetitionApplyMapper;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionApply;
 import com.qiaose.competitionmanagementsystem.service.CompetitionApplyService;
+
+import java.util.List;
+
 @Service
 public class CompetitionApplyServiceImpl implements CompetitionApplyService{
 
@@ -42,8 +45,13 @@ public class CompetitionApplyServiceImpl implements CompetitionApplyService{
     }
 
     @Override
-    public CompetitionApply selectByUserIdAndInfoId(Integer infoId, String userId) {
+    public CompetitionApply selectByUserIdAndInfoId(Long infoId, String userId) {
         return competitionApplyMapper.selectByUserIdAndInfoId(infoId, userId);
+    }
+
+    @Override
+    public List<CompetitionApply> selectByUserId(String userId) {
+        return competitionApplyMapper.selectByUserId(userId);
     }
 
 }

@@ -3,6 +3,8 @@ package com.qiaose.competitionmanagementsystem.mapper;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionApply;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface CompetitionApplyMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -16,5 +18,7 @@ public interface CompetitionApplyMapper {
 
     int updateByPrimaryKey(CompetitionApply record);
 
-    CompetitionApply selectByUserIdAndInfoId(@Param("infoId") Integer infoId,@Param("userId") String userId);
+    CompetitionApply selectByUserIdAndInfoId(@Param("infoId") Long infoId,@Param("userId") String userId);
+
+    List<CompetitionApply> selectByUserId(@Param("userId") String userId);
 }

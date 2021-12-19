@@ -1,0 +1,359 @@
+2021-12-18 14:01:39.825 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 3572 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 14:01:39.823 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 14:01:39.831 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 14:01:41.183 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 14:01:41.187 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 14:01:41.238 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 0 Redis repository interfaces.
+2021-12-18 14:01:41.867 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 14:01:41.876 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 14:01:41.877 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 14:01:41.877 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 14:01:41.973 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 14:01:41.973 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2099 ms
+2021-12-18 14:01:43.624 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 14:01:44.080 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 14:01:44.080 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 14:01:44.080 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 14:01:44.080 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 14:01:44.080 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 14:01:44.080 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 14:01:44.103 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@104a287c, org.springframework.security.web.context.SecurityContextPersistenceFilter@57c69937, org.springframework.security.web.header.HeaderWriterFilter@26d0ece6, org.springframework.security.web.authentication.logout.LogoutFilter@50f4b83d, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@1dcedc93, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@6042d663, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4357524b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@446b64b3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@781dac73, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@64dc86c6, org.springframework.security.web.session.SessionManagementFilter@4ae280da, org.springframework.security.web.access.ExceptionTranslationFilter@3b6c2be6, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@32e5af53]
+2021-12-18 14:01:44.142 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 14:01:44.160 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 14:01:44.161 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 14:01:44.180 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 14:01:44.215 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 14:01:44.382 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 14:01:44.427 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 14:01:44.450 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 5.311 seconds (JVM running for 6.463)
+2021-12-18 14:03:25.904 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-12-18 14:03:25.905 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-12-18 14:03:25.907 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2021-12-18 14:03:25.972 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-12-18 14:03:26.357 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-12-18 14:12:47.364 INFO  io.lettuce.core.protocol.ConnectionWatchdog - Reconnecting, last destination was /182.254.226.174:6379
+2021-12-18 14:12:47.431 INFO  io.lettuce.core.protocol.ReconnectionHandler - Reconnected to 182.254.226.174:6379
+2021-12-18 14:47:59.521 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2021-12-18 14:47:59.526 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2021-12-18 14:48:06.097 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 14:48:06.097 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 8164 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 14:48:06.099 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 14:48:07.052 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 14:48:07.054 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 14:48:07.084 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 19 ms. Found 0 Redis repository interfaces.
+2021-12-18 14:48:07.625 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 14:48:07.634 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 14:48:07.635 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 14:48:07.635 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 14:48:07.721 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 14:48:07.721 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1567 ms
+2021-12-18 14:48:09.021 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 14:48:09.389 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 14:48:09.389 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 14:48:09.389 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 14:48:09.389 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 14:48:09.389 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 14:48:09.389 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 14:48:09.409 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1e734eee, org.springframework.security.web.context.SecurityContextPersistenceFilter@56c0a61e, org.springframework.security.web.header.HeaderWriterFilter@57c69937, org.springframework.security.web.authentication.logout.LogoutFilter@11e17893, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@2cca611f, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@3f1a9a53, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5f3b84bd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5dcf0772, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@38c761e9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1e191150, org.springframework.security.web.session.SessionManagementFilter@446b64b3, org.springframework.security.web.access.ExceptionTranslationFilter@4ae280da, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@44641d6c]
+2021-12-18 14:48:09.451 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 14:48:09.466 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 14:48:09.467 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 14:48:09.482 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 14:48:09.512 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 14:48:09.692 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 14:48:09.749 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 14:48:09.775 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 4.233 seconds (JVM running for 4.961)
+2021-12-18 14:50:54.022 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-12-18 14:50:54.023 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-12-18 14:50:54.024 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2021-12-18 14:50:54.308 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-12-18 14:50:54.600 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-12-18 15:24:30.729 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2021-12-18 15:24:30.733 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2021-12-18 15:24:37.867 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 15:24:37.868 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 17464 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 15:24:37.870 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 15:24:39.418 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 15:24:39.422 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 15:24:39.478 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 34 ms. Found 0 Redis repository interfaces.
+2021-12-18 15:24:40.739 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 15:24:40.798 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 15:24:40.799 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 15:24:40.800 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 15:24:41.137 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 15:24:41.139 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3223 ms
+2021-12-18 15:24:44.057 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 15:24:44.380 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 15:24:44.380 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 15:24:44.380 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 15:24:44.380 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 15:24:44.380 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 15:24:44.380 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 15:24:44.400 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5980fa73, org.springframework.security.web.context.SecurityContextPersistenceFilter@685d7ba5, org.springframework.security.web.header.HeaderWriterFilter@383cdd4d, org.springframework.security.web.authentication.logout.LogoutFilter@5e67a490, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@468e8565, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@3c232051, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@32e5af53, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3b6c2be6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@35ac9ebd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@13ca16bf, org.springframework.security.web.session.SessionManagementFilter@48ccbb32, org.springframework.security.web.access.ExceptionTranslationFilter@71bb8b34, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@733534f9]
+2021-12-18 15:24:44.435 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 15:24:44.449 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 15:24:44.450 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 15:24:44.466 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 15:24:44.492 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 15:24:44.639 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 15:24:44.684 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 15:24:44.707 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 7.326 seconds (JVM running for 8.037)
+2021-12-18 19:18:08.106 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 7184 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 19:18:08.108 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 19:18:08.108 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 19:18:09.052 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 19:18:09.054 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 19:18:09.147 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 73 ms. Found 0 Redis repository interfaces.
+2021-12-18 19:18:09.803 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 19:18:09.811 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 19:18:09.812 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 19:18:09.812 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 19:18:09.899 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 19:18:09.900 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1757 ms
+2021-12-18 19:18:11.238 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 19:18:11.603 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 19:18:11.603 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 19:18:11.603 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 19:18:11.603 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 19:18:11.603 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 19:18:11.603 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 19:18:11.627 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6735f210, org.springframework.security.web.context.SecurityContextPersistenceFilter@50f4b83d, org.springframework.security.web.header.HeaderWriterFilter@7f4e5a39, org.springframework.security.web.authentication.logout.LogoutFilter@221ca495, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@72bd2871, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@62b09715, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@19ae36f4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@c5e69a5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@23648d2d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4567fb2b, org.springframework.security.web.session.SessionManagementFilter@30159886, org.springframework.security.web.access.ExceptionTranslationFilter@38c761e9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@aca3c85]
+2021-12-18 19:18:11.665 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 19:18:11.681 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 19:18:11.682 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 19:18:11.695 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 19:18:11.720 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 19:18:11.874 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 19:18:11.928 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 19:18:11.954 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 4.299 seconds (JVM running for 5.65)
+2021-12-18 19:21:16.259 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-12-18 19:21:16.259 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-12-18 19:21:16.261 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2021-12-18 19:22:48.191 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 8668 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 19:22:48.194 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 19:22:48.196 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 19:22:49.313 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 19:22:49.314 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 19:22:49.346 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 20 ms. Found 0 Redis repository interfaces.
+2021-12-18 19:22:49.921 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 19:22:49.929 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 19:22:49.929 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 19:22:49.930 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 19:22:50.013 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 19:22:50.013 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1763 ms
+2021-12-18 19:22:51.365 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 19:22:51.763 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 19:22:51.763 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 19:22:51.763 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 19:22:51.763 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 19:22:51.763 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 19:22:51.763 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 19:22:51.786 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@372954e1, org.springframework.security.web.context.SecurityContextPersistenceFilter@50f4b83d, org.springframework.security.web.header.HeaderWriterFilter@7f4e5a39, org.springframework.security.web.authentication.logout.LogoutFilter@221ca495, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@72bd2871, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@62b09715, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4567fb2b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@c5e69a5, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@23648d2d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5fd8dd66, org.springframework.security.web.session.SessionManagementFilter@30159886, org.springframework.security.web.access.ExceptionTranslationFilter@38c761e9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@f017dd0]
+2021-12-18 19:22:51.824 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 19:22:51.839 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 19:22:51.840 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 19:22:51.850 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 19:22:51.873 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 19:22:52.011 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 19:22:52.059 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 19:22:52.080 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 4.426 seconds (JVM running for 5.176)
+2021-12-18 19:23:06.494 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-12-18 19:23:06.495 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-12-18 19:23:06.496 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2021-12-18 19:23:06.577 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-12-18 19:23:06.864 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-12-18 19:31:51.950 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2021-12-18 19:31:51.953 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2021-12-18 19:31:58.103 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 19:31:58.103 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 13456 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 19:31:58.105 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 19:31:58.924 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 19:31:58.926 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 19:31:58.954 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 19 ms. Found 0 Redis repository interfaces.
+2021-12-18 19:31:59.456 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 19:31:59.464 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 19:31:59.464 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 19:31:59.464 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 19:31:59.542 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 19:31:59.542 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1399 ms
+2021-12-18 19:32:00.796 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 19:32:01.150 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 19:32:01.151 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 19:32:01.151 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 19:32:01.151 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 19:32:01.151 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 19:32:01.151 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 19:32:01.182 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@69a373fd, org.springframework.security.web.context.SecurityContextPersistenceFilter@7f4e5a39, org.springframework.security.web.header.HeaderWriterFilter@5e67a490, org.springframework.security.web.authentication.logout.LogoutFilter@537b3b2e, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@25be445f, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@61a2aeb7, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6bd92538, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@30159886, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@ac4915e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@19ae36f4, org.springframework.security.web.session.SessionManagementFilter@38c761e9, org.springframework.security.web.access.ExceptionTranslationFilter@781dac73, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@f18b738]
+2021-12-18 19:32:01.220 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 19:32:01.235 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 19:32:01.236 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 19:32:01.246 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 19:32:01.272 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 19:32:01.433 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 19:32:01.488 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 19:32:01.510 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 3.765 seconds (JVM running for 4.537)
+2021-12-18 19:32:11.592 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-12-18 19:32:11.592 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-12-18 19:32:11.594 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2021-12-18 19:32:16.994 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-12-18 19:32:17.512 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-12-18 19:33:28.200 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2021-12-18 19:33:28.205 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2021-12-18 19:33:34.780 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 19:33:34.780 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 260 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 19:33:34.782 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 19:33:35.627 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 19:33:35.629 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 19:33:35.661 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 21 ms. Found 0 Redis repository interfaces.
+2021-12-18 19:33:36.126 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 19:33:36.134 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 19:33:36.135 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 19:33:36.135 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 19:33:36.257 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 19:33:36.258 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1443 ms
+2021-12-18 19:33:37.528 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 19:33:37.966 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 19:33:37.967 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 19:33:37.967 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 19:33:37.967 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 19:33:37.967 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 19:33:37.967 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 19:33:37.988 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6fb22ae3, org.springframework.security.web.context.SecurityContextPersistenceFilter@38c761e9, org.springframework.security.web.header.HeaderWriterFilter@781dac73, org.springframework.security.web.authentication.logout.LogoutFilter@2cc75b25, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@6bbab114, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@7a682d35, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@7f51f588, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7f4e5a39, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@19eea77c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6bd92538, org.springframework.security.web.session.SessionManagementFilter@5e67a490, org.springframework.security.web.access.ExceptionTranslationFilter@6826b70f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5e68be2]
+2021-12-18 19:33:38.024 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 19:33:38.042 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 19:33:38.043 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 19:33:38.053 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 19:33:38.079 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 19:33:38.231 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 19:33:38.282 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 19:33:38.303 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 3.893 seconds (JVM running for 4.873)
+2021-12-18 19:33:41.262 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-12-18 19:33:41.262 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-12-18 19:33:41.263 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2021-12-18 19:33:41.341 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-12-18 19:33:41.678 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-12-18 19:45:17.115 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2021-12-18 19:45:17.133 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2021-12-18 19:45:23.753 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 19:45:23.753 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 2948 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 19:45:23.755 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 19:45:24.674 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 19:45:24.677 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 19:45:24.708 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 20 ms. Found 0 Redis repository interfaces.
+2021-12-18 19:45:25.260 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 19:45:25.271 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 19:45:25.272 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 19:45:25.273 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 19:45:25.360 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 19:45:25.361 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1573 ms
+2021-12-18 19:45:26.631 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 19:45:26.982 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 19:45:26.982 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 19:45:26.982 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 19:45:26.982 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 19:45:26.982 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 19:45:26.982 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 19:45:27.003 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6735f210, org.springframework.security.web.context.SecurityContextPersistenceFilter@30159886, org.springframework.security.web.header.HeaderWriterFilter@38c761e9, org.springframework.security.web.authentication.logout.LogoutFilter@3ccb12d, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@6397248c, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@5f8d9767, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@19ae36f4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@50f4b83d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7cc2c551, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4567fb2b, org.springframework.security.web.session.SessionManagementFilter@7f4e5a39, org.springframework.security.web.access.ExceptionTranslationFilter@5e67a490, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@aca3c85]
+2021-12-18 19:45:27.043 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 19:45:27.056 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 19:45:27.058 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 19:45:27.077 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 19:45:27.103 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 19:45:27.280 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 19:45:27.334 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 19:45:27.357 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 3.972 seconds (JVM running for 4.913)
+2021-12-18 19:47:14.404 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-12-18 19:47:14.405 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-12-18 19:47:14.406 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2021-12-18 19:52:34.539 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2021-12-18 19:52:34.986 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2021-12-18 20:53:53.035 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 20:53:53.035 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 6132 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 20:53:53.037 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 20:53:54.018 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 20:53:54.021 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 20:53:54.060 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 20 ms. Found 0 Redis repository interfaces.
+2021-12-18 20:53:54.661 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 20:53:54.669 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 20:53:54.671 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 20:53:54.671 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 20:53:54.762 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 20:53:54.762 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1685 ms
+2021-12-18 20:53:56.054 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 20:53:56.467 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 20:53:56.467 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 20:53:56.467 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 20:53:56.467 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 20:53:56.467 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 20:53:56.467 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 20:53:56.492 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@aa752bb, org.springframework.security.web.context.SecurityContextPersistenceFilter@401788d5, org.springframework.security.web.header.HeaderWriterFilter@773eca84, org.springframework.security.web.authentication.logout.LogoutFilter@60b616c8, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@66383c29, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@679dd234, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4217bce6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7e0f9528, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@550c973e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@77fc19cf, org.springframework.security.web.session.SessionManagementFilter@3a38e4dc, org.springframework.security.web.access.ExceptionTranslationFilter@221ca495, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@8b41ad]
+2021-12-18 20:53:56.533 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 20:53:56.549 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 20:53:56.550 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 20:53:56.565 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 20:53:56.596 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 20:53:56.881 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 20:53:56.942 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: insertApprovalUsingPOST_1
+2021-12-18 20:53:57.014 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 20:53:57.072 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 4.477 seconds (JVM running for 5.507)
+2021-12-18 20:54:52.596 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 20:54:52.596 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 1696 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 20:54:52.598 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 20:54:53.443 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 20:54:53.445 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 20:54:53.475 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 19 ms. Found 0 Redis repository interfaces.
+2021-12-18 20:54:53.963 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 20:54:53.970 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 20:54:53.971 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 20:54:53.971 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 20:54:54.047 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 20:54:54.048 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1412 ms
+2021-12-18 20:54:55.205 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 20:54:55.564 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 20:54:55.564 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 20:54:55.564 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 20:54:55.564 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 20:54:55.565 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 20:54:55.565 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 20:54:55.583 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@77fc19cf, org.springframework.security.web.context.SecurityContextPersistenceFilter@3ec9f8d, org.springframework.security.web.header.HeaderWriterFilter@7d47dfed, org.springframework.security.web.authentication.logout.LogoutFilter@3962ec84, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@66383c29, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@679dd234, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@aa752bb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5f56424d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@161d95c6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@643ecfef, org.springframework.security.web.session.SessionManagementFilter@41fc0084, org.springframework.security.web.access.ExceptionTranslationFilter@119d4443, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@541d4d9f]
+2021-12-18 20:54:55.619 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 20:54:55.633 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 20:54:55.634 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 20:54:55.644 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 20:54:55.667 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 20:54:55.821 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 20:54:55.843 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: insertApprovalUsingPOST_1
+2021-12-18 20:54:55.865 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 20:54:55.886 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 3.702 seconds (JVM running for 4.566)
+2021-12-18 20:55:02.604 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-12-18 20:55:02.604 INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2021-12-18 20:55:02.605 INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2021-12-18 21:31:50.213 INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.0.Final
+2021-12-18 21:31:50.213 INFO  c.q.c.CompetitionManagementSystemApplication - Starting CompetitionManagementSystemApplication using Java 1.8.0_181 on Qiao with PID 13244 (D:\IDEA_Work\New_IDEA\competition_ms\CompetitionManagementSystem\target\classes started by Xingc in D:\IDEA_Work\New_IDEA\competition_ms)
+2021-12-18 21:31:50.215 INFO  c.q.c.CompetitionManagementSystemApplication - No active profile set, falling back to default profiles: default
+2021-12-18 21:31:51.316 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-12-18 21:31:51.319 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-12-18 21:31:51.352 INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 20 ms. Found 0 Redis repository interfaces.
+2021-12-18 21:31:51.948 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8085 (http)
+2021-12-18 21:31:51.955 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8085"]
+2021-12-18 21:31:51.956 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2021-12-18 21:31:51.956 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.54]
+2021-12-18 21:31:52.039 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2021-12-18 21:31:52.039 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1781 ms
+2021-12-18 21:31:53.401 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-12-18 21:31:53.807 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+2021-12-18 21:31:53.807 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
+2021-12-18 21:31:53.807 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-12-18 21:31:53.808 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-12-18 21:31:53.808 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/webjars/**'] with []
+2021-12-18 21:31:53.808 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Mvc [pattern='/static/**'] with []
+2021-12-18 21:31:53.830 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7d401cdc, org.springframework.security.web.context.SecurityContextPersistenceFilter@7d47dfed, org.springframework.security.web.header.HeaderWriterFilter@28b458e6, org.springframework.security.web.authentication.logout.LogoutFilter@7e94e331, com.qiaose.competitionmanagementsystem.configuration.auth.MyOncePerRequestFilter@461c3709, com.qiaose.competitionmanagementsystem.configuration.auth.MyUsernamePasswordAuthenticationFilter@39941489, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@2ccc9681, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@41fc0084, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@51424203, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4a9b3956, org.springframework.security.web.session.SessionManagementFilter@119d4443, org.springframework.security.web.access.ExceptionTranslationFilter@1544ded3, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@79f5a6ed]
+2021-12-18 21:31:53.869 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8085"]
+2021-12-18 21:31:53.886 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8085 (http) with context path ''
+2021-12-18 21:31:53.886 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Context refreshed
+2021-12-18 21:31:53.900 INFO  s.d.s.web.plugins.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+2021-12-18 21:31:53.928 INFO  s.d.spring.web.scanners.ApiListingReferenceScanner - Scanning for api listing references
+2021-12-18 21:31:54.126 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getAllCreditUsingGET_1
+2021-12-18 21:31:54.157 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: insertApprovalUsingPOST_1
+2021-12-18 21:31:54.185 INFO  s.d.s.w.r.operation.CachingOperationNameGenerator - Generating unique operation named: getListUsingGET_1
+2021-12-18 21:31:54.211 INFO  c.q.c.CompetitionManagementSystemApplication - Started CompetitionManagementSystemApplication in 4.59 seconds (JVM running for 5.568)

@@ -20,4 +20,6 @@ public interface CompetitionRewardService{
     int updateByPrimaryKey(CompetitionReward record);
 
     List<CompetitionReward> selectAll();
+
+    CompetitionReward selectByName(String name);
 }

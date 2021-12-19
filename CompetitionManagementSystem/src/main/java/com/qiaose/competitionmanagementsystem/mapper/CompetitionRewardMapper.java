@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionReward;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface CompetitionRewardMapper {
     int updateByPrimaryKey(CompetitionReward record);
 
     List<CompetitionReward> selectAll();
+
+    CompetitionReward selectByName(@Param("name") String name);
 }

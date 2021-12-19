@@ -53,6 +53,9 @@ public class ApprovalController {
     @Autowired
     UserInfoService userInfoService;
 
+    @Resource
+    CompetitionBonusService competitionBonusService;
+
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
@@ -107,7 +110,10 @@ public class ApprovalController {
             sysApproval.setContent(competitionRecord);
         }
 
-//        if ("奖金申请")
+        if ("奖金申请".equals(todoType)){
+            CompetitionBonus competitionBonus = competitionBonusService.selectByPrimaryKey(competitionApproval.getApplicantContentid());
+            sysApproval.setContent(competitionBonus);
+        }
 
         List<CompetitionProgram> competitionPrograms = competitionProgramService.selectByApproval(competitionTodo.getApprovalId());
 

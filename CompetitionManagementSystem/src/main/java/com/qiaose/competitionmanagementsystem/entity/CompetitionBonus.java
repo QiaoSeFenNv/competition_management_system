@@ -2,6 +2,9 @@ package com.qiaose.competitionmanagementsystem.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -37,11 +40,14 @@ public class CompetitionBonus implements Serializable {
     /**
     * 实发
     */
+    @JsonIgnore
     private Double realSend;
 
     /**
     * 信息创建时间
     */
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Date createTime;
 
     /**
@@ -52,12 +58,13 @@ public class CompetitionBonus implements Serializable {
     /**
     * 拥有者
     */
+    @JsonIgnore
+    @JSONField(serialize = false)
     private String userId;
-
     /**
     * 比赛表id
     */
-    private Integer infoId;
+    private Long infoId;
 
     private static final long serialVersionUID = 1L;
 }
