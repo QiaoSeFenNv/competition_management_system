@@ -31,6 +31,11 @@ public class CompetitionCredits implements Serializable {
     */
     private Integer creditCredits;
 
+    /*
+    * 奖金
+    * */
+    private Double bonus;
+
     /**
     * 等奖
     */
@@ -53,6 +58,8 @@ public class CompetitionCredits implements Serializable {
     @JsonIgnore
     @TableField(exist = false)
     private String reward_name;
+
+
 
 
     private static final long serialVersionUID = 1L;

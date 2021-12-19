@@ -21,4 +21,6 @@ public interface CompetitionCreditsMapper {
     List<CompetitionCredits> getAllCredit();
 
     CompetitionCredits selectByNameAndId(@Param("recordRewardId") Long recordRewardId,@Param("recordLevelName") String recordLevelName);
+
+
 }

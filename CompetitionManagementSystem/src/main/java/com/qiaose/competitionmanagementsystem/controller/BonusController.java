@@ -14,9 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -44,17 +42,10 @@ public class BonusController {
     CompetitionProgramService competitionProgramService;
 
     @Resource
-    CollegeInfoService collegeInfoService;
-
-    @Resource
     UserInfoService userInfoService;
 
     @Resource
-    SysRoleUserTableService sysRoleUserTableService;
-
-    @Resource
-    SysRoleTableService sysRoleTableService;
-
+    CompetitionCreditsService competitionCreditsService;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -63,12 +54,61 @@ public class BonusController {
     UserService userService;
 
 
+//    @PostMapping("/insertApproval")
+//    @ApiOperation(value = "插入一条申请信息",notes = "需要传入一个对象（对象封装两个小对象）")
+//    @Transactional(rollbackFor = {Exception.class})
+//    public R insertApproval(HttpServletRequest request, @RequestBody CompetitionBonus competitionBonus){
+//        //从token中拿到账号 拿到具体的对象信息
+//        String token = request.getHeader("Authorization");
+//        System.out.println(token);
+//        String username = jwtTokenUtil.getUsernameFromToken(token);
+//        User user = userService.selectByUserId(username);
+//        UserInfo userInfo = userInfoService.selectByWorkId(user.getUserId());
+//
+//        Snowflake snowflake = IdUtil.getSnowflake();
+//        long bonusId = snowflake.nextId();
+//        long approvalId = snowflake.nextId();
+//        //奖金内容未生成
+//        Double shouldSend = competitionBonus.getShouldSend();
+//        competitionBonus.setId(bonusId);
+//        //计算收税
+//        int i1 = competitionBonusService.insertSelective(competitionBonus);
+//        //插入一个申请表
+//        CompetitionApproval competitionApproval =
+//                competitionApprovalService.SendApproval(
+//                        approvalId,bonusId,userInfo,1L
+//                );
+//        int i = competitionApprovalService.insertSelective(competitionApproval);
+//        //插入完毕需要注意todo表也会立刻生一条相关数据,因此也需要插入到todo中  这调是发起者的
+//        CompetitionTodo competitionTodo = CompetitionTodo.builder()
+//                .applicantId(user.getUserId())     //拥有者
+//                .applicantName(userInfo.getUserName())
+//                .approvalId(approvalId)     //申请表id
+//                .todoStatus((byte) 0)       //状态
+//                .todoType("奖金申请")     //写死的类型
+//                .createTime(DateUtil.date())       //创建时间
+//                .build();
+//        //将todo表插入
+//        int k = competitionTodoService.insertSelective(competitionTodo);
+//
+//        String applicantId = null;
+//        try {
+//            applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        //插入一条新的记录 拥有者不同的记录  这一条是第一个责任人的
+//        competitionTodo.setApplicantId(applicantId);
+//        int q = competitionTodoService.insertSelective(competitionTodo);
+//        createComProgram(competitionApproval,userInfo);
+//        return R.ok("");
+//    }
 
     @PostMapping("/insertApproval")
     @ApiOperation(value = "插入一条申请信息",notes = "需要传入一个对象（对象封装两个小对象）")
     @Transactional(rollbackFor = {Exception.class})
     public R insertApproval(HttpServletRequest request, @RequestBody CompetitionBonus competitionBonus){
-        //从token中拿到账号 拿到具体的对象信息
         String token = request.getHeader("Authorization");
         System.out.println(token);
         String username = jwtTokenUtil.getUsernameFromToken(token);
@@ -78,50 +118,22 @@ public class BonusController {
         Snowflake snowflake = IdUtil.getSnowflake();
         long bonusId = snowflake.nextId();
         long approvalId = snowflake.nextId();
-
-
         //奖金内容未生成
+        Double shouldSend = competitionBonus.getShouldSend();
         competitionBonus.setId(bonusId);
         //计算收税
-        BigDecimal shouldSend = competitionBonus.getShouldSend();
-        competitionBonus.setRealSend(shouldSend);
         int i1 = competitionBonusService.insertSelective(competitionBonus);
-
-        //插入一个申请表
-        CompetitionApproval competitionApproval =
-                competitionApprovalService.SendApproval(
-                        approvalId,bonusId,userInfo,1L
-                );
-        int i = competitionApprovalService.insertSelective(competitionApproval);
-
-        //插入完毕需要注意todo表也会立刻生一条相关数据,因此也需要插入到todo中  这调是发起者的
-        CompetitionTodo competitionTodo = CompetitionTodo.builder()
-                .applicantId(user.getUserId())     //拥有者
-                .applicantName(userInfo.getUserName())
-                .approvalId(approvalId)     //申请表id
-                .todoStatus((byte) 0)       //状态
-                .todoType("奖金申请")     //写死的类型
-                .createTime(DateUtil.date())       //创建时间
-                .build();
-        //将todo表插入
-        int k = competitionTodoService.insertSelective(competitionTodo);
-
-
-        String applicantId = null;
-        try {
-            applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //插入一条新的记录 拥有者不同的记录  这一条是第一个责任人的
-        competitionTodo.setApplicantId(applicantId);
-        int q = competitionTodoService.insertSelective(competitionTodo);
-
-        createComProgram(competitionApproval,userInfo);
 
         return R.ok("");
     }
+
+//    @GetMapping("/getBonus")
+//    @ApiOperation(value = "插入一条申请信息",notes = "需要传入一个对象（对象封装两个小对象）")
+//    @Transactional(rollbackFor = {Exception.class})
+//    public R getBonus(@RequestParam Long rewardId,String level){
+//        CompetitionCredits competitionCredits = competitionCreditsService.selectByNameAndId(rewardId, level);
+//        return R.ok(competitionCredits.getBonus());
+//    }
 
     public void createComProgram(CompetitionApproval competitionApproval,UserInfo userInfo){
 
@@ -171,4 +183,5 @@ public class BonusController {
             competitionProgramService.insertSelective(competitionProgram);
         }
     }
+
 }

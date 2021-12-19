@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -51,14 +50,11 @@ public class CompetitionController {
 
 
     @GetMapping("/getInfoById")
-    @ApiOperation(value = "返回所有比赛",notes = "如果携带状态则根据比赛状态返回比赛信息，无携带状态返回所有")
+    @ApiOperation(value = "返回比赛",notes = "根据id号进行查询")
     public R getInfoById(@RequestParam(required = true) Long id){
-
         CompetitionInfo competitionInfo = competitionInfoService.selectByPrimaryKey(id);
         return R.ok(competitionInfo);
     }
-
-
 
 
     @PostMapping("/insertInfo")

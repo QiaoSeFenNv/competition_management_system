@@ -22,4 +22,5 @@ public interface CompetitionCreditsService{
     List<CompetitionCredits> getAllCredit();
 
     CompetitionCredits selectByNameAndId(Long recordRewardId, String recordLevelName);
+
 }

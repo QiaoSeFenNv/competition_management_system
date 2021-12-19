@@ -8,8 +8,8 @@
     <result column="card_id" jdbcType="INTEGER" property="cardId" />
     <result column="open_bank" jdbcType="VARCHAR" property="openBank" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="should_send" jdbcType="DECIMAL" property="shouldSend" />
-    <result column="real_send" jdbcType="DECIMAL" property="realSend" />
+    <result column="should_send" jdbcType="DOUBLE" property="shouldSend" />
+    <result column="real_send" jdbcType="DOUBLE" property="realSend" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
@@ -35,7 +35,7 @@
       should_send, real_send, create_time, 
       update_time)
     values (#{cardId,jdbcType=INTEGER}, #{openBank,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{shouldSend,jdbcType=DECIMAL}, #{realSend,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{shouldSend,jdbcType=DOUBLE}, #{realSend,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionBonus" useGeneratedKeys="true">
@@ -75,10 +75,10 @@
         #{description,jdbcType=VARCHAR},
       </if>
       <if test="shouldSend != null">
-        #{shouldSend,jdbcType=DECIMAL},
+        #{shouldSend,jdbcType=DOUBLE},
       </if>
       <if test="realSend != null">
-        #{realSend,jdbcType=DECIMAL},
+        #{realSend,jdbcType=DOUBLE},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -102,10 +102,10 @@
         description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="shouldSend != null">
-        should_send = #{shouldSend,jdbcType=DECIMAL},
+        should_send = #{shouldSend,jdbcType=DOUBLE},
       </if>
       <if test="realSend != null">
-        real_send = #{realSend,jdbcType=DECIMAL},
+        real_send = #{realSend,jdbcType=DOUBLE},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -122,8 +122,8 @@
     set card_id = #{cardId,jdbcType=INTEGER},
       open_bank = #{openBank,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      should_send = #{shouldSend,jdbcType=DECIMAL},
-      real_send = #{realSend,jdbcType=DECIMAL},
+      should_send = #{shouldSend,jdbcType=DOUBLE},
+      real_send = #{realSend,jdbcType=DOUBLE},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
