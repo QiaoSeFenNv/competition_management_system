@@ -12,10 +12,13 @@
     <result column="real_send" jdbcType="DOUBLE" property="realSend" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="info_id" jdbcType="INTEGER" property="infoId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, card_id, open_bank, description, should_send, real_send, create_time, update_time
+    id, card_id, open_bank, description, should_send, real_send, create_time, update_time, 
+    user_id, info_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -24,6 +27,16 @@
     from competition_bonus
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+  <select id="selectByUserIdAndInfoId" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_bonus
+    where user_id = #{userId,jdbcType=VARCHAR}
+    and info_id = #{infoId,jdbcType=INTEGER}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from competition_bonus
@@ -33,10 +46,12 @@
     <!--@mbg.generated-->
     insert into competition_bonus (card_id, open_bank, description, 
       should_send, real_send, create_time, 
-      update_time)
+      update_time, user_id, info_id
+      )
     values (#{cardId,jdbcType=INTEGER}, #{openBank,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{shouldSend,jdbcType=DOUBLE}, #{realSend,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{updateTime,jdbcType=TIMESTAMP}, #{userId,jdbcType=VARCHAR}, #{infoId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionBonus" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -63,6 +78,12 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="infoId != null">
+        info_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="cardId != null">
@@ -85,6 +106,12 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="infoId != null">
+        #{infoId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -113,6 +140,12 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="infoId != null">
+        info_id = #{infoId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -125,7 +158,9 @@
       should_send = #{shouldSend,jdbcType=DOUBLE},
       real_send = #{realSend,jdbcType=DOUBLE},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=VARCHAR},
+      info_id = #{infoId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

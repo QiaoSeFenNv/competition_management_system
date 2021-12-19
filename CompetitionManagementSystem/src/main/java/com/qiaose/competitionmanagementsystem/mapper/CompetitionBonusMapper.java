@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionBonus;
+import org.apache.ibatis.annotations.Param;
 
 public interface CompetitionBonusMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +15,6 @@ public interface CompetitionBonusMapper {
     int updateByPrimaryKeySelective(CompetitionBonus record);
 
     int updateByPrimaryKey(CompetitionBonus record);
+
+    CompetitionBonus selectByUserIdAndInfoId(@Param("infoId") Integer infoId,@Param("userId") String userId);
 }

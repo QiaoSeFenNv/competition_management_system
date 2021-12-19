@@ -2,9 +2,6 @@ package com.qiaose.competitionmanagementsystem.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -40,7 +37,6 @@ public class CompetitionBonus implements Serializable {
     /**
     * 实发
     */
-    @JsonIgnore
     private Double realSend;
 
     /**
@@ -51,10 +47,17 @@ public class CompetitionBonus implements Serializable {
     /**
     * 信息更新时间
     */
-    @JsonIgnore
     private Date updateTime;
 
+    /**
+    * 拥有者
+    */
+    private String userId;
 
+    /**
+    * 比赛表id
+    */
+    private Integer infoId;
 
     private static final long serialVersionUID = 1L;
 }

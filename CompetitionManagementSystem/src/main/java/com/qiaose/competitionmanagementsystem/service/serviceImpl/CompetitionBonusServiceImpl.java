@@ -41,4 +41,9 @@ public class CompetitionBonusServiceImpl implements CompetitionBonusService{
         return competitionBonusMapper.updateByPrimaryKey(record);
     }
 
+    @Override
+    public CompetitionBonus selectByUserIdAndInfoId(Integer infoId, String userId) {
+        return competitionBonusMapper.selectByUserIdAndInfoId(infoId,userId);
+    }
+
 }

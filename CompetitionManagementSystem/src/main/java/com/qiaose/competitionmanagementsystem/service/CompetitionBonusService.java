@@ -16,4 +16,5 @@ public interface CompetitionBonusService{
 
     int updateByPrimaryKey(CompetitionBonus record);
 
+    CompetitionBonus selectByUserIdAndInfoId(Integer infoId, String userId);
 }
