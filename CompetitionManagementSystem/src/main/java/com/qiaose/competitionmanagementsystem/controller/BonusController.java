@@ -158,6 +158,14 @@ public class BonusController {
         User user = userService.selectByUserId(username);
         competitionBonus.setUserId(user.getUserId());
 
+        //判断用户传递的infoId是否属于自己
+
+        CompetitionApply competitionApply = competitionApplyService.selectByUserIdAndInfoId(competitionBonus.getInfoId(), user.getUserId());
+
+        if (competitionApply == null){
+            return R.failed("你所选的比赛,没有你获奖的信息");
+        }
+
         int i1 = competitionBonusService.insertSelective(competitionBonus);
 
         return R.ok("");

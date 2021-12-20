@@ -35,6 +35,7 @@ public class CompetitionBonus implements Serializable {
     /**
     * 应发
     */
+    @JsonIgnore
     private Double shouldSend;
 
     /**
