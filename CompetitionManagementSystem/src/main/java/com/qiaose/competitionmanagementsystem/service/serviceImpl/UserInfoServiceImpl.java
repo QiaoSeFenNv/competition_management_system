@@ -60,4 +60,9 @@ public class UserInfoServiceImpl implements UserInfoService{
         return userInfoMapper.selectByEmail(email);
     }
 
+    @Override
+    public List<UserInfo> selectByName(String name) {
+        return userInfoMapper.selectByName(name);
+    }
+
 }

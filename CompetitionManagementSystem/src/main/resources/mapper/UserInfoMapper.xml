@@ -37,7 +37,7 @@
     select
     <include refid="Base_Column_List" />
     from user_info
-    where dept_id like concat('%' ,#{s,jdbcType=VARCHAR}, '%')
+    where FIND_IN_SET(#{s,jdbcType=VARCHAR},dept_id)
   </select>
 
 
@@ -55,6 +55,14 @@
     <include refid="Base_Column_List" />
     from user_info
     where email = #{email,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where user_name like concat('%' ,#{name,jdbcType=VARCHAR}, '%')
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

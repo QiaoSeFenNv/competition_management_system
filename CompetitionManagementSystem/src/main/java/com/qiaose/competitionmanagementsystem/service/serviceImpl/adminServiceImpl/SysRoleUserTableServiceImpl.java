@@ -50,5 +50,9 @@ public class SysRoleUserTableServiceImpl implements SysRoleUserTableService {
         return sysRoleUserTableMapper.updateByPrimaryKey(record);
     }
 
+    @Override
+    public int deleteByUserId(String id) {
+        return sysRoleUserTableMapper.deleteByUserId(id);
+    }
 
 }

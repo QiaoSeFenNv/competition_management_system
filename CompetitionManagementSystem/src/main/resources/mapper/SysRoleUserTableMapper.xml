@@ -30,11 +30,18 @@
   </select>
 
 
+  <delete id="deleteByUserId" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from sys_role_user_table
+    where user_id = #{id,jdbcType=VARCHAR}
+  </delete>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from sys_role_user_table
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into sys_role_user_table (role_id, user_id)

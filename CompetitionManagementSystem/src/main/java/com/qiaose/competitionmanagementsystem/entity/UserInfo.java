@@ -3,7 +3,9 @@ package com.qiaose.competitionmanagementsystem.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -34,6 +36,7 @@ public class UserInfo implements Serializable {
     /**
     * 辅导员
     */
+    @JsonIgnore
     private String counselor;
 
     /**
@@ -54,21 +57,25 @@ public class UserInfo implements Serializable {
     /**
     * qq
     */
+    @JsonIgnore
     private String qq;
 
     /**
     * 微信
     */
+    @JsonIgnore
     private String wechat;
 
     /**
     * 银行id
     */
+    @JsonIgnore
     private Integer bankId;
 
     /**
     * 创建时间
     */
+    @JsonIgnore
     private Date createTime;
 
     /**
@@ -76,8 +83,8 @@ public class UserInfo implements Serializable {
     */
     private Date updatedTime;
 
-    @TableField(exist = false)
-    private BankTable bankTable;
+
+    private String[] role;
 
     private static final long serialVersionUID = 1L;
 }

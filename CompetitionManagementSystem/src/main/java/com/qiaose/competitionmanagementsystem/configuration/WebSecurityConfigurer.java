@@ -126,7 +126,10 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/bonus/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/apply/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/apply/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/counseling/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/counseling/**").permitAll()
                 //动态加载资源
+
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");
 
         //第4步：拦截账号、密码。覆盖 UsernamePasswordAuthenticationFilter过滤器

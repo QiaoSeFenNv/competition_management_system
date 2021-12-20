@@ -9,12 +9,16 @@ import com.qiaose.competitionmanagementsystem.entity.CollegeInfo;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
 
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 
-
+import com.qiaose.competitionmanagementsystem.entity.dto.SysUserDto;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 import io.netty.util.internal.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,6 +42,12 @@ public class CollegeInfoController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    SysRoleTableService sysRoleTableService;
+
+    @Autowired
+    SysRoleUserTableService sysRoleUserTableService;
 
 
 
@@ -64,12 +74,48 @@ public class CollegeInfoController {
     @ApiOperation(value="查询部门对应的学生信息", notes="携带三个参数")
     public R getCurStuInfo(@RequestParam(defaultValue = "1", value = "page") Integer page
             ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize
-            ,@RequestParam(required = false,value = "deptId") Integer deptId) {
+            ,@RequestParam(required = false,value = "deptId") Integer deptId
+            ,@RequestParam(required = false,value = "name") String name) {
 
+        if (name != null ){
+            List<UserInfo> userInfoList = userInfoService.selectByName(name);
+            PageHelper.startPage(page,pageSize);
+            List<SysUserDto> userList = new ArrayList<>();
+            for (UserInfo userInfo : userInfoList) {
+
+                List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByUserId(userInfo.getUserId());
+                String[] role = new String[sysRoleUserTable.size()];
+                int i=0;
+                for (SysRoleUserTable roleUserTable : sysRoleUserTable) {
+                    List<SysRoleTable> sysRoleTables1 = sysRoleTableService.selectByPrimaryKey(roleUserTable.getRoleId());
+                    for (SysRoleTable sysRoleTable : sysRoleTables1) {
+                        role[i++] =sysRoleTable.getRoleId();
+                    }
+                }
+
+                SysUserDto build = SysUserDto.builder()
+                        .id(userInfo.getId())
+                        .userId(userInfo.getUserId())
+                        .userName(userInfo.getUserName())
+                        .email(userInfo.getEmail())
+                        .phone(userInfo.getTelephone())
+                        .build();
+                build.setRole(role);
+                build.setDeptId(collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId())).getCollegeName());
+                userList.add(build);
+            }
+            PageInfo<SysUserDto> pageInfo = new PageInfo<>(userList);
+            List<SysUserDto> list = pageInfo.getList();
+            PageDto<SysUserDto> pageDto = new PageDto<SysUserDto>();
+            pageDto.setItems(list);
+            pageDto.setTotal((int) pageInfo.getTotal());
+            return  R.ok(pageDto);
+        }
         //根据deptId在部门表中查询祖先包含id对应的集合
         //在通过集合中的每一个id值取查询user_info中的deptId
         List<UserInfo> listUser = new ArrayList<>();
 
+        // 取地 所有相关的部门id   1,29
         List<CollegeInfo> collegeInfoList = collegeInfoService.selectByAncestors(deptId+"");
 
         listUser.addAll(userInfoService.selectByDeptId(deptId+""));
@@ -81,18 +127,36 @@ public class CollegeInfoController {
         List<UserInfo> distinct = listUser.stream().distinct().collect(Collectors.toList());
 
         //分页
+
+
         PageHelper.startPage(page,pageSize);
-        List<User> userList = new ArrayList<>();
+        List<SysUserDto> userList = new ArrayList<>();
         for (UserInfo userInfo : distinct) {
-            User user = userService.selectByUserId(userInfo.getUserId());
-            user.setUsername(userInfo.getUserName());
-            user.setUserStatus(userInfo.getUserStatus());
-            userList.add(user);
+
+            List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByUserId(userInfo.getUserId());
+            String[] role = new String[sysRoleUserTable.size()];
+            int i=0;
+            for (SysRoleUserTable roleUserTable : sysRoleUserTable) {
+                List<SysRoleTable> sysRoleTables1 = sysRoleTableService.selectByPrimaryKey(roleUserTable.getRoleId());
+                for (SysRoleTable sysRoleTable : sysRoleTables1) {
+                    role[i++] =sysRoleTable.getRoleId();
+                }
+            }
+            SysUserDto build = SysUserDto.builder()
+                    .id(userInfo.getId())
+                    .userId(userInfo.getUserId())
+                    .userName(userInfo.getUserName())
+                    .email(userInfo.getEmail())
+                    .phone(userInfo.getTelephone())
+                    .role(role)
+                    .build();
+            build.setDeptId(collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId())).getCollegeName());
+            userList.add(build);
         }
 
-        PageInfo<User> pageInfo = new PageInfo<>(userList);
-        List<User> list = pageInfo.getList();
-        PageDto pageDto = new PageDto();
+        PageInfo<SysUserDto> pageInfo = new PageInfo<>(userList);
+        List<SysUserDto> list = pageInfo.getList();
+        PageDto<SysUserDto> pageDto = new PageDto<SysUserDto>();
         pageDto.setItems(list);
         pageDto.setTotal((int) pageInfo.getTotal());
         return  R.ok(pageDto);

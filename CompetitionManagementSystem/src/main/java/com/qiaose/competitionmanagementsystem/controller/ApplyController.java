@@ -8,7 +8,6 @@ import com.qiaose.competitionmanagementsystem.entity.CompetitionApply;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.service.CompetitionApplyService;
-import com.qiaose.competitionmanagementsystem.service.CompetitionApprovalService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -82,8 +81,6 @@ public class ApplyController {
         return  R.ok(pageDto);
 
     }
-
-
 
 
 

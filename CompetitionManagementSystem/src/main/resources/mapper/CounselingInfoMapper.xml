@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaose.competitionmanagementsystem.mapper.CounselingInfoMapper">
+  <resultMap id="BaseResultMap" type="com.qiaose.competitionmanagementsystem.entity.CounselingInfo">
+    <!--@mbg.generated-->
+    <!--@Table counseling_info-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="counse_content" jdbcType="LONGVARCHAR" property="counseContent" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="duration" jdbcType="TIMESTAMP" property="duration" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="guest" jdbcType="VARCHAR" property="guest" />
+    <result column="c_date" jdbcType="TIMESTAMP" property="cDate" />
+    <result column="counseling" jdbcType="LONGVARCHAR" property="counseling" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, org_name, counse_content, money, duration, `type`, guest, c_date, counseling
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from counseling_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from counseling_info
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from counseling_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CounselingInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into counseling_info (org_name, counse_content, money, 
+      duration, `type`, guest, 
+      c_date, counseling)
+    values (#{orgName,jdbcType=VARCHAR}, #{counseContent,jdbcType=LONGVARCHAR}, #{money,jdbcType=DECIMAL}, 
+      #{duration,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{guest,jdbcType=VARCHAR}, 
+      #{cDate,jdbcType=TIMESTAMP}, #{counseling,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CounselingInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into counseling_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orgName != null">
+        org_name,
+      </if>
+      <if test="counseContent != null">
+        counse_content,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="guest != null">
+        guest,
+      </if>
+      <if test="cDate != null">
+        c_date,
+      </if>
+      <if test="counseling != null">
+        counseling,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="counseContent != null">
+        #{counseContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="guest != null">
+        #{guest,jdbcType=VARCHAR},
+      </if>
+      <if test="cDate != null">
+        #{cDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="counseling != null">
+        #{counseling,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CounselingInfo">
+    <!--@mbg.generated-->
+    update counseling_info
+    <set>
+      <if test="orgName != null">
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="counseContent != null">
+        counse_content = #{counseContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="guest != null">
+        guest = #{guest,jdbcType=VARCHAR},
+      </if>
+      <if test="cDate != null">
+        c_date = #{cDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="counseling != null">
+        counseling = #{counseling,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qiaose.competitionmanagementsystem.entity.CounselingInfo">
+    <!--@mbg.generated-->
+    update counseling_info
+    set org_name = #{orgName,jdbcType=VARCHAR},
+      counse_content = #{counseContent,jdbcType=LONGVARCHAR},
+      money = #{money,jdbcType=DECIMAL},
+      duration = #{duration,jdbcType=TIMESTAMP},
+      `type` = #{type,jdbcType=VARCHAR},
+      guest = #{guest,jdbcType=VARCHAR},
+      c_date = #{cDate,jdbcType=TIMESTAMP},
+      counseling = #{counseling,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

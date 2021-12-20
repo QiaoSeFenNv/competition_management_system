@@ -389,6 +389,9 @@ public class RecordController {
         //拼接多文件路径
         String recordUpload = "";
         String[] recordUploads = competitionRecord.getRecordUploads();
+        if (recordUploads == null){
+            return competitionRecord;
+        }
         for (String upload : recordUploads) {
             recordUpload +=upload+",";
         }

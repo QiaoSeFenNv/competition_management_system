@@ -12,7 +12,6 @@ import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTable
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,9 +78,12 @@ public class BonusController {
         User user = userService.selectByUserId(username);
         UserInfo userInfo = userInfoService.selectByWorkId(user.getUserId());
 
+        //获得自己的
         CompetitionApply competitionApply = competitionApplyService.selectByUserIdAndInfoId(infoId,user.getUserId());
+        if (competitionApply == null){
+            return R.failed("无该比赛获奖信息");
+        }
         String[] split = competitionApply.getApplystudent().split(",");
-
         CompetitionInfo competitionInfo = competitionInfoService.selectByPrimaryKey(infoId);
         CompetitionReward competitionReward = competitionRewardService.selectByName(competitionApply.getReward());
         CompetitionCredits competitionCredits = competitionCreditsService.selectByNameAndId( competitionReward.getRewardId(), competitionInfo.getLevel());
@@ -92,6 +94,7 @@ public class BonusController {
         for (String userId : split) {
             competitionBonusList.add(competitionBonusService.selectByUserIdAndInfoId(infoId,userId));
         }
+
         if (amount>=500){
             //收税
             amount = amount * 1;
@@ -101,6 +104,11 @@ public class BonusController {
             competitionBonus.setShouldSend(amount/split.length);
             competitionBonus.setRealSend(amount/split.length);
         }
+
+        if(split.length!=competitionBonusList.size()){
+            return R.ok("还要队友未申请");
+        }
+
         //以下流程部分
         Snowflake snowflake = IdUtil.getSnowflake();
         long approvalId = snowflake.nextId();
@@ -155,6 +163,7 @@ public class BonusController {
         //每一个人都可以插入银行号
         String token = request.getHeader("Authorization");
         String username = jwtTokenUtil.getUsernameFromToken(token);
+
         User user = userService.selectByUserId(username);
         competitionBonus.setUserId(user.getUserId());
 

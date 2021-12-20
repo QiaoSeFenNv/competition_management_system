@@ -21,5 +21,5 @@ public interface SysRoleUserTableService{
 
     int updateByPrimaryKey(SysRoleUserTable record);
 
-
+    int deleteByUserId(String id);
 }

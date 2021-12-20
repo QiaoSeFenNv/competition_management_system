@@ -16,6 +16,8 @@ public interface SysRoleUserTableMapper {
 
     List<SysRoleUserTable> selectByUserId(@Param("userId") String userId);
 
+    int deleteByUserId(@Param("id") String id);
+
     int updateByPrimaryKeySelective(SysRoleUserTable record);
 
     int updateByPrimaryKey(SysRoleUserTable record);

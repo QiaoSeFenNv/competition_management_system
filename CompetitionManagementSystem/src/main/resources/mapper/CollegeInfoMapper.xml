@@ -59,7 +59,7 @@
     select
     <include refid="Base_Column_List" />
     from college_info
-    where ancestors like concat('%' ,#{s,jdbcType=VARCHAR}, '%')
+    where  FIND_IN_SET(#{s,jdbcType=VARCHAR},ancestors)
   </select>
 
 
