@@ -20,9 +20,8 @@ import java.util.List;
 
 @RestController
 @Api("比赛报名")
-@RequestMapping("/apply")
-public class ApplyController {
-
+@RequestMapping("/award")
+public class AwardController {
 
     @Autowired
     CompetitionApplyService competitionApplyService;
@@ -34,7 +33,7 @@ public class ApplyController {
     UserService userService;
 
 
-    @PostMapping("/insertApply")
+    @PostMapping("/insertAward")
     @ApiOperation(value = "插入",notes = "未完整,雏形初现再问王苹")
     @Transactional(rollbackFor = {Exception.class})
     public R insertApply(@RequestBody CompetitionApply competitionApply){
@@ -60,7 +59,7 @@ public class ApplyController {
     }
 
 
-    @GetMapping("/getApply")
+    @GetMapping("/getAward")
     @ApiOperation(value = "获得自己的报名信息",notes = "未完整,雏形初现再问王苹")
     @Transactional(rollbackFor = {Exception.class})
     public R getApply(HttpServletRequest request, @RequestParam(defaultValue = "1", value = "page") Integer page

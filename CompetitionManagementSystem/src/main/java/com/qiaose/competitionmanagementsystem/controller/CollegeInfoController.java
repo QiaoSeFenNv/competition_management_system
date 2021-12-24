@@ -77,6 +77,7 @@ public class CollegeInfoController {
             ,@RequestParam(required = false,value = "deptId") Integer deptId
             ,@RequestParam(required = false,value = "name") String name) {
 
+        //模糊查询功能
         if (name != null ){
             List<UserInfo> userInfoList = userInfoService.selectByName(name);
             PageHelper.startPage(page,pageSize);
@@ -111,14 +112,14 @@ public class CollegeInfoController {
             pageDto.setTotal((int) pageInfo.getTotal());
             return  R.ok(pageDto);
         }
+
         //根据deptId在部门表中查询祖先包含id对应的集合
         //在通过集合中的每一个id值取查询user_info中的deptId
-        List<UserInfo> listUser = new ArrayList<>();
 
         // 取地 所有相关的部门id   1,29
         List<CollegeInfo> collegeInfoList = collegeInfoService.selectByAncestors(deptId+"");
 
-        listUser.addAll(userInfoService.selectByDeptId(deptId+""));
+        List<UserInfo> listUser = new ArrayList<>(userInfoService.selectByDeptId(deptId + ""));
 
         for (CollegeInfo collegeInfo : collegeInfoList) {
             listUser.addAll(userInfoService.selectByDeptId(collegeInfo.getId()+""));
@@ -127,8 +128,6 @@ public class CollegeInfoController {
         List<UserInfo> distinct = listUser.stream().distinct().collect(Collectors.toList());
 
         //分页
-
-
         PageHelper.startPage(page,pageSize);
         List<SysUserDto> userList = new ArrayList<>();
         for (UserInfo userInfo : distinct) {

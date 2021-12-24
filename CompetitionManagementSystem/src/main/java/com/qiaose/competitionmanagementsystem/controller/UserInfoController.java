@@ -3,20 +3,16 @@ package com.qiaose.competitionmanagementsystem.controller;
 import com.baomidou.mybatisplus.extension.api.R;
 
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
-import com.qiaose.competitionmanagementsystem.entity.BankTable;
 
-import com.qiaose.competitionmanagementsystem.entity.CollegeInfo;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
-import com.qiaose.competitionmanagementsystem.service.BankTableService;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 
-import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -26,7 +22,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -44,18 +39,11 @@ public class UserInfoController {
     @Autowired
     CollegeInfoService collegeInfoService;
 
-    @Resource
-    BankTableService bankTableService;
-
-
     @Autowired
     SysRoleUserTableService sysRoleUserTableService;
 
     @Autowired
     BCryptPasswordEncoderUtil bCryptPasswordEncoderUtil;
-
-
-
 
 
     @GetMapping("/getCurStu")
@@ -89,12 +77,13 @@ public class UserInfoController {
         int j = userService.insertSelective(user);
         //绑定角色
         SysRoleUserTable sysRoleUserTable = new SysRoleUserTable();
-        sysRoleUserTable.setRoleId(userInfo.getRole()+"");
-        sysRoleUserTable.setUserId(userInfo.getUserId());
-        sysRoleUserTableService.insertSelective(sysRoleUserTable);
+        for (String s : userInfo.getRole()) {
+            sysRoleUserTable.setRoleId(s);
+            sysRoleUserTable.setUserId(userInfo.getUserId());
+            sysRoleUserTableService.insertSelective(sysRoleUserTable);
+        }
         //插入整个对象
         userInfo.setCreateTime(DateKit.getNow());
-
 
         int k = userInfoService.insertSelective(userInfo);
 
@@ -103,6 +92,7 @@ public class UserInfoController {
         }
         return R.ok("插入成功");
     }
+
 
     @PostMapping("/updateCurStu")
     @ApiOperation(value = "更新当前学生信息", notes = "携带参数需要携带id")

@@ -12,16 +12,12 @@
     <result column="dept_id" jdbcType="VARCHAR" property="deptId" />
     <result column="telephone" jdbcType="VARCHAR" property="telephone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="qq" jdbcType="VARCHAR" property="qq" />
-    <result column="wechat" jdbcType="VARCHAR" property="wechat" />
-    <result column="bank_id" jdbcType="INTEGER" property="bankId" />
     <result column="create_time" jdbcType="DATE" property="createTime" />
     <result column="updated_time" jdbcType="DATE" property="updatedTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, user_id, user_name, user_status, counselor, dept_id, telephone, email, qq, wechat, 
-    bank_id, create_time, updated_time
+    id, user_id, user_name, user_status, counselor, dept_id, telephone, email, create_time, updated_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -74,13 +70,11 @@
     <!--@mbg.generated-->
     insert into user_info (user_id, user_name, user_status, 
       counselor, dept_id, telephone, 
-      email, qq, wechat, 
-      bank_id, create_time, updated_time
+      email, create_time, updated_time
       )
     values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, 
       #{counselor,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{wechat,jdbcType=VARCHAR}, 
-      #{bankId,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, #{updatedTime,jdbcType=DATE}
+      #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{updatedTime,jdbcType=DATE}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.UserInfo" useGeneratedKeys="true">
@@ -107,15 +101,6 @@
       </if>
       <if test="email != null">
         email,
-      </if>
-      <if test="qq != null">
-        qq,
-      </if>
-      <if test="wechat != null">
-        wechat,
-      </if>
-      <if test="bankId != null">
-        bank_id,
       </if>
       <if test="createTime != null">
         create_time,
@@ -145,15 +130,6 @@
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="qq != null">
-        #{qq,jdbcType=VARCHAR},
-      </if>
-      <if test="wechat != null">
-        #{wechat,jdbcType=VARCHAR},
-      </if>
-      <if test="bankId != null">
-        #{bankId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=DATE},
@@ -188,15 +164,6 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="qq != null">
-        qq = #{qq,jdbcType=VARCHAR},
-      </if>
-      <if test="wechat != null">
-        wechat = #{wechat,jdbcType=VARCHAR},
-      </if>
-      <if test="bankId != null">
-        bank_id = #{bankId,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=DATE},
       </if>
@@ -216,10 +183,6 @@
       dept_id = #{deptId,jdbcType=VARCHAR},
       telephone = #{telephone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      qq = #{qq,jdbcType=VARCHAR},
-      wechat = #{wechat,jdbcType=VARCHAR},
-      bank_id = #{bankId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=DATE},
       updated_time = #{updatedTime,jdbcType=DATE}
     where id = #{id,jdbcType=BIGINT}
   </update>

@@ -54,23 +54,6 @@ public class UserInfo implements Serializable {
     */
     private String email;
 
-    /**
-    * qq
-    */
-    @JsonIgnore
-    private String qq;
-
-    /**
-    * 微信
-    */
-    @JsonIgnore
-    private String wechat;
-
-    /**
-    * 银行id
-    */
-    @JsonIgnore
-    private Integer bankId;
 
     /**
     * 创建时间
