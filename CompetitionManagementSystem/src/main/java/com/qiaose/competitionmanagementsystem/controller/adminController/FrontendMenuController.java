@@ -9,6 +9,7 @@ import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
+import com.qiaose.competitionmanagementsystem.service.UserService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
@@ -38,6 +39,9 @@ public class FrontendMenuController {
 
     @Autowired
     SysRoleUserTableService sysRoleUserTableService;
+    
+    @Autowired
+    UserService userService;
 
     @Autowired
     MyUtils myUtils;
@@ -49,11 +53,13 @@ public class FrontendMenuController {
                         @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
 
         User user = myUtils.TokenGetUserByName(request);
+//        User user = userService.selectByUserId("182730102");
 
         //实际是角色id
         List<SysRoleUserTable> sysRoleUserTables = sysRoleUserTableService.selectByUserId(user.getUserId());
 
         List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable = new ArrayList<>();
+        //1 2
         for (SysRoleUserTable sysRoleUserTable : sysRoleUserTables) {
             List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTables = sysRoleFrontendMenuTableService.selectByRoleId(sysRoleUserTable.getRoleId());
             for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTables) {
@@ -64,13 +70,20 @@ public class FrontendMenuController {
         PageHelper.startPage(page,pageSize);
 
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
+        List<Long> idList = new ArrayList<>();
         for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTable) {
-            List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.listWithTree(roleFrontendMenuTable.getAuthorityId());
-            sysFrontendDtos.addAll(sysFrontendMenuTables);
-//            for (SysFrontendMenuTable sysFrontendMenuTable : sysFrontendMenuTables) {
-//                sysFrontendDtos.add(sysFrontendMenuTable);
-//            }
+            if (!idList.contains(roleFrontendMenuTable.getAuthorityId())){
+                idList.add(roleFrontendMenuTable.getAuthorityId());
+            }
+//            List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.listWithTree(roleFrontendMenuTable.getAuthorityId());
+//            sysFrontendDtos.addAll(sysFrontendMenuTables);
         }
+        for (Long aLong : idList) {
+            List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.listWithTree(aLong);
+            sysFrontendDtos.addAll(sysFrontendMenuTables);
+        }
+
+
 
 
         PageInfo<SysFrontendMenuTable> pageInfo = new PageInfo<>(sysFrontendDtos);
