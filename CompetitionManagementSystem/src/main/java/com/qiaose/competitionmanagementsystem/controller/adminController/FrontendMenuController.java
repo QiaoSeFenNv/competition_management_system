@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.controller.adminController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -101,12 +102,13 @@ public class FrontendMenuController {
     @PostMapping("/insert")
     @ApiOperation(value = "插入菜单信息", notes = "需要前端传入body和请求头")
     @Transactional(rollbackFor = Exception.class)
-    public R InsertFrontMenu(@RequestBody SysFrontendDto sysFrontendDto,HttpServletRequest request){
+    public R InsertFrontMenu(@RequestBody SysFrontendDto sysFrontendDto/*,HttpServletRequest request*/){
         if(sysFrontendDto.getLabel() == null){
             return R.failed("填写为空信息");
         }
         //角色号
-        User user = myUtils.TokenGetUserByName(request);
+//        User user = myUtils.TokenGetUserByName(request);
+        User user = userService.selectByUserId("182730102");
         String roleId = user.getUserId();
         //数据插入菜单表
         SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.F_DtoToF_Po(sysFrontendDto);
@@ -117,6 +119,11 @@ public class FrontendMenuController {
         sysFrontendMenuTable.setCreateTime(DateKit.getNow());
         sysFrontendMenuTable.setUpdateTime(DateKit.getNowTime());
         sysFrontendMenuTable.setComponent(sysFrontendDto.getComponent());
+        JSONObject routeMeta = sysFrontendDto.getRouteMeta();
+        System.out.println(routeMeta);
+        String jsonStr = JSONObject.toJSONString(routeMeta);
+        System.out.println(jsonStr);
+        sysFrontendMenuTable.setRouteMeta(jsonStr);
         //判断path是否重复
         if (!Duplicate_Path(sysFrontendMenuTable)) {
             return R.failed("Path重复，插入失败");
@@ -146,7 +153,11 @@ public class FrontendMenuController {
         frontendMenuTable.setUpdateTime(DateKit.getNowTime());
         frontendMenuTable.setUpdatedBy(Long.valueOf(roleId));
         frontendMenuTable.setComponent(sysFrontendDto.getComponent());
-
+        JSONObject routeMeta = sysFrontendDto.getRouteMeta();
+        System.out.println(routeMeta);
+        String jsonStr = JSONObject.toJSONString(routeMeta);
+        System.out.println(jsonStr);
+        frontendMenuTable.setRouteMeta(jsonStr);
         int i = sysFrontendMenuTableService.updateByPrimaryKeySelective(frontendMenuTable);
         //完成插入角色菜单表
         if ( i <=0 ){

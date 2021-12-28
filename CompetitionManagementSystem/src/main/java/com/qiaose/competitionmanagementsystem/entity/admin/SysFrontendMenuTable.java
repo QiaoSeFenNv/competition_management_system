@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -119,13 +123,18 @@ public class SysFrontendMenuTable implements Serializable {
     public static class Meta{
         private String icon;
         private String title;
+        private JSONObject routeMeta;
     }
 
     private Meta meta;
 
+    /**
+     * 元信息
+     */
+    private String routeMeta;
+
 
     private List<SysFrontendMenuTable> children;
-//    private List<SysFrontendDto> children;
 
 
 

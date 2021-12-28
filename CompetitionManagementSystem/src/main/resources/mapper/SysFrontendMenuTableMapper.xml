@@ -21,17 +21,18 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="updated_by" jdbcType="BIGINT" property="updatedBy" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="route_meta" jdbcType="VARCHAR" property="routeMeta" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, `label`, describe_, is_general, `path`, redirect, component, `state`, sort_value, 
-    icon, group_, parent_id, readonly_, created_by, create_time, updated_by, update_time
+    icon, group_, parent_id, readonly_, created_by, create_time, updated_by, update_time,route_meta
   </sql>
 
   <sql id="MY_Column_List">
     <!--@mbg.generated-->
     id, `label`, describe_, `path`, redirect, component,
-    icon, parent_id
+    icon, parent_id,route_meta
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -93,13 +94,13 @@
       component, `state`, sort_value, 
       icon, group_, parent_id, 
       readonly_, created_by, create_time, 
-      updated_by, update_time)
+      updated_by, update_time,route_meta)
     values (#{id,jdbcType=BIGINT}, #{label,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
       #{isGeneral,jdbcType=BIT}, #{path,jdbcType=VARCHAR}, #{redirect,jdbcType=VARCHAR}, 
       #{component,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, #{sortValue,jdbcType=INTEGER}, 
       #{icon,jdbcType=VARCHAR}, #{group,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
       #{readonly,jdbcType=BIT}, #{createdBy,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updatedBy,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP})
+      #{updatedBy,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}),#{routeMeta,jdbcType=VARCHAR}
   </insert>
   <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable">
     <!--@mbg.generated-->
@@ -156,6 +157,9 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="routeMeta != null">
+        route_meta,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -208,6 +212,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="routeMeta != null">
+        #{routeMeta,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -263,6 +270,9 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="routeMeta != null">
+        route_meta = #{routeMeta,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -284,7 +294,8 @@
       created_by = #{createdBy,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       updated_by = #{updatedBy,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      route_meta = #{routeMeta,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

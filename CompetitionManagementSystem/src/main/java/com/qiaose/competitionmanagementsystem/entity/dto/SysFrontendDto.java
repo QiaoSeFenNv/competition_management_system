@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.entity.dto;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 /**
@@ -30,5 +31,7 @@ public class SysFrontendDto{
     private Boolean readOnly;
     //isGeneral
     private Boolean keepAlive;
+
+    private JSONObject routeMeta;
 
 }

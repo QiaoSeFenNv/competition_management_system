@@ -1,5 +1,7 @@
 package com.qiaose.competitionmanagementsystem.service.serviceImpl.adminServiceImpl;
 
+import cn.hutool.json.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 import io.netty.util.internal.StringUtil;
 import org.springframework.stereotype.Service;
@@ -65,14 +67,18 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         //获得父节点对象  1
         SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableMapper.selectByPrimaryKey(id);
         //先判断父类的meta
-        SysFrontendMenuTable.Meta mate = new SysFrontendMenuTable.Meta();
+        SysFrontendMenuTable.Meta meta = new SysFrontendMenuTable.Meta();
         if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getDescribe())) {
-            mate.setTitle(sysFrontendMenuTable.getLabel());
+            meta.setTitle(sysFrontendMenuTable.getLabel());
         }
         if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getIcon())) {
-            mate.setIcon(sysFrontendMenuTable.getIcon());
+            meta.setIcon(sysFrontendMenuTable.getIcon());
         }
-        sysFrontendMenuTable.setMeta(mate);
+        if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getRouteMeta())) {
+            JSONObject jsonObject =JSONObject.parseObject(sysFrontendMenuTable.getRouteMeta());
+            meta.setRouteMeta(jsonObject);
+        }
+        sysFrontendMenuTable.setMeta(meta);
 
         //在去拿子类
         List<SysFrontendMenuTable> children = getChildren(sysFrontendMenuTable);
@@ -100,6 +106,10 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
             }
             if (!StringUtil.isNullOrEmpty(child.getIcon())) {
                 meta.setIcon(child.getIcon());
+            }
+            if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getRouteMeta())) {
+                JSONObject jsonObject =JSONObject.parseObject(sysFrontendMenuTable.getRouteMeta());
+                meta.setRouteMeta(jsonObject);
             }
             child.setMeta(meta);
         }
