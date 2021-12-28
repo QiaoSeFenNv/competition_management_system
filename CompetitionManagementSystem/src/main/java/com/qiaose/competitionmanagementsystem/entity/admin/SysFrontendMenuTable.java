@@ -118,7 +118,7 @@ public class SysFrontendMenuTable implements Serializable {
     @NoArgsConstructor
     public static class Meta{
         private String icon;
-        private String label;
+        private String title;
     }
 
     private Meta meta;
