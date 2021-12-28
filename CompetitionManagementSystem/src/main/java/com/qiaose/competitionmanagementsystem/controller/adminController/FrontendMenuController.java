@@ -53,7 +53,6 @@ public class FrontendMenuController {
                         @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
 
         User user = myUtils.TokenGetUserByName(request);
-//        User user = userService.selectByUserId("182730102");
 
         //实际是角色id
         List<SysRoleUserTable> sysRoleUserTables = sysRoleUserTableService.selectByUserId(user.getUserId());

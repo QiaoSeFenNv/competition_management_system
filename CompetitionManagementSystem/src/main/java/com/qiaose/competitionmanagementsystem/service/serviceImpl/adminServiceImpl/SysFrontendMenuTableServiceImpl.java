@@ -67,7 +67,7 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         //先判断父类的meta
         SysFrontendMenuTable.Meta mate = new SysFrontendMenuTable.Meta();
         if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getDescribe())) {
-            mate.setLabel(sysFrontendMenuTable.getDescribe());
+            mate.setTitle(sysFrontendMenuTable.getLabel());
         }
         if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getIcon())) {
             mate.setIcon(sysFrontendMenuTable.getIcon());
@@ -96,7 +96,7 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         for (SysFrontendMenuTable child : children) {
             SysFrontendMenuTable.Meta meta = new SysFrontendMenuTable.Meta();
             if (!StringUtil.isNullOrEmpty(child.getDescribe())) {
-                meta.setLabel(child.getDescribe());
+                meta.setTitle(child.getLabel());
             }
             if (!StringUtil.isNullOrEmpty(child.getIcon())) {
                 meta.setIcon(child.getIcon());
