@@ -72,11 +72,10 @@ public class FrontendMenuController {
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
         List<Long> idList = new ArrayList<>();
         for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTable) {
-            if (!idList.contains(roleFrontendMenuTable.getAuthorityId())){
-                idList.add(roleFrontendMenuTable.getAuthorityId());
+            SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.selectByPrimaryKey(roleFrontendMenuTable.getAuthorityId());
+            if ( !idList.contains(sysFrontendMenuTable.getId()) && !idList.contains(sysFrontendMenuTable.getParentId())){
+                idList.add(sysFrontendMenuTable.getId());
             }
-//            List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.listWithTree(roleFrontendMenuTable.getAuthorityId());
-//            sysFrontendDtos.addAll(sysFrontendMenuTables);
         }
         for (Long aLong : idList) {
             List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.listWithTree(aLong);
