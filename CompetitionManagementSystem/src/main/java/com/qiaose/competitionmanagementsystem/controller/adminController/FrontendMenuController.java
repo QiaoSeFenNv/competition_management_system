@@ -195,6 +195,7 @@ public class FrontendMenuController {
         List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.selectByAll();
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
 
+        //test
         for (SysFrontendMenuTable frontendMenuTable : sysFrontendMenuTables) {
             //加一个判断，判断表中的父类id是否为0                                                                                             getAuthorityId == front menu id
             if (frontendMenuTable.getParentId() == 0){
