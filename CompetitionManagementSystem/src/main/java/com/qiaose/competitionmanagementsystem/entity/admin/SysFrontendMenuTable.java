@@ -3,6 +3,7 @@ package com.qiaose.competitionmanagementsystem.entity.admin;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
@@ -118,15 +119,15 @@ public class SysFrontendMenuTable implements Serializable {
     private Date updateTime;
 
 
-    @Data
-    @NoArgsConstructor
-    public static class Meta{
-        private String icon;
-        private String title;
-        private JSONObject routeMeta;
-    }
+//    @Data
+//    @NoArgsConstructor
+//    public static class Meta{
+//        private String icon;
+//        private String title;
+//        private JSONObject routeMeta;
+//    }
 
-    private Meta meta;
+    private Map<String,Object> meta;
 
     /**
      * 元信息
