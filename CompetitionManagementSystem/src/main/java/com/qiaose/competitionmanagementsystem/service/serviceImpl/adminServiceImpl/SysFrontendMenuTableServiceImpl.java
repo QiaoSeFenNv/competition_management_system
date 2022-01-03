@@ -69,30 +69,7 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         //获得父节点对象  1
         SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableMapper.selectByPrimaryKey(id);
 //        //先判断父类的meta
-//        SysFrontendMenuTable.Meta meta = new SysFrontendMenuTable.Meta();
-//        if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getDescribe())) {
-//            meta.setTitle(sysFrontendMenuTable.getLabel());
-//        }
-//        if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getIcon())) {
-//            meta.setIcon(sysFrontendMenuTable.getIcon());
-//        }
-//        if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getRouteMeta())) {
-//            JSONObject jsonObject =JSONObject.parseObject(sysFrontendMenuTable.getRouteMeta());
-//            meta.setRouteMeta(jsonObject);
-//        }
-//        sysFrontendMenuTable.setMeta(meta);
-        Map<String, Object> meta = new HashMap<>();
-        if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getLabel())) {
-            meta.put("title",sysFrontendMenuTable.getLabel());
-        }
-        if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getIcon())) {
-            meta.put("icon",sysFrontendMenuTable.getIcon());
-        }
-        if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getRouteMeta())) {
-            JSONObject jsonObject = JSONObject.parseObject(sysFrontendMenuTable.getRouteMeta());
-            meta.putAll(jsonObject);
-        }
-        sysFrontendMenuTable.setMeta(meta);
+        menuTransform(sysFrontendMenuTable);
         //在去拿子类
         List<SysFrontendMenuTable> children = getChildren(sysFrontendMenuTable);
         sysFrontendMenuTable.setChildren(children);
@@ -103,43 +80,39 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
 
     public List<SysFrontendMenuTable> getChildren(SysFrontendMenuTable sysFrontendMenuTable) {
 
-        SysFrontendMenuTable baba = sysFrontendMenuTable;
-
         // 2 3
-        List<SysFrontendMenuTable> children = sysFrontendMenuTableMapper.selectByParentId(baba.getId());
+        List<SysFrontendMenuTable> children = sysFrontendMenuTableMapper.selectByParentId(sysFrontendMenuTable.getId());
         for (SysFrontendMenuTable child : children) {
             List<SysFrontendMenuTable> children1 = getChildren(child);
             child.setChildren(children1);
         }
         // 将getDescribe getIcon 放进mate中
         for (SysFrontendMenuTable child : children) {
-//            SysFrontendMenuTable.Meta meta = new SysFrontendMenuTable.Meta();
-//            if (!StringUtil.isNullOrEmpty(child.getDescribe())) {
-//                meta.setTitle(child.getLabel());
-//            }
-//            if (!StringUtil.isNullOrEmpty(child.getIcon())) {
-//                meta.setIcon(child.getIcon());
-//            }
-//            if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getRouteMeta())) {
-//                JSONObject jsonObject =JSONObject.parseObject(sysFrontendMenuTable.getRouteMeta());
-//                meta.setRouteMeta(jsonObject);
-//            }
-//            child.setMeta(meta);
-            Map<String, Object> meta = new HashMap<>();
-            if (!StringUtil.isNullOrEmpty(child.getDescribe())) {
-                meta.put("label", child.getLabel());
-            }
-            if (!StringUtil.isNullOrEmpty(child.getIcon())) {
-                meta.put("icon", child.getIcon());
-            }
-            if (!StringUtil.isNullOrEmpty(sysFrontendMenuTable.getRouteMeta())) {
-                JSONObject jsonObject = JSONObject.parseObject(sysFrontendMenuTable.getRouteMeta());
-                meta.putAll(jsonObject);
-            }
-            child.setMeta(meta);
+            menuTransform(child);
         }
         return children;
     }
+
+    //Transform menu
+    private void menuTransform(SysFrontendMenuTable item) {
+        Map<String, Object> meta = new HashMap<>();
+        if (!StringUtil.isNullOrEmpty(item.getLabel())) {
+            meta.put("title", item.getLabel());
+        }
+        if (!StringUtil.isNullOrEmpty(item.getIcon())) {
+            meta.put("icon", item.getIcon());
+        }
+        if (!StringUtil.isNullOrEmpty(item.getRouteMeta())) {
+            try {
+                JSONObject jsonObject = JSONObject.parseObject(item.getRouteMeta());
+                meta.putAll(jsonObject);
+            } catch (Exception ignored) {
+            }
+        }
+        item.setName(item.getLabel());
+        item.setMeta(meta);
+    }
+
 
     @Override
     public SysFrontendMenuTable F_DtoToF_Po(SysFrontendDto sysFrontendDto) {

@@ -22,7 +22,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +101,8 @@ public class FrontendMenuController {
     @PostMapping("/insert")
     @ApiOperation(value = "插入菜单信息", notes = "需要前端传入body和请求头")
     @Transactional(rollbackFor = Exception.class)
-    public R InsertFrontMenu(@RequestBody SysFrontendDto sysFrontendDto/*,HttpServletRequest request*/){
-        if(sysFrontendDto.getLabel() == null){
+    public R InsertFrontMenu(@RequestBody SysFrontendDto sysFrontendDto/*,HttpServletRequest request*/) {
+        if (sysFrontendDto.getLabel() == null) {
             return R.failed("填写为空信息");
         }
         //角色号
@@ -119,9 +118,15 @@ public class FrontendMenuController {
         sysFrontendMenuTable.setCreateTime(DateKit.getNow());
         sysFrontendMenuTable.setUpdateTime(DateKit.getNowTime());
         sysFrontendMenuTable.setComponent(sysFrontendDto.getComponent());
-        JSONObject routeMeta = sysFrontendDto.getRouteMeta();
+        JSONObject routeMeta = new JSONObject();
+        String jsonStr = null;
+        try {
+            routeMeta = sysFrontendDto.getRouteMeta();
+            jsonStr = JSONObject.toJSONString(routeMeta);
+        } catch (Exception ignore) {
+        }
+
         System.out.println(routeMeta);
-        String jsonStr = JSONObject.toJSONString(routeMeta);
         System.out.println(jsonStr);
         sysFrontendMenuTable.setRouteMeta(jsonStr);
         //判断path是否重复
@@ -130,7 +135,7 @@ public class FrontendMenuController {
         }
         //完成一次菜单表插入
         int i = sysFrontendMenuTableService.insertSelective(sysFrontendMenuTable);
-        if ( i <=0 ){
+        if (i <= 0) {
             return R.failed("插入失败");
         }
 
@@ -153,10 +158,13 @@ public class FrontendMenuController {
         frontendMenuTable.setUpdateTime(DateKit.getNowTime());
         frontendMenuTable.setUpdatedBy(Long.valueOf(roleId));
         frontendMenuTable.setComponent(sysFrontendDto.getComponent());
-        JSONObject routeMeta = sysFrontendDto.getRouteMeta();
-        System.out.println(routeMeta);
-        String jsonStr = JSONObject.toJSONString(routeMeta);
-        System.out.println(jsonStr);
+        JSONObject routeMeta = new JSONObject();
+        String jsonStr = null;
+        try {
+            routeMeta = sysFrontendDto.getRouteMeta();
+            jsonStr = JSONObject.toJSONString(routeMeta);
+        } catch (Exception ignore) {
+        }
         frontendMenuTable.setRouteMeta(jsonStr);
         int i = sysFrontendMenuTableService.updateByPrimaryKeySelective(frontendMenuTable);
         //完成插入角色菜单表
@@ -175,7 +183,6 @@ public class FrontendMenuController {
         if (sysFrontendDto.getId()==null){
             return R.failed("删除失败,未选择");
         }
-
         int i = sysFrontendMenuTableService.deleteByPrimaryKey(sysFrontendDto.getId());
         //删除前端表，中间表会出现查询空数据，是否对应删除  别删除可能后面要还原
         int j = sysRoleFrontendMenuTableService.deleteByAuthorityId(sysFrontendDto.getId());
