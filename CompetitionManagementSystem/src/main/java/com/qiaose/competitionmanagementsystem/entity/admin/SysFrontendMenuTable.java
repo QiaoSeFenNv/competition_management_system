@@ -119,20 +119,17 @@ public class SysFrontendMenuTable implements Serializable {
     private Date updateTime;
 
 
-//    @Data
-//    @NoArgsConstructor
-//    public static class Meta{
-//        private String icon;
-//        private String title;
-//        private JSONObject routeMeta;
-//    }
-
     private Map<String,Object> meta;
 
     /**
      * 元信息
      */
     private String routeMeta;
+
+    /**
+     * 路由name
+     */
+    private String name;
 
 
     private List<SysFrontendMenuTable> children;

@@ -33,5 +33,4 @@ public class SysFrontendDto{
     private Boolean keepAlive;
 
     private JSONObject routeMeta;
-
 }
