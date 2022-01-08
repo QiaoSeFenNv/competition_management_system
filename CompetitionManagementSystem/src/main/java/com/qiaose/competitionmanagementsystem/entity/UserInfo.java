@@ -71,13 +71,4 @@ public class UserInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
-    public UserInfo(Object [] values) {
-        //学号 姓名
-        this.userId = values[1].toString();
-        this.userName = values[2].toString();
-//        this.deptId = values[3].toString();
-//        this.telephone =values[4].toString();
-//        this.email = values[5].toString();
-    }
 }

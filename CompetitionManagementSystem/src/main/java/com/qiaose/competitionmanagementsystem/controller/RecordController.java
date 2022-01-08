@@ -249,8 +249,9 @@ public class RecordController {
 
         String token = request.getHeader("Authorization");
         System.out.println(token);
-        //
+
         String userId = jwtTokenUtil.getUsernameFromToken(token);
+
 
         List<SysRoleUserTable> sysRoleUserTables = sysRoleUserTableService.selectByUserId(userId);
         List<SysRoleTable> sysRoleTables = new ArrayList<>();
@@ -311,6 +312,8 @@ public class RecordController {
                 competitionRecords.add(  change );
             }
 
+        }else{
+            competitionRecords = competitionRecordService.selectAll();
         }
 
         return  R.ok(competitionRecords);

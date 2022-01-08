@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.api.R;
 
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
@@ -98,7 +99,7 @@ public class UserInfoController {
         SysRoleUserTable sysRoleUserTable = new SysRoleUserTable();
         if (userInfo.getRole() == null){
             //默认为学生
-            sysRoleUserTable.setRoleId("3");
+            sysRoleUserTable.setRoleId("2");
             sysRoleUserTable.setUserId(userInfo.getUserId());
             sysRoleUserTableService.insertSelective(sysRoleUserTable);
         }else{
@@ -111,10 +112,21 @@ public class UserInfoController {
     }
 
     @PostMapping("/insertAll")
-    @ApiOperation(value = "批量插入", notes = "excel表格")
+    @ApiOperation(value = "批量插入", notes = "")
     @Transactional(rollbackFor = Exception.class)
     public R insertAll(@RequestBody JSONArray userList){
 
+        List<UserInfo> userInfoList = userList.toJavaList(UserInfo.class);
+        for (UserInfo userInfo : userInfoList) {
+            //插入数据
+            userInfoService.insertSelective(userInfo);
+            //插入到user表以及绑定角色
+            insertOrgUser(userInfo);
+        }
+//        List<UserInfo> userInfoList = userList.getJSONArray("userInfo").toJavaList(UserInfo.class);
+//        System.out.println(userInfoList);
+//        for (UserInfo userInfo : userInfoList) {
+//        }
 
         return R.ok("插入成功");
     }
