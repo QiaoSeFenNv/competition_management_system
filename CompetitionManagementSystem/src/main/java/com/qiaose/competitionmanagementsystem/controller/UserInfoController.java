@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.api.R;
 
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
@@ -16,12 +17,17 @@ import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -70,18 +76,7 @@ public class UserInfoController {
         }
 
         //从对象中取除 银行和班级对象，然后插入对应表中
-        User user = new User();
-        //名称
-        user.setUserId(userInfo.getUserId());
-        user.setUserPassword(bCryptPasswordEncoderUtil.encode("000000"));
-        int j = userService.insertSelective(user);
-        //绑定角色
-        SysRoleUserTable sysRoleUserTable = new SysRoleUserTable();
-        for (String s : userInfo.getRole()) {
-            sysRoleUserTable.setRoleId(s);
-            sysRoleUserTable.setUserId(userInfo.getUserId());
-            sysRoleUserTableService.insertSelective(sysRoleUserTable);
-        }
+        insertOrgUser(userInfo);
         //插入整个对象
         userInfo.setCreateTime(DateKit.getNow());
 
@@ -93,6 +88,98 @@ public class UserInfoController {
         return R.ok("插入成功");
     }
 
+    public void insertOrgUser(UserInfo userInfo){
+        User user = new User();
+        //名称
+        user.setUserId(userInfo.getUserId());
+        user.setUserPassword(bCryptPasswordEncoderUtil.encode("000000"));
+        int j = userService.insertSelective(user);
+        //绑定角色
+        SysRoleUserTable sysRoleUserTable = new SysRoleUserTable();
+        if (userInfo.getRole() == null){
+            //默认为学生
+            sysRoleUserTable.setRoleId("3");
+            sysRoleUserTable.setUserId(userInfo.getUserId());
+            sysRoleUserTableService.insertSelective(sysRoleUserTable);
+        }else{
+            for (String s : userInfo.getRole()) {
+                sysRoleUserTable.setRoleId(s);
+                sysRoleUserTable.setUserId(userInfo.getUserId());
+                sysRoleUserTableService.insertSelective(sysRoleUserTable);
+            }
+        }
+    }
+
+    @PostMapping("/insertAll")
+    @ApiOperation(value = "批量插入", notes = "excel表格")
+    @Transactional(rollbackFor = Exception.class)
+    public R insertAll(@RequestBody JSONArray userList){
+
+
+        return R.ok("插入成功");
+    }
+
+//    @PostMapping("/insertAll")
+//    @ApiOperation(value = "批量插入", notes = "excel表格")
+//    @Transactional(rollbackFor = Exception.class)
+//    public R insertAll(@RequestParam(name="file")MultipartFile file,@RequestParam String type) {
+//        try {
+//            XSSFWorkbook wb = new XSSFWorkbook(file.getInputStream());
+//
+//            Sheet sheet = wb.getSheetAt(0);
+//
+//            for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
+//                Row row = sheet.getRow(rowNum);//根据索引获取每一个行
+//                Object [] values = new Object[row.getLastCellNum()];
+//                for(int cellNum=1;cellNum< row.getLastCellNum(); cellNum++) {
+//                    Cell cell = row.getCell(cellNum);
+//                    Object value = getCellValue(cell);
+//                    values[cellNum] = value;
+//                }
+//                UserInfo userInfo = new UserInfo(values);
+////                insertOrgUser(userInfo);
+//                userInfo.setCreateTime(DateKit.getNow());
+//                int k = userInfoService.insertSelective(userInfo);
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return R.ok("");
+//    }
+
+//    //格式装换
+//    public static Object getCellValue(Cell cell) {
+//        //1.获取到单元格的属性类型
+//        CellType cellType = cell.getCellType();
+//        //2.根据单元格数据类型获取数据
+//        Object value = null;
+//
+//        switch (cellType) {
+//            case STRING:
+//                value = cell.getStringCellValue();
+//                break;
+//            case BOOLEAN:
+//                value = cell.getBooleanCellValue();
+//                break;
+//            case NUMERIC:
+//                if(DateUtil.isCellDateFormatted(cell)) {
+//                    //日期格式
+//                    value = cell.getDateCellValue();
+//                }else{
+//                    //数字
+//                    value = cell.getNumericCellValue();
+//                    value = value.toString();
+//                }
+//                break;
+//            case FORMULA: //公式
+//                value = cell.getCellFormula();
+//                break;
+//            default:
+//                break;
+//        }
+//        return value;
+//    }
 
     @PostMapping("/updateCurStu")
     @ApiOperation(value = "更新当前学生信息", notes = "携带参数需要携带id")
