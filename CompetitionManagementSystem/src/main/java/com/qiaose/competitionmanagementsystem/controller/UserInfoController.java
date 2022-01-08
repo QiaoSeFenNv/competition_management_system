@@ -111,7 +111,7 @@ public class UserInfoController {
     }
 
     @PostMapping("/insertAll")
-    @ApiOperation(value = "批量插入", notes = "excel表格")
+    @ApiOperation(value = "批量插入", notes = "")
     @Transactional(rollbackFor = Exception.class)
     public R insertAll(@RequestBody JSONArray userList){
 
