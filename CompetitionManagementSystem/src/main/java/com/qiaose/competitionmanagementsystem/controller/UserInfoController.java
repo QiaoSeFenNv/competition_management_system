@@ -131,67 +131,6 @@ public class UserInfoController {
         return R.ok("插入成功");
     }
 
-//    @PostMapping("/insertAll")
-//    @ApiOperation(value = "批量插入", notes = "excel表格")
-//    @Transactional(rollbackFor = Exception.class)
-//    public R insertAll(@RequestParam(name="file")MultipartFile file,@RequestParam String type) {
-//        try {
-//            XSSFWorkbook wb = new XSSFWorkbook(file.getInputStream());
-//
-//            Sheet sheet = wb.getSheetAt(0);
-//
-//            for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
-//                Row row = sheet.getRow(rowNum);//根据索引获取每一个行
-//                Object [] values = new Object[row.getLastCellNum()];
-//                for(int cellNum=1;cellNum< row.getLastCellNum(); cellNum++) {
-//                    Cell cell = row.getCell(cellNum);
-//                    Object value = getCellValue(cell);
-//                    values[cellNum] = value;
-//                }
-//                UserInfo userInfo = new UserInfo(values);
-////                insertOrgUser(userInfo);
-//                userInfo.setCreateTime(DateKit.getNow());
-//                int k = userInfoService.insertSelective(userInfo);
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return R.ok("");
-//    }
-
-//    //格式装换
-//    public static Object getCellValue(Cell cell) {
-//        //1.获取到单元格的属性类型
-//        CellType cellType = cell.getCellType();
-//        //2.根据单元格数据类型获取数据
-//        Object value = null;
-//
-//        switch (cellType) {
-//            case STRING:
-//                value = cell.getStringCellValue();
-//                break;
-//            case BOOLEAN:
-//                value = cell.getBooleanCellValue();
-//                break;
-//            case NUMERIC:
-//                if(DateUtil.isCellDateFormatted(cell)) {
-//                    //日期格式
-//                    value = cell.getDateCellValue();
-//                }else{
-//                    //数字
-//                    value = cell.getNumericCellValue();
-//                    value = value.toString();
-//                }
-//                break;
-//            case FORMULA: //公式
-//                value = cell.getCellFormula();
-//                break;
-//            default:
-//                break;
-//        }
-//        return value;
-//    }
 
     @PostMapping("/updateCurStu")
     @ApiOperation(value = "更新当前学生信息", notes = "携带参数需要携带id")
