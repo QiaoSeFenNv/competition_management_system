@@ -22,9 +22,11 @@ public interface SysFrontendMenuTableMapper {
 
     List<SysFrontendMenuTable> findMenu(@Param("name") String name,@Param("state") Integer state);
 
+
+    List<Long> selectOutId();
+
     int updateByPrimaryKeySelective(SysFrontendMenuTable record);
 
     int updateByPrimaryKey(SysFrontendMenuTable record);
-
 
 }

@@ -22,4 +22,6 @@ public interface CompetitionInfoService{
     List<CompetitionInfo> selectByAll();
 
     List<CompetitionInfo> selectByState(Integer state);
+
+    List<CompetitionInfo> selectByName(String name);
 }

@@ -153,4 +153,9 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         return sysFrontendMenuTableMapper.findMenu(name, state);
     }
 
+    @Override
+    public List<Long> selectOutId() {
+        return sysFrontendMenuTableMapper.selectOutId();
+    }
+
 }

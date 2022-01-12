@@ -49,6 +49,14 @@
     where state =#{state,jdbcType=INTEGER}
   </select>
 
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_info
+    where name like concat('%' ,#{name,jdbcType=VARCHAR}, '%')
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
     delete from competition_info

@@ -54,4 +54,9 @@ public class CompetitionInfoServiceImpl implements CompetitionInfoService{
         return competitionInfoMapper.selectByState(state);
     }
 
+    @Override
+    public List<CompetitionInfo> selectByName(String name) {
+        return competitionInfoMapper.selectByName(name);
+    }
+
 }

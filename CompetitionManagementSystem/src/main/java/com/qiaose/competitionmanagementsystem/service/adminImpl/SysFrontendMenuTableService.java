@@ -34,4 +34,6 @@ public interface SysFrontendMenuTableService{
     List<SysFrontendMenuTable> selectByAll();
 
     List<SysFrontendMenuTable> findMenu(String name, Integer state);
+
+    List<Long> selectOutId();
 }

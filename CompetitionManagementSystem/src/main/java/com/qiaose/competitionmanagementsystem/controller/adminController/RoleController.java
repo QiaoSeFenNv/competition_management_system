@@ -3,9 +3,11 @@ package com.qiaose.competitionmanagementsystem.controller.adminController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
@@ -29,6 +32,9 @@ public class RoleController {
     @Autowired
     SysRoleFrontendMenuTableService sysRoleFrontendMenuTableService;
 
+    @Resource
+    SysFrontendMenuTableService sysFrontendMenuTableService;
+
 
     @GetMapping("/getAllRoles")
     @ApiOperation(value = "返回所有角色", notes = "不需要发送任何请求")
@@ -41,9 +47,12 @@ public class RoleController {
         PageInfo<SysRoleTable> pageInfo = new PageInfo<>(sysRoleTables);
         List<SysRoleTable> list = pageInfo.getList();
 
+        List<Long> frontId = sysFrontendMenuTableService.selectOutId();
+
         //封装起来前端需要
         PageDto pageDto = new PageDto();
         pageDto.setItems(list);
+        pageDto.setExtend(frontId);
         pageDto.setTotal((int) pageInfo.getTotal());
         return R.ok(pageDto);
     }

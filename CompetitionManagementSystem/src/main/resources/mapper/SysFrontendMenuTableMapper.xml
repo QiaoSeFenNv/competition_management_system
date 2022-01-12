@@ -67,6 +67,12 @@
     from sys_frontend_menu_table
   </select>
 
+
+  <select id="selectOutId" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select id from sys_frontend_menu_table
+  </select>
+
   <select id="findMenu"  resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select

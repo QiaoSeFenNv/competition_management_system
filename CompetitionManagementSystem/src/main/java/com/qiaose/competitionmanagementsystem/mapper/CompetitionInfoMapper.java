@@ -18,6 +18,8 @@ public interface CompetitionInfoMapper {
 
     List<CompetitionInfo> selectByState(@Param("state") Integer state);
 
+    List<CompetitionInfo> selectByName(String name);
+
     int updateByPrimaryKeySelective(CompetitionInfo record);
 
     int updateByPrimaryKey(CompetitionInfo record);
