@@ -68,6 +68,7 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
             //redis中的token
             String token = stringRedisTemplate.opsForValue().get("Token"+userId);
 
+            /*提交失败*/
             if (token == null){
                 throw  new ServletException("令牌过期,请重新登录");
             }
