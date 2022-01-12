@@ -57,7 +57,7 @@ public class MyAuthenticationSuccessHandler extends JSONAuthentication implement
             //如果token为空，则去创建一个新的token
             token = jwtTokenUtil.generateToken(userDetails);
             //将新的token存到redis中，并且设置token过期时间
-            stringRedisTemplate.opsForValue().set("Token"+userDetails.getUsername(),token,7, TimeUnit.DAYS);
+            stringRedisTemplate.opsForValue().set("Token"+userDetails.getUsername(),token,1, TimeUnit.SECONDS);
         }
 
         //前端菜单获取放在api里了
