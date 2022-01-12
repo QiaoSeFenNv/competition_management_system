@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysRoleDto;
@@ -33,7 +34,7 @@ public class RoleController {
     SysRoleFrontendMenuTableService sysRoleFrontendMenuTableService;
 
     @Resource
-    SysFrontendMenuTableService sysFrontendMenuTableService;
+    SysRoleFrontendMenuTableService SysRoleFrontendMenuTableService;
 
 
     @GetMapping("/getAllRoles")
@@ -43,16 +44,19 @@ public class RoleController {
     ) {
         PageHelper.startPage(page,pageSize);
         List<SysRoleTable> sysRoleTables = sysRoleTableService.selectAll();
+        sysRoleTables.forEach(sysRoleTable->{
+            List<Long>  FrontendMenuId= sysRoleFrontendMenuTableService.selectOutRoleId(sysRoleTable.getRoleId());
+            sysRoleTable.setMenu(FrontendMenuId);
+        });
+
 
         PageInfo<SysRoleTable> pageInfo = new PageInfo<>(sysRoleTables);
         List<SysRoleTable> list = pageInfo.getList();
 
-        List<Long> frontId = sysFrontendMenuTableService.selectOutId();
 
         //封装起来前端需要
         PageDto pageDto = new PageDto();
         pageDto.setItems(list);
-        pageDto.setExtend(frontId);
         pageDto.setTotal((int) pageInfo.getTotal());
         return R.ok(pageDto);
     }

@@ -75,4 +75,9 @@ public class SysRoleFrontendMenuTableServiceImpl implements SysRoleFrontendMenuT
         return sysRoleFrontendMenuTableMapper.deleteByAuthorityId(id);
     }
 
+    @Override
+    public List<Long> selectOutRoleId(String roleId) {
+        return sysRoleFrontendMenuTableMapper.selectOutRoleId(roleId);
+    }
+
 }

@@ -28,4 +28,6 @@ public interface SysRoleFrontendMenuTableService{
     int deleteByRoleId(String roleId);
 
     int deleteByAuthorityId(Long id);
+
+    List<Long> selectOutRoleId(String roleId);
 }

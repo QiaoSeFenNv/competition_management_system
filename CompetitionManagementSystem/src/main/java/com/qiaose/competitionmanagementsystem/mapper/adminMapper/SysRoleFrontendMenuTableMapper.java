@@ -19,6 +19,8 @@ public interface SysRoleFrontendMenuTableMapper {
 
     List<SysRoleFrontendMenuTable> selectByRoleId(String roleId);
 
+    List<Long> selectOutRoleId(String roleId);
+
     int updateByPrimaryKeySelective(SysRoleFrontendMenuTable record);
 
     int updateByPrimaryKey(SysRoleFrontendMenuTable record);
