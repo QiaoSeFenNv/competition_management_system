@@ -64,14 +64,7 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
         if (!StringUtil.isNullOrEmpty(headerToken)) {
             //前端传来的token
             String olDToken = headerToken.replace("Bearer", "").trim();
-            String userId = jwtTokenUtil.getUsernameFromToken(olDToken);
-            //redis中的token
-            String token = stringRedisTemplate.opsForValue().get("Token"+userId);
 
-            /*提交失败*/
-            if (token == null){
-                throw  new ServletException("令牌过期,请重新登录");
-            }
             //判断令牌是否过期，默认是一周
             //比较好的解决方案是：
             //登录成功获得token后，将token存储到数据库（redis）
@@ -89,7 +82,7 @@ public class MyOncePerRequestFilter extends OncePerRequestFilter {
 
             if (!check){
 
-//                String userId = jwtTokenUtil.getUsernameFromToken(olDToken);
+                String userId = jwtTokenUtil.getUsernameFromToken(olDToken);
                 System.out.println("username = " + userId);
 
                 //判断用户不为空，且SecurityContextHolder授权信息还是空的
