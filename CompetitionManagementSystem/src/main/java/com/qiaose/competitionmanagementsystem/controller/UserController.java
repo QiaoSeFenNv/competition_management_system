@@ -110,9 +110,16 @@ public class UserController {
 
 
         String token = request.getHeader("Authorization");
+
         System.out.println(token);
         //
         String username = jwtTokenUtil.getUsernameFromToken(token);
+
+        String s = stringRedisTemplate.opsForValue().get("Token" + username);
+        if (s == null){
+            return R.failed("token 失效");
+        }
+
         User user = userService.selectByUserId(username);
         UserDto userDto = UserDto.builder()
                 .avatar(user.getUserAvatarurl())
