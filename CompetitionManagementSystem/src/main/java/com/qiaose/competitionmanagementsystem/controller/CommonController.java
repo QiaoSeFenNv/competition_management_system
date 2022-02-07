@@ -36,7 +36,7 @@ public class CommonController {
     SchedulerMail schedulerMail;
 
     @GetMapping("/sendCode")
-    @ApiOperation(value = "发送二维码",notes = "需要输入邮箱地址")
+    @ApiOperation(value = "发送验证码",notes = "需要输入邮箱地址")
     public R sendCode(@RequestParam @Email String email){
 
         RandomGenerator randomGenerator = new RandomGenerator(6);

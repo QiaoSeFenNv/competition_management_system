@@ -101,13 +101,12 @@ public class FrontendMenuController {
     @PostMapping("/insert")
     @ApiOperation(value = "插入菜单信息", notes = "需要前端传入body和请求头")
     @Transactional(rollbackFor = Exception.class)
-    public R InsertFrontMenu(@RequestBody SysFrontendDto sysFrontendDto/*,HttpServletRequest request*/) {
+    public R InsertFrontMenu(@RequestBody SysFrontendDto sysFrontendDto,HttpServletRequest request) {
         if (sysFrontendDto.getLabel() == null) {
             return R.failed("填写为空信息");
         }
         //角色号
-//        User user = myUtils.TokenGetUserByName(request);
-        User user = userService.selectByUserId("182730102");
+        User user = myUtils.TokenGetUserByName(request);
         String roleId = user.getUserId();
         //数据插入菜单表
         SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.F_DtoToF_Po(sysFrontendDto);
