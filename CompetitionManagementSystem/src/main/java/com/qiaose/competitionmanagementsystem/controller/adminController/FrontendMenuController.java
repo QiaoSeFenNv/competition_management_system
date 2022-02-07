@@ -24,7 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @Api(value = "前台菜单接口")
@@ -39,6 +41,8 @@ public class FrontendMenuController {
 
     @Autowired
     SysRoleUserTableService sysRoleUserTableService;
+
+
     
     @Autowired
     UserService userService;
@@ -92,8 +96,21 @@ public class FrontendMenuController {
 
 
     @GetMapping("/getPermCode")
-    public R getPermCode(){
-        return R.ok(1);
+    public R getPermCode(HttpServletRequest request){
+//        User user = myUtils.TokenGetUserByName(request);
+//        String userId = user.getUserId();
+        String userId = "182730102";
+        //实际是角色id
+        List<SysRoleUserTable> sysRoleUserTables = sysRoleUserTableService.selectByUserId(userId);
+        Set<Long> permList = new HashSet<>();
+        //根据PERM与type查询对应的数据
+        for (SysRoleUserTable sysRoleUserTable : sysRoleUserTables) {
+            List<Long>  list= sysRoleFrontendMenuTableService.selectByRoleAndType(sysRoleUserTable.getRoleId(),"PERM");
+            permList.addAll(list);
+        }
+
+
+        return R.ok(permList);
     }
 
 

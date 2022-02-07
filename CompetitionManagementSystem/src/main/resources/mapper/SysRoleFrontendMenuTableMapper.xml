@@ -31,11 +31,13 @@
     where role_id = #{roleId,jdbcType=VARCHAR}
   </select>
 
-  <select id="selectOutRoleId" parameterType="java.lang.String" resultType="java.lang.Long">
+  <select id="selectByRoleAndType" parameterType="java.lang.String" resultType="java.lang.Long">
     <!--@mbg.generated-->
     select authority_id
+    <include refid="Base_Column_List" />
     from sys_role_frontend_menu_table
     where role_id = #{roleId,jdbcType=VARCHAR}
+    and authority_type = #{perm,jdbcType=VARCHAR}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

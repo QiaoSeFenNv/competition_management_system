@@ -52,12 +52,17 @@ public class SysRoleFrontendMenuTableServiceImpl implements SysRoleFrontendMenuT
 
 
     @Override
-    public int insertRoleMenu(String roleId, Long menu) {
+    public int insertRoleMenu(String roleId, Long menu,String type) {
         SysRoleFrontendMenuTable sysRoleFrontendMenuTable = new SysRoleFrontendMenuTable();
 
         sysRoleFrontendMenuTable.setId(IDUtils.CreateId());
         sysRoleFrontendMenuTable.setAuthorityId(menu);
-        sysRoleFrontendMenuTable.setAuthorityType("MENU");
+        if (type.equals("MENU")){
+            sysRoleFrontendMenuTable.setAuthorityType("MENU");
+        }
+        if (type.equals("PERM")){
+            sysRoleFrontendMenuTable.setAuthorityType("PERM");
+        }
         sysRoleFrontendMenuTable.setRoleId(roleId);
 
         int i = sysRoleFrontendMenuTableMapper.insertSelective(sysRoleFrontendMenuTable);
@@ -76,8 +81,8 @@ public class SysRoleFrontendMenuTableServiceImpl implements SysRoleFrontendMenuT
     }
 
     @Override
-    public List<Long> selectOutRoleId(String roleId) {
-        return sysRoleFrontendMenuTableMapper.selectOutRoleId(roleId);
+    public List<Long> selectByRoleAndType(String roleId, String perm) {
+        return sysRoleFrontendMenuTableMapper.selectByRoleAndType(roleId,perm);
     }
 
 }

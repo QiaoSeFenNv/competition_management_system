@@ -23,11 +23,11 @@ public interface SysRoleFrontendMenuTableService{
 
 
 
-    int insertRoleMenu(String roleId, Long menu);
+    int insertRoleMenu(String roleId, Long menu,String type);
 
     int deleteByRoleId(String roleId);
 
     int deleteByAuthorityId(Long id);
 
-    List<Long> selectOutRoleId(String roleId);
+    List<Long> selectByRoleAndType(String roleId, String perm);
 }

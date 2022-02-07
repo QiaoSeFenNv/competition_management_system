@@ -33,6 +33,8 @@ public class SysRoleTable implements Serializable {
     @TableField(exist = false)
     private List<Long> menu;
 
+    @TableField(exist = false)
+    private List<Long> perm;
     
 
     private static final long serialVersionUID = 1L;

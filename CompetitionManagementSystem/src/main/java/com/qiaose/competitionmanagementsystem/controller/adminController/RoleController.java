@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -45,8 +46,18 @@ public class RoleController {
         PageHelper.startPage(page,pageSize);
         List<SysRoleTable> sysRoleTables = sysRoleTableService.selectAll();
         sysRoleTables.forEach(sysRoleTable->{
-            List<Long>  FrontendMenuId= sysRoleFrontendMenuTableService.selectOutRoleId(sysRoleTable.getRoleId());
-            sysRoleTable.setMenu(FrontendMenuId);
+            List<SysRoleFrontendMenuTable> list = sysRoleFrontendMenuTableService.selectByRoleId(sysRoleTable.getRoleId());
+            List<Long> menuList = new ArrayList<>();
+            List<Long> permList = new ArrayList<>();
+            list.forEach(v->{
+                if (v.getAuthorityType().equals("MENU")) {
+                    menuList.add(v.getId());
+                }else if (v.getAuthorityType().equals("PERM")){
+                    permList.add(v.getId());
+                }
+            });
+            sysRoleTable.setMenu(menuList);
+            sysRoleTable.setPerm(permList);
         });
 
 
@@ -83,7 +94,7 @@ public class RoleController {
 
 
     @PostMapping("/InsertOrUpdate")
-    @ApiOperation(value = "插入或者一条角色信息,与绑定前端菜单", notes = "如果传递的数据中携带id则会更新否则插入,也可用选择不带菜单id,则就会插入角色")
+    @ApiOperation(value = "插入或者更新一条角色信息,与绑定前端菜单", notes = "如果传递的数据中携带id则会更新否则插入,也可用选择不带菜单id,则就会插入角色")
     @Transactional(rollbackFor = Exception.class)
     public R InsertAndUpdate(@RequestBody SysRoleDto sysRoleDto) {
         SysRoleTable sysRoleTable = sysRoleTableService.R_PoToDto(sysRoleDto);
@@ -91,16 +102,23 @@ public class RoleController {
         if (sysRoleDto.getRoleId()!=null){
             //更新
             int i = sysRoleTableService.updateByPrimaryKeySelective(sysRoleTable);
-            if (sysRoleDto.getMenu() == null){
-                return R.ok("");
-            }
+
             RoleId = sysRoleTable.getRoleId();
             //更新就删除roleId相关的数据，再插入
             int q = sysRoleFrontendMenuTableService.deleteByRoleId(RoleId);
-            for (Long menu : sysRoleDto.getMenu()) {
-                sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,menu);
+
+            if (sysRoleDto.getMenu() != null ){
+                for (Long menu : sysRoleDto.getMenu()) {
+
+                    sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,menu,"MEUN");
+                }
             }
 
+            if (sysRoleDto.getPerm() != null ){
+                for (Long perm : sysRoleDto.getPerm()) {
+                    sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,perm,"PERM");
+                }
+            }
 
         }else{
             //插入
@@ -108,12 +126,19 @@ public class RoleController {
             sysRoleTable.setRoleId(RoleId);
 
             int i = sysRoleTableService.insertSelective(sysRoleTable);
-            if (sysRoleDto.getMenu() == null){
-                return R.ok("");
+            if (sysRoleDto.getMenu() != null ){
+                for (Long menu : sysRoleDto.getMenu()) {
+
+                    sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,menu,"MEUN");
+                }
             }
-            for (Long menu : sysRoleDto.getMenu()) {
-                int j = sysRoleFrontendMenuTableService.insertRoleMenu(RoleId, menu);
+
+            if (sysRoleDto.getPerm() != null ){
+                for (Long perm : sysRoleDto.getPerm()) {
+                    sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,perm,"PERM");
+                }
             }
+
         }
 
         return R.ok("插入成功");
