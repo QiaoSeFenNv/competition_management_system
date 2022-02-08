@@ -54,6 +54,7 @@ public class TodoController {
             return R.failed("用户信息错误,请重新登录");
         }
 
+
         List<CompetitionTodo> competitionTodo = competitionTodoService.selectByApplicantId(user.getUserId());
 
         return R.ok(competitionTodo);

@@ -61,5 +61,9 @@ public class CompetitionTodo implements Serializable {
     */
     private Date completeTime;
 
+    private String todoAdvice;
+
     private static final long serialVersionUID = 1L;
+
+
 }

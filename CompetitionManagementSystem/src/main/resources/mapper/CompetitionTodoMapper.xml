@@ -9,13 +9,14 @@
     <result column="applicant_id" jdbcType="VARCHAR" property="applicantId" />
     <result column="applicant_name" jdbcType="VARCHAR" property="applicantName" />
     <result column="todo_status" jdbcType="TINYINT" property="todoStatus" />
+    <result column="todo_advice" jdbcType="VARCHAR" property="todoAdvice"/>
     <result column="todo_type" jdbcType="VARCHAR" property="todoType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="complete_time" jdbcType="TIMESTAMP" property="completeTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    todo_id, approval_id, applicant_id, applicant_name,todo_status, todo_type, create_time, complete_time
+    todo_id, approval_id, applicant_id, applicant_name,todo_status,todo_advice ,todo_type, create_time, complete_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -52,10 +53,10 @@
   <insert id="insert" keyColumn="todo_id" keyProperty="todoId" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionTodo" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into competition_todo (approval_id, applicant_id, applicant_name,todo_status,
-      todo_type, create_time, complete_time
+    todo_advice, todo_type, create_time, complete_time
       )
     values (#{approvalId,jdbcType=BIGINT}, #{applicantId,jdbcType=VARCHAR},
-    #{applicantName,jdbcType=VARCHAR},  #{todoStatus,jdbcType=TINYINT},
+    #{applicantName,jdbcType=VARCHAR},  #{todoStatus,jdbcType=TINYINT},#{todoAdvice,jdbcType=VARCHAR},
       #{todoType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{completeTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -76,6 +77,9 @@
       </if>
       <if test="todoStatus != null">
         todo_status,
+      </if>
+      <if test="todoAdvice != null">
+        todo_advice,
       </if>
       <if test="todoType != null">
         todo_type,
@@ -99,6 +103,9 @@
       </if>
       <if test="todoStatus != null">
         #{todoStatus,jdbcType=TINYINT},
+      </if>
+      <if test="todoAdvice != null">
+        #{todoAdvice,jdbcType=VARCHAR},
       </if>
       <if test="todoType != null">
         #{todoType,jdbcType=VARCHAR},
@@ -127,6 +134,9 @@
       <if test="todoStatus != null">
         todo_status = #{todoStatus,jdbcType=TINYINT},
       </if>
+      <if test="todoAdvice != null">
+        todo_advice = #{todoAdvice,jdbcType=VARCHAR},
+      </if>
       <if test="todoType != null">
         todo_type = #{todoType,jdbcType=VARCHAR},
       </if>
@@ -146,6 +156,7 @@
       applicant_id = #{applicantId,jdbcType=VARCHAR},
       applicant_name = #{applicantName,jdbcType=VARCHAR},
       todo_status = #{todoStatus,jdbcType=TINYINT},
+      todo_advice = #{todoAdvice,jdbcType=VARCHAR},
       todo_type = #{todoType,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       complete_time = #{completeTime,jdbcType=TIMESTAMP}

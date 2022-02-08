@@ -12,6 +12,7 @@ import com.qiaose.competitionmanagementsystem.service.*;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -133,6 +134,11 @@ public class ApprovalController {
         //获得当前的事务对象
         CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(todoId);
 
+        //可选是否填写意见信息放置todo对象中
+        if (!StringUtils.isEmpty(sysApproval.getAdvice())) {
+            competitionTodo.setTodoAdvice(sysApproval.getAdvice());
+        }
+
         //获得当前的申请内容
         CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
         //获得当前流程
@@ -237,7 +243,7 @@ public class ApprovalController {
         //修改状态为驳回
         competitionApproval.setApprovalStatus((byte)2);
         //填写拒绝原因
-        competitionApproval.setRejectReson(sysApproval.getCompetitionApproval().getRejectReson());
+        competitionApproval.setRejectReson(sysApproval.getAdvice());
         //更新申请表内容
         competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
         //修改每个事务表的状态
@@ -247,6 +253,11 @@ public class ApprovalController {
             competitionTodoService.updateByPrimaryKeySelective(Todo);
         }
 
+        //可选是否填写意见信息放置todo对象中
+        if (!StringUtils.isEmpty(sysApproval.getAdvice())) {
+            competitionTodo.setTodoAdvice(sysApproval.getAdvice());
+        }
+        competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
 //        UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
 //        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
 //                "  发送的比赛记录申请请求操作" +
