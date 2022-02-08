@@ -137,6 +137,8 @@ public class ApprovalController {
         //可选是否填写意见信息放置todo对象中
         if (!StringUtils.isEmpty(sysApproval.getAdvice())) {
             competitionTodo.setTodoAdvice(sysApproval.getAdvice());
+            competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
+            competitionTodo.setTodoAdvice("");
         }
 
         //获得当前的申请内容
@@ -163,6 +165,7 @@ public class ApprovalController {
             competitionProgram.setState((byte)1);
             competitionProgram.setComplete(DateKit.getNow());
             competitionProgramService.updateByPrimaryKeySelective(competitionProgram);
+
 
             List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(competitionApproval.getApprovalId());
             for (CompetitionTodo Todo : competitionTodos) {
@@ -205,7 +208,7 @@ public class ApprovalController {
         competitionApproval.setProcessId(competitionProcessOld.getNextId());
         competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
 
-        //插入一条todo表
+        //插入下一条todo表
         competitionTodo.setApplicantId(applicantId);
         competitionTodoService.insertSelective(competitionTodo);
 
