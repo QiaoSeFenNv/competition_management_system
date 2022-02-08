@@ -69,7 +69,7 @@ public class BonusController {
 
 
     @GetMapping("/insertApproval")
-    @ApiOperation(value = "第二页",notes = "请求头、那个结算比赛id")
+    @ApiOperation(value = "第二页",notes = "请求头,结算比赛id")
     @Transactional(rollbackFor = {Exception.class})
     public R insertApproval(HttpServletRequest request,Long infoId){
         String token = request.getHeader("Authorization");

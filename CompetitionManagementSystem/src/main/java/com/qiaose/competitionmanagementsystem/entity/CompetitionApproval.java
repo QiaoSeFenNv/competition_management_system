@@ -45,6 +45,7 @@ public class CompetitionApproval implements Serializable {
     /**
     * 审判驳回理由
     */
+    @JsonIgnore
     private String rejectReson;
 
     /**

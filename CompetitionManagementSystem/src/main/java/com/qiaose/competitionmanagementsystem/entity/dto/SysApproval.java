@@ -25,6 +25,7 @@ public class SysApproval<T> implements Serializable {
     @JsonIgnore
     private List<CompetitionProgram> competitionProgram;
 
+    private String advice;
 
     private static final long serialVersionUID = 1L;
 }

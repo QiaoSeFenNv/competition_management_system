@@ -165,11 +165,11 @@ public class ApprovalController {
                 competitionTodoService.updateByPrimaryKeySelective(Todo);
             }
             //获得学生的学号
-            UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
-            String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
-                    "  发送的比赛记录申请请求操作" +
-                    ",同意该学生的申请！";
-            schedulerMail.toMail(userInfo.getEmail(),mailText);
+//            UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
+//            String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
+//                    "  发送的比赛记录申请请求操作" +
+//                    ",同意该学生的申请！";
+//            schedulerMail.toMail(userInfo.getEmail(),mailText);
             return R.ok("");
         }
 
@@ -204,11 +204,11 @@ public class ApprovalController {
         competitionTodoService.insertSelective(competitionTodo);
 
 
-        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
-                "  发送的比赛记录申请请求操作" +
-                ",请登录【竞赛管理系统】今早进行操作,谢谢！";
-        UserInfo teacher = userInfoService.selectByWorkId(applicantId);
-        schedulerMail.toMail(teacher.getEmail(),mailText);
+//        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
+//                "  发送的比赛记录申请请求操作" +
+//                ",请登录【竞赛管理系统】尽早进行操作,谢谢！";
+//        UserInfo teacher = userInfoService.selectByWorkId(applicantId);
+//        schedulerMail.toMail(teacher.getEmail(),mailText);
 
         return R.ok("");
     }
@@ -247,11 +247,11 @@ public class ApprovalController {
             competitionTodoService.updateByPrimaryKeySelective(Todo);
         }
 
-        UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
-        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
-                "  发送的比赛记录申请请求操作" +
-                ",拒绝该学生的申请！理由如下"+"【"+competitionApproval.getRejectReson()+"】";
-        schedulerMail.toMail(userInfo.getEmail(),mailText);
+//        UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
+//        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
+//                "  发送的比赛记录申请请求操作" +
+//                ",拒绝该学生的申请！理由如下"+"【"+competitionApproval.getRejectReson()+"】";
+//        schedulerMail.toMail(userInfo.getEmail(),mailText);
 
         return R.ok("");
     }
