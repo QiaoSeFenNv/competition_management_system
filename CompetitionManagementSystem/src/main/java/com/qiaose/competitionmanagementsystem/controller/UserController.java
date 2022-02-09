@@ -115,10 +115,10 @@ public class UserController {
         //
         String username = jwtTokenUtil.getUsernameFromToken(token);
 
-        String s = stringRedisTemplate.opsForValue().get("Token" + username);
-        if (s == null){
-            return R.failed("token 失效");
-        }
+//        String s = stringRedisTemplate.opsForValue().get("Token" + username);
+//        if (s == null){
+//            return R.failed("token 失效");
+//        }
 
         User user = userService.selectByUserId(username);
         UserDto userDto = UserDto.builder()
