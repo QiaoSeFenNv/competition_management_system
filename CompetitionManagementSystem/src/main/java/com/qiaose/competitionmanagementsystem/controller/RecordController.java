@@ -11,7 +11,9 @@ import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
 import com.qiaose.competitionmanagementsystem.entity.*;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
+import com.qiaose.competitionmanagementsystem.entity.dto.AllContDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
+import com.qiaose.competitionmanagementsystem.entity.dto.RecordDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysApproval;
 import com.qiaose.competitionmanagementsystem.service.*;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
@@ -20,6 +22,9 @@ import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import com.qiaose.competitionmanagementsystem.service.serviceImpl.CompetitionProgramServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Slf4j
 @RestController
 @Api("比赛记录接口")
 @RequestMapping("/record")
@@ -67,6 +73,8 @@ public class RecordController {
     @Resource
     SysRoleTableService sysRoleTableService;
 
+    @Resource
+    CompetitionRewardService competitionRewardService;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -181,7 +189,7 @@ public class RecordController {
 
     public void createComProgram(CompetitionApproval competitionApproval,UserInfo userInfo){
 
-        System.out.println("----------------进来测试了-------------");
+        log.info("----------------进来测试了-------------");
         //获得当前得流程  流程一
         CompetitionProcess process = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
         //将三个流程都创建一个进度
@@ -239,6 +247,59 @@ public class RecordController {
     }
 
 
+    @GetMapping("/getCurAward")
+    @ApiOperation(value = "查询当前用户获奖信息",notes = "请求头")
+    @Transactional(rollbackFor = {Exception.class})
+    public R getAwardInfo(HttpServletRequest request){
+
+        String token = request.getHeader("Authorization");
+        System.out.println(token);
+
+        String userId = jwtTokenUtil.getUsernameFromToken(token);
+
+
+        ArrayList<RecordDto> recordDtos = new ArrayList<>();
+
+        List<CompetitionApproval> competitionApprovals = competitionApprovalService.selectByApplicantId(userId);
+        for (CompetitionApproval competitionApproval : competitionApprovals) {
+            CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid()));
+
+            recordDtos.add(
+                    RecordDto.builder()
+                            .reward_level(
+                                    competitionRewardService.selectByPrimaryKey(change.getRecordRewardId()).getRewardLevel())
+                            .comp_id(Long.valueOf(change.getRecordCompetitionId()))
+                            .relate_approval(competitionApproval.getApprovalId())
+                            .user_id(change.getRecordWinningStudent())
+                            .build());
+        }
+
+        return R.ok(recordDtos);
+    }
+
+    @GetMapping("/getAwardInfo")
+    @ApiOperation(value = "查询学生获奖信息",notes = "输入学号查询")
+    @Transactional(rollbackFor = {Exception.class})
+    public R getAwardInfo(@RequestParam String userId){
+
+        ArrayList<RecordDto> recordDtos = new ArrayList<>();
+
+        List<CompetitionApproval> competitionApprovals = competitionApprovalService.selectByApplicantId(userId);
+        for (CompetitionApproval competitionApproval : competitionApprovals) {
+            CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid()));
+
+            recordDtos.add(
+                    RecordDto.builder()
+                            .reward_level(
+                                    competitionRewardService.selectByPrimaryKey(change.getRecordRewardId()).getRewardLevel())
+                            .comp_id(Long.valueOf(change.getRecordCompetitionId()))
+                            .relate_approval(competitionApproval.getApprovalId())
+                            .user_id(change.getRecordWinningStudent())
+                            .build());
+        }
+
+        return R.ok(recordDtos);
+    }
 
 
 
