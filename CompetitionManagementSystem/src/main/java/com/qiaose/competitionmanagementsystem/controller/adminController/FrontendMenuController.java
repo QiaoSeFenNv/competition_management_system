@@ -97,9 +97,9 @@ public class FrontendMenuController {
 
     @GetMapping("/getPermCode")
     public R getPermCode(HttpServletRequest request){
-//        User user = myUtils.TokenGetUserByName(request);
-//        String userId = user.getUserId();
-        String userId = "182730102";
+        User user = myUtils.TokenGetUserByName(request);
+        String userId = user.getUserId();
+//        String userId = "182730102";
         //实际是角色id
         List<SysRoleUserTable> sysRoleUserTables = sysRoleUserTableService.selectByUserId(userId);
         Set<Long> permList = new HashSet<>();

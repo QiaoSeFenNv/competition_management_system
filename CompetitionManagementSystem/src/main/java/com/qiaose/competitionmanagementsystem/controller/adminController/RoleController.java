@@ -51,9 +51,9 @@ public class RoleController {
             List<Long> permList = new ArrayList<>();
             list.forEach(v->{
                 if (v.getAuthorityType().equals("MENU")) {
-                    menuList.add(v.getId());
+                    menuList.add(v.getAuthorityId());
                 }else if (v.getAuthorityType().equals("PERM")){
-                    permList.add(v.getId());
+                    permList.add(v.getAuthorityId());
                 }
             });
             sysRoleTable.setMenu(menuList);
