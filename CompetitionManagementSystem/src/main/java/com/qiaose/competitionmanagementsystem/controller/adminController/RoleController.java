@@ -110,7 +110,7 @@ public class RoleController {
             if (sysRoleDto.getMenu() != null ){
                 for (Long menu : sysRoleDto.getMenu()) {
 
-                    sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,menu,"MEUN");
+                    sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,menu,"MENU");
                 }
             }
 
