@@ -114,12 +114,6 @@ public class UserController {
         System.out.println(token);
         //
         String username = jwtTokenUtil.getUsernameFromToken(token);
-
-//        String s = stringRedisTemplate.opsForValue().get("Token" + username);
-//        if (s == null){
-//            return R.failed("token 失效");
-//        }
-
         User user = userService.selectByUserId(username);
         UserInfo userInfo = userInfoService.selectByWorkId(username);
         UserDto userDto = UserDto.builder()
@@ -127,8 +121,9 @@ public class UserController {
                 .token(token)
                 .userId(user.getUserId())
                 .userName(userInfo.getUserName())
+                .email(userInfo.getEmail())
+                .phone(userInfo.getTelephone())
                 .build();
-
         userDto.setToken(token);
         List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByUserId(user.getUserId());
         List<SysRoleTable> sysRoleTables = new ArrayList<>();
@@ -149,6 +144,25 @@ public class UserController {
     }
 
 
+    @GetMapping("/updateUserInfo")
+    @ApiOperation(value="查询自己的用户信息", notes="由前端请求头中获取token,在利用token获得用户信息")
+    public R updateUserInfo(HttpServletRequest request,@RequestParam String phone,@RequestParam String email){
+
+
+        String token = request.getHeader("Authorization");
+
+        System.out.println(token);
+        //
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+
+        UserInfo userInfo = userInfoService.selectByWorkId(username);
+        userInfo.setEmail(email);
+        userInfo.setTelephone(phone);
+
+        int i = userInfoService.updateByPrimaryKeySelective(userInfo);
+
+        return R.ok("更新成功");
+    }
 
 
     @PostMapping("/changePas")
