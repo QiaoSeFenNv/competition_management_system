@@ -15,6 +15,7 @@ public class UserDto {
     String avatar;
     String token;
     List roles;
+    String userName;
 
 
 }

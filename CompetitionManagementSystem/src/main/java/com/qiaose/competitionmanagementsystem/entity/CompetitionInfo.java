@@ -92,5 +92,7 @@ public class CompetitionInfo implements Serializable {
     @JsonIgnore
     private Date updateTime;
 
+    private Integer dutyDepartment;
+
     private static final long serialVersionUID = 1L;
 }

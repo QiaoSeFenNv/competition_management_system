@@ -121,10 +121,12 @@ public class UserController {
 //        }
 
         User user = userService.selectByUserId(username);
+        UserInfo userInfo = userInfoService.selectByWorkId(username);
         UserDto userDto = UserDto.builder()
                 .avatar(user.getUserAvatarurl())
                 .token(token)
                 .userId(user.getUserId())
+                .userName(userInfo.getUserName())
                 .build();
 
         userDto.setToken(token);

@@ -62,6 +62,15 @@ public class CollegeInfoController {
 
     }
 
+    @GetMapping("/getSecondDeptInfo")
+    @ApiOperation(value="查询所有二级部门", notes="显示所有部门")
+    public R getAllDeptInfo() {
+
+        List<CollegeInfo> collegeInfos = collegeInfoService.selectByParentId(29L);
+        return  R.ok(collegeInfos);
+
+    }
+
 
     /**
      * 查询二级学院对应的学生信息
