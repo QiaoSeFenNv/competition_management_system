@@ -9,6 +9,7 @@ import com.qiaose.competitionmanagementsystem.entity.*;
 import com.qiaose.competitionmanagementsystem.service.*;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
+import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -110,8 +111,8 @@ public class BonusController {
         }
 
         //以下流程部分
-        Snowflake snowflake = IdUtil.getSnowflake();
-        long approvalId = snowflake.nextId();
+
+        Long approvalId = IDUtils.CreateId();
         /*
          * 这里开始不同
          * */

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -76,10 +77,6 @@ public class TaleUtils {
     }
 
 
-
-    public static void main(String[] args) {
-        System.out.println(getUplodFilePath());
-    }
 
 }
 

@@ -14,6 +14,8 @@ public interface CompetitionApprovalMapper {
 
     CompetitionApproval selectByPrimaryKey(Long approvalId);
 
+    Long selectByRecordId(Long recordId);
+
     List<CompetitionApproval> selectByApplicantId(@Param("userId") String userId);
 
     int updateByPrimaryKeySelective(CompetitionApproval record);

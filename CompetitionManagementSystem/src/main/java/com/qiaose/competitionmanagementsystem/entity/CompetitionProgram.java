@@ -3,6 +3,8 @@ package com.qiaose.competitionmanagementsystem.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Builder;
 import lombok.Data;
 
@@ -44,6 +46,11 @@ public class CompetitionProgram implements Serializable {
      * 负责人id
      */
     private String userId;
+
+    /**
+     * 备注
+     */
+    private String advice;
 
     private static final long serialVersionUID = 1L;
 }

@@ -72,4 +72,9 @@ public class CompetitionApprovalServiceImpl implements CompetitionApprovalServic
         return competitionApprovalMapper.selectByApplicantId(userId);
     }
 
+    @Override
+    public Long selectByRecordId(Long recordId) {
+        return competitionApprovalMapper.selectByRecordId(recordId);
+    }
+
 }

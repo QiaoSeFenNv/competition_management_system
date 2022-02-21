@@ -22,6 +22,8 @@ public class SysApproval<T> implements Serializable {
 
     private T Content;
 
+    private Byte TodoState;
+
     @JsonIgnore
     private List<CompetitionProgram> competitionProgram;
 

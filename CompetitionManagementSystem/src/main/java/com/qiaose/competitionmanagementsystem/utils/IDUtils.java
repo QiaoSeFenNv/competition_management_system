@@ -1,6 +1,9 @@
 package com.qiaose.competitionmanagementsystem.utils;
 
+import cn.hutool.core.lang.ObjectId;
+import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.lang.UUID;
+import cn.hutool.core.util.IdUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigInteger;
@@ -49,7 +52,7 @@ public class IDUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(getUUIDInOrderId());
+
     }
 
 }

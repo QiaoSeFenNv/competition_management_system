@@ -11,10 +11,11 @@
     <result column="approval_id" jdbcType="BIGINT" property="approvalId" />
     <result column="complete" jdbcType="DATE" property="complete" />
     <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+    <result column="advice" jdbcType="VARCHAR" property="advice"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `state`, auditor, stepName, approval_id,complete,user_id
+    id, `state`, auditor, stepName, approval_id,complete,user_id,advice
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -58,13 +59,15 @@
     delete from competition_program
     where id = #{id,jdbcType=BIGINT}
   </delete>
+
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionProgram" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into competition_program (`state`, auditor, stepName, 
-      approval_id,complete,user_id)
+      approval_id,complete,user_id,advice)
     values (#{state,jdbcType=TINYINT}, #{auditor,jdbcType=VARCHAR}, #{stepname,jdbcType=VARCHAR}, 
-      #{approvalId,jdbcType=BIGINT},#{complete,jdbcType=DATE}),#{userId,jdbcType=VARCHAR}
+      #{approvalId,jdbcType=BIGINT},#{complete,jdbcType=DATE}),#{userId,jdbcType=VARCHAR},#{advice,jdbcType=VARCHAR}
   </insert>
+
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionProgram" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into competition_program
@@ -87,6 +90,9 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="advice != null">
+        advice,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="state != null">
@@ -106,6 +112,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="advice != null">
+        #{advice,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -131,6 +140,9 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
+      <if test="advice != null">
+        advice = #{advice,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -142,7 +154,8 @@
       stepName = #{stepname,jdbcType=VARCHAR},
       approval_id = #{approvalId,jdbcType=BIGINT},
       compelete = #{complete,jdbcType=DATE},
-      user_id = #{userId,jdbcType=VARCHAR}
+      user_id = #{userId,jdbcType=VARCHAR},
+      advice = #{advice,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

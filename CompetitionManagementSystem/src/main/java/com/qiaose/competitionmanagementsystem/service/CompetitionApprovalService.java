@@ -23,4 +23,6 @@ public interface CompetitionApprovalService{
     CompetitionApproval SendApproval(Long approvalId, Long contentId, UserInfo userInfo, Long processId) ;
 
     List<CompetitionApproval> selectByApplicantId(String userId);
+
+    Long selectByRecordId(Long recordId);
 }

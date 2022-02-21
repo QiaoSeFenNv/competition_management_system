@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
+import cn.hutool.Hutool;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
@@ -15,11 +16,13 @@ import com.qiaose.competitionmanagementsystem.entity.dto.AllContDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.RecordDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysApproval;
+import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.service.*;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
 import com.qiaose.competitionmanagementsystem.service.serviceImpl.CompetitionProgramServiceImpl;
+import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -91,10 +94,8 @@ public class RecordController {
     @ApiOperation(value = "插入一条申请信息",notes = "需要传入一个对象（对象封装两个小对象）")
     @Transactional(rollbackFor = {Exception.class})
     public R insertApproval(HttpServletRequest request, @RequestBody CompetitionRecord competitionRecord){
-
         //从token中拿到账号 拿到具体的对象信息
         String token = request.getHeader("Authorization");
-        System.out.println(token);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userService.selectByUserId(username);
         UserInfo userInfo = userInfoService.selectByWorkId(user.getUserId());
@@ -103,9 +104,7 @@ public class RecordController {
         List<SysRoleTable> sysRoleTables = new ArrayList<>();
         for (SysRoleUserTable roleUserTable : sysRoleUserTable) {
             List<SysRoleTable> sysRoleTables1 = sysRoleTableService.selectByPrimaryKey(roleUserTable.getRoleId());
-            for (SysRoleTable sysRoleTable : sysRoleTables1) {
-                sysRoleTables.add(sysRoleTable);
-            }
+            sysRoleTables.addAll(sysRoleTables1);
         }
         Boolean flag = false;
         for (SysRoleTable sysRoleTable : sysRoleTables) {
@@ -116,20 +115,18 @@ public class RecordController {
                 break;
             }
         }
-        System.out.println(flag);
+
         if (!flag){
-            throw new RuntimeException("只有学生可以申请比赛记录");
+            return R.failed("只有学生可以申请比赛记录");
         }
 
+        Long recordId = IDUtils.CreateId();
 
-        Snowflake snowflake = IdUtil.getSnowflake();
-        long recordId = snowflake.nextId();
-        long approvalId = snowflake.nextId();
+        Long approvalId = IDUtils.CreateId();
         /*
         * 这里开始不同
         * */
         //生成long类型的id.插入到对应对象中
-
         CompetitionRecord Record = changeInsert(competitionRecord);
         //record表写进数据库
         Record.setRecordId(recordId);
@@ -146,12 +143,12 @@ public class RecordController {
         int j = competitionRecordService.insertSelective(Record);
 
 
-        //插入完毕需要注意todo表也会立刻生一条相关数据,因此也需要插入到todo中  这调是发起者的
+        //插入完毕需要注意todo表也会立刻生一条相关数据,因此也需要插入到todo中  这条是发起者的
         CompetitionTodo competitionTodo = CompetitionTodo.builder()
                 .applicantId(user.getUserId())     //拥有者
                 .applicantName(userInfo.getUserName())
                 .approvalId(approvalId)     //申请表id
-                .todoStatus((byte) 0)       //状态
+                .todoStatus(TodoStateEnum.IN_PROGRESS.getCode())       //状态
                 .todoType("比赛记录申请")     //写死的类型
                 .createTime(DateUtil.date())       //创建时间
                 .build();
@@ -174,8 +171,14 @@ public class RecordController {
         int q = competitionTodoService.insertSelective(competitionTodo);
 
 
-        //生成进度内容
+        //生成进度内容 默认进度条 状态未未开始
         createComProgram(competitionApproval,userInfo);
+
+        CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(applicantId,competitionApproval.getApprovalId());
+        //修改第一个流程表为进行中
+        competitionProgram.setState(TodoStateEnum.IN_PROGRESS.getCode());
+        competitionProgramService.updateByPrimaryKeySelective(competitionProgram);
+
         //发送邮件到辅导员,通知他操作申请
 //        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
 //                "  发送的比赛记录申请请求操作" +
@@ -208,10 +211,9 @@ public class RecordController {
 
             temp = userInfoService.selectByWorkId(applicantId);
 
-            System.out.println(userInfo);
             CompetitionProgram competitionProgram = CompetitionProgram.builder()
                     .approvalId(competitionApproval.getApprovalId())
-                    .state((byte)3)
+                    .state(TodoStateEnum.NOT_START.getCode())
                     .stepname(process.getApproverName())
                     .auditor(temp.getUserName())
                     .userId(temp.getUserId())
@@ -234,7 +236,7 @@ public class RecordController {
 
             CompetitionProgram competitionProgram = CompetitionProgram.builder()
                     .approvalId(competitionApproval.getApprovalId())
-                    .state((byte)3)
+                    .state(TodoStateEnum.NOT_START.getCode())
                     .stepname(process.getApproverName())
                     .auditor(temp.getUserName())
                     .userId(temp.getUserId())
@@ -306,7 +308,7 @@ public class RecordController {
     @GetMapping("/getAllRecord")
     @ApiOperation(value = "查询比赛申请记录",notes = "请求头")
     @Transactional(rollbackFor = {Exception.class})
-    public R getAllRecord(HttpServletRequest request){
+    public R<List<CompetitionRecord>> getAllRecord(HttpServletRequest request){
 
         String token = request.getHeader("Authorization");
         System.out.println(token);
@@ -338,20 +340,20 @@ public class RecordController {
             }
         }
 
-
         //共有属性
         List<CompetitionRecord> competitionRecords = new ArrayList<>();
 
         //管理员 看全部
         if (flag ==1){
             List<CompetitionRecord> competitionRecords1 = competitionRecordService.selectAll();
+
             for (CompetitionRecord competitionRecord : competitionRecords1) {
                 competitionRecords.add( changeShow(competitionRecord));
             }
         }else if (flag ==2){
             //老师看自己的学生
             List<UserInfo> userInfos = new ArrayList<>();
-           List<CollegeInfo> collegeInfoList = collegeInfoService.selectDutyId(userId);
+            List<CollegeInfo> collegeInfoList = collegeInfoService.selectDutyId(userId);
             for (CollegeInfo collegeInfo : collegeInfoList) {
                 Integer id = collegeInfo.getId();
                  userInfos.addAll(userInfoService.selectByDeptId(id + ""));
@@ -372,7 +374,6 @@ public class RecordController {
                 CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid()));
                 competitionRecords.add(  change );
             }
-
         }else{
             competitionRecords = competitionRecordService.selectAll();
         }
@@ -422,11 +423,15 @@ public class RecordController {
     @Transactional(rollbackFor = {Exception.class})
     public R deleteRecord(@RequestBody CompetitionRecord competitionRecord){
 
-        int i = competitionRecordService.deleteByPrimaryKey(competitionRecord.getRecordId());
-
-        if (i<=0) {
-            return R.failed("");
-        }
+        //0 未开始  1进行中  2完成
+        //删除记录表 但不删除 之改变状态   todoState 1进行  2完成  3关闭    5182841218799544
+        Long approvalId = competitionApprovalService.selectByRecordId(competitionRecord.getRecordId());
+        System.out.println(approvalId);
+        List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(approvalId);
+        competitionTodos.forEach(competitionTodo->{
+            competitionTodo.setTodoStatus(TodoStateEnum.CLOSE.getCode());
+            competitionTodoService.updateByPrimaryKey(competitionTodo);
+        });
         return R.ok("");
     }
 

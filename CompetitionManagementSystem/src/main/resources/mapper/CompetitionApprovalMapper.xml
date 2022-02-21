@@ -20,9 +20,18 @@
     approval_id, applicant_id, applicant_name, applicant_contentId, approval_status, 
     process_id, reject_reson, complete_time, create_time, update_time
   </sql>
+  <select id="selectByRecordId" parameterType="java.lang.Long" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select approval_id
+    <include refid="Base_Column_List" />
+    from competition_approval
+    where applicant_contentId = #{recordId,jdbcType=BIGINT}
+  </select>
+
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from competition_approval
     where approval_id = #{approvalId,jdbcType=BIGINT}

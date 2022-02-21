@@ -1,13 +1,13 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.lang.Snowflake;
-import cn.hutool.core.util.IdUtil;
+
+
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
 import com.qiaose.competitionmanagementsystem.entity.*;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysApproval;
+import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.service.*;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import io.swagger.annotations.Api;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @Api("用户申请表")
@@ -77,6 +78,7 @@ public class ApprovalController {
         if (competitionTodo == null) {
             return R.failed("无事项内容");
         }
+        sysApproval.setTodoState(competitionTodo.getTodoStatus());
         //根据查询出来的事务信息 查询申请表
         CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
         //将申请表内容注入到sysApproval对象
@@ -93,7 +95,7 @@ public class ApprovalController {
             String recordWinningStudent = competitionRecord.getRecordWinningStudent();
             //用数组接收
             competitionRecord.setRecordWinningStudent(
-                    userInfoService.selectByWorkId(recordWinningStudent).getUserName());
+                    userInfoService.selectByWorkId(recordWinningStudent).getUserId());
             //将数组放入返回体中
             //返回数组类型的upload
             if (competitionRecord.getRecordUpload()!=null){
@@ -134,23 +136,17 @@ public class ApprovalController {
         //获得当前的事务对象
         CompetitionTodo competitionTodo = competitionTodoService.selectByPrimaryKey(todoId);
 
-        //可选是否填写意见信息放置todo对象中
-        if (!StringUtils.isEmpty(sysApproval.getAdvice())) {
-            competitionTodo.setTodoAdvice(sysApproval.getAdvice());
-            competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
-            competitionTodo.setTodoAdvice("");
-        }
+
 
         //获得当前的申请内容
         CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo.getApprovalId());
         //获得当前流程
         CompetitionProcess competitionProcessOld = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
 
-
         //如果下一个编号为空则结束
-        if (competitionProcessOld.getNextId() == null && competitionTodo.getTodoStatus() == (byte)0){
+        if (competitionProcessOld.getNextId() == null && Objects.equals(competitionTodo.getTodoStatus(), TodoStateEnum.IN_PROGRESS.getCode())){
             //修改申请表的状态为同意 0执行中 1为同意  2拒绝
-            competitionApproval.setApprovalStatus((byte)1);
+            competitionApproval.setApprovalStatus(TodoStateEnum.AGREE.getCode());
             //更新申请表的状态
             competitionApprovalService.updateByPrimaryKeySelective(competitionApproval);
             //连带事务表的中关于这个申请的状态也发生改变  根据申请表id来
@@ -159,13 +155,12 @@ public class ApprovalController {
             CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(competitionTodo.getApplicantId(),
                     //申请id
                     competitionApproval.getApprovalId());
-            if(competitionProgram.getState() == (byte)2 || competitionProgram.getState() == (byte)1){
-                throw new RuntimeException("状态已同意或结束");
+            if(competitionProgram.getState().equals(TodoStateEnum.FINISH.getCode())){
+                return R.failed("状态已同意或结束");
             }
-            competitionProgram.setState((byte)1);
+            competitionProgram.setState(TodoStateEnum.FINISH.getCode());
             competitionProgram.setComplete(DateKit.getNow());
             competitionProgramService.updateByPrimaryKeySelective(competitionProgram);
-
 
             List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(competitionApproval.getApprovalId());
             for (CompetitionTodo Todo : competitionTodos) {
@@ -182,16 +177,20 @@ public class ApprovalController {
             return R.ok("");
         }
 
-        //根据事务表上得所有者进行更新 0---执行中 1--同意 2---拒绝 3--未开始
+        //根据用户和申请id获取
         CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(competitionTodo.getApplicantId(),
                 competitionTodo.getApprovalId());
 
-        if(competitionProgram.getState() == (byte)2 || competitionProgram.getState() == (byte)1){
-            throw new RuntimeException("状态已同意或结束");
+        //如果是流程进度状态是完成 状态再次点击就不可执行
+        if(competitionProgram.getState().equals(TodoStateEnum.FINISH.getCode())){
+            return R.failed("重复执行");
         }
 
-        System.out.println(competitionProgram);
-        competitionProgram.setState((byte)1);
+        competitionProgram.setState(TodoStateEnum.FINISH.getCode());
+        //可选是否填写意见信息放置todo对象中
+        if (!StringUtils.isEmpty(sysApproval.getAdvice())) {
+            competitionProgram.setAdvice(sysApproval.getAdvice());
+        }
         competitionProgramService.updateByPrimaryKeySelective(competitionProgram);
 
         UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
@@ -203,6 +202,9 @@ public class ApprovalController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //更新状态为同意
+        competitionTodo.setTodoStatus(TodoStateEnum.AGREE.getCode());
+        competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
 
         //更新表的下一个审批者
         competitionApproval.setProcessId(competitionProcessOld.getNextId());
@@ -210,9 +212,15 @@ public class ApprovalController {
 
         //插入下一条todo表
         competitionTodo.setApplicantId(applicantId);
+        //设置下一个todo表的状态 改为进行中
+        competitionTodo.setTodoStatus(TodoStateEnum.IN_PROGRESS.getCode());
         competitionTodoService.insertSelective(competitionTodo);
 
-
+        //更新下一个节点为进行中
+        CompetitionProgram program = competitionProgramService.selectUserIdAndApproval(applicantId,
+                competitionTodo.getApprovalId());
+        program.setState(TodoStateEnum.IN_PROGRESS.getCode());
+        competitionProgramService.updateByPrimaryKeySelective(program);
 //        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
 //                "  发送的比赛记录申请请求操作" +
 //                ",请登录【竞赛管理系统】尽早进行操作,谢谢！";
@@ -236,15 +244,19 @@ public class ApprovalController {
         CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(competitionTodo.getApplicantId(),
                 competitionTodo.getApprovalId());
 
-        if(competitionProgram.getState() == (byte)2 || competitionProgram.getState() == (byte)1){
-            throw new RuntimeException("状态已同意或结束");
+        if(competitionProgram.getState().equals(TodoStateEnum.DISAGREE.getCode())){
+            return R.failed("重复执行");
         }
-        competitionProgram.setState((byte)2);
+        //可选是否填写意见信息放置todo对象中
+        if (!StringUtils.isEmpty(sysApproval.getAdvice())) {
+            competitionProgram.setAdvice(sysApproval.getAdvice());
+        }
+        competitionProgram.setState(TodoStateEnum.DISAGREE.getCode());
         competitionProgram.setComplete(DateKit.getNow());
         competitionProgramService.updateByPrimaryKeySelective(competitionProgram);
 
         //修改状态为驳回
-        competitionApproval.setApprovalStatus((byte)2);
+        competitionApproval.setApprovalStatus(TodoStateEnum.DISAGREE.getCode());
         //填写拒绝原因
         competitionApproval.setRejectReson(sysApproval.getAdvice());
         //更新申请表内容
@@ -256,10 +268,8 @@ public class ApprovalController {
             competitionTodoService.updateByPrimaryKeySelective(Todo);
         }
 
-        //可选是否填写意见信息放置todo对象中
-        if (!StringUtils.isEmpty(sysApproval.getAdvice())) {
-            competitionTodo.setTodoAdvice(sysApproval.getAdvice());
-        }
+
+        competitionTodo.setTodoStatus(TodoStateEnum.DISAGREE.getCode());
         competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
 //        UserInfo userInfo = userInfoService.selectByWorkId(competitionApproval.getApplicantId());
 //        String mailText = "【竞赛管理系统】 申请通知:  "+userInfo.getUserName()+
