@@ -133,6 +133,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/todo/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/excelController/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/excelController/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/awardRecord/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/awardRecord/**").permitAll()
                 //动态加载资源
 
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");

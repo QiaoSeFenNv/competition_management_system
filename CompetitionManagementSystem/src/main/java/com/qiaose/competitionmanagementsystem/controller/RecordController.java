@@ -1,45 +1,34 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
-import cn.hutool.Hutool;
+
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.lang.Snowflake;
-import cn.hutool.core.util.IdUtil;
+
 import com.baomidou.mybatisplus.extension.api.R;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
 import com.qiaose.competitionmanagementsystem.entity.*;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
-import com.qiaose.competitionmanagementsystem.entity.dto.AllContDto;
-import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
-import com.qiaose.competitionmanagementsystem.entity.dto.RecordDto;
-import com.qiaose.competitionmanagementsystem.entity.dto.SysApproval;
+
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.service.*;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
-import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
-import com.qiaose.competitionmanagementsystem.service.serviceImpl.CompetitionProgramServiceImpl;
+
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 
 @Slf4j
@@ -75,9 +64,6 @@ public class RecordController {
 
     @Resource
     SysRoleTableService sysRoleTableService;
-
-    @Resource
-    CompetitionRewardService competitionRewardService;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -249,62 +235,6 @@ public class RecordController {
     }
 
 
-    @GetMapping("/getCurAward")
-    @ApiOperation(value = "查询当前用户获奖信息",notes = "请求头")
-    @Transactional(rollbackFor = {Exception.class})
-    public R getAwardInfo(HttpServletRequest request){
-
-        String token = request.getHeader("Authorization");
-        System.out.println(token);
-
-        String userId = jwtTokenUtil.getUsernameFromToken(token);
-
-
-        ArrayList<RecordDto> recordDtos = new ArrayList<>();
-
-        List<CompetitionApproval> competitionApprovals = competitionApprovalService.selectByApplicantId(userId);
-        for (CompetitionApproval competitionApproval : competitionApprovals) {
-            CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid()));
-
-            recordDtos.add(
-                    RecordDto.builder()
-                            .reward_level(
-                                    competitionRewardService.selectByPrimaryKey(change.getRecordRewardId()).getRewardLevel())
-                            .comp_id(Long.valueOf(change.getRecordCompetitionId()))
-                            .relate_approval(competitionApproval.getApprovalId())
-                            .user_id(change.getRecordWinningStudent())
-                            .build());
-        }
-
-        return R.ok(recordDtos);
-    }
-
-    @GetMapping("/getAwardInfo")
-    @ApiOperation(value = "查询学生获奖信息",notes = "输入学号查询")
-    @Transactional(rollbackFor = {Exception.class})
-    public R getAwardInfo(@RequestParam String userId){
-
-        ArrayList<RecordDto> recordDtos = new ArrayList<>();
-
-        List<CompetitionApproval> competitionApprovals = competitionApprovalService.selectByApplicantId(userId);
-        for (CompetitionApproval competitionApproval : competitionApprovals) {
-            CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid()));
-
-            recordDtos.add(
-                    RecordDto.builder()
-                            .reward_level(
-                                    competitionRewardService.selectByPrimaryKey(change.getRecordRewardId()).getRewardLevel())
-                            .comp_id(Long.valueOf(change.getRecordCompetitionId()))
-                            .relate_approval(competitionApproval.getApprovalId())
-                            .user_id(change.getRecordWinningStudent())
-                            .build());
-        }
-
-        return R.ok(recordDtos);
-    }
-
-
-
     @GetMapping("/getAllRecord")
     @ApiOperation(value = "查询比赛申请记录",notes = "请求头")
     @Transactional(rollbackFor = {Exception.class})
@@ -404,9 +334,7 @@ public class RecordController {
     public R insertRecord(@RequestBody CompetitionRecord competitionRecord){
         CompetitionRecord competitionRecord1 = changeInsert(competitionRecord);
 
-        Snowflake snowflake = IdUtil.getSnowflake();
-        long recordId = snowflake.nextId();
-
+        Long recordId = IDUtils.CreateId();
         competitionRecord1.setRecordId(recordId);
 
         int i = competitionRecordService.insertSelective(competitionRecord1);
