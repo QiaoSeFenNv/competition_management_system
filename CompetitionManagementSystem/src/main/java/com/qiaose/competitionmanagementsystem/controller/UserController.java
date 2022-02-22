@@ -220,12 +220,4 @@ public class UserController {
 
 
 
-
-    @GetMapping("/exceptionTest2")
-
-    public boolean update( @NotBlank(message = "name 不能为空") String name) {
-        System.out.println("开始更新...");
-        return true;
-    }
-
 }

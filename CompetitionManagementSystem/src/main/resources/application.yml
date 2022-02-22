@@ -1,10 +1,11 @@
 logging:
-    config: classpath:logback-dev.xml
     level:
         com:
             qiaose:
                 competitionmanagementsystem:
                     mapper: debug
+    config:
+        classpath: logback-dev.xml
 
 
 mybatis:
