@@ -14,6 +14,7 @@ import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysChangePass;
 import com.qiaose.competitionmanagementsystem.entity.dto.UserDto;
+import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
@@ -29,10 +30,13 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
+import javax.validation.groups.Default;
 
 import java.util.*;
 
@@ -41,6 +45,7 @@ import java.util.*;
 @RestController
 @Api(value = "用户接口")
 @RequestMapping("/user")
+@Validated
 public class UserController {
 
 
@@ -211,6 +216,16 @@ public class UserController {
         stringRedisTemplate.delete(sysChangePass.getEmail());
         
         return R.ok("");
+    }
+
+
+
+
+    @GetMapping("/exceptionTest2")
+
+    public boolean update( @NotBlank(message = "name 不能为空") String name) {
+        System.out.println("开始更新...");
+        return true;
     }
 
 }
