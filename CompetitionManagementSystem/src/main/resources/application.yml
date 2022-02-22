@@ -42,7 +42,7 @@ spring:
                 min-idle: 0
         password: rFmZmcXd%npZ8^0ts
         port: 6379
-        timeout: 800
+        timeout: 5000
     servlet:
         multipart:
             enabled: true
