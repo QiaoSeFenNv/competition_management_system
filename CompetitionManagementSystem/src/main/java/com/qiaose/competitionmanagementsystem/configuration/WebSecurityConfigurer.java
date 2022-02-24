@@ -91,50 +91,79 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/login").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/files/**").permitAll()
+                //一下都是测试开发接口
                 .antMatchers(HttpMethod.POST,"/student/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/student/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/college/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/college/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/front/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/front/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/user/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/userInfo/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/userInfo/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/role/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/role/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/slideshow/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/slideshow/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/content/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/content/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/credit/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/credit/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/reward/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/reward/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/organize/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/organize/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/record/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/record/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/common/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/common/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/approval/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/approval/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/competition/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/competition/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/bonus/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/bonus/**").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/bonus/**").permitAll()                .antMatchers(HttpMethod.GET,"/price/**").permitAll()
+                .antMatchers(HttpMethod.PUT,"/bonus/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/apply/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/apply/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/counseling/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/counseling/**").permitAll()
+
                 .antMatchers(HttpMethod.GET,"/button/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/button/**").permitAll()
+
                 .antMatchers(HttpMethod.GET,"/todo/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/todo/**").permitAll()
+
                 .antMatchers(HttpMethod.GET,"/excelController/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/excelController/**").permitAll()
+
                 .antMatchers(HttpMethod.GET,"/awardRecord/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/awardRecord/**").permitAll()
+
+                .antMatchers(HttpMethod.POST,"/price/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/price/**").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/price/**").permitAll()                .antMatchers(HttpMethod.GET,"/price/**").permitAll()
+                .antMatchers(HttpMethod.PUT,"/price/**").permitAll()
                 //动态加载资源
 
                 .anyRequest().access("@dynamicPermission.checkPermisstion(request,authentication)");

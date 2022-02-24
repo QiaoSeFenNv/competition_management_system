@@ -44,6 +44,7 @@ public class BackendApiController {
     @GetMapping("/getCurApi")
     @ApiOperation(value="返回当前角色的权限接口",notes="这个是在框架中体现，每一个用户进来，直接封锁")
     public R getCurBackApi(){
+
         return R.ok("冲冲冲，这也太简单了吧");
     }
 

@@ -1,3 +1,5 @@
+tax: 50
+
 logging:
     level:
         com:
@@ -58,6 +60,9 @@ spring:
                 smtp:
                     ssl:
                         enable: true
+
+
+
 
 
 

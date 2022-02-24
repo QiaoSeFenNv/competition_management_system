@@ -1,20 +1,8 @@
 package com.qiaose.competitionmanagementsystem.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionBonus;
-import org.apache.ibatis.annotations.Param;
 
-public interface CompetitionBonusMapper {
-    int deleteByPrimaryKey(Long id);
+public interface CompetitionBonusMapper extends BaseMapper<CompetitionBonus> {
 
-    int insert(CompetitionBonus record);
-
-    int insertSelective(CompetitionBonus record);
-
-    CompetitionBonus selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(CompetitionBonus record);
-
-    int updateByPrimaryKey(CompetitionBonus record);
-
-    CompetitionBonus selectByUserIdAndInfoId(@Param("infoId") Long infoId,@Param("userId") String userId);
 }
