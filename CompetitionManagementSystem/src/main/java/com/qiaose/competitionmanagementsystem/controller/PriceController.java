@@ -73,9 +73,6 @@ public class PriceController {
     @Transactional(rollbackFor = {Exception.class})
     public R addPrice(@RequestBody CompetitionPrice competitionPrice) {
         iCompetitionPriceService.save(competitionPrice);
-
-
-
         return R.ok("");
     }
 
@@ -92,6 +89,9 @@ public class PriceController {
     @Transactional(rollbackFor = {Exception.class})
     public R sendPrice(@RequestBody List<Integer> ids) {
         List<CompetitionPrice> competitionPrices = iCompetitionPriceService.listByIds(ids);
+        if (competitionPrices.isEmpty()){
+            return R.ok("无该数据");
+        }
         //生成一条奖项表
         competitionPrices.forEach(this::createBonus);
         return R.ok("");

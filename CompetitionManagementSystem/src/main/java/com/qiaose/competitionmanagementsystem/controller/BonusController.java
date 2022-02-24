@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -35,10 +36,10 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @Api("比赛名称接口")
+@Validated
 @RequestMapping("/bonus")
+
 public class BonusController {
-    @Resource
-    ICompetitionPriceService iCompetitionPriceService;
 
     @Resource
     ICompetitionBonusService iCompetitionBonusService;
@@ -85,10 +86,13 @@ public class BonusController {
     @PutMapping("/updateBonus")
     @ApiOperation(value = "学生填写获奖信息的其他信息", notes = "奖金默认不填，通过接口获取金额")
     @Transactional(rollbackFor = {Exception.class})
-    public R updateBonus(@RequestBody CompetitionBonus competitionBonus) {
+    public R updateBonus(@RequestBody  @Validated(CompetitionBonus.SecurityData.class)CompetitionBonus competitionBonus) {
         if (competitionBonus!=null) {
             //如果状态为已完成时则不可修改
             CompetitionBonus byId = iCompetitionBonusService.getById(competitionBonus.getId());
+            if (byId == null) {
+                return R.ok("无该数据");
+            }
             if (Objects.equals(byId.getState(), TodoStateEnum.FINISH.getCode())) {
                 return R.failed("已完成不可修改");
             }
@@ -105,9 +109,13 @@ public class BonusController {
     @Transactional(rollbackFor = {Exception.class})
     public R sureBonus(@RequestBody List<Integer> ids) {
         List<CompetitionBonus> competitionBonuses = iCompetitionBonusService.listByIds(ids);
+        if (competitionBonuses.isEmpty()) {
+            return R.ok("无该数据");
+        }
         competitionBonuses.forEach(competitionBonus -> {
             competitionBonus.setState(TodoStateEnum.FINISH.getCode());
         });
+        iCompetitionBonusService.updateBatchById(competitionBonuses);
         return R.ok("");
     }
 
