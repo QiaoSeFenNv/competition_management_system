@@ -1,21 +1,16 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.R;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionAward;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionAwardName;
+import com.qiaose.competitionmanagementsystem.entity.CompetitionInfo;
 import com.qiaose.competitionmanagementsystem.entity.dto.CompetitionAwardDto;
 import com.qiaose.competitionmanagementsystem.enums.RecordTypeEnum;
-import com.qiaose.competitionmanagementsystem.service.ICompetitionAwardNameService;
-import com.qiaose.competitionmanagementsystem.service.ICompetitionAwardService;
-import com.qiaose.competitionmanagementsystem.service.UserService;
+import com.qiaose.competitionmanagementsystem.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +36,15 @@ public class AwardRecordController {
     @Resource
     ICompetitionAwardNameService iCompetitionAwardNameService;
 
+    @Resource
+    CompetitionInfoService competitionInfoService;
+
+    @Resource
+    CompetitionOrganizerService competitionOrganizerService;
+
+    @Resource
+    CompetitionRewardService competitionRewardService;
+
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -61,7 +65,8 @@ public class AwardRecordController {
         queryWrapper1.eq("user_id",userId);
         QueryWrapper<CompetitionAwardName> queryWrapper2 = new QueryWrapper<>();
         queryWrapper1.eq("user_id",userId);
-        List<CompetitionAward> competitionAwards = iCompetitionAwardService.list(queryWrapper1);
+        //添加额外字段
+        List<CompetitionAward> competitionAwards = addFiles(iCompetitionAwardService.list(queryWrapper1));
         List<CompetitionAwardName> competitionAwardNames = iCompetitionAwardNameService.list(queryWrapper2);
         competitionAwardDto.setCompetitionAwardList(competitionAwards);
         competitionAwardDto.setCompetitionAwardNameList(competitionAwardNames);
@@ -78,7 +83,8 @@ public class AwardRecordController {
         queryWrapper1.eq("user_id",userId);
         QueryWrapper<CompetitionAwardName> queryWrapper2 = new QueryWrapper<>();
         queryWrapper1.eq("user_id",userId);
-        List<CompetitionAward> competitionAwards = iCompetitionAwardService.list(queryWrapper1);
+        //添加字段
+        List<CompetitionAward> competitionAwards = addFiles(iCompetitionAwardService.list(queryWrapper1));
         List<CompetitionAwardName> competitionAwardNames = iCompetitionAwardNameService.list(queryWrapper2);
         competitionAwardDto.setCompetitionAwardList(competitionAwards);
         competitionAwardDto.setCompetitionAwardNameList(competitionAwardNames);
@@ -141,5 +147,19 @@ public class AwardRecordController {
             return R.failed("只能删除手动导入信息");
         }
         return R.ok("");
+    }
+
+
+    public List<CompetitionAward>  addFiles(List<CompetitionAward> competitionAwards){
+        competitionAwards.forEach(v->{
+            CompetitionInfo competitionInfo = competitionInfoService.selectByPrimaryKey(v.getCompId());
+            if (competitionInfo != null) {
+                v.setCompName(competitionInfo.getName());
+                v.setOrganizeName(
+                        competitionOrganizerService.selectByPrimaryKey(competitionInfo.getOrganizerId()).getOrganizeName());
+                v.setRewardLevelName(competitionRewardService.selectByPrimaryKey(v.getRewardLevel()).getRewardLevel());
+            }
+        });
+        return competitionAwards;
     }
 }

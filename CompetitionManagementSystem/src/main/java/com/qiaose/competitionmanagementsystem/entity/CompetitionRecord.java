@@ -2,6 +2,7 @@ package com.qiaose.competitionmanagementsystem.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -118,6 +119,8 @@ public class CompetitionRecord implements Serializable {
 
     @TableField(exist = false)
     private Long todoId;
+
+    private List<CompetitionProgram> competitionProgramList;
 
 
 

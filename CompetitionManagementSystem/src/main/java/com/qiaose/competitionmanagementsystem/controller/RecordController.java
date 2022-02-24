@@ -238,7 +238,7 @@ public class RecordController {
     @GetMapping("/getAllRecord")
     @ApiOperation(value = "查询比赛申请记录",notes = "请求头")
     @Transactional(rollbackFor = {Exception.class})
-    public R<List<CompetitionRecord>> getAllRecord(HttpServletRequest request){
+    public R getAllRecord(HttpServletRequest request){
 
         String token = request.getHeader("Authorization");
         System.out.println(token);
@@ -270,6 +270,7 @@ public class RecordController {
             }
         }
 
+
         //共有属性
         List<CompetitionRecord> competitionRecords = new ArrayList<>();
 
@@ -292,7 +293,8 @@ public class RecordController {
             for (UserInfo userInfo : userInfos) {
                 List<CompetitionApproval> competitionApprovals = competitionApprovalService.selectByApplicantId(userInfo.getUserId());
                 for (CompetitionApproval competitionApproval : competitionApprovals) {
-                    CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid()));
+                    CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid())
+                            ,competitionApproval.getApprovalId());
                     competitionRecords.add(  change );
                 }
             }
@@ -301,11 +303,10 @@ public class RecordController {
             //看自己的
             List<CompetitionApproval> competitionApprovals = competitionApprovalService.selectByApplicantId(userId);
             for (CompetitionApproval competitionApproval : competitionApprovals) {
-                CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid()));
+                CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid())
+                        ,competitionApproval.getApprovalId());
                 competitionRecords.add(  change );
             }
-        }else{
-            competitionRecords = competitionRecordService.selectAll();
         }
 
         return  R.ok(competitionRecords);
@@ -364,8 +365,6 @@ public class RecordController {
     }
 
 
-
-
     public CompetitionRecord changeShow(CompetitionRecord competitionRecord){
         //1827302
         String recordWinningStudent = competitionRecord.getRecordWinningStudent();
@@ -378,6 +377,27 @@ public class RecordController {
             String[] recordUploads = competitionRecord.getRecordUpload().split(",");
             competitionRecord.setRecordUploads(recordUploads);
         }
+        //一条record对应一条approval
+        Long approvalId = competitionApprovalService.selectByRecordId(competitionRecord.getRecordId());
+        competitionRecord.setCompetitionProgramList(
+                competitionProgramService.selectByApproval(approvalId));
+        return competitionRecord;
+    }
+
+    public CompetitionRecord changeShow(CompetitionRecord competitionRecord,Long approvalId){
+        //1827302
+        String recordWinningStudent = competitionRecord.getRecordWinningStudent();
+
+        competitionRecord.setRecordWinningStudent(
+                userInfoService.selectByWorkId(recordWinningStudent).getUserName());
+
+        //返回数组类型的upload
+        if (competitionRecord.getRecordUpload()!=null){
+            String[] recordUploads = competitionRecord.getRecordUpload().split(",");
+            competitionRecord.setRecordUploads(recordUploads);
+        }
+        List<CompetitionProgram> competitionPrograms = competitionProgramService.selectByApproval(approvalId);
+        competitionRecord.setCompetitionProgramList(competitionPrograms);
         return competitionRecord;
     }
 

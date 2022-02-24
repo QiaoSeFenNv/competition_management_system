@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -48,7 +49,7 @@ public class CompetitionAward implements Serializable {
      * 获奖级别
      */
     @ApiModelProperty(value = "获奖级别")
-    private String rewardLevel;
+    private Long rewardLevel;
     /**
      * 申请id
      */
@@ -62,5 +63,20 @@ public class CompetitionAward implements Serializable {
     //不给输入的机会
     @JsonIgnore
     private Byte recordType;
+
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "获奖级别名称")
+    private String rewardLevelName;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "竞赛名称")
+    private String compName;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value = "比赛名称")
+    private String organizeName;
+
+
 
 }

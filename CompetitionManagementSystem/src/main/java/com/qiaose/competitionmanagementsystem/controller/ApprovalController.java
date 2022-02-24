@@ -270,7 +270,7 @@ public class ApprovalController {
         competitionAward.setUserId(competitionApproval.getApplicantId());
         competitionAward.setCompId(Long.valueOf(competitionRecord.getRecordCompetitionId()));
         competitionAward.setAwardTime(competitionRecord.getRecordWinningTime());
-        competitionAward.setRewardLevel(String.valueOf(competitionRecord.getRecordRewardId()));
+        competitionAward.setRewardLevel(competitionRecord.getRecordRewardId());
         competitionAward.setRelateApproval(competitionApproval.getApprovalId());
         competitionAward.setRecordType(RecordTypeEnum.VERIFY.getCode());
         iCompetitionAwardService.save(competitionAward);
