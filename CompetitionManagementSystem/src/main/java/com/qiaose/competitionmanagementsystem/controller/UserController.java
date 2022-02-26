@@ -119,6 +119,7 @@ public class UserController {
         System.out.println(token);
         //
         String username = jwtTokenUtil.getUsernameFromToken(token);
+
         User user = userService.selectByUserId(username);
         UserInfo userInfo = userInfoService.selectByWorkId(username);
         UserDto userDto = UserDto.builder()

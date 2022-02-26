@@ -3,13 +3,21 @@ package com.qiaose.competitionmanagementsystem.components;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Configuration
 public class RedisConfig {
@@ -56,5 +64,29 @@ public class RedisConfig {
         StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
         stringRedisTemplate.setConnectionFactory(redisConnectionFactory);
         return stringRedisTemplate;
+    }
+
+    //缓存管理器
+    @Bean
+    public CacheManager cacheManager(RedisConnectionFactory lettuceConnectionFactory) {
+        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig();
+        // 设置缓存管理器管理的缓存的默认过期时间
+        defaultCacheConfig = defaultCacheConfig.entryTtl(Duration.ofMinutes(60))
+                // 不缓存空值
+                .disableCachingNullValues();
+
+        Set<String> cacheNames = new HashSet<>();
+        cacheNames.add("my-redis-cache1");
+
+        // 对每个缓存空间应用不同的配置
+        Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
+        configMap.put("my-redis-cache1", defaultCacheConfig.entryTtl(Duration.ofMinutes(50)));
+
+        RedisCacheManager cacheManager = RedisCacheManager.builder(lettuceConnectionFactory)
+                .cacheDefaults(defaultCacheConfig)
+                .initialCacheNames(cacheNames)
+                .withInitialCacheConfigurations(configMap)
+                .build();
+        return cacheManager;
     }
 }

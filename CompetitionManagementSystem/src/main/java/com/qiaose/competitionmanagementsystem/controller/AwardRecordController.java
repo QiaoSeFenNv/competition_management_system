@@ -107,8 +107,12 @@ public class AwardRecordController {
     @PostMapping("insert")
     @ApiOperation(value = "手动插入一条信息",notes = "")
     @Transactional(rollbackFor = {Exception.class})
-    public R insert(@RequestBody CompetitionAward competitionAward){
+    public R insert(HttpServletRequest request,@RequestBody CompetitionAward competitionAward){
+        String token = request.getHeader("Authorization");
+        System.out.println(token);
+        String userId = jwtTokenUtil.getUsernameFromToken(token);
         competitionAward.setRecordType(RecordTypeEnum.MANUAL_IMPORT.getCode());
+        competitionAward.setUserId(userId);
         iCompetitionAwardService.save(competitionAward);
         return R.ok("");
     }

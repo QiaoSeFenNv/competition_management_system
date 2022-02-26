@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.User;
+import springfox.documentation.annotations.Cacheable;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ public interface UserService{
     int insert(User record);
 
     int insertSelective(User record);
+
 
     User selectByPrimaryKey(Long id);
 
