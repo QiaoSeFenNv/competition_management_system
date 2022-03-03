@@ -87,7 +87,7 @@ public class RoleController {
         //封装起来前端需要
         PageDto pageDto = new PageDto();
         pageDto.setItems(list);
-        pageDto.setTotal((int) pageInfo.getTotal());
+        pageDto.setTotal((int)pageInfo.getTotal());
         return R.ok(pageDto);
     }
 

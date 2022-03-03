@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -79,7 +80,7 @@ public class CompetitionPrice implements Serializable {
      * 获奖时间
      */
     @ApiModelProperty(value = "获奖时间")
-    private String awardTime;
+    private Date awardTime;
     /**
      * 模式
      */

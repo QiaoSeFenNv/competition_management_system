@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.utils;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.ObjectId;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.lang.UUID;
@@ -7,6 +8,12 @@ import cn.hutool.core.util.IdUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigInteger;
+import java.sql.Array;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 public class IDUtils {
@@ -52,9 +59,39 @@ public class IDUtils {
     }
 
     public static void main(String[] args) {
-
+        Boolean belong = isBelong(new Date(), "yyyy-MM-dd", "2022-03-01","2022-03-03");
+        System.out.println(belong);
     }
+    //判断时间是否在一个范围内
+    public static Boolean isBelong(Date date,String format,String startTimeStr,String endTimeStr){
+        //设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat(format);
+        Date beginTime = null;
+        Date endTime = null;
+        try {
+            date = df.parse(df.format(date));
+            beginTime = df.parse(startTimeStr);
+            endTime = df.parse(endTimeStr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        Calendar dateC = Calendar.getInstance();
+        dateC.setTime(date);
+
+        Calendar beginC = Calendar.getInstance();
+        beginC.setTime(beginTime);
+
+        Calendar endC = Calendar.getInstance();
+        endC.setTime(endTime);
+
+
+        if (dateC.after(beginC) && dateC.before(endC)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 

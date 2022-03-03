@@ -6,12 +6,16 @@ import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionBonus;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionPrice;
+import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
+import com.qiaose.competitionmanagementsystem.entity.dto.PriceDto;
+import com.qiaose.competitionmanagementsystem.entity.dto.StudentDto;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionBonusService;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionPriceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -61,11 +65,37 @@ public class PriceController {
     @Transactional(rollbackFor = {Exception.class})
     public R priceList(@RequestParam(defaultValue = "1", value = "page") Integer pageNo,
                        @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+
         //查询所有信息
         QueryWrapper<CompetitionPrice> queryWrapper = new QueryWrapper<>();
         Page<CompetitionPrice> page = new Page<CompetitionPrice>(pageNo, pageSize);
         IPage<CompetitionPrice> pageList = iCompetitionPriceService.page(page, queryWrapper);
-        return R.ok(pageList);
+        log.info("奖金数据：{}",pageList.getRecords());
+
+        List<PriceDto> priceDtoList = new ArrayList<>();
+
+        pageList.getRecords().forEach(competitionPrice -> {
+
+            PriceDto priceDto = new PriceDto();
+            BeanUtils.copyProperties(competitionPrice,priceDto);
+            priceDto.setAwardTime(competitionPrice.getAwardTime().getTime());
+            String[] students = competitionPrice.getStudent().split(",");
+            String[] userIds = competitionPrice.getUserId().split(",");
+            String[] grades = competitionPrice.getGrade().split(",");
+            List<StudentDto> studentDtoList = new ArrayList<>();
+            for (int i = 0; i < students.length; i++) {
+                studentDtoList.add(new StudentDto(students[i],userIds[i],grades[i]));
+            }
+            //改变学生
+            priceDto.setStudentDtoList(studentDtoList);
+            priceDtoList.add(priceDto);
+        });
+
+        PageDto<PriceDto> pageDto = new PageDto<>();
+        pageDto.setTotal((int)pageList.getTotal());
+        pageDto.setItems(priceDtoList);
+
+        return R.ok(pageDto);
     }
 
     @PostMapping("/addPrice")
