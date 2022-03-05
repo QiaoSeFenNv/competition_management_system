@@ -9,6 +9,7 @@ import com.qiaose.competitionmanagementsystem.entity.CompetitionPrice;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.PriceDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.StudentDto;
+import com.qiaose.competitionmanagementsystem.enums.BonusTypeEnum;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionBonusService;
@@ -130,6 +131,7 @@ public class PriceController {
     @ApiOperation(value = "手动插入一条获奖信息", notes = "需要传入一个对象")
     @Transactional(rollbackFor = {Exception.class})
     public R addPrice(@RequestBody CompetitionPrice competitionPrice) {
+        competitionPrice.setStatus(BonusTypeEnum.NOT_START.getCode());
         iCompetitionPriceService.save(competitionPrice);
         return R.ok("");
     }
@@ -183,7 +185,7 @@ public class PriceController {
             competitionBonus.setUserName(userInfoService.selectByWorkId(userIds[i]).getUserName());
             //分配奖金
             competitionBonus.setBonus(competitionPrice.getMoney() / userIds.length);
-            competitionBonus.setState(TodoStateEnum.NOT_START.getCode());
+            competitionBonus.setStatus(TodoStateEnum.IN_PROGRESS.getCode());
             //插入表中
             iCompetitionBonusService.save(competitionBonus);
         }

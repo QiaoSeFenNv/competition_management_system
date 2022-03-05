@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -101,6 +102,12 @@ public class CompetitionPrice implements Serializable {
      */
     @ApiModelProperty(value = "奖金")
     private Double money;
+
+    /**
+     * 奖金状态
+     */
+    @ApiModelProperty(value = "状态")
+    private Byte status;
 
 
 }

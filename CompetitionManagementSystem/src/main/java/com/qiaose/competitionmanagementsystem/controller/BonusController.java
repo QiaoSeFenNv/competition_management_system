@@ -9,6 +9,7 @@ import com.qiaose.competitionmanagementsystem.entity.CompetitionBonus;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionPrice;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.PriceDto;
+import com.qiaose.competitionmanagementsystem.enums.BonusTypeEnum;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionBonusService;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionPriceService;
@@ -57,13 +58,13 @@ public class BonusController {
     @GetMapping("/bonusList")
     @ApiOperation(value = "获取所有获奖信息,可以根据奖项表的状态进行查询", notes = "分页查询")
     @Transactional(rollbackFor = {Exception.class})
-    public R bonusList(@RequestParam(required = false) Byte state,
+    public R bonusList(@RequestParam(required = false) Byte status,
                        @RequestParam(defaultValue = "1", value = "page") Integer pageNo,
                        @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
         //查询所有信息
         QueryWrapper<CompetitionBonus> queryWrapper = new QueryWrapper<>();
-        if (state != null){
-            queryWrapper.eq("state",state);
+        if (status != null){
+            queryWrapper.eq("status",status);
         }
         Page<CompetitionBonus> page = new Page<CompetitionBonus>(pageNo, pageSize);
         IPage<CompetitionBonus> pageList = iCompetitionBonusService.page(page, queryWrapper);
@@ -115,11 +116,15 @@ public class BonusController {
             if (byId == null) {
                 return R.ok("无该数据");
             }
-            if (Objects.equals(byId.getState(), TodoStateEnum.FINISH.getCode())) {
+            if (Objects.equals(byId.getStatus(), BonusTypeEnum.FINISH.getCode())) {
                 return R.failed("已完成不可修改");
             }
-            competitionBonus.setState(TodoStateEnum.IN_PROGRESS.getCode());
+            competitionBonus.setStatus(BonusTypeEnum.IN_PROGRESS.getCode());
             iCompetitionBonusService.updateById(competitionBonus);
+            //设置状态为已填写
+            CompetitionPrice price = iCompetitionPriceService.getById(competitionBonus.getPriceId());
+            price.setStatus(BonusTypeEnum.FILLED.getCode());
+            iCompetitionPriceService.updateById(price);
         }
 
         return R.ok("");
@@ -135,9 +140,13 @@ public class BonusController {
             return R.ok("无该数据");
         }
         competitionBonuses.forEach(competitionBonus -> {
-            competitionBonus.setState(TodoStateEnum.FINISH.getCode());
+            competitionBonus.setStatus(TodoStateEnum.FINISH.getCode());
+            CompetitionPrice price = iCompetitionPriceService.getById(competitionBonus.getPriceId());
+            price.setStatus(BonusTypeEnum.FINISH.getCode());
+            iCompetitionPriceService.updateById(price);
         });
         iCompetitionBonusService.updateBatchById(competitionBonuses);
+
         return R.ok("");
     }
 

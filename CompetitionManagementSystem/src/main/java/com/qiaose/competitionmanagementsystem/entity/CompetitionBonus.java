@@ -93,7 +93,7 @@ public class CompetitionBonus implements Serializable {
      */
     @ApiModelProperty(value = "奖金状态")
     @Null(groups = SecurityData.class,message = "状态不可填写")
-    private Byte state;
+    private Byte status;
 
     /**
      * 备注
