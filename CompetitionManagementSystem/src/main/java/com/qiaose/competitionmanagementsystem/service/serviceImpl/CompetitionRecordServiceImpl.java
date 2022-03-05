@@ -49,4 +49,9 @@ public class CompetitionRecordServiceImpl implements CompetitionRecordService{
         return competitionRecordMapper.updateByPrimaryKey(record);
     }
 
+    @Override
+    public List<CompetitionRecord> selectByUserId(String userId) {
+        return competitionRecordMapper.selectByUserId(userId);
+    }
+
 }

@@ -77,4 +77,9 @@ public class CollegeInfoServiceImpl implements CollegeInfoService{
         return collegeInfoMapper.selectByAncestors(s);
     }
 
+    @Override
+    public Integer selectByName(String deptId) {
+        return collegeInfoMapper.selectByName(deptId);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -99,5 +100,35 @@ public class CompetitionBonus implements Serializable {
      */
     @ApiModelProperty(value = "备注")
     private String note;
+
+
+
+    /**
+     * 赛事名称
+     */
+    @TableField(exist = false)
+    private String competitionInfo;
+    /**
+     * 组织者
+     */
+    @TableField(exist = false)
+    private String oganizer;
+    /**
+     * 赛事类别
+     */
+    @TableField(exist = false)
+    private String competitionType;
+    /**
+     * 赛事级别
+     */
+    @TableField(exist = false)
+    private String competitionLevel;
+    /**
+     * 项目名称
+     */
+    @TableField(exist = false)
+    private String titleName;
+    @TableField(exist = false)
+    private String competitionAward;
 
 }

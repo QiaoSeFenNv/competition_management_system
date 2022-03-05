@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionBonus;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionPrice;
+import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
+import com.qiaose.competitionmanagementsystem.entity.dto.PriceDto;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionBonusService;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionPriceService;
@@ -44,6 +46,9 @@ public class BonusController {
     @Resource
     ICompetitionBonusService iCompetitionBonusService;
 
+    @Resource
+    ICompetitionPriceService iCompetitionPriceService;
+
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
@@ -62,7 +67,10 @@ public class BonusController {
         }
         Page<CompetitionBonus> page = new Page<CompetitionBonus>(pageNo, pageSize);
         IPage<CompetitionBonus> pageList = iCompetitionBonusService.page(page, queryWrapper);
-        return R.ok(pageList);
+        PageDto<CompetitionBonus> pageDto = new PageDto<>();
+        pageDto.setTotal((int)pageList.getTotal());
+        pageDto.setItems(pageList.getRecords());
+        return R.ok(pageDto);
     }
 
     @GetMapping("/bonusCur")
@@ -80,7 +88,21 @@ public class BonusController {
         queryWrapper.eq("user_id",userId);
         Page<CompetitionBonus> page = new Page<CompetitionBonus>(pageNo, pageSize);
         IPage<CompetitionBonus> pageList = iCompetitionBonusService.page(page, queryWrapper);
-        return R.ok(pageList);
+
+        pageList.getRecords().forEach(competitionBonus -> {
+            CompetitionPrice byId = iCompetitionPriceService.getById(competitionBonus.getPriceId());
+            competitionBonus.setCompetitionInfo(byId.getCompetitionInfo());
+            competitionBonus.setCompetitionType(byId.getCompetitionType());
+            competitionBonus.setTitleName(byId.getTitleName());
+            competitionBonus.setCompetitionLevel(byId.getCompetitionLevel());
+            competitionBonus.setOganizer(byId.getOganizer());
+            competitionBonus.setCompetitionAward(byId.getCompetitionAward());
+        });
+
+        PageDto<CompetitionBonus> pageDto = new PageDto<>();
+        pageDto.setTotal((int)pageList.getTotal());
+        pageDto.setItems(pageList.getRecords());
+        return R.ok(pageDto);
     }
 
     @PutMapping("/updateBonus")

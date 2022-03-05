@@ -63,6 +63,13 @@
   </select>
 
 
+  <select id="selectByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <!--@mbg.generated-->
+    select id
+    from college_info
+    where college_name = #{deptId,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectDutyId" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select

@@ -15,6 +15,8 @@ public interface CompetitionRecordMapper {
 
     List<CompetitionRecord> selectAll();
 
+    List<CompetitionRecord> selectByUserId(String userId);
+
     int updateByPrimaryKeySelective(CompetitionRecord record);
 
     int updateByPrimaryKey(CompetitionRecord record);

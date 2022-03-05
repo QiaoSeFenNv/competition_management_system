@@ -22,5 +22,5 @@ public interface CompetitionRecordService{
 
     int updateByPrimaryKey(CompetitionRecord record);
 
-
+    List<CompetitionRecord> selectByUserId(String userId);
 }

@@ -65,4 +65,9 @@ public class UserInfoServiceImpl implements UserInfoService{
         return userInfoMapper.selectByName(name);
     }
 
+    @Override
+    public List<UserInfo> selectByUserSelect(String userSelect) {
+        return userInfoMapper.selectByUserSelect(userSelect);
+    }
+
 }

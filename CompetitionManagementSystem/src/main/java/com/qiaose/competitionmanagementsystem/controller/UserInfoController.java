@@ -1,40 +1,38 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.api.R;
 
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @Api(value = "用户信息接口")
 @RequestMapping("/userInfo")
 @Validated
+@Slf4j
 public class UserInfoController {
 
     @Autowired
@@ -48,6 +46,9 @@ public class UserInfoController {
 
     @Autowired
     SysRoleUserTableService sysRoleUserTableService;
+
+    @Resource
+    SysRoleTableService sysRoleTableService;
 
     @Autowired
     BCryptPasswordEncoderUtil bCryptPasswordEncoderUtil;
@@ -65,6 +66,18 @@ public class UserInfoController {
 
 
         return R.ok(userInfo);
+    }
+
+    @GetMapping("/getStuInfo")
+    @ApiOperation(value = "根据条件查询", notes = "返回数据为学生所有信息")
+//    @Transactional(rollbackFor = Exception.class)
+    public R getStuInfo(@RequestParam String userSelect) {
+
+        if (StringUtils.isNotBlank(userSelect)) {
+            List<UserInfo> userInfoList= userInfoService.selectByUserSelect(userSelect);
+            return R.ok(userInfoList);
+        }
+        return R.ok("传递参数为空");
     }
 
     @PostMapping("/insertCurStu")
@@ -104,7 +117,14 @@ public class UserInfoController {
             sysRoleUserTableService.insertSelective(sysRoleUserTable);
         }else{
             for (String s : userInfo.getRole()) {
-                sysRoleUserTable.setRoleId(s);
+                SysRoleTable sysRoleTable = sysRoleTableService.selectByName(s);
+                if (sysRoleTable!=null) {
+                    sysRoleUserTable.setRoleId(sysRoleTable.getRoleId());
+                    sysRoleUserTable.setUserId(userInfo.getUserId());
+                    sysRoleUserTableService.insertSelective(sysRoleUserTable);
+                    return;
+                }
+                sysRoleUserTable.setRoleId("2");
                 sysRoleUserTable.setUserId(userInfo.getUserId());
                 sysRoleUserTableService.insertSelective(sysRoleUserTable);
             }
@@ -114,19 +134,24 @@ public class UserInfoController {
     @PostMapping("/insertAll")
     @ApiOperation(value = "批量插入", notes = "")
     @Transactional(rollbackFor = Exception.class)
-    public R insertAll(@RequestBody JSONArray userList){
+    public R insertAll(@RequestBody List<UserInfo> userList){
 
-        List<UserInfo> userInfoList = userList.toJavaList(UserInfo.class);
-        for (UserInfo userInfo : userInfoList) {
+        for (UserInfo userInfo : userList) {
+            if (userInfoService.selectByWorkId(userInfo.getUserId())!=null) {
+                break;
+            }
+            //设置部门id然后插入数据
+            Integer id = collegeInfoService.selectByName(userInfo.getDeptId());
+
+            log.info("部门对应id：{}",id);
+
+            userInfo.setDeptId(String.valueOf(id));
             //插入数据
             userInfoService.insertSelective(userInfo);
             //插入到user表以及绑定角色
             insertOrgUser(userInfo);
         }
-//        List<UserInfo> userInfoList = userList.getJSONArray("userInfo").toJavaList(UserInfo.class);
-//        System.out.println(userInfoList);
-//        for (UserInfo userInfo : userInfoList) {
-//        }
+
 
         return R.ok("插入成功");
     }
@@ -168,5 +193,7 @@ public class UserInfoController {
 
         return R.ok("删除成功");
     }
+
+
 
 }

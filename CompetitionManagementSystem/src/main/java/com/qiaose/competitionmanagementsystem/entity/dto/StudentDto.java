@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StudentDto {
 
-    private String student;
+    private String userName;
     private String userId;
-    private String grade;
 }

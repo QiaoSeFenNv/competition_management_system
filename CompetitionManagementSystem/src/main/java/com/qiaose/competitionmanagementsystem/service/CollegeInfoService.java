@@ -32,5 +32,5 @@ public interface CollegeInfoService{
 
     List<CollegeInfo> selectByAncestors(String s);
 
-
+    Integer selectByName(String deptId);
 }

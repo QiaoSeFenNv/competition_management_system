@@ -27,4 +27,6 @@ public interface UserInfoService{
     UserInfo selectByEmail(String email);
 
     List<UserInfo> selectByName(String name);
+
+    List<UserInfo> selectByUserSelect(String userSelect);
 }

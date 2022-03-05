@@ -34,13 +34,20 @@
   </select>
 
 
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from competition_record
+    where FIND_IN_SET(#{userId,jdbcType=VARCHAR},record_winning_student)
+  </select>
+
   <select id="selectAll" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select
     <include refid="Base_Column_List" />
     from competition_record
   </select>
-
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
