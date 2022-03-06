@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.R;
@@ -7,8 +8,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionBonus;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionPrice;
+import com.qiaose.competitionmanagementsystem.entity.UserInfo;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.PriceDto;
+import com.qiaose.competitionmanagementsystem.entity.dto.PriceDto2;
 import com.qiaose.competitionmanagementsystem.entity.dto.StudentDto;
 import com.qiaose.competitionmanagementsystem.enums.BonusTypeEnum;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,16 +65,41 @@ public class PriceController {
 
     //Todo 等待插入一条可以使用之后在批量导入
 
-//    @PostMapping("/import")
-//    @ApiOperation(value = "导入获奖信息", notes = "需要传入一个对象")
-//    @Transactional(rollbackFor = {Exception.class})
-//    public R importPriceInfo(@RequestBody List<CompetitionPrice> competitionPrice) {
-//        //导入获奖信息
-//        boolean b = iCompetitionPriceService.saveBatch(competitionPrice, competitionPrice.size());
-//        //生成一条奖金分配信息    通过改条信息学生可以获得奖金的分配填写     均分
-//
-//        return R.ok("");
-//    }
+    @PostMapping("/import")
+    @ApiOperation(value = "导入获奖信息", notes = "需要传入一个对象")
+    @Transactional(rollbackFor = {Exception.class})
+    public R importPriceInfo(@RequestBody List<PriceDto2> priceDtoList) {
+        ArrayList<CompetitionPrice> priceArrayList = new ArrayList<>();
+
+        priceDtoList.forEach(priceDto -> {
+            CompetitionPrice competitionPrice = new CompetitionPrice();
+            log.info("{}",priceDto);
+            //讲dto变为competitionPrice
+            BeanUtils.copyProperties(priceDto,competitionPrice);
+            log.info("{}",competitionPrice);
+            competitionPrice.setAwardTime(DateUtil.parse(priceDto.getAwardTime(),"yyyy.mm"));
+            competitionPrice.setUserId(getString(priceDto.getStudentDtoList()));
+
+            priceArrayList.add(competitionPrice);
+        });
+
+        //导入获奖信息
+        boolean b = iCompetitionPriceService.saveBatch(priceArrayList);
+        //生成一条奖金分配信息    通过改条信息学生可以获得奖金的分配填写     均分
+
+        return R.ok("");
+    }
+
+    public static String getString(List<StudentDto> studentDtoList){
+        StringBuilder stringBuilder = new StringBuilder();
+        studentDtoList.forEach(studentDto -> {
+            if (studentDto.getUserId() != null){
+                stringBuilder.append(studentDto.getUserId()+",");
+            }
+
+        });
+        return String.valueOf(stringBuilder);
+    }
 
     @GetMapping("/priceList")
     @ApiOperation(value = "获取获奖信息", notes = "分页查询")
@@ -95,7 +124,11 @@ public class PriceController {
             String[] userIds = competitionPrice.getUserId().split(",");
             List<StudentDto> studentDtoList = new ArrayList<>();
             for (String userId : userIds) {
-                studentDtoList.add(new StudentDto(userInfoService.selectByWorkId(userId).getUserName(), userId));
+                String username = "";
+                if (userInfoService.selectByWorkId(userId) != null) {
+                    username = userInfoService.selectByWorkId(userId).getUserName();
+                }
+                studentDtoList.add(new StudentDto(username, userId));
             }
             //改变学生
             priceDto.setStudentDtoList(studentDtoList);

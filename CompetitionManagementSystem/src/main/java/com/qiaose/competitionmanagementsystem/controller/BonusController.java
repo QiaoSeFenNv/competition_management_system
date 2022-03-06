@@ -110,10 +110,13 @@ public class BonusController {
     @Transactional(rollbackFor = {Exception.class})
     public R updateBonus(@RequestBody CompetitionBonus competitionBonus) {
 
-        CompetitionBonus byId = iCompetitionBonusService.getById(competitionBonus.getId());
-        if (byId.getStatus().equals(BonusTypeEnum.FILLED.getCode())) {
-            throw new TipException("已完成，无法再次修改");
+        //判断price的状态是否为3 如果为3 就不允许更新
+        CompetitionBonus byId1 = iCompetitionBonusService.getById(competitionBonus.getId());
+        CompetitionPrice byId = iCompetitionPriceService.getById(byId1.getPriceId());
+        if (Objects.equals(byId.getStatus(), BonusTypeEnum.FINISH.getCode())){
+            throw new TipException("奖金发放已结束！");
         }
+
         competitionBonus.setStatus(BonusTypeEnum.FILLED.getCode());
         iCompetitionBonusService.updateById(competitionBonus);
 
@@ -124,19 +127,13 @@ public class BonusController {
     @ApiOperation(value = "老师再次确认获奖信息,改变奖金使用状态", notes = "老师确认学生填写的信息，修改奖金表中的状态为奖金已发送")
     @Transactional(rollbackFor = {Exception.class})
     public R sureBonus(@RequestBody List<Integer> ids) {
-        List<CompetitionBonus> competitionBonuses = iCompetitionBonusService.listByIds(ids);
-        if (competitionBonuses.isEmpty()) {
-            return R.ok("无该数据");
-        }
-        //老师确认 学生不可更新数据
-        competitionBonuses.forEach(competitionBonus -> {
-            competitionBonus.setStatus(TodoStateEnum.FINISH.getCode());
-            CompetitionPrice price = iCompetitionPriceService.getById(competitionBonus.getPriceId());
-            price.setStatus(BonusTypeEnum.FINISH.getCode());
-            iCompetitionPriceService.updateById(price);
-        });
-        iCompetitionBonusService.updateBatchById(competitionBonuses);
 
+        //改变price状态为3
+        Integer integer = ids.get(0);
+        CompetitionPrice byId = iCompetitionPriceService.getById(integer);
+
+        byId.setStatus(BonusTypeEnum.FINISH.getCode());
+        iCompetitionPriceService.updateById(byId);
         return R.ok("");
     }
 
