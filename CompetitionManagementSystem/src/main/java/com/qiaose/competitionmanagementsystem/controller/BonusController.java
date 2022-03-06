@@ -11,6 +11,7 @@ import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.PriceDto;
 import com.qiaose.competitionmanagementsystem.enums.BonusTypeEnum;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
+import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionBonusService;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionPriceService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
@@ -53,8 +54,6 @@ public class BonusController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
-
-
     @GetMapping("/bonusList")
     @ApiOperation(value = "获取所有获奖信息,可以根据奖项表的状态进行查询", notes = "分页查询")
     @Transactional(rollbackFor = {Exception.class})
@@ -63,13 +62,13 @@ public class BonusController {
                        @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
         //查询所有信息
         QueryWrapper<CompetitionBonus> queryWrapper = new QueryWrapper<>();
-        if (status != null){
-            queryWrapper.eq("status",status);
+        if (status != null) {
+            queryWrapper.eq("status", status);
         }
         Page<CompetitionBonus> page = new Page<CompetitionBonus>(pageNo, pageSize);
         IPage<CompetitionBonus> pageList = iCompetitionBonusService.page(page, queryWrapper);
         PageDto<CompetitionBonus> pageDto = new PageDto<>();
-        pageDto.setTotal((int)pageList.getTotal());
+        pageDto.setTotal((int) pageList.getTotal());
         pageDto.setItems(pageList.getRecords());
         return R.ok(pageDto);
     }
@@ -78,15 +77,15 @@ public class BonusController {
     @ApiOperation(value = "获取自身获奖信息", notes = "分页查询")
     @Transactional(rollbackFor = {Exception.class})
     public R bonusCur(HttpServletRequest request,
-                       @RequestParam(defaultValue = "1", value = "page") Integer pageNo,
-                       @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+                      @RequestParam(defaultValue = "1", value = "page") Integer pageNo,
+                      @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
         String token = request.getHeader("Authorization");
         System.out.println(token);
 
         String userId = jwtTokenUtil.getUsernameFromToken(token);
         //查询所有信息
         QueryWrapper<CompetitionBonus> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id",userId);
+        queryWrapper.eq("user_id", userId);
         Page<CompetitionBonus> page = new Page<CompetitionBonus>(pageNo, pageSize);
         IPage<CompetitionBonus> pageList = iCompetitionBonusService.page(page, queryWrapper);
 
@@ -101,7 +100,7 @@ public class BonusController {
         });
 
         PageDto<CompetitionBonus> pageDto = new PageDto<>();
-        pageDto.setTotal((int)pageList.getTotal());
+        pageDto.setTotal((int) pageList.getTotal());
         pageDto.setItems(pageList.getRecords());
         return R.ok(pageDto);
     }
@@ -109,27 +108,17 @@ public class BonusController {
     @PutMapping("/updateBonus")
     @ApiOperation(value = "学生填写获奖信息的其他信息", notes = "奖金默认不填，通过接口获取金额")
     @Transactional(rollbackFor = {Exception.class})
-    public R updateBonus(@RequestBody  @Validated(CompetitionBonus.SecurityData.class)CompetitionBonus competitionBonus) {
-        if (competitionBonus!=null) {
-            //如果状态为已完成时则不可修改
-            CompetitionBonus byId = iCompetitionBonusService.getById(competitionBonus.getId());
-            if (byId == null) {
-                return R.ok("无该数据");
-            }
-            if (Objects.equals(byId.getStatus(), BonusTypeEnum.FINISH.getCode())) {
-                return R.failed("已完成不可修改");
-            }
-            competitionBonus.setStatus(BonusTypeEnum.IN_PROGRESS.getCode());
-            iCompetitionBonusService.updateById(competitionBonus);
-            //设置状态为已填写
-            CompetitionPrice price = iCompetitionPriceService.getById(competitionBonus.getPriceId());
-            price.setStatus(BonusTypeEnum.FILLED.getCode());
-            iCompetitionPriceService.updateById(price);
+    public R updateBonus(@RequestBody CompetitionBonus competitionBonus) {
+
+        CompetitionBonus byId = iCompetitionBonusService.getById(competitionBonus.getId());
+        if (byId.getStatus().equals(BonusTypeEnum.FILLED.getCode())) {
+            throw new TipException("已完成，无法再次修改");
         }
+        competitionBonus.setStatus(BonusTypeEnum.FILLED.getCode());
+        iCompetitionBonusService.updateById(competitionBonus);
 
-        return R.ok("");
+        return R.ok(competitionBonus);
     }
-
 
     @PutMapping("/sureBonus")
     @ApiOperation(value = "老师再次确认获奖信息,改变奖金使用状态", notes = "老师确认学生填写的信息，修改奖金表中的状态为奖金已发送")
@@ -139,6 +128,7 @@ public class BonusController {
         if (competitionBonuses.isEmpty()) {
             return R.ok("无该数据");
         }
+        //老师确认 学生不可更新数据
         competitionBonuses.forEach(competitionBonus -> {
             competitionBonus.setStatus(TodoStateEnum.FINISH.getCode());
             CompetitionPrice price = iCompetitionPriceService.getById(competitionBonus.getPriceId());
@@ -149,9 +139,5 @@ public class BonusController {
 
         return R.ok("");
     }
-
-
-
-
 
 }

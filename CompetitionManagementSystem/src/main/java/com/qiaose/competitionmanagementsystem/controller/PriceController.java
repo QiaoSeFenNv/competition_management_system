@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionBonus;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionPrice;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
@@ -19,11 +20,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +54,11 @@ public class PriceController {
 
     @Resource
     ICompetitionBonusService iCompetitionBonusService;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+
     //Todo 等待插入一条可以使用之后在批量导入
 
 //    @PostMapping("/import")
@@ -83,7 +91,7 @@ public class PriceController {
             PriceDto priceDto = new PriceDto();
             BeanUtils.copyProperties(competitionPrice, priceDto);
             priceDto.setAwardTime(competitionPrice.getAwardTime().getTime());
-            String[] students = competitionPrice.getStudent().split(",");
+
             String[] userIds = competitionPrice.getUserId().split(",");
             List<StudentDto> studentDtoList = new ArrayList<>();
             for (String userId : userIds) {
@@ -103,7 +111,12 @@ public class PriceController {
     @GetMapping("/getDetailInfo")
     @ApiOperation(value = "根据id获取", notes = "")
     @Transactional(rollbackFor = {Exception.class})
-    public R getDetailInfo(@RequestParam Integer id) {
+    public R getDetailInfo(@RequestParam Integer id, HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        System.out.println(token);
+
+        String workId = jwtTokenUtil.getUsernameFromToken(token);
+
         List<PriceDto> priceDtoList = new ArrayList<>();
 
         CompetitionPrice competitionPrice = iCompetitionPriceService.getById(id);
@@ -111,7 +124,12 @@ public class PriceController {
         PriceDto priceDto = new PriceDto();
         BeanUtils.copyProperties(competitionPrice, priceDto);
         priceDto.setAwardTime(competitionPrice.getAwardTime().getTime());
-        String[] students = competitionPrice.getStudent().split(",");
+        //获取到bonus数据根据price以及userId
+        QueryWrapper<CompetitionBonus> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("price_id", competitionPrice.getId());
+        queryWrapper.eq("user_id",workId);
+        priceDto.setCompetitionBonus(iCompetitionBonusService.getOne(queryWrapper));
+
         String[] userIds = competitionPrice.getUserId().split(",");
         List<StudentDto> studentDtoList = new ArrayList<>();
         for (String userId : userIds) {
@@ -175,6 +193,9 @@ public class PriceController {
         if (!list.isEmpty()) {
             throw new TipException("重复发送");
         }
+        competitionPrice.setStatus(BonusTypeEnum.IN_PROGRESS.getCode());
+        iCompetitionPriceService.updateById(competitionPrice);
+
         String[] userIds = userId.split(",");
         for (int i = 0; i < userIds.length; i++) {
             CompetitionBonus competitionBonus = new CompetitionBonus();

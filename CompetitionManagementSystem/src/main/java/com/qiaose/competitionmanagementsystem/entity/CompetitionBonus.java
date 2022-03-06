@@ -35,20 +35,17 @@ public class CompetitionBonus implements Serializable {
      * 获奖表id
      */
     @ApiModelProperty(value = "获奖表id")
-    @Null(groups = SecurityData.class,message = "该字段不可填写")
     private Integer priceId;
     /**
      * 学号
      */
 
     @ApiModelProperty(value = "学号")
-    @Null(groups = SecurityData.class,message = "学号不可填写")
     private String userId;
     /**
      * 姓名
      */
     @ApiModelProperty(value = "姓名")
-    @Null(groups = SecurityData.class,message = "姓名不可填写")
     private String userName;
     /**
      * 证照类型
@@ -69,13 +66,11 @@ public class CompetitionBonus implements Serializable {
      * 应发金额（元）
      */
     @ApiModelProperty(value = "应发金额（元）")
-    @Null(groups = SecurityData.class,message = "奖金不可填写")
     private Double bonus;
     /**
      * 收税
      */
     @ApiModelProperty(value = "收税")
-    @Null(groups = SecurityData.class,message = "税收不可填写")
     private Double tax;
     /**
      * 开户行
@@ -92,7 +87,6 @@ public class CompetitionBonus implements Serializable {
      * 奖金状态
      */
     @ApiModelProperty(value = "奖金状态")
-    @Null(groups = SecurityData.class,message = "状态不可填写")
     private Byte status;
 
     /**

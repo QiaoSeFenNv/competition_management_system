@@ -2,6 +2,7 @@ package com.qiaose.competitionmanagementsystem.entity.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.qiaose.competitionmanagementsystem.entity.CompetitionBonus;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -82,5 +83,8 @@ public class PriceDto {
 
     private Double money;
 
+    private Byte status;
+
+    private CompetitionBonus competitionBonus;
 
 }
