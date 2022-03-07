@@ -119,9 +119,10 @@ public class RecordController {
         //写进当前学生
         Record.setRecordWinningStudent(user.getUserId());
         //生成一个对应内容的申请表
+        //1L 旧的代码  5L新的流程
         CompetitionApproval competitionApproval =
                 competitionApprovalService.SendApproval(
-                        approvalId,recordId,userInfo,1L
+                        approvalId,recordId,userInfo,5L
                 );
 
         //插入对应数据库中

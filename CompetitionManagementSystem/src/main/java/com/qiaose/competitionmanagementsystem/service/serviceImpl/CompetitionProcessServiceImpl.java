@@ -66,7 +66,7 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
             System.out.println("FDY进来了没啊？");
             CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId()));
             if (collegeInfo.getDutyId()==null) {
-                throw new Exception("null");
+                throw new Exception("没有对应辅导员学号");
             }else{
                 return collegeInfo.getDutyId();
             }
@@ -84,7 +84,7 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
             System.out.println(result);
             CollegeInfo collegeInfo1 = collegeInfoService.selectByPrimaryKey(Integer.valueOf(result));
             if (collegeInfo1.getDutyId()==null) {
-                throw new Exception("null");
+                throw new Exception("没有对应二级学院学号");
             }else{
                 return collegeInfo1.getDutyId();
             }

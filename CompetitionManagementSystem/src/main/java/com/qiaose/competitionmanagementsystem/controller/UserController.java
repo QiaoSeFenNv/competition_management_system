@@ -107,6 +107,19 @@ public class UserController {
         return  R.ok(pageDto);
     }
 
+    @GetMapping("/getAccountInfo")
+    @ApiOperation(value="查询自己的用户信息", notes="由前端请求头中获取token,在利用token获得用户信息")
+    public R getAccountInfo(HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+
+        System.out.println(token);
+        //
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+
+        User user = userService.selectByUserId(username);
+
+        return R.ok(user);
+    }
 
 
     @GetMapping("/getUserInfo")

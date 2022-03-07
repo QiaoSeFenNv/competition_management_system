@@ -63,8 +63,6 @@ public class PriceController {
     JwtTokenUtil jwtTokenUtil;
 
 
-    //Todo 等待插入一条可以使用之后在批量导入
-
     @PostMapping("/import")
     @ApiOperation(value = "导入获奖信息", notes = "需要传入一个对象")
     @Transactional(rollbackFor = {Exception.class})
