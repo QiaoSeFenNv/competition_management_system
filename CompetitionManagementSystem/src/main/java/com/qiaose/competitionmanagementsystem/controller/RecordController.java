@@ -65,6 +65,9 @@ public class RecordController {
     @Resource
     SysRoleTableService sysRoleTableService;
 
+    @Resource
+    ICompetitionCoefficientService iCompetitionCoefficientService;
+
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
@@ -109,6 +112,13 @@ public class RecordController {
         Long recordId = IDUtils.CreateId();
 
         Long approvalId = IDUtils.CreateId();
+        
+        //插入老师认定表格数据，之后让老师填写
+        CompetitionCoefficient competitionCoefficient = new CompetitionCoefficient();
+        competitionCoefficient.setApprovalId(approvalId);
+        iCompetitionCoefficientService.save(competitionCoefficient);
+
+
         /*
         * 这里开始不同
         * */
@@ -172,6 +182,9 @@ public class RecordController {
 //                ",请登录【竞赛管理系统】今早进行操作,谢谢！";
 //        UserInfo fdu = userInfoService.selectByWorkId(applicantId);
 //        schedulerMail.toMail(fdu.getEmail(),mailText);
+
+
+
 
         return R.ok("");
     }

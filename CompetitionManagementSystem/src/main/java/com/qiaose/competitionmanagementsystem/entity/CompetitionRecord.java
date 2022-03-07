@@ -120,6 +120,19 @@ public class CompetitionRecord implements Serializable {
     @TableField(exist = false)
     private Long todoId;
 
+    /*
+    * 类型
+    * */
+    private String recordType;
+    /*
+     * 梯度
+     * */
+    private String recordGradient;
+    /*
+     * 系数
+     * */
+    private String recordCoefficient;
+
     private List<CompetitionProgram> competitionProgramList;
 
 

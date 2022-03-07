@@ -18,12 +18,15 @@
     <result column="record_level_name" jdbcType="VARCHAR" property="recordLevelName" />
     <result column="record_competition_id" jdbcType="INTEGER" property="recordCompetitionId" />
     <result column="record_upload" jdbcType="VARCHAR" property="recordUpload" />
+    <result column="record_type" jdbcType="VARCHAR" property="recordType"/>
+    <result column="record_gradient" jdbcType="VARCHAR" property="recordGradient"/>
+    <result column="record_coefficient" jdbcType="VARCHAR" property="recordCoefficient"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     record_id, record_name, record_Indiv_groups, record_instructor, record_winning_time, 
     record_location, record_winning_student, record_apply_credit, record_grade, record_college_id, 
-    record_reward_id, record_level_name, record_competition_id, record_upload
+    record_reward_id, record_level_name, record_competition_id, record_upload,record_type,record_gradient,record_coefficient
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -60,13 +63,14 @@
       record_instructor, record_winning_time, 
       record_location, record_winning_student, record_apply_credit, 
       record_grade, record_college_id, record_reward_id, 
-      record_level_name, record_competition_id, record_upload
+      record_level_name, record_competition_id, record_upload,record_type,record_gradient,record_coefficient
       )
     values (#{recordId,jdbcType=BIGINT}, #{recordName,jdbcType=VARCHAR}, #{recordIndivGroups,jdbcType=VARCHAR}, 
       #{recordInstructor,jdbcType=VARCHAR}, #{recordWinningTime,jdbcType=TIMESTAMP}, 
       #{recordLocation,jdbcType=VARCHAR}, #{recordWinningStudent,jdbcType=VARCHAR}, #{recordApplyCredit,jdbcType=VARCHAR}, 
       #{recordGrade,jdbcType=VARCHAR}, #{recordCollegeId,jdbcType=INTEGER}, #{recordRewardId,jdbcType=BIGINT}, 
-      #{recordLevelName,jdbcType=VARCHAR}, #{recordCompetitionId,jdbcType=INTEGER}, #{recordUpload,jdbcType=VARCHAR}
+      #{recordLevelName,jdbcType=VARCHAR}, #{recordCompetitionId,jdbcType=INTEGER}, #{recordUpload,jdbcType=VARCHAR},#{recordType,jdbcType=VARCHAR}
+      ,#{recordGradient,jdbcType=VARCHAR},#{recordCoefficient,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionRecord">
@@ -115,6 +119,15 @@
       <if test="recordUpload != null">
         record_upload,
       </if>
+      <if test="recordType != null">
+        record_type,
+      </if>
+      <if test="recordGradient != null">
+        record_gradient,
+      </if>
+      <if test="recordCoefficient != null">
+        record_coefficient,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="recordId != null">
@@ -158,6 +171,15 @@
       </if>
       <if test="recordUpload != null">
         #{recordUpload,jdbcType=VARCHAR},
+      </if>
+      <if test="recordType != null">
+        #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="recordGradient != null">
+        #{recordGradient,jdbcType=VARCHAR},
+      </if>
+      <if test="recordCoefficient != null">
+        #{recordCoefficient,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -204,6 +226,15 @@
       <if test="recordUpload != null">
         record_upload = #{recordUpload,jdbcType=VARCHAR},
       </if>
+      <if test="recordType != null">
+        record_type = #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="recordGradient != null">
+        record_gradient = #{recordGradient,jdbcType=VARCHAR},
+      </if>
+      <if test="recordCoefficient != null">
+        record_coefficient = #{recordCoefficient,jdbcType=VARCHAR},
+      </if>
     </set>
     where record_id = #{recordId,jdbcType=BIGINT}
   </update>
@@ -222,7 +253,10 @@
       record_reward_id = #{recordRewardId,jdbcType=BIGINT},
       record_level_name = #{recordLevelName,jdbcType=VARCHAR},
       record_competition_id = #{recordCompetitionId,jdbcType=INTEGER},
-      record_upload = #{recordUpload,jdbcType=VARCHAR}
+      record_upload = #{recordUpload,jdbcType=VARCHAR},
+    record_type = #{recordType,jdbcType=VARCHAR},
+    record_gradient = #{recordGradient,jdbcType=VARCHAR},
+    record_coefficeient = #{recordCoefficient,jdbcType=VARCHAR}
     where record_id = #{recordId,jdbcType=BIGINT}
   </update>
 </mapper>

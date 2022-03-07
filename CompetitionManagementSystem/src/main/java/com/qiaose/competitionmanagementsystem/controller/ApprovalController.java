@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
@@ -8,6 +9,7 @@ import com.qiaose.competitionmanagementsystem.entity.dto.RecordDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysApproval;
 import com.qiaose.competitionmanagementsystem.enums.RecordTypeEnum;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
+import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.*;
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import io.swagger.annotations.Api;
@@ -55,7 +57,8 @@ public class ApprovalController {
     @Autowired
     UserInfoService userInfoService;
 
-
+    @Resource
+    ICompetitionCoefficientService iCompetitionCoefficientService;
 
     @Resource
     ICompetitionAwardService iCompetitionAwardService;
@@ -118,6 +121,12 @@ public class ApprovalController {
         List<CompetitionProgram> competitionPrograms = competitionProgramService.selectByApproval(competitionTodo.getApprovalId());
 
         sysApproval.setCompetitionProgram(competitionPrograms);
+
+        //添加系数梯度
+        QueryWrapper<CompetitionCoefficient> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("approval_id",competitionApproval.getApprovalId());
+        CompetitionCoefficient one = iCompetitionCoefficientService.getOne(queryWrapper);
+        sysApproval.setCompetitionCoefficient(one);
         //返回给前端
         return R.ok(sysApproval);
 
@@ -165,6 +174,9 @@ public class ApprovalController {
             //生成一条验证记录
             insertCompetitionAward(competitionApproval);
 
+            //老师填写梯度系数的数据
+            iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
+
             return R.ok("");
         }
 
@@ -174,7 +186,7 @@ public class ApprovalController {
 
         //如果是流程进度状态是完成 状态再次点击就不可执行
         if (competitionProgram.getState().equals(TodoStateEnum.FINISH.getCode())) {
-            return R.failed("重复执行");
+            throw new TipException("无法进行操作");
         }
 
         competitionProgram.setState(TodoStateEnum.FINISH.getCode());
@@ -254,6 +266,10 @@ public class ApprovalController {
 
         competitionTodo.setTodoStatus(TodoStateEnum.DISAGREE.getCode());
         competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
+
+        //老师填写梯度系数的数据
+        iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
+
         return R.ok("");
     }
 
