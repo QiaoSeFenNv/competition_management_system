@@ -79,7 +79,7 @@ public class PriceController {
             log.info("{}",competitionPrice);
             competitionPrice.setAwardTime(DateUtil.parse(priceDto.getAwardTime(),"yyyy.mm"));
             competitionPrice.setUserId(getString(priceDto.getStudentDtoList()));
-
+            competitionPrice.setStatus(BonusTypeEnum.NOT_START.getCode());
             priceArrayList.add(competitionPrice);
         });
 
