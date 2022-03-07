@@ -174,9 +174,6 @@ public class ApprovalController {
             //生成一条验证记录
             insertCompetitionAward(competitionApproval);
 
-            //老师填写梯度系数的数据
-            iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
-
             return R.ok("");
         }
 
@@ -224,6 +221,10 @@ public class ApprovalController {
                 competitionTodo.getApprovalId());
         program.setState(TodoStateEnum.IN_PROGRESS.getCode());
         competitionProgramService.updateByPrimaryKeySelective(program);
+
+
+        //老师填写梯度系数的数据
+        iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
 
         return R.ok("");
     }
