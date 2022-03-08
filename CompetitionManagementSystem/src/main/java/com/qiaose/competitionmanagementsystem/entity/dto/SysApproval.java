@@ -32,5 +32,6 @@ public class SysApproval<T> implements Serializable {
 
     private CompetitionCoefficient competitionCoefficient;
 
+
     private static final long serialVersionUID = 1L;
 }

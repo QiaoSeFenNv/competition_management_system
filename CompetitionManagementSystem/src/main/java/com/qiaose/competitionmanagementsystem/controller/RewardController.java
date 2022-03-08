@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -87,7 +88,7 @@ public class RewardController {
         if (competitionReward.getRewardId() == null) {
             return R.failed("");
         }
-
+        competitionReward.setUpdateTime(new Date());
         int i = competitionRewardService.updateByPrimaryKey(competitionReward);
 
         if (i<=0) {
