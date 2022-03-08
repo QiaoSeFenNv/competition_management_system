@@ -134,6 +134,7 @@ public class FrontendMenuController {
         sysFrontendMenuTable.setCreateTime(DateKit.getNow());
         sysFrontendMenuTable.setUpdateTime(DateKit.getNowTime());
         sysFrontendMenuTable.setComponent(sysFrontendDto.getComponent());
+        sysFrontendMenuTable.setRedirect(sysFrontendDto.getRedirect());
         JSONObject routeMeta = new JSONObject();
         String jsonStr = null;
         try {
@@ -174,6 +175,7 @@ public class FrontendMenuController {
         frontendMenuTable.setUpdateTime(DateKit.getNowTime());
         frontendMenuTable.setUpdatedBy(Long.valueOf(roleId));
         frontendMenuTable.setComponent(sysFrontendDto.getComponent());
+        frontendMenuTable.setRedirect(sysFrontendDto.getRedirect());
         JSONObject routeMeta = new JSONObject();
         String jsonStr = null;
         try {

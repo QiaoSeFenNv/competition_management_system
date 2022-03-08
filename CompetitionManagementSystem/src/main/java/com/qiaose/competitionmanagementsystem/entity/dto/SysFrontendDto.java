@@ -24,6 +24,8 @@ public class SysFrontendDto{
 
     private String state;
 
+    private String redirect;
+
     private Integer sortValue;
 
     private String icon;
