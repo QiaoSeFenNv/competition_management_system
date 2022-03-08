@@ -195,7 +195,7 @@ public class UserController {
         if (!bCryptPasswordEncoderUtil.matches(sysChangePass.getOriginPas(), user.getUserPassword())) {
             return R.failed("原密码错误");
         }
-        user.setUserPassword( bCryptPasswordEncoderUtil.encode(sysChangePass.getNewPas()));
+        user.setUserPassword( bCryptPasswordEncoderUtil.encode(sysChangePass.getPassWord()));
         userService.updateByPrimaryKeySelective(user);
 
         return R.ok("修改成功");
@@ -223,7 +223,7 @@ public class UserController {
         }
 
 
-        String encode = bCryptPasswordEncoderUtil.encode(sysChangePass.getNewPas());
+        String encode = bCryptPasswordEncoderUtil.encode(sysChangePass.getPassWord());
         user.setUserPassword(encode);
         int i = userService.updateByPrimaryKeySelective(user);
 

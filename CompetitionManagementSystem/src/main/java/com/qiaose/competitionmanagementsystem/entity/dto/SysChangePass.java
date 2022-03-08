@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @AllArgsConstructor
 public class SysChangePass {
 
-    private String newPas;
+    private String passWord;
     private String email;
     private String verification;
     private String originPas;
