@@ -63,6 +63,7 @@ public class UserInfo implements Serializable {
     */
     private Date updatedTime;
 
+    private String remark;
 
     private String[] role;
 

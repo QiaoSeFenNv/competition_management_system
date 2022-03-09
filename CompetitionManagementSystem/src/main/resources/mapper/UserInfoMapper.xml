@@ -14,10 +14,11 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="create_time" jdbcType="DATE" property="createTime" />
     <result column="updated_time" jdbcType="DATE" property="updatedTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, user_id, user_name, user_status, counselor, dept_id, telephone, email, create_time, updated_time
+    id, user_id, user_name, user_status, counselor, dept_id, telephone, email, create_time, updated_time,remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -81,11 +82,11 @@
     <!--@mbg.generated-->
     insert into user_info (user_id, user_name, user_status, 
       counselor, dept_id, telephone, 
-      email, create_time, updated_time
+      email, create_time, updated_time,remark
       )
     values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR}, 
       #{counselor,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{updatedTime,jdbcType=DATE}
+      #{email,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, #{updatedTime,jdbcType=DATE},#{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.UserInfo" useGeneratedKeys="true">
@@ -119,6 +120,9 @@
       <if test="updatedTime != null">
         updated_time,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -147,6 +151,9 @@
       </if>
       <if test="updatedTime != null">
         #{updatedTime,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -181,6 +188,9 @@
       <if test="updatedTime != null">
         updated_time = #{updatedTime,jdbcType=DATE},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -194,7 +204,8 @@
       dept_id = #{deptId,jdbcType=VARCHAR},
       telephone = #{telephone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      updated_time = #{updatedTime,jdbcType=DATE}
+      updated_time = #{updatedTime,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR},
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

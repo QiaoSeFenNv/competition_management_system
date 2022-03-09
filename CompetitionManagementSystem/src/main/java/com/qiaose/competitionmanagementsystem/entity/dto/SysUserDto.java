@@ -14,9 +14,13 @@ public class SysUserDto {
 
     private String email;
 
-    private String phone;
+    private String telephone;
 
     private String deptId;
 
     private String[] role;
+
+    private String remark;
+
+    private String userStatus;
 }

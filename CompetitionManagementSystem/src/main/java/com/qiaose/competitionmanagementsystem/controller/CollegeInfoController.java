@@ -108,10 +108,13 @@ public class CollegeInfoController {
                         .userId(userInfo.getUserId())
                         .userName(userInfo.getUserName())
                         .email(userInfo.getEmail())
-                        .phone(userInfo.getTelephone())
+                        .telephone(userInfo.getTelephone())
+                        .userStatus(userInfo.getUserStatus())
+                        .remark(userInfo.getRemark())
                         .build();
                 build.setRole(role);
-                build.setDeptId(collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId())).getCollegeName());
+//                build.setDeptId(collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId())).getCollegeName());
+                build.setDeptId(userInfo.getDeptId());
                 userList.add(build);
             }
             PageInfo<SysUserDto> pageInfo = new PageInfo<>(userList);
@@ -155,10 +158,13 @@ public class CollegeInfoController {
                     .userId(userInfo.getUserId())
                     .userName(userInfo.getUserName())
                     .email(userInfo.getEmail())
-                    .phone(userInfo.getTelephone())
+                    .telephone(userInfo.getTelephone())
+                    .userStatus(userInfo.getUserStatus())
+                    .remark(userInfo.getRemark())
                     .role(role)
                     .build();
-            build.setDeptId(collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId())).getCollegeName());
+//            build.setDeptId(collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId())).getCollegeName());
+            build.setDeptId(userInfo.getDeptId());
             userList.add(build);
         }
 
