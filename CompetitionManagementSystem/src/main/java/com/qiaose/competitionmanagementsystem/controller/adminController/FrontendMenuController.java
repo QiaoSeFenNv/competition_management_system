@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendButtonTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
@@ -11,6 +12,7 @@ import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 import com.qiaose.competitionmanagementsystem.service.UserService;
+import com.qiaose.competitionmanagementsystem.service.adminImpl.SysFrontendButtonTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleFrontendMenuTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
@@ -42,7 +44,8 @@ public class FrontendMenuController {
     @Autowired
     SysRoleUserTableService sysRoleUserTableService;
 
-
+    @Autowired
+    SysFrontendButtonTableService sysFrontendButtonTableService;
     
     @Autowired
     UserService userService;
@@ -74,10 +77,16 @@ public class FrontendMenuController {
 
         List<SysFrontendMenuTable> sysFrontendDtos = new ArrayList<>();
         List<Long> idList = new ArrayList<>();
+        List<SysFrontendButtonTable> ButtonList = new ArrayList<>();
         for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTable) {
-            SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.selectByPrimaryKey(roleFrontendMenuTable.getAuthorityId());
-            if ( !idList.contains(sysFrontendMenuTable.getId()) && !idList.contains(sysFrontendMenuTable.getParentId())){
-                idList.add(sysFrontendMenuTable.getId());
+            if (roleFrontendMenuTable.getAuthorityType().equals("MENU")) {
+                SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.selectByPrimaryKey(roleFrontendMenuTable.getAuthorityId());
+                if ( !idList.contains(sysFrontendMenuTable.getId()) && !idList.contains(sysFrontendMenuTable.getParentId())){
+                    idList.add(sysFrontendMenuTable.getId());
+                }
+            }
+            if (roleFrontendMenuTable.getAuthorityType().equals("PERM")) {
+                ButtonList.add( sysFrontendButtonTableService.selectByPrimaryKey(roleFrontendMenuTable.getAuthorityId()) );
             }
         }
         for (Long aLong : idList) {
@@ -90,7 +99,6 @@ public class FrontendMenuController {
 
         PageInfo<SysFrontendMenuTable> pageInfo = new PageInfo<>(sysFrontendDtos);
         List<SysFrontendMenuTable> list = pageInfo.getList();
-
         return R.ok(list);
     }
 
