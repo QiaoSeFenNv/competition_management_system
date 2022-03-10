@@ -64,7 +64,7 @@ public class CompetitionTodo implements Serializable {
     private String todoAdvice;
 
 
-    private Long applicationId;
+    private String applicationId;
 
     private String applicationName;
 

@@ -60,7 +60,7 @@ public class TodoController {
 
         competitionTodo.forEach(competitionTodo1 -> {
             CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo1.getApprovalId());
-            competitionTodo1.setApplicationId(competitionApproval.getApprovalId());
+            competitionTodo1.setApplicationId(competitionApproval.getApplicantId());
             competitionTodo1.setApplicantName(competitionApproval.getApplicantName());
         });
 
