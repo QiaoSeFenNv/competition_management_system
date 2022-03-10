@@ -125,4 +125,7 @@ public class CompetitionBonus implements Serializable {
     @TableField(exist = false)
     private String competitionAward;
 
+    @TableField(exist = false)
+    private String competitionInfoName;
+
 }

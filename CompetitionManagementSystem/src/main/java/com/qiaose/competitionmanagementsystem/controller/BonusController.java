@@ -12,6 +12,7 @@ import com.qiaose.competitionmanagementsystem.entity.dto.PriceDto;
 import com.qiaose.competitionmanagementsystem.enums.BonusTypeEnum;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.exception.TipException;
+import com.qiaose.competitionmanagementsystem.service.CompetitionOrganizerService;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionBonusService;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionPriceService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
@@ -50,6 +51,9 @@ public class BonusController {
 
     @Resource
     ICompetitionPriceService iCompetitionPriceService;
+
+    @Resource
+    CompetitionOrganizerService competitionOrganizerService;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -92,6 +96,7 @@ public class BonusController {
         pageList.getRecords().forEach(competitionBonus -> {
             CompetitionPrice byId = iCompetitionPriceService.getById(competitionBonus.getPriceId());
             competitionBonus.setCompetitionInfo(byId.getCompetitionInfo());
+            competitionBonus.setCompetitionInfoName(competitionOrganizerService.selectByPrimaryKey(Integer.valueOf(competitionBonus.getCompetitionInfo())).getOrganizeOrganizer());
             competitionBonus.setCompetitionType(byId.getCompetitionType());
             competitionBonus.setTitleName(byId.getTitleName());
             competitionBonus.setCompetitionLevel(byId.getCompetitionLevel());

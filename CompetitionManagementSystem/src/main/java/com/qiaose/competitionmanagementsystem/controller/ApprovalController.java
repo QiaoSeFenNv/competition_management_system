@@ -224,8 +224,9 @@ public class ApprovalController {
 
 
         //老师填写梯度系数的数据
-        iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
-
+        if (sysApproval.getCompetitionCoefficient() != null){
+            iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
+        }
         return R.ok("");
     }
 
@@ -269,8 +270,9 @@ public class ApprovalController {
         competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
 
         //老师填写梯度系数的数据
-        iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
-
+        if (sysApproval.getCompetitionCoefficient() != null){
+            iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
+        }
         return R.ok("");
     }
 
