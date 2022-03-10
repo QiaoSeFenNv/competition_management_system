@@ -16,9 +16,10 @@ import com.qiaose.competitionmanagementsystem.entity.dto.StudentDto;
 import com.qiaose.competitionmanagementsystem.enums.BonusTypeEnum;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.exception.TipException;
-import com.qiaose.competitionmanagementsystem.service.ICompetitionBonusService;
-import com.qiaose.competitionmanagementsystem.service.ICompetitionPriceService;
-import com.qiaose.competitionmanagementsystem.service.UserInfoService;
+import com.qiaose.competitionmanagementsystem.service.*;
+import com.qiaose.competitionmanagementsystem.service.serviceImpl.CollegeInfoServiceImpl;
+import com.qiaose.competitionmanagementsystem.service.serviceImpl.CompetitionAwardServiceImpl;
+import com.qiaose.competitionmanagementsystem.service.serviceImpl.CompetitionInfoServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +59,16 @@ public class PriceController {
 
     @Resource
     ICompetitionBonusService iCompetitionBonusService;
+
+    @Resource
+    CompetitionRewardService competitionRewardService;
+
+    @Resource
+    CollegeInfoService collegeInfoService;
+
+    @Resource
+    CompetitionOrganizerService competitionOrganizerService;
+
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -155,6 +166,12 @@ public class PriceController {
         PriceDto priceDto = new PriceDto();
         BeanUtils.copyProperties(competitionPrice, priceDto);
         priceDto.setAwardTime(competitionPrice.getAwardTime().getTime());
+
+        //构建中文名称
+        priceDto.setCompetitionAwardName(competitionRewardService.selectByPrimaryKey(Long.valueOf(competitionPrice.getCompetitionAward())).getRewardLevel());
+        priceDto.setCompetitionInfoName(competitionOrganizerService.selectByPrimaryKey(Integer.valueOf(competitionPrice.getCompetitionInfo())).getOrganizeOrganizer());
+        priceDto.setCollegeInfoName(collegeInfoService.selectByPrimaryKey(Integer.valueOf(competitionPrice.getCollegeInfo())).getCollegeName());
+
         //获取到bonus数据根据price以及userId
         QueryWrapper<CompetitionBonus> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("price_id", competitionPrice.getId());
@@ -168,6 +185,7 @@ public class PriceController {
         }
         //改变学生
         priceDto.setStudentDtoList(studentDtoList);
+
         priceDtoList.add(priceDto);
 
         PageDto<PriceDto> pageDto = new PageDto<>();
@@ -189,6 +207,12 @@ public class PriceController {
     @ApiOperation(value = "删除多条获奖信息", notes = "需要传入一个对象")
     @Transactional(rollbackFor = {Exception.class})
     public R deletePrice(@RequestBody List<Integer> ids) {
+        //删除bonus数据
+        ids.forEach(id->{
+            CompetitionPrice byId = iCompetitionPriceService.getById(id);
+            iCompetitionBonusService.removeById(byId.getId());
+        });
+
         iCompetitionPriceService.removeByIds(ids);
         return R.ok("");
     }
@@ -219,7 +243,7 @@ public class PriceController {
         //根据学生数量生成对应数据
         String userId = competitionPrice.getUserId();
         QueryWrapper<CompetitionBonus> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id", competitionPrice.getId());
+        queryWrapper.eq("price_id", competitionPrice.getId());
         List<CompetitionBonus> list = iCompetitionBonusService.list(queryWrapper);
         if (!list.isEmpty()) {
             throw new TipException("重复发送");

@@ -384,7 +384,9 @@ public class RecordController {
         String recordWinningStudent = competitionRecord.getRecordWinningStudent();
 
         competitionRecord.setRecordWinningStudent(
-                userInfoService.selectByWorkId(recordWinningStudent).getUserName());
+                recordWinningStudent
+//                userInfoService.selectByWorkId(recordWinningStudent).getUserName());
+        );
 
         //返回数组类型的upload
         if (competitionRecord.getRecordUpload()!=null){

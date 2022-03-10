@@ -144,6 +144,7 @@ public class UserController {
                 .phone(userInfo.getTelephone())
                 .build();
         userDto.setToken(token);
+
         List<SysRoleUserTable> sysRoleUserTable = sysRoleUserTableService.selectByUserId(user.getUserId());
         List<SysRoleTable> sysRoleTables = new ArrayList<>();
         for (SysRoleUserTable roleUserTable : sysRoleUserTable) {

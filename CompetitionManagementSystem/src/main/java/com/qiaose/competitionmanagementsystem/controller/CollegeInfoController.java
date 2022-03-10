@@ -113,7 +113,7 @@ public class CollegeInfoController {
                         .remark(userInfo.getRemark())
                         .build();
                 build.setRole(role);
-//                build.setDeptId(collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId())).getCollegeName());
+                build.setDeptName(collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId())).getCollegeName());
                 build.setDeptId(userInfo.getDeptId());
                 userList.add(build);
             }
@@ -163,7 +163,7 @@ public class CollegeInfoController {
                     .remark(userInfo.getRemark())
                     .role(role)
                     .build();
-//            build.setDeptId(collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId())).getCollegeName());
+            build.setDeptName(collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId())).getCollegeName());
             build.setDeptId(userInfo.getDeptId());
             userList.add(build);
         }

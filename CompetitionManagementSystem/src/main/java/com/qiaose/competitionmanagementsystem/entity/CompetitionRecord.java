@@ -133,6 +133,7 @@ public class CompetitionRecord implements Serializable {
      * */
     private String recordCoefficient;
 
+
     private List<CompetitionProgram> competitionProgramList;
 
 

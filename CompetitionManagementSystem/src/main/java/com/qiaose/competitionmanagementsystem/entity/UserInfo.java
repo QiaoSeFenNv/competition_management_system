@@ -67,6 +67,8 @@ public class UserInfo implements Serializable {
 
     private String[] role;
 
+    private String deptName;
+
     private static final long serialVersionUID = 1L;
 
 }

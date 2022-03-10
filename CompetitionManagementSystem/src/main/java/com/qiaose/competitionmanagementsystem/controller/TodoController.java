@@ -2,6 +2,7 @@ package com.qiaose.competitionmanagementsystem.controller;
 
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
+import com.qiaose.competitionmanagementsystem.entity.CompetitionApproval;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionTodo;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.service.CompetitionApprovalService;
@@ -56,6 +57,12 @@ public class TodoController {
 
 
         List<CompetitionTodo> competitionTodo = competitionTodoService.selectByApplicantId(user.getUserId());
+
+        competitionTodo.forEach(competitionTodo1 -> {
+            CompetitionApproval competitionApproval = competitionApprovalService.selectByPrimaryKey(competitionTodo1.getApprovalId());
+            competitionTodo1.setApplicationId(competitionApproval.getApprovalId());
+            competitionTodo1.setApplicantName(competitionApproval.getApplicantName());
+        });
 
         return R.ok(competitionTodo);
     }

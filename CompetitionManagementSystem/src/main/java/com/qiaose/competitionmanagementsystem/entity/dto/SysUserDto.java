@@ -18,6 +18,8 @@ public class SysUserDto {
 
     private String deptId;
 
+    private String deptName;
+
     private String[] role;
 
     private String remark;

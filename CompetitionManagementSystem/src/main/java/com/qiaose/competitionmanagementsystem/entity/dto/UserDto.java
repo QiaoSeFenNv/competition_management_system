@@ -18,6 +18,7 @@ public class UserDto {
     String userName;
     String phone;
     String email;
+    String deptName;
 
 
 }

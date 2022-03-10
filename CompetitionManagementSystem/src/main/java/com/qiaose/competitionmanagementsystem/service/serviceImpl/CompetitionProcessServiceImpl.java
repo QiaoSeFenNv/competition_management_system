@@ -2,6 +2,7 @@ package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.entity.*;
+import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.CompetitionProgramService;
 import com.qiaose.competitionmanagementsystem.service.CompetitionTodoService;
@@ -66,7 +67,7 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
             System.out.println("FDY进来了没啊？");
             CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId()));
             if (collegeInfo.getDutyId()==null) {
-                throw new Exception("没有对应辅导员学号");
+                throw new TipException("没有绑定下级审核人员");
             }else{
                 return collegeInfo.getDutyId();
             }
@@ -84,7 +85,7 @@ public class CompetitionProcessServiceImpl implements CompetitionProcessService{
             System.out.println(result);
             CollegeInfo collegeInfo1 = collegeInfoService.selectByPrimaryKey(Integer.valueOf(result));
             if (collegeInfo1.getDutyId()==null) {
-                throw new Exception("没有对应二级学院学号");
+                throw new Exception("没有绑定下级审核人员");
             }else{
                 return collegeInfo1.getDutyId();
             }

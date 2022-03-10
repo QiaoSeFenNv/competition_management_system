@@ -31,10 +31,14 @@ public class PriceDto {
 
     private String collegeInfo;
 
+    private String collegeInfoName;
+
     List<StudentDto> studentDtoList = new ArrayList<>();
 
 
     private String competitionInfo;
+
+    private String competitionInfoName;
 
     private String oganizer;
     /**
@@ -60,6 +64,9 @@ public class PriceDto {
     /**
      * 获奖时间
      */
+
+    private String competitionAwardName;
+
 
     private Long awardTime;
     /**
