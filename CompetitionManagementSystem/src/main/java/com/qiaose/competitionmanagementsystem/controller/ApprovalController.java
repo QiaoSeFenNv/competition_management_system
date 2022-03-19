@@ -122,11 +122,6 @@ public class ApprovalController {
 
         sysApproval.setCompetitionProgram(competitionPrograms);
 
-        //添加系数梯度
-        QueryWrapper<CompetitionCoefficient> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("approval_id",competitionApproval.getApprovalId());
-        CompetitionCoefficient one = iCompetitionCoefficientService.getOne(queryWrapper);
-        sysApproval.setCompetitionCoefficient(one);
         //返回给前端
         return R.ok(sysApproval);
 

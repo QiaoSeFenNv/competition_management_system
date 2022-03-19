@@ -22,6 +22,9 @@
     <result column="record_gradient" jdbcType="VARCHAR" property="recordGradient"/>
     <result column="record_coefficient" jdbcType="VARCHAR" property="recordCoefficient"/>
   </resultMap>
+
+
+
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     record_id, record_name, record_Indiv_groups, record_instructor, record_winning_time, 
@@ -36,6 +39,17 @@
     where record_id = #{recordId,jdbcType=BIGINT}
   </select>
 
+  <resultMap id="AwardCompetition" type="com.qiaose.competitionmanagementsystem.entity.dto.AwardCompetitionDto">
+    <result column="record_competition_id" jdbcType="INTEGER" property="competitionInfoId"/>
+    <result column="total" jdbcType="INTEGER" property="value"/>
+  </resultMap>
+
+  <select id="getTotalData" resultMap="AwardCompetition">
+    select record_competition_id,count(record_competition_id) as total
+    from `competition_record`
+    GROUP BY record_competition_id
+    LIMIT 10;
+  </select>
 
   <select id="selectByUserId" resultMap="BaseResultMap">
     <!--@mbg.generated-->

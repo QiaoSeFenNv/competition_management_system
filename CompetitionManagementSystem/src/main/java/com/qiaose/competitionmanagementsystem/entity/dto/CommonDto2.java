@@ -7,18 +7,17 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * @ClassName: CommonDto
- * @Description: 模板数据返回
+ * @ClassName: CommonDto2
+ * @Description:
  * @Author qiaosefennv
- * @Date 2022/3/5
+ * @Date 2022/3/19
  * @Version 1.0
  */
 @Data
 @NoArgsConstructor
-public class CommonDto {
-    private int toDayReceive;
-    private int toDayDeal;
-    private int sumPrice;
-    private int integral;
-    private int credits;
+public class CommonDto2 {
+
+    private Integer sumReward;
+    private List<User> stuRanking;
+    private List<AwardCompetitionDto> compReward;
 }

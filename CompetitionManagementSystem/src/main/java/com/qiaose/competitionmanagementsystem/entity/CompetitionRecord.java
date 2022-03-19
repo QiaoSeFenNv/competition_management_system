@@ -71,16 +71,19 @@ public class CompetitionRecord implements Serializable {
     /**
     * 申请学分
     */
+    @JsonIgnore
     private String recordApplyCredit;
 
     /**
     * 年纪专业
     */
+    @JsonIgnore
     private String recordGrade;
 
     /**
     * 二级学院
     */
+    @JsonIgnore
     private Integer recordCollegeId;
 
     /**

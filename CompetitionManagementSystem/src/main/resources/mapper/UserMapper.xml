@@ -32,6 +32,15 @@
     from `user`
   </select>
 
+  <select id="getTotalData" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from `user`
+    order by user_integral
+    desc
+    limit 10;
+  </select>
 
   <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->

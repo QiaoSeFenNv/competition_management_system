@@ -1,5 +1,6 @@
 package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
+import com.qiaose.competitionmanagementsystem.entity.dto.AwardCompetitionDto;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
@@ -52,6 +53,11 @@ public class CompetitionRecordServiceImpl implements CompetitionRecordService{
     @Override
     public List<CompetitionRecord> selectByUserId(String userId) {
         return competitionRecordMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public List<AwardCompetitionDto> getTotalData() {
+        return competitionRecordMapper.getTotalData();
     }
 
 }

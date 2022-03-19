@@ -7,10 +7,12 @@ import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionTodo;
+import com.qiaose.competitionmanagementsystem.entity.User;
+import com.qiaose.competitionmanagementsystem.entity.dto.AwardCompetitionDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.CommonDto;
+import com.qiaose.competitionmanagementsystem.entity.dto.CommonDto2;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
-import com.qiaose.competitionmanagementsystem.service.CompetitionRecordService;
-import com.qiaose.competitionmanagementsystem.service.CompetitionTodoService;
+import com.qiaose.competitionmanagementsystem.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,12 @@ public class CommonController {
 
     @Resource
     CompetitionRecordService competitionRecordService;
+
+    @Resource
+    CompetitionOrganizerService competitionOrganizerService;
+
+    @Resource
+    UserService userService;
 
     @Autowired
     SchedulerMail schedulerMail;
@@ -107,6 +115,33 @@ public class CommonController {
         List<CompetitionRecord> sumPrice= competitionRecordService.selectByUserId(username);
         commonDto.setSumPrice(sumPrice.size());
 
+
+
+
         return R.ok(commonDto);
     }
+
+    @GetMapping("/analysisData")
+    @ApiOperation(value = "获取前端模板",notes = "需要输入邮箱地址")
+    public R analysisData(HttpServletRequest request){
+        CommonDto2 commonDto2 = new CommonDto2();
+        //比赛分析情况
+
+        List<AwardCompetitionDto> awardCompetitionDto = competitionRecordService.getTotalData();
+        awardCompetitionDto.forEach(awardCompetition -> {
+            String organizeOrganizer = competitionOrganizerService.selectByPrimaryKey(awardCompetition.getCompetitionInfoId()).getOrganizeOrganizer();
+            awardCompetition.setCompetitionInfo(organizeOrganizer);
+        });
+        commonDto2.setCompReward(awardCompetitionDto);
+        //积分排名
+        List<User> stuRanking = userService.getTotalData();
+        commonDto2.setStuRanking(stuRanking);
+
+        //总获奖总数
+        List<CompetitionRecord> competitionRecords = competitionRecordService.selectAll();
+        commonDto2.setSumReward(competitionRecords.size());
+
+        return R.ok(commonDto2);
+    }
+
 }

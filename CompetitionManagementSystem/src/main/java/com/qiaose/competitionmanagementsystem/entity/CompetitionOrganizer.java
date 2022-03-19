@@ -46,6 +46,8 @@ public class CompetitionOrganizer implements Serializable {
     @JsonIgnore
     private Date createTime;
 
+    private String organizeType;
+
     /**
     * 赛事级别信息更新时间
     */

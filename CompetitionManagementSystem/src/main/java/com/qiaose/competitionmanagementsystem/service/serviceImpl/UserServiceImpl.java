@@ -73,6 +73,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<User> getTotalData() {
+        return userMapper.getTotalData();
+    }
+
+    @Override
     public int deleteByUserId(String userId) {
         return userMapper.deleteByUserId(userId);
     }

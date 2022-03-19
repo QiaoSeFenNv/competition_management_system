@@ -12,6 +12,7 @@ import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
+import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.*;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
@@ -115,8 +116,8 @@ public class RecordController {
         
         //插入老师认定表格数据，之后让老师填写
         CompetitionCoefficient competitionCoefficient = new CompetitionCoefficient();
-        competitionCoefficient.setApprovalId(approvalId);
-        iCompetitionCoefficientService.save(competitionCoefficient);
+
+
 
 
         /*
@@ -128,6 +129,17 @@ public class RecordController {
         Record.setRecordId(recordId);
         //写进当前学生
         Record.setRecordWinningStudent(user.getUserId());
+
+        //写进班级和二级学院
+        CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId()));
+        String[] split = collegeInfo.getAncestors().split(",");
+        if (split.length<=2){
+            new TipException("无对应的二级学院");
+        }
+        Record.setRecordCollegeId(Integer.valueOf(split[2]));
+        Record.setRecordGrade(collegeInfo.getCollegeName());
+
+
         //生成一个对应内容的申请表
         //1L 旧的代码  5L新的流程
         CompetitionApproval competitionApproval =

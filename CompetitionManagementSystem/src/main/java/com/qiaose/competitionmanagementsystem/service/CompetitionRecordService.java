@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.service;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
+import com.qiaose.competitionmanagementsystem.entity.dto.AwardCompetitionDto;
 
 import java.util.Collection;
 import java.util.List;
@@ -23,4 +24,6 @@ public interface CompetitionRecordService{
     int updateByPrimaryKey(CompetitionRecord record);
 
     List<CompetitionRecord> selectByUserId(String userId);
+
+    List<AwardCompetitionDto> getTotalData();
 }

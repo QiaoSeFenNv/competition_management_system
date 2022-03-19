@@ -28,4 +28,6 @@ public interface UserService{
     List<User> getAllUser();
 
     int deleteByUserId(String userId);
+
+    List<User> getTotalData();
 }

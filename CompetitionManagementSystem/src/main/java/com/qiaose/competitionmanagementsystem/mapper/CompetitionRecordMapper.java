@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.mapper;
 
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
+import com.qiaose.competitionmanagementsystem.entity.dto.AwardCompetitionDto;
 
 import java.util.List;
 
@@ -21,5 +22,5 @@ public interface CompetitionRecordMapper {
 
     int updateByPrimaryKey(CompetitionRecord record);
 
-
+    List<AwardCompetitionDto> getTotalData();
 }

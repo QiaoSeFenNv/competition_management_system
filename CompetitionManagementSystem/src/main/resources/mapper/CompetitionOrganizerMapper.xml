@@ -11,11 +11,12 @@
     <result column="organize_note" jdbcType="VARCHAR" property="organizeNote" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="organize_type" jdbcType="VARCHAR" property="organizeType"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     organize_id, organize_level, organize_organizer, organize_name, organize_note, create_time, 
-    update_time
+    update_time,organize_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -51,10 +52,10 @@
     <!--@mbg.generated-->
     insert into competition_organizer (organize_id, organize_level, organize_organizer, 
       organize_name, organize_note, create_time, 
-      update_time)
+      update_time,organize_type)
     values (#{organizeId,jdbcType=INTEGER}, #{organizeLevel,jdbcType=VARCHAR}, #{organizeOrganizer,jdbcType=VARCHAR}, 
       #{organizeName,jdbcType=VARCHAR}, #{organizeNote,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{updateTime,jdbcType=TIMESTAMP}),#{organizeType,jdbcType=VARCHAR}
   </insert>
   <insert id="insertSelective" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionOrganizer">
     <!--@mbg.generated-->
@@ -81,6 +82,9 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="organizeType != null">
+        organize_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="organizeId != null">
@@ -103,6 +107,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="organizeType != null">
+        #{organizeType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -128,6 +135,9 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="organizeType != null">
+        organize_type = #{organizeType,jdbcType=VARCHAR},
+      </if>
     </set>
     where organize_id = #{organizeId,jdbcType=INTEGER}
   </update>
@@ -139,7 +149,8 @@
       organize_name = #{organizeName,jdbcType=VARCHAR},
       organize_note = #{organizeNote,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+    organize_type = #{organizeType,jdbcType=VARCHAR}
     where organize_id = #{organizeId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -3,6 +3,7 @@ package com.qiaose.competitionmanagementsystem.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -74,6 +75,8 @@ public class CompetitionInfo implements Serializable {
     /**
     * 比赛赛道：？？？？
     */
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Byte track;
 
     /**
