@@ -2,12 +2,16 @@ package com.qiaose.competitionmanagementsystem.controller;
 
 import com.baomidou.mybatisplus.extension.api.R;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
+import com.qiaose.competitionmanagementsystem.entity.dto.CreditDto;
+import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
@@ -20,6 +24,7 @@ import io.swagger.annotations.ApiOperation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -195,5 +200,30 @@ public class UserInfoController {
     }
 
 
+    @GetMapping("/getCreditInfo")
+    @ApiOperation(value = "查询学分", notes = "返回数据为学生所有信息")
+//    @Transactional(rollbackFor = Exception.class)
+    public R getCreditInfo(@RequestParam(defaultValue = "1", value = "page") Integer page
+            ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize
+            ,@RequestParam String userId) {
+        PageHelper.startPage(page,pageSize);
+        List<UserInfo> userInfoList = userInfoService.selectByUserCredit(userId);
+        PageInfo<UserInfo> pageInfo = new PageInfo<>(userInfoList);
+        List<UserInfo> list1 = pageInfo.getList();
+        PageDto pageDto = new PageDto();
+        pageDto.setItems(list1);
+        pageDto.setTotal((int) pageInfo.getTotal());
+        return  R.ok(pageDto);
+    }
+
+    @PostMapping("/updateCreditInfo")
+    @ApiOperation(value = "修改学分", notes = "返回数据为学生所有信息")
+//    @Transactional(rollbackFor = Exception.class)
+    public R getCreditInfo(@RequestBody CreditDto creditDto) {
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(creditDto,userInfo);
+        int i = userInfoService.updateByUserSelective(userInfo);
+        return  R.ok("成功");
+    }
 
 }

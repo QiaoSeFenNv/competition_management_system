@@ -134,7 +134,7 @@ public class RecordController {
         CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId()));
         String[] split = collegeInfo.getAncestors().split(",");
         if (split.length<=2){
-            new TipException("无对应的二级学院");
+            throw new TipException("无对应的二级学院");
         }
         Record.setRecordCollegeId(Integer.valueOf(split[2]));
         Record.setRecordGrade(collegeInfo.getCollegeName());

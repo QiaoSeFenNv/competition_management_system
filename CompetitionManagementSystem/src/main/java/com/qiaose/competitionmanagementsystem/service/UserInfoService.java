@@ -18,6 +18,8 @@ public interface UserInfoService{
 
     int updateByPrimaryKeySelective(UserInfo record);
 
+    int updateByUserSelective(UserInfo record);
+
     int updateByPrimaryKey(UserInfo record);
 
     List<UserInfo> selectByDeptId(String s);
@@ -29,4 +31,6 @@ public interface UserInfoService{
     List<UserInfo> selectByName(String name);
 
     List<UserInfo> selectByUserSelect(String userSelect);
+
+    List<UserInfo> selectByUserCredit(String userSelect);
 }

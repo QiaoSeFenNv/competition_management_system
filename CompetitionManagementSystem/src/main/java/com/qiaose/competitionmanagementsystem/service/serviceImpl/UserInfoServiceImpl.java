@@ -41,6 +41,12 @@ public class UserInfoServiceImpl implements UserInfoService{
     }
 
     @Override
+    public int updateByUserSelective(UserInfo record) {
+        return userInfoMapper.updateByUserSelective(record);
+    }
+
+
+    @Override
     public int updateByPrimaryKey(UserInfo record) {
         return userInfoMapper.updateByPrimaryKey(record);
     }
@@ -70,4 +76,8 @@ public class UserInfoServiceImpl implements UserInfoService{
         return userInfoMapper.selectByUserSelect(userSelect);
     }
 
+    @Override
+    public List<UserInfo> selectByUserCredit(String userSelect) {
+        return userInfoMapper.selectByUserCredit(userSelect);
+    }
 }

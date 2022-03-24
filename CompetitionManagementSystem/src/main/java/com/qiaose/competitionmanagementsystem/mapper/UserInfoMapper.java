@@ -23,9 +23,13 @@ public interface UserInfoMapper {
 
     List<UserInfo> selectByUserSelect(String userSelect);
 
+    List<UserInfo> selectByUserCredit(String userSelect);
+
     List<UserInfo> selectByName(@Param("name") String name);
 
     int updateByPrimaryKeySelective(UserInfo record);
+
+    int updateByUserSelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
 
