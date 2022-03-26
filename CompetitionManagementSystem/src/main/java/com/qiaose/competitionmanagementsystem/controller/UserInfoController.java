@@ -79,7 +79,7 @@ public class UserInfoController {
     public R getStuInfo(@RequestParam String userSelect) {
 
         if (StringUtils.isNotBlank(userSelect)) {
-            List<UserInfo> userInfoList= userInfoService.selectByUserSelect(userSelect);
+            List<UserInfo> userInfoList = userInfoService.selectByUserSelect(userSelect);
             return R.ok(userInfoList);
         }
         return R.ok("传递参数为空");
@@ -88,9 +88,9 @@ public class UserInfoController {
     @PostMapping("/insertCurStu")
     @ApiOperation(value = "插入当前学生信息", notes = "传入对象")
     @Transactional(rollbackFor = Exception.class)
-    public R insertCurStu(@RequestBody  UserInfo userInfo) {
+    public R insertCurStu(@RequestBody UserInfo userInfo) {
 
-        if (userInfo.getUserId()==null) {
+        if (userInfo.getUserId() == null) {
             return R.failed("无学工号、无法生成");
         }
 
@@ -101,13 +101,13 @@ public class UserInfoController {
 
         int k = userInfoService.insertSelective(userInfo);
 
-        if ( k <= 0) {
+        if (k <= 0) {
             return R.failed("插入失败");
         }
         return R.ok("插入成功");
     }
 
-    public void insertOrgUser(UserInfo userInfo){
+    public void insertOrgUser(UserInfo userInfo) {
         User user = new User();
         //名称
         user.setUserId(userInfo.getUserId());
@@ -115,15 +115,15 @@ public class UserInfoController {
         int j = userService.insertSelective(user);
         //绑定角色
         SysRoleUserTable sysRoleUserTable = new SysRoleUserTable();
-        if (userInfo.getRole() == null){
+        if (userInfo.getRole() == null) {
             //默认为学生
             sysRoleUserTable.setRoleId("2");
             sysRoleUserTable.setUserId(userInfo.getUserId());
             sysRoleUserTableService.insertSelective(sysRoleUserTable);
-        }else{
+        } else {
             for (String s : userInfo.getRole()) {
                 SysRoleTable sysRoleTable = sysRoleTableService.selectByName(s);
-                if (sysRoleTable!=null) {
+                if (sysRoleTable != null) {
                     sysRoleUserTable.setRoleId(sysRoleTable.getRoleId());
                     sysRoleUserTable.setUserId(userInfo.getUserId());
                     sysRoleUserTableService.insertSelective(sysRoleUserTable);
@@ -139,16 +139,16 @@ public class UserInfoController {
     @PostMapping("/insertAll")
     @ApiOperation(value = "批量插入", notes = "")
     @Transactional(rollbackFor = Exception.class)
-    public R insertAll(@RequestBody List<UserInfo> userList){
+    public R insertAll(@RequestBody List<UserInfo> userList) {
 
         for (UserInfo userInfo : userList) {
-            if (userInfoService.selectByWorkId(userInfo.getUserId())!=null) {
+            if (userInfoService.selectByWorkId(userInfo.getUserId()) != null) {
                 break;
             }
             //设置部门id然后插入数据
             Integer id = collegeInfoService.selectByName(userInfo.getDeptId());
 
-            log.info("部门对应id：{}",id);
+            log.info("部门对应id：{}", id);
 
             userInfo.setDeptId(String.valueOf(id));
             //插入数据
@@ -185,7 +185,7 @@ public class UserInfoController {
         return R.ok("更新成功");
     }
 
-    @PostMapping  ("/deleteCurStu")
+    @PostMapping("/deleteCurStu")
     @ApiOperation(value = "删除当前学生信息", notes = "携带id")
     @Transactional(rollbackFor = Exception.class)
     public R deleteCurStu(@RequestBody UserInfo userInfo) {
@@ -204,16 +204,16 @@ public class UserInfoController {
     @ApiOperation(value = "查询学分", notes = "返回数据为学生所有信息")
 //    @Transactional(rollbackFor = Exception.class)
     public R getCreditInfo(@RequestParam(defaultValue = "1", value = "page") Integer page
-            ,@RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize
-            ,@RequestParam String userId) {
-        PageHelper.startPage(page,pageSize);
+            , @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize
+            , @RequestParam(required = false, defaultValue = "") String userId) {
+        PageHelper.startPage(page, pageSize);
         List<UserInfo> userInfoList = userInfoService.selectByUserCredit(userId);
         PageInfo<UserInfo> pageInfo = new PageInfo<>(userInfoList);
         List<UserInfo> list1 = pageInfo.getList();
         PageDto pageDto = new PageDto();
         pageDto.setItems(list1);
         pageDto.setTotal((int) pageInfo.getTotal());
-        return  R.ok(pageDto);
+        return R.ok(pageDto);
     }
 
     @PostMapping("/updateCreditInfo")
@@ -221,9 +221,9 @@ public class UserInfoController {
 //    @Transactional(rollbackFor = Exception.class)
     public R getCreditInfo(@RequestBody CreditDto creditDto) {
         UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(creditDto,userInfo);
+        BeanUtils.copyProperties(creditDto, userInfo);
         int i = userInfoService.updateByUserSelective(userInfo);
-        return  R.ok("成功");
+        return R.ok("成功");
     }
 
 }
