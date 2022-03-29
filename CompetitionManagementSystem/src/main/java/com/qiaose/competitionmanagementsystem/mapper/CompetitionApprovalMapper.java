@@ -22,5 +22,5 @@ public interface CompetitionApprovalMapper {
 
     int updateByPrimaryKey(CompetitionApproval record);
 
-
+    List<CompetitionApproval> selectAllSuccessApproval();
 }

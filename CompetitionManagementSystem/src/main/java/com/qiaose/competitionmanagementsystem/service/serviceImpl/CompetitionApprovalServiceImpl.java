@@ -77,4 +77,9 @@ public class CompetitionApprovalServiceImpl implements CompetitionApprovalServic
         return competitionApprovalMapper.selectByRecordId(recordId);
     }
 
+    @Override
+    public List<CompetitionApproval> selectAllSuccessApproval() {
+        return competitionApprovalMapper.selectAllSuccessApproval();
+    }
+
 }

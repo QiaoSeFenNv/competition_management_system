@@ -6,7 +6,7 @@ import com.qiaose.competitionmanagementsystem.entity.dto.AwardCompetitionDto;
 import java.util.Collection;
 import java.util.List;
 
-public interface CompetitionRecordService{
+public interface CompetitionRecordService {
 
 
     int deleteByPrimaryKey(Long recordId);
@@ -26,4 +26,6 @@ public interface CompetitionRecordService{
     List<CompetitionRecord> selectByUserId(String userId);
 
     List<AwardCompetitionDto> getTotalData();
+
+    List<CompetitionRecord> selectByWinningStudent(String userId);
 }

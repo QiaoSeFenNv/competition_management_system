@@ -2,7 +2,9 @@ package com.qiaose.competitionmanagementsystem.service.serviceImpl;
 
 import com.qiaose.competitionmanagementsystem.entity.dto.AwardCompetitionDto;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
+
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
 import com.qiaose.competitionmanagementsystem.mapper.CompetitionRecordMapper;
 import com.qiaose.competitionmanagementsystem.service.CompetitionRecordService;
@@ -10,7 +12,7 @@ import com.qiaose.competitionmanagementsystem.service.CompetitionRecordService;
 import java.util.List;
 
 @Service
-public class CompetitionRecordServiceImpl implements CompetitionRecordService{
+public class CompetitionRecordServiceImpl implements CompetitionRecordService {
 
     @Resource
     private CompetitionRecordMapper competitionRecordMapper;
@@ -58,6 +60,11 @@ public class CompetitionRecordServiceImpl implements CompetitionRecordService{
     @Override
     public List<AwardCompetitionDto> getTotalData() {
         return competitionRecordMapper.getTotalData();
+    }
+
+    @Override
+    public List<CompetitionRecord> selectByWinningStudent(String userId) {
+        return competitionRecordMapper.selectByWinningStudent(userId);
     }
 
 }

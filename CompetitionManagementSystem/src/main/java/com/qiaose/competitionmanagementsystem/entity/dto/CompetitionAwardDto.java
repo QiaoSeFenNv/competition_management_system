@@ -19,5 +19,4 @@ import java.util.List;
 public class CompetitionAwardDto {
     List<CompetitionAward> competitionAwardList;
     List<CompetitionAwardName> competitionAwardNameList;
-
 }

@@ -5,12 +5,14 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
+import com.qiaose.competitionmanagementsystem.entity.CompetitionApproval;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionTodo;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.AwardCompetitionDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.CommonDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.CommonDto2;
+import com.qiaose.competitionmanagementsystem.entity.dto.CreditDistributionDto;
 import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.service.*;
 import io.swagger.annotations.Api;
@@ -26,12 +28,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Email;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
+import static com.qiaose.competitionmanagementsystem.utils.DateKit.dateFormat;
 
 @RestController
 @Api(value = "公共接口")
@@ -54,6 +56,9 @@ public class CommonController {
     CompetitionOrganizerService competitionOrganizerService;
 
     @Resource
+    CompetitionApprovalService competitionApprovalService;
+
+    @Resource
     UserService userService;
 
     @Autowired
@@ -63,28 +68,28 @@ public class CommonController {
     JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/sendCode")
-    @ApiOperation(value = "发送验证码",notes = "需要输入邮箱地址")
-    public R sendCode(@RequestParam @Email String email){
+    @ApiOperation(value = "发送验证码", notes = "需要输入邮箱地址")
+    public R sendCode(@RequestParam @Email String email) {
 
         RandomGenerator randomGenerator = new RandomGenerator(6);
         //验证码6位
         String generate = randomGenerator.generate();
 
         //设置邮件内容
-        String mailText = "【竞赛管理系统】 验证码："+generate+"  请勿将验证码告诉他人哦。";
+        String mailText = "【竞赛管理系统】 验证码：" + generate + "  请勿将验证码告诉他人哦。";
 
-        try{
+        try {
             String s = stringRedisTemplate.opsForValue().get(email);
-            if (s!=null){
+            if (s != null) {
                 return R.failed("邮箱时间还未过90秒");
             }
-            if(!email.isEmpty()){
-                schedulerMail.toMail(email,mailText);
-                stringRedisTemplate.opsForValue().set(email,generate,120, TimeUnit.SECONDS);
+            if (!email.isEmpty()) {
+                schedulerMail.toMail(email, mailText);
+                stringRedisTemplate.opsForValue().set(email, generate, 120, TimeUnit.SECONDS);
                 return R.ok("");
             }
-        }catch (Exception exception){
-            throw  exception;
+        } catch (Exception exception) {
+            throw exception;
         }
 
         return R.failed("发送成功");
@@ -92,8 +97,8 @@ public class CommonController {
     }
 
     @GetMapping("/templateData")
-    @ApiOperation(value = "获取前端模板",notes = "需要输入邮箱地址")
-    public R sendCode(HttpServletRequest request){
+    @ApiOperation(value = "获取前端模板", notes = "需要输入邮箱地址")
+    public R sendCode(HttpServletRequest request) {
         CommonDto commonDto = new CommonDto();
         String token = request.getHeader("Authorization");
         System.out.println(token);
@@ -102,44 +107,71 @@ public class CommonController {
         List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApplicantId(username);
         //拿到今天接收的申请
         List<CompetitionTodo> receive = competitionTodos.stream().filter(competitionTodo -> (
-                DateUtil.format(competitionTodo.getCreateTime(),"yyyy-mm-dd").equals(DateUtil.format(new Date(),"yyyy-mm-dd"))
+                DateUtil.format(competitionTodo.getCreateTime(), "yyyy-mm-dd").equals(DateUtil.format(new Date(), "yyyy-mm-dd"))
                         && (Objects.equals(competitionTodo.getTodoStatus(), TodoStateEnum.IN_PROGRESS.getCode())))).collect(Collectors.toList());
         commonDto.setToDayReceive(receive.size());
         //拿到今天处理的申请
         List<CompetitionTodo> deal = competitionTodos.stream().filter(competitionTodo -> (
-                DateUtil.format(competitionTodo.getCreateTime(),"yyyy-mm-dd").equals(DateUtil.format(new Date(),"yyyy-mm-dd"))
+                DateUtil.format(competitionTodo.getCreateTime(), "yyyy-mm-dd").equals(DateUtil.format(new Date(), "yyyy-mm-dd"))
                         && (Objects.equals(competitionTodo.getTodoStatus(), TodoStateEnum.AGREE.getCode()) || Objects.equals(competitionTodo.getTodoStatus(), TodoStateEnum.DISAGREE.getCode()))
         )).collect(Collectors.toList());
         commonDto.setToDayReceive(deal.size());
 
-        List<CompetitionRecord> sumPrice= competitionRecordService.selectByUserId(username);
+        List<CompetitionRecord> sumPrice = competitionRecordService.selectByUserId(username);
         commonDto.setSumPrice(sumPrice.size());
-
-
 
 
         return R.ok(commonDto);
     }
 
     @GetMapping("/analysisData")
-    @ApiOperation(value = "获取前端模板",notes = "需要输入邮箱地址")
-    public R analysisData(HttpServletRequest request){
+    @ApiOperation(value = "获取分析数据", notes = "获取分析数据")
+    public R analysisData(HttpServletRequest request) {
         CommonDto2 commonDto2 = new CommonDto2();
-        //比赛分析情况
 
+        //region 比赛获奖情况分析
         List<AwardCompetitionDto> awardCompetitionDto = competitionRecordService.getTotalData();
         awardCompetitionDto.forEach(awardCompetition -> {
             String organizeOrganizer = competitionOrganizerService.selectByPrimaryKey(awardCompetition.getCompetitionInfoId()).getOrganizeOrganizer();
             awardCompetition.setCompetitionInfo(organizeOrganizer);
         });
         commonDto2.setCompReward(awardCompetitionDto);
-        //积分排名
+        //endregion
+
+        //region 积分排名
         List<User> stuRanking = userService.getTotalData();
         commonDto2.setStuRanking(stuRanking);
+        //endregion
 
-        //总获奖总数
+        //region 总获奖总数
         List<CompetitionRecord> competitionRecords = competitionRecordService.selectAll();
         commonDto2.setSumReward(competitionRecords.size());
+        //endregion
+
+        //region 积分分发情况分析 & 总发放学分数量 （近一年）
+        List<CreditDistributionDto> creditDistribution = new ArrayList<>();
+        List<CompetitionApproval> ac = competitionApprovalService.selectAllSuccessApproval();
+        Integer totalPointsIssuedInThePastYear = 0;
+        for (CompetitionApproval item : ac) {
+            boolean isExist = false;
+            CreditDistributionDto creditDistributionDto = new CreditDistributionDto();
+            creditDistributionDto.setCredit(Integer.valueOf(competitionRecordService.selectByPrimaryKey(item.getApplicantContentid()).getRecordApplyCredit()));
+            creditDistributionDto.setTime(dateFormat(item.getUpdateTime(), "YYYY-MM"));
+            totalPointsIssuedInThePastYear += creditDistributionDto.getCredit();
+            for (CreditDistributionDto cdItem : creditDistribution) {
+                if (Objects.equals(cdItem.getTime(), creditDistributionDto.getTime())) {
+                    cdItem.setCredit(cdItem.getCredit() + creditDistributionDto.getCredit());
+                    isExist = true;
+                    break;
+                }
+            }
+            if (!isExist) {
+                creditDistribution.add(creditDistributionDto);
+            }
+        }
+        commonDto2.setCreditDistribution(creditDistribution);
+        commonDto2.setSumCredit(totalPointsIssuedInThePastYear);
+        //endregion
 
         return R.ok(commonDto2);
     }
