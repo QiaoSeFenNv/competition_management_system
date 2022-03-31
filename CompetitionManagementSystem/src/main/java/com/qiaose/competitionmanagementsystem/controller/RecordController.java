@@ -53,7 +53,7 @@ public class RecordController {
 
     @Autowired
     CompetitionProgramService competitionProgramService;
-    
+
     @Resource
     CollegeInfoService collegeInfoService;
 
@@ -79,11 +79,10 @@ public class RecordController {
     SchedulerMail schedulerMail;
 
 
-
     @PostMapping("/insertApproval")
-    @ApiOperation(value = "插入一条申请信息",notes = "需要传入一个对象（对象封装两个小对象）")
+    @ApiOperation(value = "插入一条申请信息", notes = "需要传入一个对象（对象封装两个小对象）")
     @Transactional(rollbackFor = {Exception.class})
-    public R insertApproval(HttpServletRequest request, @RequestBody CompetitionRecord competitionRecord){
+    public R insertApproval(HttpServletRequest request, @RequestBody CompetitionRecord competitionRecord) {
         //从token中拿到账号 拿到具体的对象信息
         String token = request.getHeader("Authorization");
         String username = jwtTokenUtil.getUsernameFromToken(token);
@@ -99,21 +98,21 @@ public class RecordController {
         Boolean flag = false;
         for (SysRoleTable sysRoleTable : sysRoleTables) {
             System.out.println(sysRoleTable);
-            if ("ROLE_STUDENT".equals(sysRoleTable.getRoleName() )||
-                    "学生用户".equals(sysRoleTable.getDescription())  ) {
+            if ("ROLE_STUDENT".equals(sysRoleTable.getRoleName()) ||
+                    "学生用户".equals(sysRoleTable.getDescription())) {
                 flag = true;
                 break;
             }
         }
 
-        if (!flag){
+        if (!flag) {
             return R.failed("只有学生可以申请比赛记录");
         }
 
         Long recordId = IDUtils.CreateId();
 
         Long approvalId = IDUtils.CreateId();
-        
+
         //插入老师认定表格数据，之后让老师填写
         CompetitionCoefficient competitionCoefficient = new CompetitionCoefficient();
 
@@ -121,8 +120,8 @@ public class RecordController {
 
 
         /*
-        * 这里开始不同
-        * */
+         * 这里开始不同
+         * */
         //生成long类型的id.插入到对应对象中
         CompetitionRecord Record = changeInsert(competitionRecord);
         //record表写进数据库
@@ -133,7 +132,7 @@ public class RecordController {
         //写进班级和二级学院
         CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId()));
         String[] split = collegeInfo.getAncestors().split(",");
-        if (split.length<=2){
+        if (split.length <= 2) {
             throw new TipException("无对应的二级学院");
         }
         Record.setRecordCollegeId(Integer.valueOf(split[2]));
@@ -144,7 +143,7 @@ public class RecordController {
         //1L 旧的代码  5L新的流程
         CompetitionApproval competitionApproval =
                 competitionApprovalService.SendApproval(
-                        approvalId,recordId,userInfo,5L
+                        approvalId, recordId, userInfo, 5L
                 );
 
         //插入对应数据库中
@@ -165,12 +164,12 @@ public class RecordController {
         int k = competitionTodoService.insertSelective(competitionTodo);
 
         /*
-        * process审核流程发生变化
-        * */
+         * process审核流程发生变化
+         * */
         //根据process发送给第一个审判者
         String applicantId = null;
         try {
-            applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(),userInfo);
+            applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(), userInfo);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -181,9 +180,9 @@ public class RecordController {
 
 
         //生成进度内容 默认进度条 状态未未开始
-        createComProgram(competitionApproval,userInfo);
+        createComProgram(competitionApproval, userInfo);
 
-        CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(applicantId,competitionApproval.getApprovalId());
+        CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(applicantId, competitionApproval.getApprovalId());
         //修改第一个流程表为进行中
         competitionProgram.setState(TodoStateEnum.IN_PROGRESS.getCode());
         competitionProgramService.updateByPrimaryKeySelective(competitionProgram);
@@ -196,13 +195,11 @@ public class RecordController {
 //        schedulerMail.toMail(fdu.getEmail(),mailText);
 
 
-
-
         return R.ok("");
     }
 
 
-    public void createComProgram(CompetitionApproval competitionApproval,UserInfo userInfo){
+    public void createComProgram(CompetitionApproval competitionApproval, UserInfo userInfo) {
 
         log.info("----------------进来测试了-------------");
         //获得当前得流程  流程一
@@ -212,11 +209,11 @@ public class RecordController {
         //userInfo是学生了 这个不能变要一直存在
         UserInfo temp = null;
         String applicantId = null;
-        while (process.getNextId() != null){
+        while (process.getNextId() != null) {
 
             try {
                 //这个流程都是用学生来找下一个流程 审核人的
-                applicantId = competitionProcessService.passProcess(process.getProcessId(),userInfo);
+                applicantId = competitionProcessService.passProcess(process.getProcessId(), userInfo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -236,10 +233,10 @@ public class RecordController {
             //更新辅导员为二级学院
         }
 
-        if(process.getNextId() == null){
+        if (process.getNextId() == null) {
             try {
                 //这个流程都是用学生来找下一个流程 审核人的
-                applicantId = competitionProcessService.passProcess(process.getProcessId(),userInfo);
+                applicantId = competitionProcessService.passProcess(process.getProcessId(), userInfo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -257,14 +254,13 @@ public class RecordController {
         }
 
 
-
     }
 
 
     @GetMapping("/getAllRecord")
-    @ApiOperation(value = "查询比赛申请记录",notes = "请求头")
+    @ApiOperation(value = "查询比赛申请记录", notes = "请求头")
     @Transactional(rollbackFor = {Exception.class})
-    public R getAllRecord(HttpServletRequest request){
+    public R getAllRecord(HttpServletRequest request, @RequestParam(required = false, defaultValue = "") String queryUserId) {
 
         String token = request.getHeader("Authorization");
         System.out.println(token);
@@ -287,10 +283,10 @@ public class RecordController {
             if (sysRoleTable.getRoleName().equals("ROLE_ADMIN")) {
                 flag = 1;
                 break;
-            }else if (sysRoleTable.getRoleName().equals("ROLE_FDY")){
+            } else if (sysRoleTable.getRoleName().equals("ROLE_FDY")) {
                 flag = 2;
                 break;
-            }else if(sysRoleTable.getRoleName().equals("ROLE_STUDENT")){
+            } else if (sysRoleTable.getRoleName().equals("ROLE_STUDENT")) {
                 flag = 3;
                 break;
             }
@@ -301,54 +297,53 @@ public class RecordController {
         List<CompetitionRecord> competitionRecords = new ArrayList<>();
 
         //管理员 看全部
-        if (flag ==1){
-            List<CompetitionRecord> competitionRecords1 = competitionRecordService.selectAll();
+        if (flag == 1) {
+            List<CompetitionRecord> competitionRecords1 = competitionRecordService.selectByWinningStudent(queryUserId);
 
             for (CompetitionRecord competitionRecord : competitionRecords1) {
-                competitionRecords.add( changeShow(competitionRecord));
+                competitionRecords.add(changeShow(competitionRecord));
             }
-        }else if (flag ==2){
+        } else if (flag == 2) {
             //老师看自己的学生
             List<UserInfo> userInfos = new ArrayList<>();
             List<CollegeInfo> collegeInfoList = collegeInfoService.selectDutyId(userId);
             for (CollegeInfo collegeInfo : collegeInfoList) {
                 Integer id = collegeInfo.getId();
-                 userInfos.addAll(userInfoService.selectByDeptId(id + ""));
+                userInfos.addAll(userInfoService.selectByDeptId(id + ""));
             }
             //查出学生 将学生对应的申请表取除，进行查询
             for (UserInfo userInfo : userInfos) {
                 List<CompetitionApproval> competitionApprovals = competitionApprovalService.selectByApplicantId(userInfo.getUserId());
                 for (CompetitionApproval competitionApproval : competitionApprovals) {
                     CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid())
-                            ,competitionApproval.getApprovalId());
-                    competitionRecords.add(  change );
+                            , competitionApproval.getApprovalId());
+                    competitionRecords.add(change);
                 }
             }
 
-        }else if(flag ==3){
+        } else if (flag == 3) {
             //看自己的
             List<CompetitionApproval> competitionApprovals = competitionApprovalService.selectByApplicantId(userId);
             for (CompetitionApproval competitionApproval : competitionApprovals) {
                 CompetitionRecord change = changeShow(competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid())
-                        ,competitionApproval.getApprovalId());
-                competitionRecords.add(  change );
+                        , competitionApproval.getApprovalId());
+                competitionRecords.add(change);
             }
         }
 
-        return  R.ok(competitionRecords);
+        return R.ok(competitionRecords);
     }
 
 
-
     @PostMapping("/updateRecord")
-    @ApiOperation(value = "更新数据",notes = "需要传入一个对象")
+    @ApiOperation(value = "更新数据", notes = "需要传入一个对象")
     @Transactional(rollbackFor = {Exception.class})
-    public R updateRecord(@RequestBody CompetitionRecord competitionRecord){
+    public R updateRecord(@RequestBody CompetitionRecord competitionRecord) {
 
         CompetitionRecord competitionRecord1 = changeInsert(competitionRecord);
         int i = competitionRecordService.updateByPrimaryKeySelective(competitionRecord1);
 
-        if (i<=0) {
+        if (i <= 0) {
             return R.failed("");
         }
         return R.ok("");
@@ -356,9 +351,9 @@ public class RecordController {
 
 
     @PostMapping("/insertRecord")
-    @ApiOperation(value = "插入数据",notes = "需要传入一个对象")
+    @ApiOperation(value = "插入数据", notes = "需要传入一个对象")
     @Transactional(rollbackFor = {Exception.class})
-    public R insertRecord(@RequestBody CompetitionRecord competitionRecord){
+    public R insertRecord(@RequestBody CompetitionRecord competitionRecord) {
         CompetitionRecord competitionRecord1 = changeInsert(competitionRecord);
 
         Long recordId = IDUtils.CreateId();
@@ -366,7 +361,7 @@ public class RecordController {
 
         int i = competitionRecordService.insertSelective(competitionRecord1);
 
-        if (i<=0) {
+        if (i <= 0) {
             return R.failed("");
         }
         return R.ok("");
@@ -374,16 +369,16 @@ public class RecordController {
 
 
     @PostMapping("/deleteRecord")
-    @ApiOperation(value = "删除",notes = "需要传入一个对象")
+    @ApiOperation(value = "删除", notes = "需要传入一个对象")
     @Transactional(rollbackFor = {Exception.class})
-    public R deleteRecord(@RequestBody CompetitionRecord competitionRecord){
+    public R deleteRecord(@RequestBody CompetitionRecord competitionRecord) {
 
         //0 未开始  1进行中  2完成
         //删除记录表 但不删除 之改变状态   todoState 1进行  2完成  3关闭    5182841218799544
         Long approvalId = competitionApprovalService.selectByRecordId(competitionRecord.getRecordId());
         System.out.println(approvalId);
         List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApprovalId(approvalId);
-        competitionTodos.forEach(competitionTodo->{
+        competitionTodos.forEach(competitionTodo -> {
             competitionTodo.setTodoStatus(TodoStateEnum.CLOSE.getCode());
             competitionTodoService.updateByPrimaryKey(competitionTodo);
         });
@@ -391,7 +386,7 @@ public class RecordController {
     }
 
 
-    public CompetitionRecord changeShow(CompetitionRecord competitionRecord){
+    public CompetitionRecord changeShow(CompetitionRecord competitionRecord) {
         //1827302
         String recordWinningStudent = competitionRecord.getRecordWinningStudent();
 
@@ -401,7 +396,7 @@ public class RecordController {
         );
 
         //返回数组类型的upload
-        if (competitionRecord.getRecordUpload()!=null){
+        if (competitionRecord.getRecordUpload() != null) {
             String[] recordUploads = competitionRecord.getRecordUpload().split(",");
             competitionRecord.setRecordUploads(recordUploads);
         }
@@ -412,7 +407,7 @@ public class RecordController {
         return competitionRecord;
     }
 
-    public CompetitionRecord changeShow(CompetitionRecord competitionRecord,Long approvalId){
+    public CompetitionRecord changeShow(CompetitionRecord competitionRecord, Long approvalId) {
         //1827302
         String recordWinningStudent = competitionRecord.getRecordWinningStudent();
 
@@ -420,7 +415,7 @@ public class RecordController {
                 userInfoService.selectByWorkId(recordWinningStudent).getUserName());
 
         //返回数组类型的upload
-        if (competitionRecord.getRecordUpload()!=null){
+        if (competitionRecord.getRecordUpload() != null) {
             String[] recordUploads = competitionRecord.getRecordUpload().split(",");
             competitionRecord.setRecordUploads(recordUploads);
         }
@@ -429,16 +424,16 @@ public class RecordController {
         return competitionRecord;
     }
 
-    public CompetitionRecord changeInsert(CompetitionRecord competitionRecord){
+    public CompetitionRecord changeInsert(CompetitionRecord competitionRecord) {
 
         //拼接多文件路径
         String recordUpload = "";
         String[] recordUploads = competitionRecord.getRecordUploads();
-        if (recordUploads == null){
+        if (recordUploads == null) {
             return competitionRecord;
         }
         for (String upload : recordUploads) {
-            recordUpload +=upload+",";
+            recordUpload += upload + ",";
         }
         competitionRecord.setRecordUpload(recordUpload);
 

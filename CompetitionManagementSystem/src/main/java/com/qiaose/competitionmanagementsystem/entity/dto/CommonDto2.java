@@ -16,8 +16,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class CommonDto2 {
-
+    private Integer sumCredit;
     private Integer sumReward;
     private List<User> stuRanking;
     private List<AwardCompetitionDto> compReward;
+    private List<CreditDistributionDto> creditDistribution;
 }

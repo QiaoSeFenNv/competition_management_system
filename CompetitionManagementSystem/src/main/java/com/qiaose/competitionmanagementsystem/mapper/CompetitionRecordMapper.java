@@ -23,4 +23,6 @@ public interface CompetitionRecordMapper {
     int updateByPrimaryKey(CompetitionRecord record);
 
     List<AwardCompetitionDto> getTotalData();
+
+    List<CompetitionRecord> selectByWinningStudent(String userId);
 }

@@ -25,4 +25,10 @@ public interface CompetitionApprovalService{
     List<CompetitionApproval> selectByApplicantId(String userId);
 
     Long selectByRecordId(Long recordId);
+
+    /**
+     * Return only the most recent year of data
+     * @return List<CompetitionApproval>
+     */
+    List<CompetitionApproval> selectAllSuccessApproval();
 }
