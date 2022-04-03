@@ -117,8 +117,6 @@ public class RecordController {
         CompetitionCoefficient competitionCoefficient = new CompetitionCoefficient();
 
 
-
-
         /*
          * 这里开始不同
          * */

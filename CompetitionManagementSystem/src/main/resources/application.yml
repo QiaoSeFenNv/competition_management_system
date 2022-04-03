@@ -25,7 +25,7 @@ server:
 spring:
     datasource:
         driverClassName: com.mysql.cj.jdbc.Driver
-        password: root
+        password: 3FgAwrnD6plHUhI4
         url: jdbc:mysql://182.254.226.174/competition_msdb?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
         username: root
         hikari:
