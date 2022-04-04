@@ -9,10 +9,13 @@ import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionCourseRepRecord;
 import com.qiaose.competitionmanagementsystem.entity.CompetitionPrice;
 import com.qiaose.competitionmanagementsystem.entity.User;
+import com.qiaose.competitionmanagementsystem.entity.UserInfo;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.PriceDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.StudentDto;
+import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionCourseRepRecordService;
+import com.qiaose.competitionmanagementsystem.service.UserInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import com.qiaose.competitionmanagementsystem.service.serviceImpl.CompetitionCourseRepRecordServiceImpl;
 import io.swagger.annotations.Api;
@@ -21,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +56,7 @@ public class CourseRepRecordController {
     }
 
     @Autowired
-    UserService userService;
+    UserInfoService userInfoService;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
@@ -85,7 +91,7 @@ public class CourseRepRecordController {
         //
         String username = jwtTokenUtil.getUsernameFromToken(token);
 
-        User user = userService.selectByUserId(username);
+        UserInfo user = userInfoService.selectByWorkId(username);
 
         QueryWrapper<CompetitionCourseRepRecord> queryWrapper = new QueryWrapper();
         queryWrapper.eq("id",user.getUserId());
@@ -96,7 +102,24 @@ public class CourseRepRecordController {
 
     @PostMapping("addRepRecord")
     @ApiOperation(value = "添加一条学分申请记录")
-    public R addRepRecord(@RequestBody CompetitionCourseRepRecord competitionCourseRepRecord){
+    @Transactional(rollbackFor = {TipException.class,Exception.class})
+    public R addRepRecord(@RequestBody CompetitionCourseRepRecord competitionCourseRepRecord,HttpServletRequest request, Authentication authentication){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        log.info("用户信息：{}",userDetails.getUsername());
+        competitionCourseRepRecord.setUserId(userDetails.getUsername());
+        competitionCourseRepRecord.setStatus(0);
+
+        String token = request.getHeader("Authorization");
+
+        System.out.println(token);
+        //
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+
+        UserInfo user = userInfoService.selectByWorkId(username);
+        if (user.getCreditsRemain() == 0 && user.getCreditsRemain()<competitionCourseRepRecord.getCreditUsed()) {
+            throw new TipException("剩余学分不够进行置换");
+        }
+
         boolean save = icompetitionCourseRepRecordService.save(competitionCourseRepRecord);
         return R.ok(save);
     }

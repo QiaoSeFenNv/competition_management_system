@@ -12,10 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-
-
-
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Data
 @TableName("competition_course_rep_record")
@@ -34,6 +31,7 @@ public class CompetitionCourseRepRecord implements Serializable {
     /**
      * 创建用户id
      */
+    @JsonIgnore
     @ApiModelProperty(value = "创建用户id")
 
     private String userId;
