@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 
+import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.UserInfo;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
@@ -26,11 +27,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -56,11 +59,14 @@ public class UserInfoController {
     SysRoleTableService sysRoleTableService;
 
     @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
     BCryptPasswordEncoderUtil bCryptPasswordEncoderUtil;
 
 
     @GetMapping("/getCurStu")
-    @ApiOperation(value = "查询当前学生信息", notes = "返回数据为学生所有信息")
+    @ApiOperation(value = "查询学生信息", notes = "返回数据为学生所有信息")
 //    @Transactional(rollbackFor = Exception.class)
     public R getCurStu(@RequestParam(required = false) String workId) {
         //根据学号查询学生信息对象
@@ -69,7 +75,18 @@ public class UserInfoController {
             return R.ok("无用户信息");
         }
 
+        return R.ok(userInfo);
+    }
 
+    @GetMapping("/getCurrentUserInfo")
+    @ApiOperation(value = "获取当前用户UserInfo", notes = "返回数据为用户所有信息")
+    public R getCurrentUserInfo(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String userId = jwtTokenUtil.getUsernameFromToken(token);
+        UserInfo userInfo = userInfoService.selectByWorkId(userId);
+        if (userInfo == null) {
+            return R.ok("无用户信息");
+        }
         return R.ok(userInfo);
     }
 
