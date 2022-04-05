@@ -61,6 +61,9 @@ public class CommonController {
     @Resource
     UserService userService;
 
+    @Resource
+    UserInfoService userInfoService;
+
     @Autowired
     SchedulerMail schedulerMail;
 
@@ -140,6 +143,10 @@ public class CommonController {
 
         //region 积分排名
         List<User> stuRanking = userService.getTotalData();
+        //从userinfo 表拿总学分信息
+        stuRanking.forEach(item->{
+            item.setUserIntegral(userInfoService.selectByWorkId(item.getUserId()).getCreditsEarned());
+        });
         commonDto2.setStuRanking(stuRanking);
         //endregion
 

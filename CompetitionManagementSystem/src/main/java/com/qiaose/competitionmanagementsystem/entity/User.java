@@ -46,6 +46,7 @@ public class User implements Serializable {
     /**
     * 积分
     */
+    @TableField(exist = false)
     private Integer userIntegral;
 
     /**

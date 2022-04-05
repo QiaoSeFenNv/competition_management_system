@@ -8,13 +8,12 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="user_avatarUrl" jdbcType="VARCHAR" property="userAvatarurl" />
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
-    <result column="user_integral" jdbcType="INTEGER" property="userIntegral" />
     <result column="create_time" jdbcType="DATE" property="createTime" />
     <result column="updated_time" jdbcType="DATE" property="updatedTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, user_id, user_avatarUrl, user_password, user_integral, create_time, updated_time
+    id, user_id, user_avatarUrl, user_password,create_time, updated_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -66,10 +65,10 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.User" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into `user` (user_id, user_avatarUrl, user_password, 
-      user_integral, create_time, updated_time
+      create_time, updated_time
       )
     values (#{userId,jdbcType=VARCHAR}, #{userAvatarurl,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
-      #{userIntegral,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, #{updatedTime,jdbcType=DATE}
+       #{createTime,jdbcType=DATE}, #{updatedTime,jdbcType=DATE}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.User" useGeneratedKeys="true">
@@ -84,9 +83,6 @@
       </if>
       <if test="userPassword != null">
         user_password,
-      </if>
-      <if test="userIntegral != null">
-        user_integral,
       </if>
       <if test="createTime != null">
         create_time,
@@ -104,9 +100,6 @@
       </if>
       <if test="userPassword != null">
         #{userPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="userIntegral != null">
-        #{userIntegral,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=DATE},
@@ -129,9 +122,6 @@
       <if test="userPassword != null">
         user_password = #{userPassword,jdbcType=VARCHAR},
       </if>
-      <if test="userIntegral != null">
-        user_integral = #{userIntegral,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=DATE},
       </if>
@@ -147,7 +137,6 @@
     set user_id = #{userId,jdbcType=VARCHAR},
       user_avatarUrl = #{userAvatarurl,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
-      user_integral = #{userIntegral,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=DATE},
       updated_time = #{updatedTime,jdbcType=DATE}
     where id = #{id,jdbcType=BIGINT}
