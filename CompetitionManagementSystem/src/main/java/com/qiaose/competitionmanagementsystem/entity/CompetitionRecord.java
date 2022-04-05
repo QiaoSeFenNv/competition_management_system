@@ -27,8 +27,6 @@ public class CompetitionRecord implements Serializable {
     */
     private String recordName;
 
-
-
     /**
     * 个人团体
     */

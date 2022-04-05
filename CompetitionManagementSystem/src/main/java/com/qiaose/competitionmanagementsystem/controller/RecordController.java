@@ -129,12 +129,12 @@ public class RecordController {
 
         //写进班级和二级学院
         CollegeInfo collegeInfo = collegeInfoService.selectByPrimaryKey(Integer.valueOf(userInfo.getDeptId()));
-        String[] split = collegeInfo.getAncestors().split(",");
-        if (split.length <= 2) {
+//        String[] split = collegeInfo.getAncestors().split(",");
+        if (collegeInfo == null) {
             throw new TipException("无对应的二级学院");
         }
-        Record.setRecordCollegeId(Integer.valueOf(split[2]));
-        Record.setRecordGrade(collegeInfo.getCollegeName());
+        Record.setRecordCollegeId(collegeInfo.getId());
+        Record.setRecordGrade(userInfo.getDeptName());
 
 
         //生成一个对应内容的申请表
@@ -155,7 +155,7 @@ public class RecordController {
                 .applicantName(userInfo.getUserName())
                 .approvalId(approvalId)     //申请表id
                 .todoStatus(TodoStateEnum.IN_PROGRESS.getCode())       //状态
-                .todoType("比赛记录申请")     //写死的类型
+                .todoType("奖项认定申请")     //写死的类型
                 .createTime(DateUtil.date())       //创建时间
                 .build();
         //将todo表插入
