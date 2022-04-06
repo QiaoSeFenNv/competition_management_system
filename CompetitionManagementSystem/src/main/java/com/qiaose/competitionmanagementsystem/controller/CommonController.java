@@ -5,10 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
-import com.qiaose.competitionmanagementsystem.entity.CompetitionApproval;
-import com.qiaose.competitionmanagementsystem.entity.CompetitionRecord;
-import com.qiaose.competitionmanagementsystem.entity.CompetitionTodo;
-import com.qiaose.competitionmanagementsystem.entity.User;
+import com.qiaose.competitionmanagementsystem.entity.*;
 import com.qiaose.competitionmanagementsystem.entity.dto.AwardCompetitionDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.CommonDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.CommonDto2;
@@ -104,10 +101,12 @@ public class CommonController {
     public R sendCode(HttpServletRequest request) {
         CommonDto commonDto = new CommonDto();
         String token = request.getHeader("Authorization");
-        System.out.println(token);
-        String username = jwtTokenUtil.getUsernameFromToken(token);
+        String userId = jwtTokenUtil.getUsernameFromToken(token);
 
-        List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApplicantId(username);
+        UserInfo userInfo = userInfoService.selectByWorkId(userId);
+        commonDto.setIntegral(userInfo.getCreditsRemain());
+
+        List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApplicantId(userId);
         //拿到今天接收的申请
         List<CompetitionTodo> receive = competitionTodos.stream().filter(competitionTodo -> (
                 DateUtil.format(competitionTodo.getCreateTime(), "yyyy-mm-dd").equals(DateUtil.format(new Date(), "yyyy-mm-dd"))
@@ -120,7 +119,7 @@ public class CommonController {
         )).collect(Collectors.toList());
         commonDto.setToDayReceive(deal.size());
 
-        List<CompetitionRecord> sumPrice = competitionRecordService.selectByUserId(username);
+        List<CompetitionRecord> sumPrice = competitionRecordService.selectByUserId(userId);
         commonDto.setSumPrice(sumPrice.size());
 
 
