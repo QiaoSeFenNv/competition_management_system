@@ -33,4 +33,6 @@ public interface UserInfoService{
     List<UserInfo> selectByUserSelect(String userSelect);
 
     List<UserInfo> selectByUserCredit(String userSelect);
+
+    List<UserInfo> getData();
 }

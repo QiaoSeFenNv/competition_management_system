@@ -88,6 +88,16 @@
     where user_name like concat('%' ,#{name,jdbcType=VARCHAR}, '%')
   </select>
 
+  <select id="getData" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from `user_info`
+    order by credits_earned
+    desc
+    limit 10;
+  </select>
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->

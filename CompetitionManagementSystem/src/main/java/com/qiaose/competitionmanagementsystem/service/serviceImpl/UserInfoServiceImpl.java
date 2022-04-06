@@ -80,4 +80,9 @@ public class UserInfoServiceImpl implements UserInfoService{
     public List<UserInfo> selectByUserCredit(String userSelect) {
         return userInfoMapper.selectByUserCredit(userSelect);
     }
+
+    @Override
+    public List<UserInfo> getData() {
+        return userInfoMapper.getData();
+    }
 }

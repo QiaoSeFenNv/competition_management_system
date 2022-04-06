@@ -141,12 +141,17 @@ public class CommonController {
         //endregion
 
         //region 积分排名
-        List<User> stuRanking = userService.getTotalData();
-        //从userinfo 表拿总学分信息
-        stuRanking.forEach(item->{
-            item.setUserIntegral(userInfoService.selectByWorkId(item.getUserId()).getCreditsEarned());
+        List<UserInfo> userInfoList = userInfoService.getData();
+        ArrayList<User> users = new ArrayList<>();
+        userInfoList.forEach(item->{
+            //构造user对象放入user集合中
+            User user = new User();
+            user=userService.selectByUserId(item.getUserId());
+            user.setUserIntegral(item.getCreditsEarned());
+            users.add(user);
         });
-        commonDto2.setStuRanking(stuRanking);
+        List<User> collect = users.stream().sorted(Comparator.comparing(User::getUserIntegral).reversed()).collect(Collectors.toList());
+        commonDto2.setStuRanking(collect);
         //endregion
 
         //region 总获奖总数
