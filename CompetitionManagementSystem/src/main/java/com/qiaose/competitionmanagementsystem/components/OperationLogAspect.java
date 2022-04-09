@@ -18,8 +18,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
-//@Aspect
-//@Component
+@Aspect
+@Component
 public class OperationLogAspect {
 
 

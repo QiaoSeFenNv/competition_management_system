@@ -166,7 +166,13 @@ public class RecordController {
          * process审核流程发生变化
          * */
         //根据process发送给   第一个审判者  第一个审判这 可以设定为提交表的老师 Record
-        String applicantId = Record.getRecordInstructor();
+        String applicantId = null;
+        try{
+            applicantId = Record.getRecordInstructor();
+        }catch (TipException e){
+            throw new TipException("请输入教师工号");
+        }
+
 //        try {
 //            applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(), userInfo);
 //        } catch (Exception e) {
