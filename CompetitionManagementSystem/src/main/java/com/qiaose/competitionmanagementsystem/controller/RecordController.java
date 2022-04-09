@@ -114,7 +114,8 @@ public class RecordController {
         Long approvalId = IDUtils.CreateId();
 
         //插入老师认定表格数据，之后让老师填写
-        CompetitionCoefficient competitionCoefficient = new CompetitionCoefficient();
+        //移除
+//        CompetitionCoefficient competitionCoefficient = new CompetitionCoefficient();
 
 
         /*

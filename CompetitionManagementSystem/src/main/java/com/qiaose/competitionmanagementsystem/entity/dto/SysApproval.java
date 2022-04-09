@@ -30,7 +30,7 @@ public class SysApproval<T> implements Serializable {
 
     private String advice;
 
-    private CompetitionCoefficient competitionCoefficient;
+//    private CompetitionCoefficient competitionCoefficient;
 
 
     private static final long serialVersionUID = 1L;

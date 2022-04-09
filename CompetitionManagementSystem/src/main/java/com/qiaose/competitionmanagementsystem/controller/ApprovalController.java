@@ -218,10 +218,11 @@ public class ApprovalController {
         competitionProgramService.updateByPrimaryKeySelective(program);
 
 
-        //老师填写梯度系数的数据
-        if (sysApproval.getCompetitionCoefficient() != null){
-            iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
-        }
+       //老师填写梯度系数的数据
+//        移除
+//        if (sysApproval.getCompetitionCoefficient() != null){
+//            iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
+//        }
         return R.ok("");
     }
 
@@ -265,9 +266,9 @@ public class ApprovalController {
         competitionTodoService.updateByPrimaryKeySelective(competitionTodo);
 
         //老师填写梯度系数的数据
-        if (sysApproval.getCompetitionCoefficient() != null){
-            iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
-        }
+//        if (sysApproval.getCompetitionCoefficient() != null){
+//            iCompetitionCoefficientService.save(sysApproval.getCompetitionCoefficient());
+//        }
         return R.ok("");
     }
 
