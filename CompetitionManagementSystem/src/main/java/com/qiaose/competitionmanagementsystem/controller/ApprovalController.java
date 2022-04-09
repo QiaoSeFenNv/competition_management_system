@@ -175,7 +175,7 @@ public class ApprovalController {
             UserInfo userInfo = userInfoService.selectByWorkId(userId);
             CompetitionRecord competitionRecord = competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid());
 
-            userInfo.setCreditsEarned(Integer.valueOf(userInfo.getCreditsEarned()+competitionRecord.getRecordApplyCredit()));
+            userInfo.setCreditsEarned(userInfo.getCreditsEarned()+Integer.parseInt(competitionRecord.getRecordApplyCredit()));
             userInfoService.updateByPrimaryKeySelective(userInfo);
             return R.ok("");
         }
