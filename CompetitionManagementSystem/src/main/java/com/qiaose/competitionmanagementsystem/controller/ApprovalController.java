@@ -91,7 +91,7 @@ public class ApprovalController {
         String todoType = competitionTodo.getTodoType();
 
         //怎么判断是那个表勒
-        if ("比赛记录申请".equals(todoType)) {
+        if ("奖项认定申请".equals(todoType)) {
             System.out.println(competitionTodo);
             //根据申请表的id 查询记录表
             CompetitionRecord competitionRecord = competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid());
