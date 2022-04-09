@@ -148,7 +148,7 @@ public class RecordController {
         //插入对应数据库中
         int i = competitionApprovalService.insertSelective(competitionApproval);
         int j = competitionRecordService.insertSelective(Record);
-
+        //Todo Record 指导老师
 
         //插入完毕需要注意todo表也会立刻生一条相关数据,因此也需要插入到todo中  这条是发起者的
         CompetitionTodo competitionTodo = CompetitionTodo.builder()
@@ -165,21 +165,21 @@ public class RecordController {
         /*
          * process审核流程发生变化
          * */
-        //根据process发送给第一个审判者
-        String applicantId = null;
-        try {
-            applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(), userInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        //根据process发送给   第一个审判者  第一个审判这 可以设定为提交表的老师 Record
+        String applicantId = Record.getRecordInstructor();
+//        try {
+//            applicantId = competitionProcessService.passProcess(competitionApproval.getProcessId(), userInfo);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        //插入一条新的记录 拥有者不同的记录  这一条是第一个责任人的
+        //插入一条新的记录 拥有者不同的记录  这一条是第一个责任人的  从记路表中获取 Record.getRecordInstructor() 为学号
         competitionTodo.setApplicantId(applicantId);
         int q = competitionTodoService.insertSelective(competitionTodo);
 
 
         //生成进度内容 默认进度条 状态未未开始
-        createComProgram(competitionApproval, userInfo);
+        createComProgram(competitionApproval, userInfo,applicantId);
 
         CompetitionProgram competitionProgram = competitionProgramService.selectUserIdAndApproval(applicantId, competitionApproval.getApprovalId());
         //修改第一个流程表为进行中
@@ -255,6 +255,55 @@ public class RecordController {
 
     }
 
+    public void createComProgram(CompetitionApproval competitionApproval, UserInfo userInfo,String applicantId) {
+
+        log.info("----------------进来测试了-------------");
+        //获得当前得流程  流程一
+        CompetitionProcess process = competitionProcessService.selectByPrimaryKey(competitionApproval.getProcessId());
+        //将三个流程都创建一个进度
+
+        //userInfo是学生了 这个不能变要一直存在
+        UserInfo temp = null;
+
+        while (process.getNextId() != null) {
+
+            temp = userInfoService.selectByWorkId(applicantId);
+
+            CompetitionProgram competitionProgram = CompetitionProgram.builder()
+                    .approvalId(competitionApproval.getApprovalId())
+                    .state(TodoStateEnum.NOT_START.getCode())
+                    .stepname(process.getApproverName())
+                    .auditor(temp.getUserName())
+                    .userId(temp.getUserId())
+                    .build();
+            competitionProgramService.insertSelective(competitionProgram);
+
+            process = competitionProcessService.selectByPrimaryKey(process.getNextId());
+            //更新辅导员为二级学院
+        }
+
+        if (process.getNextId() == null) {
+            try {
+                //这个流程都是用学生来找下一个流程 审核人的
+                applicantId = competitionProcessService.passProcess(process.getProcessId(), userInfo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            temp = userInfoService.selectByWorkId(applicantId);
+
+            CompetitionProgram competitionProgram = CompetitionProgram.builder()
+                    .approvalId(competitionApproval.getApprovalId())
+                    .state(TodoStateEnum.NOT_START.getCode())
+                    .stepname(process.getApproverName())
+                    .auditor(temp.getUserName())
+                    .userId(temp.getUserId())
+                    .build();
+            competitionProgramService.insertSelective(competitionProgram);
+        }
+
+
+    }
 
     @GetMapping("/getAllRecord")
     @ApiOperation(value = "查询比赛申请记录", notes = "请求头")

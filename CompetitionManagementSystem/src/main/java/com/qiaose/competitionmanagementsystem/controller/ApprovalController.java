@@ -169,6 +169,13 @@ public class ApprovalController {
             //生成一条验证记录
             insertCompetitionAward(competitionApproval);
 
+
+            //成功意味着 流程完成学分进入账户 具体学生用户 添加学分  更新
+            String userId = competitionApproval.getApplicantId();
+            UserInfo userInfo = userInfoService.selectByWorkId(userId);
+            CompetitionRecord competitionRecord = competitionRecordService.selectByPrimaryKey(competitionApproval.getApprovalId());
+            userInfo.setCreditsEarned(Integer.valueOf(userInfo.getCreditsEarned()+competitionRecord.getRecordApplyCredit()));
+            userInfoService.updateByPrimaryKeySelective(userInfo);
             return R.ok("");
         }
 

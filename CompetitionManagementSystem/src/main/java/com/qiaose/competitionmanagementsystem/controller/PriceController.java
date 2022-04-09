@@ -260,7 +260,17 @@ public class PriceController {
             competitionBonus.setUserId(userIds[i]);
             competitionBonus.setUserName(userInfoService.selectByWorkId(userIds[i]).getUserName());
             //分配奖金
-            competitionBonus.setBonus(competitionPrice.getMoney() / userIds.length);
+            Double avgMoney = competitionPrice.getMoney() / userIds.length;
+
+            //税收金额
+            Double taxMoney = avgMoney * tax;
+            //实际发放金额
+            Double actualMoney = avgMoney - taxMoney;
+
+            competitionBonus.setBonus(actualMoney);
+
+            competitionBonus.setTax(taxMoney);
+
             competitionBonus.setStatus(TodoStateEnum.IN_PROGRESS.getCode());
             //插入表中
             iCompetitionBonusService.save(competitionBonus);
