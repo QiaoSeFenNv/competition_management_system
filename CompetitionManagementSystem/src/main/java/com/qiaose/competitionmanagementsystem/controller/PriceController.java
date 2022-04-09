@@ -82,11 +82,11 @@ public class PriceController {
 
         priceDtoList.forEach(priceDto -> {
             CompetitionPrice competitionPrice = new CompetitionPrice();
-            log.info("{}",priceDto);
+            log.info("{}", priceDto);
             //讲dto变为competitionPrice
-            BeanUtils.copyProperties(priceDto,competitionPrice);
-            log.info("{}",competitionPrice);
-            competitionPrice.setAwardTime(DateUtil.parse(priceDto.getAwardTime(),"yyyy.mm"));
+            BeanUtils.copyProperties(priceDto, competitionPrice);
+            log.info("{}", competitionPrice);
+            competitionPrice.setAwardTime(DateUtil.parse(priceDto.getAwardTime(), "yyyy.mm"));
             competitionPrice.setUserId(getString(priceDto.getStudentDtoList()));
             competitionPrice.setStatus(BonusTypeEnum.NOT_START.getCode());
             priceArrayList.add(competitionPrice);
@@ -99,11 +99,11 @@ public class PriceController {
         return R.ok("");
     }
 
-    public static String getString(List<StudentDto> studentDtoList){
+    public static String getString(List<StudentDto> studentDtoList) {
         StringBuilder stringBuilder = new StringBuilder();
         studentDtoList.forEach(studentDto -> {
-            if (studentDto.getUserId() != null){
-                stringBuilder.append(studentDto.getUserId()+",");
+            if (studentDto.getUserId() != null) {
+                stringBuilder.append(studentDto.getUserId() + ",");
             }
 
         });
@@ -114,10 +114,15 @@ public class PriceController {
     @ApiOperation(value = "获取获奖信息", notes = "分页查询")
     @Transactional(rollbackFor = {Exception.class})
     public R priceList(@RequestParam(defaultValue = "1", value = "page") Integer pageNo,
-                       @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
+                       @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize,
+                       @RequestParam(required = false) String competitionInfo) {
 
         //查询所有信息
         QueryWrapper<CompetitionPrice> queryWrapper = new QueryWrapper<>();
+        if (competitionInfo != null){
+            queryWrapper.like("competition_info",competitionInfo);
+        }
+
         Page<CompetitionPrice> page = new Page<CompetitionPrice>(pageNo, pageSize);
         IPage<CompetitionPrice> pageList = iCompetitionPriceService.page(page, queryWrapper);
         log.info("奖金数据：{}", pageList.getRecords());
@@ -175,7 +180,7 @@ public class PriceController {
         //获取到bonus数据根据price以及userId
         QueryWrapper<CompetitionBonus> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("price_id", competitionPrice.getId());
-        queryWrapper.eq("user_id",workId);
+        queryWrapper.eq("user_id", workId);
         priceDto.setCompetitionBonus(iCompetitionBonusService.getOne(queryWrapper));
 
         String[] userIds = competitionPrice.getUserId().split(",");
@@ -208,7 +213,7 @@ public class PriceController {
     @Transactional(rollbackFor = {Exception.class})
     public R deletePrice(@RequestBody List<Integer> ids) {
         //删除bonus数据
-        ids.forEach(id->{
+        ids.forEach(id -> {
             CompetitionPrice byId = iCompetitionPriceService.getById(id);
             iCompetitionBonusService.removeById(byId.getId());
         });
