@@ -135,6 +135,8 @@ public class PriceController {
             BeanUtils.copyProperties(competitionPrice, priceDto);
             priceDto.setAwardTime(competitionPrice.getAwardTime().getTime());
 
+            priceDto.setActualReleaseAmount(competitionPrice.getMoney() * (1 - tax));
+
             String[] userIds = competitionPrice.getUserId().split(",");
             List<StudentDto> studentDtoList = new ArrayList<>();
             for (String userId : userIds) {
