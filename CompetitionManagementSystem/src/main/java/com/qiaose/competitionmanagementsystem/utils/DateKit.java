@@ -12,6 +12,7 @@ import java.util.*;
 public class DateKit {
     public static final int INTERVAL_DAY = 1;
     public static final int INTERVAL_WEEK = 2;
+
     public static final int INTERVAL_MONTH = 3;
     public static final int INTERVAL_YEAR = 4;
     public static final int INTERVAL_HOUR = 5;
