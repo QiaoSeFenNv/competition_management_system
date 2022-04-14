@@ -135,7 +135,7 @@ public class RecordController {
             throw new TipException("无对应的二级学院");
         }
         Record.setRecordCollegeId(collegeInfo.getId());
-        Record.setRecordGrade(userInfo.getDeptName());
+        Record.setRecordGrade(collegeInfo.getCollegeName());
 
 
         //生成一个对应内容的申请表
