@@ -22,7 +22,6 @@ import java.util.List;
 @RequestMapping("/todo")
 public class TodoController {
 
-
     @Autowired
     CompetitionTodoService competitionTodoService;
 
