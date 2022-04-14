@@ -174,10 +174,10 @@ public class ApprovalController {
             String userId = competitionApproval.getApplicantId();
             UserInfo userInfo = userInfoService.selectByWorkId(userId);
             CompetitionRecord competitionRecord = competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid());
-
-            userInfo.setCreditsEarned(userInfo.getCreditsEarned()+Integer.parseInt(competitionRecord.getRecordApplyCredit()));
+            Double credit = Double.parseDouble(competitionRecord.getRecordApplyCredit()) *  Double.parseDouble(competitionRecord.getRecordCoefficient());
+            userInfo.setCreditsEarned((int) (userInfo.getCreditsEarned()+credit));
             //剩余学分耶加上
-            userInfo.setCreditsRemain(userInfo.getCreditsRemain()+Integer.parseInt(competitionRecord.getRecordApplyCredit()));
+            userInfo.setCreditsRemain((int) (userInfo.getCreditsRemain()+credit));
             userInfoService.updateByPrimaryKeySelective(userInfo);
             return R.ok("");
         }
