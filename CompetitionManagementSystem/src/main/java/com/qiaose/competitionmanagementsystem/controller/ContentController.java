@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,6 @@ public class ContentController {
 
     @Autowired
     CompetitionContentsService competitionContentsService;
-
 
 
     @GetMapping("/getContents")
@@ -45,6 +45,7 @@ public class ContentController {
                             .createTime(competitionContent.getCreateTime())
                             .build());
         }
+
         PageInfo<AllContDto> pageInfo = new PageInfo<>(allContDto);
         List<AllContDto> list = pageInfo.getList();
         PageDto pageDto = new PageDto();
