@@ -78,6 +78,7 @@ public class UserInfoController {
         return R.ok(userInfo);
     }
 
+    //it may duplicate with getUserInfo method in UserController
     @GetMapping("/getCurrentUserInfo")
     @ApiOperation(value = "获取当前用户UserInfo", notes = "返回数据为用户所有信息")
     public R getCurrentUserInfo(HttpServletRequest request) {

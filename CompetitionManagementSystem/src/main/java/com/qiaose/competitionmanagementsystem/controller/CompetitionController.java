@@ -62,7 +62,7 @@ public class CompetitionController {
 
     @GetMapping("/getInfoByName")
     @ApiOperation(value = "模糊返回比赛",notes = "根据name进行查询")
-    public R getInfoById(@RequestParam(required = true) String name){
+    public R getInfoById(@RequestParam(required = false, defaultValue = "") String name){
         List<CompetitionInfo> competitionInfo = competitionInfoService.selectByName(name);
         if (competitionInfo == null){
             return R.failed("无对应id");
@@ -106,4 +106,5 @@ public class CompetitionController {
         }
         return R.ok("");
     }
+
 }

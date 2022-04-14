@@ -92,6 +92,8 @@ public class PriceDto {
 
     private Byte status;
 
+    private Double actualReleaseAmount;
+
     private CompetitionBonus competitionBonus;
 
 }
