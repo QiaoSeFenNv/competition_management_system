@@ -337,7 +337,7 @@ public class RecordController {
             if (sysRoleTable.getRoleName().equals("ROLE_ADMIN")) {
                 flag = 1;
                 break;
-            } else if (sysRoleTable.getRoleName().equals("ROLE_FDY")) {
+            } else if (sysRoleTable.getRoleName().equals("ROLE_TEACHER")) {
                 flag = 2;
                 break;
             } else if (sysRoleTable.getRoleName().equals("ROLE_STUDENT")) {
