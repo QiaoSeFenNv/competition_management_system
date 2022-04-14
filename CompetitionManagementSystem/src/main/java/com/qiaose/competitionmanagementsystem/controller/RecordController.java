@@ -134,7 +134,9 @@ public class RecordController {
         if (collegeInfo == null) {
             throw new TipException("无对应的二级学院");
         }
-        Record.setRecordCollegeId(collegeInfo.getId());
+        //二级学院id
+        String[] split = collegeInfo.getAncestors().split(",");
+        Record.setRecordCollegeId(Integer.valueOf(split[2]));
         Record.setRecordGrade(collegeInfo.getCollegeName());
 
 
