@@ -144,10 +144,10 @@ public class CourseRepRecordController {
         String username = jwtTokenUtil.getUsernameFromToken(token);
 
         UserInfo user = userInfoService.selectByWorkId(username);
-        if (user.getCreditsRemain() == 0 || user.getCreditsRemain() < useCredits) {
+        if (user.getCreditsRemain() == 0 || user.getCreditsRemain() < competitionCourseRepRecord.getCreditUsed()) {
             throw new TipException("剩余学分不够进行置换");
         }
-        user.setCreditsRemain(user.getCreditsRemain() - useCredits);
+        user.setCreditsRemain(user.getCreditsRemain() - competitionCourseRepRecord.getCreditUsed());
         userInfoService.updateByUserSelective(user);
         boolean save = icompetitionCourseRepRecordService.save(competitionCourseRepRecord);
         return R.ok(save);
