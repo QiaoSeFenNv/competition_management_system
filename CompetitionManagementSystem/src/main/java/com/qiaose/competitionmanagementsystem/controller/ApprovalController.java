@@ -176,6 +176,8 @@ public class ApprovalController {
             CompetitionRecord competitionRecord = competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid());
 
             userInfo.setCreditsEarned(userInfo.getCreditsEarned()+Integer.parseInt(competitionRecord.getRecordApplyCredit()));
+            //剩余学分耶加上
+            userInfo.setCreditsRemain(userInfo.getCreditsRemain()+Integer.parseInt(competitionRecord.getRecordApplyCredit()));
             userInfoService.updateByPrimaryKeySelective(userInfo);
             return R.ok("");
         }

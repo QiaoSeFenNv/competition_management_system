@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,6 +57,9 @@ public class CourseRepRecordController {
     public CourseRepRecordController(ICompetitionCourseRepRecordService icompetitionCourseRepRecordService) {
         this.icompetitionCourseRepRecordService = icompetitionCourseRepRecordService;
     }
+
+    @Value("${useCredit}")
+    private Integer useCredits;
 
     @Autowired
     UserInfoService userInfoService;
@@ -140,10 +144,10 @@ public class CourseRepRecordController {
         String username = jwtTokenUtil.getUsernameFromToken(token);
 
         UserInfo user = userInfoService.selectByWorkId(username);
-        if (user.getCreditsRemain() == 0 || user.getCreditsRemain() < competitionCourseRepRecord.getCreditUsed()) {
+        if (user.getCreditsRemain() == 0 || user.getCreditsRemain() < useCredits) {
             throw new TipException("剩余学分不够进行置换");
         }
-        user.setCreditsRemain(user.getCreditsRemain() - competitionCourseRepRecord.getCreditUsed());
+        user.setCreditsRemain(user.getCreditsRemain() - useCredits);
         userInfoService.updateByUserSelective(user);
         boolean save = icompetitionCourseRepRecordService.save(competitionCourseRepRecord);
         return R.ok(save);
