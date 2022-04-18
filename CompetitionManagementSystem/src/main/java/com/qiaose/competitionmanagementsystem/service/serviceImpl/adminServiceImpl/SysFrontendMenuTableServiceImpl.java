@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.service.serviceImpl.adminServiceImpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 import io.netty.util.internal.StringUtil;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,7 @@ import com.qiaose.competitionmanagementsystem.mapper.adminMapper.SysFrontendMenu
 import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysFrontendMenuTableService;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableService {
@@ -57,12 +55,10 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         return sysFrontendMenuTableMapper.selectByParentId(id);
     }
 
-
     @Override
     public SysFrontendMenuTable selectByPrimaryKeyTwo(long id) {
         return sysFrontendMenuTableMapper.selectByPrimaryKeyTwo(id);
     }
-
 
     @Override
     public List<SysFrontendMenuTable> listWithTree(Long id) {
@@ -76,7 +72,6 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
 
         return Collections.singletonList(sysFrontendMenuTable);
     }
-
 
     public List<SysFrontendMenuTable> getChildren(SysFrontendMenuTable sysFrontendMenuTable) {
 
@@ -112,7 +107,6 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         item.setName(item.getLabel());
         item.setMeta(meta);
     }
-
 
     @Override
     public SysFrontendMenuTable F_DtoToF_Po(SysFrontendDto sysFrontendDto) {
@@ -158,4 +152,44 @@ public class SysFrontendMenuTableServiceImpl implements SysFrontendMenuTableServ
         return sysFrontendMenuTableMapper.selectOutId();
     }
 
+    @Override
+    public List<SysFrontendMenuTable> listWithTree(Long id, List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable) {
+        //获得父节点对象  1
+        SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableMapper.selectByPrimaryKey(id);
+//        //先判断父类的meta
+        menuTransform(sysFrontendMenuTable);
+        //在去拿子类
+        List<SysFrontendMenuTable> children = getChildren(sysFrontendMenuTable, sysRoleFrontendMenuTable);
+        sysFrontendMenuTable.setChildren(children);
+
+        return Collections.singletonList(sysFrontendMenuTable);
+
+    }
+    public List<SysFrontendMenuTable> getChildren(SysFrontendMenuTable sysFrontendMenuTable,List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable) {
+
+        // 2 3 48 68
+        List<SysFrontendMenuTable> c = sysFrontendMenuTableMapper.selectByParentId(sysFrontendMenuTable.getId());
+
+        List<SysFrontendMenuTable> children = new ArrayList<>();
+        for (SysFrontendMenuTable child : c) {
+            for (SysRoleFrontendMenuTable roleFrontendMenuTable : sysRoleFrontendMenuTable) {
+                if (child.getId().equals(roleFrontendMenuTable.getAuthorityId())) {
+                    //把想要得扔进去
+                    System.out.println("想要得"+child);
+                    children.add(child);
+                }
+            }
+        }
+
+        for (SysFrontendMenuTable child : children) {
+            List<SysFrontendMenuTable> children1 = getChildren(child,sysRoleFrontendMenuTable);
+            child.setChildren(children1);
+        }
+        // 将getDescribe getIcon 放进mate中
+        for (SysFrontendMenuTable child : children) {
+            menuTransform(child);
+        }
+        return children;
+    }
 }
+

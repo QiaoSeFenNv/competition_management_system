@@ -20,23 +20,21 @@ import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleTableServ
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTableService;
 
 import com.qiaose.competitionmanagementsystem.service.UserService;
-import com.qiaose.competitionmanagementsystem.service.auth.AuthUser;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
-import javax.validation.groups.Default;
+
 
 import java.util.*;
 

@@ -21,11 +21,12 @@
     <result column="is_personal_competition" jdbcType="TINYINT" property="isPersonalCompetition" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="duty_department" jdbcType="INTEGER" property="dutyDepartment" />
+    <result column="slideshow" jdbcType="VARCHAR" property="slideshow"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, `name`, organizer_id,signup_start, signup_end, `location`, sponsor, undertaker, `state`, description,
-    create_time, `level`, track, team_number, is_personal_competition, update_time,duty_department
+    create_time, `level`, track, team_number, is_personal_competition, update_time,duty_department,slideshow
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -70,12 +71,12 @@
       `location`, sponsor, undertaker, 
       `state`, description, create_time, 
       `level`, track, team_number, 
-      is_personal_competition, update_time,duty_department)
+      is_personal_competition, update_time,duty_department,slideshow)
     values (#{name,jdbcType=VARCHAR}, #{organizerId,jdbcType=INTEGER},#{signupStart,jdbcType=TIMESTAMP}, #{signupEnd,jdbcType=TIMESTAMP},
       #{location,jdbcType=VARCHAR}, #{sponsor,jdbcType=VARCHAR}, #{undertaker,jdbcType=VARCHAR}, 
       #{state,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{level,jdbcType=VARCHAR}, #{track,jdbcType=TINYINT}, #{teamNumber,jdbcType=VARCHAR},
-      #{isPersonalCompetition,jdbcType=TINYINT}, #{updateTime,jdbcType=TIMESTAMP}, #{dutyDepartment,jdbcType=INTEGER})
+      #{isPersonalCompetition,jdbcType=TINYINT}, #{updateTime,jdbcType=TIMESTAMP}, #{dutyDepartment,jdbcType=INTEGER},#{slideshow,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.qiaose.competitionmanagementsystem.entity.CompetitionInfo" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -129,6 +130,9 @@
       <if test="dutyDepartment != null and dutyDepartment != ''">
         duty_department,
       </if>
+      <if test="slideshow != null and slideshow!=''">
+        slideshow,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -178,6 +182,9 @@
       </if>
       <if test="dutyDepartment != null">
         #{dutyDepartment,jdbcType=INTEGER},
+      </if>
+      <if test="slideshow != null">
+        #{slideshow,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -233,6 +240,9 @@
       <if test="dutyDepartment != null">
         duty_deparment = #{dutyDepartment,jdbcType=INTEGER},
       </if>
+      <if test="slideshow != null">
+        slideshow = #{slideshow,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -254,7 +264,8 @@
       team_number = #{teamNumber,jdbcType=VARCHAR},
       is_personal_competition = #{isPersonalCompetition,jdbcType=TINYINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      duty_deparment = #{dutyDepartment,jdbcType=INTEGER}
+      duty_deparment = #{dutyDepartment,jdbcType=INTEGER},
+      slideshow = #{slideshow,jdbcType=VARCHAR},
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

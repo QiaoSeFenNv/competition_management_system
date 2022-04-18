@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @Api("角色管理")
@@ -35,7 +35,7 @@ public class RoleController {
     SysRoleFrontendMenuTableService sysRoleFrontendMenuTableService;
 
     @Resource
-    SysRoleFrontendMenuTableService SysRoleFrontendMenuTableService;
+    SysFrontendMenuTableService sysFrontendMenuTableService;
 
 
     @GetMapping("/getAllRoles")
@@ -107,11 +107,20 @@ public class RoleController {
             //更新就删除roleId相关的数据，再插入
             int q = sysRoleFrontendMenuTableService.deleteByRoleId(RoleId);
 
+            ArrayList<Long> result = new ArrayList<>();
             if (sysRoleDto.getMenu() != null ){
                 for (Long menu : sysRoleDto.getMenu()) {
-
-                    sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,menu,"MENU");
+                    //先把查找每一个父级几点得父节点，在添加进去。然后去重
+                    SysFrontendMenuTable sysFrontendMenuTable = sysFrontendMenuTableService.selectByPrimaryKey(menu);
+                    if (sysFrontendMenuTable.getParentId()!=0) {
+                        result.add(sysFrontendMenuTable.getParentId());
+                    }
                 }
+            }
+            result.addAll(Arrays.asList(sysRoleDto.getMenu()));
+            List<Long> collect = result.stream().distinct().collect(Collectors.toList());
+            for (Long aLong : collect) {
+                sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,aLong,"MENU");
             }
 
             if (sysRoleDto.getPerm() != null ){
@@ -126,10 +135,10 @@ public class RoleController {
             sysRoleTable.setRoleId(RoleId);
 
             int i = sysRoleTableService.insertSelective(sysRoleTable);
+
             if (sysRoleDto.getMenu() != null ){
                 for (Long menu : sysRoleDto.getMenu()) {
-
-                    sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,menu,"MEUN");
+                    sysRoleFrontendMenuTableService.insertRoleMenu(RoleId,menu,"MENU");
                 }
             }
 

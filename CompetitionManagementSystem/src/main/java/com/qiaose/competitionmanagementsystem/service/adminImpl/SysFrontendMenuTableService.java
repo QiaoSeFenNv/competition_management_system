@@ -1,6 +1,7 @@
 package com.qiaose.competitionmanagementsystem.service.adminImpl;
 
 import com.qiaose.competitionmanagementsystem.entity.admin.SysFrontendMenuTable;
+import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleFrontendMenuTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
 
 import java.util.List;
@@ -36,4 +37,6 @@ public interface SysFrontendMenuTableService{
     List<SysFrontendMenuTable> findMenu(String name, Integer state);
 
     List<Long> selectOutId();
+
+    List<SysFrontendMenuTable> listWithTree(Long aLong, List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable);
 }

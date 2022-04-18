@@ -89,12 +89,11 @@ public class FrontendMenuController {
                 ButtonList.add( sysFrontendButtonTableService.selectByPrimaryKey(roleFrontendMenuTable.getAuthorityId()) );
             }
         }
+        idList.forEach(System.out::println);
         for (Long aLong : idList) {
-            List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.listWithTree(aLong);
+            List<SysFrontendMenuTable> sysFrontendMenuTables = sysFrontendMenuTableService.listWithTree(aLong,sysRoleFrontendMenuTable);
             sysFrontendDtos.addAll(sysFrontendMenuTables);
         }
-
-
 
 
         PageInfo<SysFrontendMenuTable> pageInfo = new PageInfo<>(sysFrontendDtos);

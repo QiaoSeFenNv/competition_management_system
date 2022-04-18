@@ -97,5 +97,7 @@ public class CompetitionInfo implements Serializable {
 
     private Integer dutyDepartment;
 
+    private String slideshow;
+
     private static final long serialVersionUID = 1L;
 }
