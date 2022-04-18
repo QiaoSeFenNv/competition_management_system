@@ -76,7 +76,8 @@ public class CompetitionController {
     @ApiOperation(value = "插入比赛信息",notes = "需要body")
     @Transactional(rollbackFor = {Exception.class})
     public R insertInfo(@RequestBody CompetitionInfo competitionInfo){
-
+        String[] slidshowI = competitionInfo.getSlidshowI();
+        competitionInfo.setSlideshow(slidshowI[0]);
         int i = competitionInfoService.insertSelective(competitionInfo);
         if (i<=0){
             return R.failed("");
@@ -88,7 +89,8 @@ public class CompetitionController {
     @ApiOperation(value = "更新比赛信息",notes = "需要body，携带id值")
     @Transactional(rollbackFor = {Exception.class})
     public R updateInfo(@RequestBody CompetitionInfo competitionInfo){
-
+        String[] slidshowI = competitionInfo.getSlidshowI();
+        competitionInfo.setSlideshow(slidshowI[0]);
         int i = competitionInfoService.updateByPrimaryKeySelective(competitionInfo);
         if (i<=0){
             return R.failed("");
