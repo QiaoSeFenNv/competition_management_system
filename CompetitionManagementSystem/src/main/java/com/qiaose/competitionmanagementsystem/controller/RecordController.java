@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -109,6 +110,21 @@ public class RecordController {
             return R.failed("只有学生可以申请比赛记录");
         }
 
+        //如果填写的指导老师不是老师是学生 是不安全的
+        String recordInstructor = competitionRecord.getRecordInstructor();
+        UserInfo userInfo1 = userInfoService.selectByWorkId(recordInstructor);
+        List<SysRoleUserTable> teacherRole = sysRoleUserTableService.selectByUserId(userInfo1.getUserId());
+        List<SysRoleTable> teacherRoles = new ArrayList<>();
+        for (SysRoleUserTable roleUserTable : teacherRole) {
+            List<SysRoleTable> sysRoleTables1 = sysRoleTableService.selectByPrimaryKey(roleUserTable.getRoleId());
+            teacherRoles.addAll(sysRoleTables1);
+        }
+        for (SysRoleTable role : teacherRoles) {
+            if (!Objects.equals(role.getRoleId(), "3")) {
+                throw new TipException("指导老师只能填写教师用户");
+            }
+        }
+
         Long recordId = IDUtils.CreateId();
 
         Long approvalId = IDUtils.CreateId();
@@ -116,6 +132,8 @@ public class RecordController {
         //插入老师认定表格数据，之后让老师填写
         //移除
 //        CompetitionCoefficient competitionCoefficient = new CompetitionCoefficient();
+
+
 
 
         /*
