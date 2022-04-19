@@ -155,7 +155,7 @@ public class CommonController {
 
     @GetMapping("/analysisData")
     @ApiOperation(value = "获取分析数据", notes = "获取分析数据")
-    public R analysisData(HttpServletRequest request) {
+    public R analysisData() {
         CommonDto2 commonDto2 = new CommonDto2();
 
         //region 比赛获奖情况分析

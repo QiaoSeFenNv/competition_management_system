@@ -13,6 +13,7 @@ import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleTable;
 import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 import com.qiaose.competitionmanagementsystem.entity.dto.CreditDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
+import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
 import com.qiaose.competitionmanagementsystem.service.UserService;
@@ -110,6 +111,10 @@ public class UserInfoController {
 
         if (userInfo.getUserId() == null) {
             return R.failed("无学工号、无法生成");
+        }
+
+        if (userInfoService.selectByWorkId(userInfo.getUserId())==null) {
+            throw new TipException("已有用户id，不可重复生成");
         }
 
         //从对象中取除 银行和班级对象，然后插入对应表中
