@@ -50,7 +50,7 @@ public class CompetitionProgramServiceImpl implements CompetitionProgramService{
     }
 
     @Override
-    public CompetitionProgram selectByUserId(String applicantId) {
+    public List<CompetitionProgram> selectByUserId(String applicantId) {
         return competitionProgramMapper.selectByUserId(applicantId);
     }
 

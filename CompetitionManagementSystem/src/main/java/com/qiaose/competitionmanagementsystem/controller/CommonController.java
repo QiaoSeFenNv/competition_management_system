@@ -1,7 +1,10 @@
 package com.qiaose.competitionmanagementsystem.controller;
 
+import cn.hutool.Hutool;
 import cn.hutool.captcha.generator.RandomGenerator;
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.unit.DataUnit;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.components.SchedulerMail;
@@ -14,6 +17,7 @@ import com.qiaose.competitionmanagementsystem.enums.TodoStateEnum;
 import com.qiaose.competitionmanagementsystem.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -61,11 +65,15 @@ public class CommonController {
     @Resource
     UserInfoService userInfoService;
 
+    @Resource
+    CompetitionProgramService competitionProgramService;
+
     @Autowired
     SchedulerMail schedulerMail;
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
 
     @GetMapping("/sendCode")
     @ApiOperation(value = "发送验证码", notes = "需要输入邮箱地址")
@@ -104,27 +112,46 @@ public class CommonController {
         String userId = jwtTokenUtil.getUsernameFromToken(token);
 
         UserInfo userInfo = userInfoService.selectByWorkId(userId);
-        commonDto.setIntegral(userInfo.getCreditsRemain());
+        //设置账号获得学分
+        commonDto.setIntegral(userInfo.getCreditsEarned());
 
         List<CompetitionTodo> competitionTodos = competitionTodoService.selectByApplicantId(userId);
         //拿到今天接收的申请
-        List<CompetitionTodo> receive = competitionTodos.stream().filter(competitionTodo -> (
-                DateUtil.format(competitionTodo.getCreateTime(), "yyyy-mm-dd").equals(DateUtil.format(new Date(), "yyyy-mm-dd"))
-                        && (Objects.equals(competitionTodo.getTodoStatus(), TodoStateEnum.IN_PROGRESS.getCode())))).collect(Collectors.toList());
-        commonDto.setToDayReceive(receive.size());
+        Date toDay = new Date();
+        int count = 0;
+        for (CompetitionTodo competitionTodo : competitionTodos) {
+            //表中时间和今天比较
+            System.out.println();
+            String format = DateUtil.format(competitionTodo.getCreateTime(), "yyyy-MM-dd");
+            System.out.println(toDay);
+            String format1 = DateUtil.format(toDay, "yyyy-MM-dd");
+            if (format.equals(format1)) {
+                count++;
+            }
+        }
+        commonDto.setToDayReceive(count);
+        System.out.println(commonDto.getToDayReceive());
         //拿到今天处理的申请
-        List<CompetitionTodo> deal = competitionTodos.stream().filter(competitionTodo -> (
-                DateUtil.format(competitionTodo.getCreateTime(), "yyyy-mm-dd").equals(DateUtil.format(new Date(), "yyyy-mm-dd"))
-                        && (Objects.equals(competitionTodo.getTodoStatus(), TodoStateEnum.AGREE.getCode()) || Objects.equals(competitionTodo.getTodoStatus(), TodoStateEnum.DISAGREE.getCode()))
-        )).collect(Collectors.toList());
-        commonDto.setToDayReceive(deal.size());
-
+        count = 0;
+        List<CompetitionProgram> competitionProgram = competitionProgramService.selectByUserId(userId);
+        for (CompetitionProgram program : competitionProgram) {
+            if (program.getComplete() != null){
+                String format = DateUtil.format(program.getComplete(), "yyyy-MM-dd");
+                String format1 = DateUtil.format(toDay, "yyyy-MM-dd");
+                if (format.equals(format1)) {
+                    count++;
+                }
+            }
+        }
+        commonDto.setToDayDeal(count);
+        System.out.println(commonDto.getToDayDeal());
+        //学分
         List<CompetitionRecord> sumPrice = competitionRecordService.selectByUserId(userId);
         commonDto.setSumPrice(sumPrice.size());
 
-
         return R.ok(commonDto);
     }
+
 
     @GetMapping("/analysisData")
     @ApiOperation(value = "获取分析数据", notes = "获取分析数据")

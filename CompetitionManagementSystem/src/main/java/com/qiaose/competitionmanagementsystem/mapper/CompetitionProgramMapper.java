@@ -14,7 +14,7 @@ public interface CompetitionProgramMapper {
 
     CompetitionProgram selectByPrimaryKey(Long id);
 
-    CompetitionProgram selectByUserId(@Param("userId") String applicantId);
+    List<CompetitionProgram> selectByUserId(@Param("userId") String applicantId);
 
     int updateByPrimaryKeySelective(CompetitionProgram record);
 

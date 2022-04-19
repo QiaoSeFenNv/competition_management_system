@@ -21,7 +21,7 @@ public interface CompetitionProgramService{
 
     List<CompetitionProgram> selectByApproval(Long approvalId);
 
-    CompetitionProgram selectByUserId(String applicantId);
+    List<CompetitionProgram> selectByUserId(String applicantId);
 
     CompetitionProgram selectUserIdAndApproval(String applicantId, Long approvalId);
 }

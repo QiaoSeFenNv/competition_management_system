@@ -225,6 +225,7 @@ public class ApprovalController {
         CompetitionProgram program = competitionProgramService.selectUserIdAndApproval(applicantId,
                 competitionTodo.getApprovalId());
         program.setState(TodoStateEnum.IN_PROGRESS.getCode());
+        competitionProgram.setComplete(DateKit.getNow());
         competitionProgramService.updateByPrimaryKeySelective(program);
 
 

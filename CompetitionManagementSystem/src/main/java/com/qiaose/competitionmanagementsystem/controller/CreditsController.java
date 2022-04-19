@@ -39,17 +39,19 @@ public class CreditsController {
 
         //去出来的数据被包装了一次
         List<CompetitionCredits> credits = new ArrayList<>();
+        //分页查询
         PageHelper.startPage(page,pageSize);
         List<CompetitionCredits> list =  competitionCreditsService.getAllCredit();
-        for (CompetitionCredits competitionCredits : list) {
+        PageInfo<CompetitionCredits> pageInfo = new PageInfo<>(list);
+        List<CompetitionCredits> list1 = pageInfo.getList();
+        //list1是分页查询出来的数据。加以封装即可
+        for (CompetitionCredits competitionCredits : list1) {
             CompetitionReward competitionReward = competitionRewardService.selectByPrimaryKey(competitionCredits.getRewardId());
             competitionCredits.setReward_name( competitionReward.getRewardLevel() );
             credits.add(competitionCredits);
         }
-        PageInfo<CompetitionCredits> pageInfo = new PageInfo<>(credits);
-        List<CompetitionCredits> list1 = pageInfo.getList();
         PageDto pageDto = new PageDto();
-        pageDto.setItems(list1);
+        pageDto.setItems(credits);
         pageDto.setTotal((int) pageInfo.getTotal());
         return  R.ok(pageDto);
     }
