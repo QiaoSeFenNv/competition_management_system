@@ -113,6 +113,7 @@ public class UserInfoController {
             return R.failed("无学工号、无法生成");
         }
 
+        /*测试*/
 //        if (userInfoService.selectByWorkId(userInfo.getUserId())!=null) {
 //            throw new TipException("已有用户id，不可重复生成");
 //        }
