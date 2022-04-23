@@ -19,6 +19,6 @@ public class CommonDto {
     private int toDayReceive;
     private int toDayDeal;
     private int sumPrice;
-    private int integral;
-    private int credits;
+    private Double integral;
+    private Double credits;
 }

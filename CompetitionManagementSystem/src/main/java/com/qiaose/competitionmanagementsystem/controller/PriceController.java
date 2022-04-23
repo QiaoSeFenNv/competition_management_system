@@ -268,7 +268,6 @@ public class PriceController {
             competitionBonus.setUserName(userInfoService.selectByWorkId(userIds[i]).getUserName());
             //分配奖金
             Double avgMoney = competitionPrice.getMoney() / userIds.length;
-
             //税收金额
             Double taxMoney = avgMoney * tax;
             //实际发放金额

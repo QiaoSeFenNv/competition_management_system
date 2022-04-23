@@ -175,9 +175,9 @@ public class ApprovalController {
             UserInfo userInfo = userInfoService.selectByWorkId(userId);
             CompetitionRecord competitionRecord = competitionRecordService.selectByPrimaryKey(competitionApproval.getApplicantContentid());
             Double credit = Double.parseDouble(competitionRecord.getRecordApplyCredit()) *  Double.parseDouble(competitionRecord.getRecordCoefficient());
-            userInfo.setCreditsEarned((int) (userInfo.getCreditsEarned()+credit));
+            userInfo.setCreditsEarned((Double) (userInfo.getCreditsEarned()+credit));
             //剩余学分耶加上
-            userInfo.setCreditsRemain((int) (userInfo.getCreditsRemain()+credit));
+            userInfo.setCreditsRemain((Double) (userInfo.getCreditsRemain()+credit));
             userInfoService.updateByPrimaryKeySelective(userInfo);
             return R.ok("");
         }

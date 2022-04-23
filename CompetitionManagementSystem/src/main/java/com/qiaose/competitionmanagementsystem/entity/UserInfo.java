@@ -69,9 +69,9 @@ public class UserInfo implements Serializable {
 
     private String deptName;
 
-    private Integer creditsEarned;
+    private Double creditsEarned;
 
-    private Integer creditsRemain;
+    private Double creditsRemain;
 
     private static final long serialVersionUID = 1L;
 

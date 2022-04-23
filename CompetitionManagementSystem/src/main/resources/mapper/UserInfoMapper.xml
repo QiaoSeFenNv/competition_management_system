@@ -16,8 +16,8 @@
     <result column="updated_time" jdbcType="DATE" property="updatedTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark"/>
     <result column="dept_name" jdbcType="VARCHAR" property="deptName"/>
-    <result column="credits_earned" jdbcType="INTEGER" property="creditsEarned"/>
-    <result column="credits_remain" jdbcType="INTEGER" property="creditsRemain"/>
+    <result column="credits_earned" jdbcType="DOUBLE" property="creditsEarned"/>
+    <result column="credits_remain" jdbcType="DOUBLE" property="creditsRemain"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
