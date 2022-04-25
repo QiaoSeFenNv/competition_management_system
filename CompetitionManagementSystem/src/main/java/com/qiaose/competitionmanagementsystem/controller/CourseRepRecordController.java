@@ -4,23 +4,19 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qiaose.competitionmanagementsystem.components.BCryptPasswordEncoderUtil;
 import com.qiaose.competitionmanagementsystem.components.JwtTokenUtil;
 import com.qiaose.competitionmanagementsystem.entity.*;
 import com.qiaose.competitionmanagementsystem.entity.dto.CourseRepDetailDto;
 import com.qiaose.competitionmanagementsystem.entity.dto.PageDto;
-import com.qiaose.competitionmanagementsystem.entity.dto.PriceDto;
-import com.qiaose.competitionmanagementsystem.entity.dto.StudentDto;
+import com.qiaose.competitionmanagementsystem.enums.RepRecordTypeEnum;
+import com.qiaose.competitionmanagementsystem.enums.RepResponseCodeEnum;
 import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionCourseRepRecordService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
-import com.qiaose.competitionmanagementsystem.service.UserService;
-import com.qiaose.competitionmanagementsystem.service.serviceImpl.CompetitionCourseRepRecordServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -32,9 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName: CourseRepRecordController
@@ -75,7 +69,7 @@ public class CourseRepRecordController {
 
 
     @GetMapping("/getAllRepRecord")
-    @ApiOperation(value = "获取所有学分申请记录")
+    @ApiOperation(value = "获取所有预置换记录")
     public R getAllRepRecord(@RequestParam(defaultValue = "1", value = "page") Integer pageNo
             , @RequestParam(defaultValue = "10", value = "pageSize") Integer pageSize) {
 
@@ -92,7 +86,7 @@ public class CourseRepRecordController {
     }
 
     @GetMapping("/getRepRecord")
-    @ApiOperation(value = "获取当前学分学分申请记录")
+    @ApiOperation(value = "获取当前预置换记录")
     public R getRepRecord(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
 
@@ -110,7 +104,7 @@ public class CourseRepRecordController {
     }
 
     @GetMapping("/getRepRecordDetail")
-    @ApiOperation(value = "获取学分学分申请记录详细信息")
+    @ApiOperation(value = "获取预置换详细信息")
     public R getRepRecordDetail(@RequestParam(required = true) Integer id) {
 
         QueryWrapper<CompetitionCourseRepRecord> queryWrapper = new QueryWrapper();
@@ -132,7 +126,7 @@ public class CourseRepRecordController {
     }
 
     @PostMapping("addRepRecord")
-    @ApiOperation(value = "添加一条学分申请记录")
+    @ApiOperation(value = "添加一条预置换记录")
     @Transactional(rollbackFor = {TipException.class, Exception.class})
     public R addRepRecord(@RequestBody CompetitionCourseRepRecord competitionCourseRepRecord, HttpServletRequest request, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -154,7 +148,7 @@ public class CourseRepRecordController {
     }
 
     @DeleteMapping("deleteRepRecord")
-    @ApiOperation(value = "删除一条学分申请记录")
+    @ApiOperation(value = "删除一条预置换记录")
     @Transactional(rollbackFor = {TipException.class, Exception.class})
     public R deleteRepRecord(HttpServletRequest request, @RequestBody List<Integer> ids) {
         if (ids == null || ids.size() <= 0) {
@@ -182,15 +176,15 @@ public class CourseRepRecordController {
     }
 
     @PutMapping("updateRepRecord")
-    @ApiOperation(value = "更新一条学分申请记录")
+    @ApiOperation(value = "更新一条预置换记录")
     public R updateRepRecord(@RequestBody CompetitionCourseRepRecord competitionCourseRepRecord) {
         boolean save = icompetitionCourseRepRecordService.updateById(competitionCourseRepRecord);
         return R.ok(save);
     }
 
-    @PutMapping("confirmUseRepRecord")
-    @ApiOperation(value = "确认一条预置换记录证明使用")
-    public R confirmUseRepRecord(HttpServletRequest request, @RequestBody(required = true) Integer id) {
+    @PutMapping("confirmGenerateRepRecord")
+    @ApiOperation(value = "确认一条预置换记录证明已被开具")
+    public R confirmGenerateRepRecord(HttpServletRequest request, @RequestBody(required = true) Integer id) {
         String token = request.getHeader("Authorization");
         String userId = jwtTokenUtil.getUsernameFromToken(token);
         UserInfo user = userInfoService.selectByWorkId(userId);
@@ -199,9 +193,44 @@ public class CourseRepRecordController {
         queryWrapper.eq("id", id);
         queryWrapper.eq("user_id", user.getUserId());
         CompetitionCourseRepRecord target = icompetitionCourseRepRecordService.getOne(queryWrapper);
-        target.setStatus(1);
+        if (!target.getStatus().equals(RepRecordTypeEnum.NOT_ACTIVE.getCode().intValue())) {
+            return R.failed("该记录已激活或使用");
+        }
+        target.setStatus(RepRecordTypeEnum.UNUSED.getCode().intValue());
 
         boolean save = icompetitionCourseRepRecordService.updateById(target);
         return R.ok(save);
     }
+
+
+    @PutMapping("confirmUseRepRecord")
+    @ApiOperation(value = "确认一条预置换记录证明已被使用")
+    public R confirmUseRepRecord(HttpServletRequest request, @RequestBody(required = true) Integer id) {
+        QueryWrapper<CompetitionCourseRepRecord> queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id", id);
+        CompetitionCourseRepRecord target = icompetitionCourseRepRecordService.getOne(queryWrapper);
+
+        if (!target.getStatus().equals(RepRecordTypeEnum.UNUSED.getCode().intValue())) {
+            return R.failed("该记录已被使用或尚未激活");
+        }
+        target.setStatus(RepRecordTypeEnum.USED.getCode().intValue());
+
+        boolean save = icompetitionCourseRepRecordService.updateById(target);
+        return R.ok(save);
+    }
+
+    //Api validate：使用id查询记录并检查状态验证记录是否有效
+    @PostMapping("validate")
+    @ApiOperation(value = "根据id查询一条学分申请记录")
+    public R getRepRecordById(@RequestBody(required = true) Integer id) {
+        CompetitionCourseRepRecord competitionCourseRepRecord = icompetitionCourseRepRecordService.getById(id);
+        if (competitionCourseRepRecord == null) {
+            return R.restResult(null, RepResponseCodeEnum.RECORD_NOT_FOUND);
+        }
+        if (!competitionCourseRepRecord.getStatus().equals(RepRecordTypeEnum.UNUSED.getCode().intValue())) {
+            return R.restResult(competitionCourseRepRecord, RepResponseCodeEnum.ALREADY_IN_USE_OR_NOT_ACTIVATED);
+        }
+        return R.restResult(competitionCourseRepRecord, RepResponseCodeEnum.RECORD_VALID);
+    }
+
 }

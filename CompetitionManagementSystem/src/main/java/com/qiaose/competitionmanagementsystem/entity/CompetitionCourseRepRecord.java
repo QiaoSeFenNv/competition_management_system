@@ -36,9 +36,9 @@ public class CompetitionCourseRepRecord implements Serializable {
 
     private String userId;
     /**
-     * 状态 已开具证明 1/未开具证明 0
+     * 状态 已进行过学分置换 2/已开具证明 1/未开具证明
      */
-    @ApiModelProperty(value = "状态 已开具证明 1/未开具证明 0")
+    @ApiModelProperty(value = "状态 已进行过学分置换 2/已开具证明 1/未开具证明 ")
 
     private Integer status;
     /**

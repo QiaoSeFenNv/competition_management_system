@@ -25,8 +25,6 @@ public class RewardController {
     CompetitionRewardService competitionRewardService;
 
 
-
-
     @GetMapping("/getAllReward")
     @ApiOperation(value = "获取所有的等级")
     public R getAllReward(@RequestParam(defaultValue = "1", value = "page") Integer page
