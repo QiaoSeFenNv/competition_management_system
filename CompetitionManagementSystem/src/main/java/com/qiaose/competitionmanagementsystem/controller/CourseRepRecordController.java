@@ -14,6 +14,7 @@ import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.CollegeInfoService;
 import com.qiaose.competitionmanagementsystem.service.ICompetitionCourseRepRecordService;
 import com.qiaose.competitionmanagementsystem.service.UserInfoService;
+import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -143,7 +144,9 @@ public class CourseRepRecordController {
         }
         user.setCreditsRemain(user.getCreditsRemain() - competitionCourseRepRecord.getCreditUsed());
         userInfoService.updateByUserSelective(user);
+        competitionCourseRepRecord.setId(IDUtils.getUUIDInOrderId());
         boolean save = icompetitionCourseRepRecordService.save(competitionCourseRepRecord);
+
         return R.ok(save);
     }
 
