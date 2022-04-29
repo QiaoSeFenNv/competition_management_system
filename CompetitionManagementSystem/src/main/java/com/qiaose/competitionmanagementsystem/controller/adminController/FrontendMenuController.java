@@ -11,6 +11,7 @@ import com.qiaose.competitionmanagementsystem.entity.admin.SysRoleUserTable;
 
 import com.qiaose.competitionmanagementsystem.entity.User;
 import com.qiaose.competitionmanagementsystem.entity.dto.SysFrontendDto;
+import com.qiaose.competitionmanagementsystem.exception.TipException;
 import com.qiaose.competitionmanagementsystem.service.UserService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysFrontendButtonTableService;
 import com.qiaose.competitionmanagementsystem.service.adminImpl.SysFrontendMenuTableService;
@@ -19,6 +20,7 @@ import com.qiaose.competitionmanagementsystem.service.adminImpl.SysRoleUserTable
 import com.qiaose.competitionmanagementsystem.utils.DateKit;
 import com.qiaose.competitionmanagementsystem.utils.IDUtils;
 import com.qiaose.competitionmanagementsystem.utils.MyUtils;
+import io.jsonwebtoken.lang.Collections;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,10 @@ public class FrontendMenuController {
 
         //实际是角色id
         List<SysRoleUserTable> sysRoleUserTables = sysRoleUserTableService.selectByUserId(user.getUserId());
+
+        if (Collections.isEmpty(sysRoleUserTables)) {
+            throw new TipException("服务器过载，请勿过度重复刷新");
+        }
 
         List<SysRoleFrontendMenuTable> sysRoleFrontendMenuTable = new ArrayList<>();
         //1 2
