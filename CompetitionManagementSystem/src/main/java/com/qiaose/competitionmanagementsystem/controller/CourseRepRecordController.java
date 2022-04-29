@@ -130,23 +130,22 @@ public class CourseRepRecordController {
     @ApiOperation(value = "添加一条预置换记录")
     @Transactional(rollbackFor = {TipException.class, Exception.class})
     public R addRepRecord(@RequestBody CompetitionCourseRepRecord competitionCourseRepRecord, HttpServletRequest request, Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        log.info("用户信息：{}", userDetails.getUsername());
-        competitionCourseRepRecord.setUserId(userDetails.getUsername());
-        competitionCourseRepRecord.setStatus(0);
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//        log.info("用户信息：{}", userDetails.getUsername());
+//        competitionCourseRepRecord.setUserId(userDetails.getUsername());
+//        competitionCourseRepRecord.setStatus(0);
+//
+//        String token = request.getHeader("Authorization");
+//        String username = jwtTokenUtil.getUsernameFromToken(token);
 
-        String token = request.getHeader("Authorization");
-        String username = jwtTokenUtil.getUsernameFromToken(token);
-
-        UserInfo user = userInfoService.selectByWorkId(username);
+        UserInfo user = userInfoService.selectByWorkId("182730103");
         if (user.getCreditsRemain() == 0 || user.getCreditsRemain() < competitionCourseRepRecord.getCreditUsed()) {
             throw new TipException("剩余学分不够进行置换");
         }
         user.setCreditsRemain(user.getCreditsRemain() - competitionCourseRepRecord.getCreditUsed());
         userInfoService.updateByUserSelective(user);
         competitionCourseRepRecord.setId(IDUtils.getUUIDInOrderId());
-        boolean save = icompetitionCourseRepRecordService.save(competitionCourseRepRecord);
-
+        int save = icompetitionCourseRepRecordService.add(competitionCourseRepRecord);
         return R.ok(save);
     }
 
