@@ -120,9 +120,8 @@ public class PriceController {
         //查询所有信息
         QueryWrapper<CompetitionPrice> queryWrapper = new QueryWrapper<>();
         if (competitionInfo != null){
-            queryWrapper.like("competition_info",competitionInfo);
+            queryWrapper.like("titleName",competitionInfo);
         }
-
         Page<CompetitionPrice> page = new Page<CompetitionPrice>(pageNo, pageSize);
         IPage<CompetitionPrice> pageList = iCompetitionPriceService.page(page, queryWrapper);
         log.info("奖金数据：{}", pageList.getRecords());

@@ -130,15 +130,15 @@ public class CourseRepRecordController {
     @ApiOperation(value = "添加一条预置换记录")
     @Transactional(rollbackFor = {TipException.class, Exception.class})
     public R addRepRecord(@RequestBody CompetitionCourseRepRecord competitionCourseRepRecord, HttpServletRequest request, Authentication authentication) {
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        log.info("用户信息：{}", userDetails.getUsername());
-//        competitionCourseRepRecord.setUserId(userDetails.getUsername());
-//        competitionCourseRepRecord.setStatus(0);
-//
-//        String token = request.getHeader("Authorization");
-//        String username = jwtTokenUtil.getUsernameFromToken(token);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        log.info("用户信息：{}", userDetails.getUsername());
+        competitionCourseRepRecord.setUserId(userDetails.getUsername());
+        competitionCourseRepRecord.setStatus(0);
 
-        UserInfo user = userInfoService.selectByWorkId("182730103");
+        String token = request.getHeader("Authorization");
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+
+        UserInfo user = userInfoService.selectByWorkId(username);
         if (user.getCreditsRemain() == 0 || user.getCreditsRemain() < competitionCourseRepRecord.getCreditUsed()) {
             throw new TipException("剩余学分不够进行置换");
         }

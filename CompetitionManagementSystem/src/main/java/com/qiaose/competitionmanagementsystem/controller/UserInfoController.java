@@ -166,7 +166,7 @@ public class UserInfoController {
     public R insertAll(@RequestBody List<UserInfo> userList) {
 
         for (UserInfo userInfo : userList) {
-            if (userInfoService.selectByWorkId(userInfo.getUserId()) != null) {
+            if (userInfoService.selectByWorkId(userInfo.getUserId()) == null) {
                 break;
             }
             //设置部门id然后插入数据
