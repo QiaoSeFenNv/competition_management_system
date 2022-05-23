@@ -27,12 +27,12 @@ server:
 spring:
     datasource:
         driverClassName: com.mysql.cj.jdbc.Driver
-        password: HYy4Y0mTy8aD4enTGsBM
+        password: 
         url: jdbc:mysql://182.254.226.174/competition_msdb?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true
         username: root
         hikari:
-            connection-timeout: 6000000
-            max-lifetime: 55000
+            connection-timeout: 6000
+            max-lifetime: 5500
     mvc:
         static-path-pattern: /**
     redis:
@@ -44,7 +44,7 @@ spring:
                 max-idle: 8
                 max-wait: -1
                 min-idle: 0
-        password: 7@4zd^3abOks0IBfBHQBieJUWeqVQv&F
+        password: 
         port: 6379
         timeout: 5000
     servlet:
@@ -55,7 +55,7 @@ spring:
 
     mail:
         username: qiaosefennv@163.com
-        password: SMYJQCSGYYGNWWFX
+        password: 
         host: smtp.163.com
         properties:
             mail:
