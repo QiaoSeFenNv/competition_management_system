@@ -150,6 +150,7 @@
 2021-12-20 20:32:04.674 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1565 ms
 2021-12-20 20:32:05.968 INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
 2021-12-20 20:32:06.331 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/v2/**'] with []
+//
 2021-12-20 20:32:06.332 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/configuration/ui'] with []
 2021-12-20 20:32:06.332 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-resources/**'] with []
 2021-12-20 20:32:06.332 INFO  o.s.security.web.DefaultSecurityFilterChain - Will secure Ant [pattern='/swagger-ui.html'] with []
