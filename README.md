@@ -1,37 +1,49 @@
-# competition_ms
+# competition_ms 后端
+
+**前端代码友链**：[MicroLightAzaf/competition_ms (github.com)](https://github.com/MicroLightAzaf/competition_ms)
+
+## 前言
+
+竞赛管理平台是学校毕设，是作者为学校开发的项目，旨在帮组教师和学校更好的管理竞赛信息。
+
+讲项目上传GitHub上是记录自身开发项目的过程。
+
+**项目线上体验保留在9月份！**
 
 #### 介绍
+
 竞赛管理系统
 
-#### 软件架构
-软件架构说明
+基于当前流行技术组合的前后端分离商城系统： 
+
+SpringBoot+Mybatis+SpringSecurity+Vue的前后端分离的商城系统， 包含首页、事务、数据分析、公告中心、记录管理、奖金领取、申请流程、竞赛管理、公告中心、文章管理、学分预置换、个人中心、系统管理等；
+
+# 系统体验地址
+
+| 名称           | 网址                                              |
+| -------------- | ------------------------------------------------- |
+| 系统演示地址： | [竞赛管理系统](http://182.254.226.174:8185/login) |
 
 
-#### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+#### 核心依赖
 
-#### 使用说明
+| 依赖            | 版本   |
+| --------------- | ------ |
+| Spring Boot     | 2.5.6  |
+| Spring Security | 2.5.6  |
+| Mybatis Plus    | 3.3.2  |
+| hutool          | 5.7.16 |
+| swagger         | 2.9.2  |
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+# 本地安装
 
-#### 参与贡献
+### 基本环境（必备）
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+- 1、JDK：8+
+- 2、Redis 3.0+
+- 3、Maven 3.0+
+- 4、MYSQL 5.7+
 
 
-#### 特技
 
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
